@@ -20,4 +20,4 @@ A new list can be added to the board by clicking the button and adding a name.
 When you click a card, a popup modal gets open.  
 Card modal contains the card title, description and comments.  
 Comments can be added to the card. 
-Comments are displayed by date in descending order, from latest to earliest and they can be deleted.  
+Comments are displayed by date in descending order, from latest to earliest and they can be deleted or edited.  

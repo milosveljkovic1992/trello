@@ -3,6 +3,7 @@ export { default as Board } from './board';
 export { default as BoardList } from './board-list';
 export { default as Card } from './card';
 export { default as CardOverlay } from './card-overlay';
+export { default as CommentEdit } from './comment-edit';
 export { default as CommentInput } from './comment-input';
 export { default as Link } from './link';
 export { default as NewCard } from './new-card';

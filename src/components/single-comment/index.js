@@ -8,7 +8,7 @@ import { Container,
     CommentTextContainer,
     CommentText,
     Actions,
-    Delete } from './styles/single-comment';
+    ActionText } from './styles/single-comment';
 
 const SingleComment = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>
@@ -46,8 +46,8 @@ SingleComment.Actions = ({ children, ...restProps }) => {
     return <Actions {...restProps}>{children}</Actions>
 };
 
-SingleComment.Delete = ({ children, ...restProps }) => {
-    return <Delete {...restProps}>{children}</Delete>
+SingleComment.ActionText = ({ children, ...restProps }) => {
+    return <ActionText {...restProps}>{children}</ActionText>
 };
 
 export default SingleComment;

@@ -17,9 +17,10 @@ export const CardPopupContainer = () => {
     const [comments, setComments] = useState([]);
 
     const handleClose = e => {
-        e.stopPropagation();
-        navigate(`/b/${card.idBoard}`);
-        if (e.target.classList.contains('card-overlay')) dispatch(closeModal());
+        if (e.target.classList.contains('card-overlay')) {
+            navigate(`/b/${card.idBoard}`);
+            dispatch(closeModal());
+        }
     }
 
     const handleDelete = commentId => {
@@ -35,8 +36,44 @@ export const CardPopupContainer = () => {
         } catch (error) {
             console.log(error);
         }
-
     }
+
+    const handleSubmit = (comment, setComment) => {
+        const postComment = async() => {
+            await axios.post(`/1/cards/${card.id}/actions/comments?text=${comment}`);
+        };
+
+        const getActions = async() => {
+            const response = await axios.get(`/1/cards/${card.id}/actions`);
+            setComments(response.data);
+        };
+
+        try {
+            postComment();
+            setComment('');
+            getActions();
+            dispatch(getCard());
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleEdit = (comment, commentInput, setIsActive) => {
+        axios.put(`/1/cards/${card.id}/actions/${comment.id}/comments?text=${commentInput}`);
+        const getActions = async() => {
+            const response = await axios.get(`/1/cards/${card.id}/actions`);
+            setComments(response.data);
+        };
+
+        try {
+            getActions();
+            dispatch(getCard());
+            setIsActive(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
 
     useEffect(() => {
         const getActions = async() => {
@@ -63,7 +100,9 @@ export const CardPopupContainer = () => {
             comments={comments}
             setComments={setComments}
             handleClose={handleClose}
+            handleSubmit={handleSubmit}
             handleDelete={handleDelete}
+            handleEdit={handleEdit}
         />
     )
 }

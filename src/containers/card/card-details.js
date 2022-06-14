@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { CgCreditCard } from 'react-icons/cg';
 import { IoMdList } from 'react-icons/io';
@@ -8,8 +8,8 @@ import { CardOverlay } from '../../components';
 import { SingleCommentContainer } from '../comments/single-comment-container';
 import { CommentInputContainer } from '../comments/comment-input-container';
 
-export const CardDetails = ({ card, comments, setComments, handleClose, handleDelete }) => {
-    
+export const CardDetails = ({ card, comments, setComments, handleClose, handleSubmit, handleEdit, handleDelete }) => {
+    const [comment, setComment] = useState('');
 
     return (
         <CardOverlay onClick={e => handleClose(e)} className="card-overlay">
@@ -51,8 +51,9 @@ export const CardDetails = ({ card, comments, setComments, handleClose, handleDe
                             <CardOverlay.CommentSection>
                                 <CardOverlay.UserIcon />
                                 <CommentInputContainer 
-                                    id={card.id}
-                                    setComments={setComments}
+                                    handleSubmit={handleSubmit}
+                                    comment={comment}
+                                    setComment={setComment}
                                 />
 
                             </CardOverlay.CommentSection>
@@ -60,6 +61,9 @@ export const CardDetails = ({ card, comments, setComments, handleClose, handleDe
                                 <SingleCommentContainer 
                                 key={comment.id} 
                                 comment={comment} 
+                                setComment={setComment}
+                                handleSubmit={handleSubmit}
+                                handleEdit={handleEdit}
                                 handleDelete={handleDelete} 
                                 />
                             ))}

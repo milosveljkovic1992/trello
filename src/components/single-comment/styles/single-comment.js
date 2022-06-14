@@ -55,9 +55,10 @@ export const CommentText = styled.p`
 
 export const Actions = styled.div`
     padding: 2px 5px;
+    cursor: default;
 `;
 
-export const Delete = styled.p`
+export const ActionText = styled.p`
     font-size: .875rem;
     text-decoration: underline;
     display: inline-block;
