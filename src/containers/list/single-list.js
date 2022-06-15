@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from '../../components';
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 
-import { BoardList } from '../../components';
+import { BoardList, Link } from '../../components';
 import { ListHeading } from './list-heading';
 import { AddCard } from '../buttons/add-card';
 import { SingleCard } from '../card/single-card';
 import { NewCardContainer } from '../card/new-card-container';
+import { resetListUpdate } from '../../store/lists-slice';
 
 
 export const SingleList = ({ listId, name }) => {
+    const dispatch = useDispatch();
+    const { isUpdated, updatedListId } = useSelector(state => state.lists);
     const [cards, setCards] = useState();
 
     const [isCreatingNew, setIsCreatingNew] = useState(false);
     const [isListUpdated, setIsListUpdated] = useState(false);
     
-
     useEffect(() => {
         const fetchList = async() => {
             const res = await axios.get(`/1/lists/${listId}/cards`);
@@ -30,6 +32,22 @@ export const SingleList = ({ listId, name }) => {
         };
 
     }, [listId, isListUpdated]);
+
+    useEffect(() => {
+        if (isUpdated && updatedListId === listId) {
+            const fetchList = async() => {
+                const res = await axios.get(`/1/lists/${listId}/cards`);
+                setCards(res.data);
+            };
+            
+            try {
+                fetchList();
+                dispatch(resetListUpdate());
+            } catch (error) {
+                console.log(error);
+            };
+        }
+    }, [isUpdated]);
 
     return (
         <>

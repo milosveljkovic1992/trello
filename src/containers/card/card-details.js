@@ -21,7 +21,9 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
                     <CardOverlay.Icon>
                         <CgCreditCard />
                     </CardOverlay.Icon>
+                    
                     <CardTitleContainer />
+
                 </CardOverlay.CardHeader>
 
                 <CardOverlay.CardContent>

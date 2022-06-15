@@ -27,7 +27,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
       const getLists = async() => {
         const response = await axios.get(`/1/boards/${selectedBoardId}/lists`);
         setLists(response.data);
-        setPos(response.data[response.data.length - 1].pos * 2);
+        setPos(response.data[response.data.length - 1].pos * 1000);
       };
       
       try {
@@ -35,6 +35,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
       } catch(error) {
         console.log(error);
       };
+
 
       setIsBoardUpdated(false);
     }
@@ -56,7 +57,11 @@ export const BoardContainer = ({ selectedBoardId }) => {
         <Board.Inner>
 
           {lists.map(list => (
-            <SingleList key={list.id} listId={list.id} name={list.name} />
+            <SingleList 
+              key={list.id} 
+              listId={list.id} 
+              name={list.name} 
+            />
           ))}
 
           <BoardList>

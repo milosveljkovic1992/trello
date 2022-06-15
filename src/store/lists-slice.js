@@ -1,37 +1,27 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from 'axios';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    listArray: [],
-    isLoading: true
+    isUpdated: false,
+    updatedListId: ''
 };
-
-export const getLists = createAsyncThunk('lists/getLists', async({selectedBoardId} ) => {
-    try {
-        const response = await axios.get(`/1/boards/${selectedBoardId}/lists`);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-    }
-});
 
 const listsSlice = createSlice({
     name: 'lists',
     initialState,
-    reducers: {},
-    extraReducers: {
-        [getLists.pending]: (state) => {
-            state.isLoading = true;
+    reducers: {
+        informListUpdate(state, action) {
+            state.isUpdated = true;
+            state.updatedListId = action.payload;
         },
-        [getLists.fulfilled]: (state, action) => {
-            state.listArray = action.payload;
-            state.isLoading = false;
-        },
-        [getLists.rejected]: (state) => {
-            state.isLoading = false;
+        resetListUpdate(state) {
+            state.isUpdated = false;
+            state.updatedListId = '';
         }
+
     }
 });
+
+export const { informListUpdate, resetListUpdate } = listsSlice.actions;
 
 
 export default listsSlice;
