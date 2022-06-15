@@ -25,10 +25,9 @@ export const CardTitleContainer = () => {
             await axios.put(`/1/cards/${card.id}?name=${title}`)
         }
 
-        if (title) {
+        if (title.trim().length > 0) {
             try {
                 fetchChange();
-                setIsActive(false);
             } catch (error) {
                 console.log(error);
             }
@@ -36,14 +35,14 @@ export const CardTitleContainer = () => {
         else {
             setTitle(card.name);
         }
+        setIsActive(false);
     };
 
     useEffect(() => {
         if (card.name !== title) {
             setTitle(card.name);
         }
-    }, [card, title]);
-
+    }, [card]);
 
     return (
         <CardTitle>
