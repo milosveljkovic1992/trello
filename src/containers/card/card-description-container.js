@@ -21,7 +21,6 @@ export const CardDescriptionContainer = () => {
 
         try {
             fetchDescription();
-            console.log('sent');
         } catch (error) {
             console.log(error)
         }

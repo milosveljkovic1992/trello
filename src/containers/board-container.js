@@ -11,10 +11,10 @@ import { AddList } from './buttons/add-list';
 
 
 export const BoardContainer = ({ selectedBoardId }) => {
-  const { idBoards } = useSelector(state => state.member);
   const popupModalOpen = useSelector(state => state.popup.open);
   
-  const cardURL = useParams();
+  const urlParams = useParams();
+  const { boardId } = urlParams;
   
   const [lists, setLists] = useState([]);
   const [pos, setPos] = useState(1);
@@ -44,9 +44,9 @@ export const BoardContainer = ({ selectedBoardId }) => {
 
   return (
     <>
-    { popupModalOpen && cardURL &&
+    { popupModalOpen && urlParams &&
       <Routes>
-        <Route path={cardURL['*']} element={<CardPopupContainer />} />
+        <Route path={urlParams['*']} element={<CardPopupContainer />} />
       </Routes>
      }
     
@@ -64,7 +64,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
               ? <AddList setCreatingNewList={setCreatingNewList} />
               : <NewListContainer 
                 setCreatingNewList={setCreatingNewList}
-                boardId={idBoards[0]}
+                boardId={boardId}
                 setIsBoardUpdated={setIsBoardUpdated}
                 pos={pos}
               />

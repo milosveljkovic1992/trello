@@ -38,6 +38,10 @@ export const Timestamp = styled.p`
     font-size: .875rem;
     color: ${({ theme }) => theme.font.lightColor};
 
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
 `;
 
 export const CommentTextContainer = styled.div`

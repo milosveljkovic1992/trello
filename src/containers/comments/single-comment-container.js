@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';
 import axios from 'axios';
 import { deleteComment } from '../../store/comments-slice';
 
-import { SingleComment } from '../../components';
+import { Link, SingleComment } from '../../components';
 import { CommentEditContainer } from './comment-edit-container';
 
 export const SingleCommentContainer = ({ comment }) => {
@@ -32,11 +32,13 @@ export const SingleCommentContainer = ({ comment }) => {
             <SingleComment.Inner>
                 <SingleComment.DetailsContainer>
                     <SingleComment.Name>{comment.memberCreator.fullName}</SingleComment.Name>
+                    <Link to={`#comment-${comment.id}`}>
                     <SingleComment.Timestamp>
                         {`${new Date(comment.date).toLocaleDateString('sr-RS')} at 
                         ${new Date(comment.date).toLocaleTimeString('sr-RS')} 
                         `}
                     </SingleComment.Timestamp>
+                    </Link>
                     {!isActive 
                     ?
                         <>

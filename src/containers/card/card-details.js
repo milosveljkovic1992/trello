@@ -6,12 +6,12 @@ import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
 
 import { CardOverlay } from '../../components';
+import { CardTitleContainer } from './card-title-container';
 import { SingleCommentContainer } from '../comments/single-comment-container';
 import { CommentInputContainer } from '../comments/comment-input-container';
 import { CardDescriptionContainer } from './card-description-container';
 
 export const CardDetails = ({ handleClose, setIsUpdated }) => {
-    const card = useSelector(state => state.card.details);
     const comments = useSelector(state => state.comments.commentsList);
 
     return (
@@ -21,7 +21,7 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
                     <CardOverlay.Icon>
                         <CgCreditCard />
                     </CardOverlay.Icon>
-                    <CardOverlay.CardTitle>{card.name}</CardOverlay.CardTitle>
+                    <CardTitleContainer />
                 </CardOverlay.CardHeader>
 
                 <CardOverlay.CardContent>

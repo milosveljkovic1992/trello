@@ -5,8 +5,8 @@ export const Container = styled.div`
     min-height: ${({ hasDescription}) => !hasDescription && '70px'};
     position: relative;
     border-radius: 3px;
-    padding-bottom: ${({ isActive }) => isActive ? '42px' : 0};
-    background-color: ${({ hasDescription }) => hasDescription ? 'rgba(9, 30, 66, 0)' : 'rgba(9, 30, 66, 0.04)'}
+    padding-bottom: ${({ isActive }) => isActive ? '50px' : 0};
+    background-color: ${({ hasDescription, isActive }) => isActive || hasDescription ? 'rgba(9, 30, 66, 0)' : 'rgba(9, 30, 66, 0.04)'}
 `;
 
 export const Text = styled.p`
@@ -33,7 +33,7 @@ export const InputBox = styled.textarea`
 
 export const IconContainer = styled.div`
     position: absolute;
-    left: 12px;
+    left: 0;
     bottom: 6px;
 
     opacity: ${({ isActive }) => isActive ? 1 : 0};

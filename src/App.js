@@ -38,7 +38,7 @@ const App = () => {
   return (
     <Theme>
       <Routes>
-          <Route path={`b/${idBoards[0]}/*`} element={
+          <Route path={`/b/:boardId/*`} element={
             <BoardContainer selectedBoardId={idBoards[0]} />
           } />
           <Route path="/" element={<Navigate replace to={`/b/${idBoards[0]}`} />} />
