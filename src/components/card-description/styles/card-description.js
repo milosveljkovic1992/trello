@@ -1,0 +1,41 @@
+import styled from 'styled-components/macro'; 
+
+export const Container = styled.div`
+    background-color: rgba(9, 30, 66, 0.04);
+    min-height: ${({ hasDescription}) => !hasDescription && '70px'};
+    position: relative;
+    border-radius: 3px;
+    padding-bottom: ${({ isActive }) => isActive ? '42px' : 0};
+    background-color: ${({ hasDescription }) => hasDescription ? 'rgba(9, 30, 66, 0)' : 'rgba(9, 30, 66, 0.04)'}
+`;
+
+export const Text = styled.p`
+    padding: 8px 12px;
+    display: ${({ isActive }) => isActive ? 'none' : 'block'};
+    cursor: pointer;
+    padding-left: ${({ hasDescription}) => hasDescription && 0};
+`;
+
+export const InputBox = styled.textarea`
+    display: ${({ isActive }) => isActive ? 'block' : 'none'};
+    min-height: 70px;
+    border-radius: 3px;
+    width: 100%;
+    padding: 8px 12px;
+    resize: none;
+    border: none;
+    
+    &:focus {
+        outline: 1px solid #c7c7c7;
+    }
+`;
+
+
+export const IconContainer = styled.div`
+    position: absolute;
+    left: 12px;
+    bottom: 6px;
+
+    opacity: ${({ isActive }) => isActive ? 1 : 0};
+    visibility: ${({ isActive }) => isActive ? 'visible' : 'hidden'};
+`;

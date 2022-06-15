@@ -1,17 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+
 import { CommentEdit } from '../../components';
 import { NewCard } from '../../components';
 import { AiOutlineClose } from "react-icons/ai";
+import { editComment } from '../../store/comments-slice';
 
-export const CommentEditContainer = ({ comment, handleEdit, commentInput, setCommentInput, isActive, setIsActive }) => {
+export const CommentEditContainer = ({ comment, isActive, setIsActive }) => {
+    const dispatch = useDispatch();
+    const card = useSelector(state => state.card.details);
+    const [commentInput, setCommentInput] = useState(comment.data.text);
 
-    const inputRef = React.useRef()
+    const inputRef = React.useRef();
 
     useEffect(() => {
         if (isActive) {
             inputRef.current.select();
         }
     }, [isActive]);
+
+    const handleEdit = (id, value) => {
+        const editRequest = async() => {
+            await axios.put(`/1/cards/${card.id}/actions/${id}/comments?text=${value}`)
+        };
+
+        try {
+            editRequest();
+            dispatch(editComment({id, value}));
+            setIsActive(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     return (
         <CommentEdit>
@@ -24,10 +46,10 @@ export const CommentEditContainer = ({ comment, handleEdit, commentInput, setCom
             <CommentEdit.ButtonContainer>
                 <CommentEdit.Button 
                     disabled={!commentInput} 
-                    onClick={() => handleEdit(comment, commentInput, setIsActive)}
+                    onClick={() => handleEdit(comment.id, commentInput)}
                 >Save</CommentEdit.Button>
-                <NewCard.IconContainer>
-                    <AiOutlineClose onClick={() => setIsActive(false)}/>
+                <NewCard.IconContainer onClick={() => setIsActive(false)}>
+                    <AiOutlineClose/>
                 </NewCard.IconContainer>
             </CommentEdit.ButtonContainer>
         </CommentEdit>

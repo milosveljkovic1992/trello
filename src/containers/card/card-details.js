@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react'; 
+import { useSelector } from 'react-redux';
 
 import { CgCreditCard } from 'react-icons/cg';
 import { IoMdList } from 'react-icons/io';
@@ -7,9 +8,11 @@ import { MdChecklist } from 'react-icons/md';
 import { CardOverlay } from '../../components';
 import { SingleCommentContainer } from '../comments/single-comment-container';
 import { CommentInputContainer } from '../comments/comment-input-container';
+import { CardDescriptionContainer } from './card-description-container';
 
-export const CardDetails = ({ card, comments, setComments, handleClose, handleSubmit, handleEdit, handleDelete }) => {
-    const [comment, setComment] = useState('');
+export const CardDetails = ({ handleClose, setIsUpdated }) => {
+    const card = useSelector(state => state.card.details);
+    const comments = useSelector(state => state.comments.commentsList);
 
     return (
         <CardOverlay onClick={e => handleClose(e)} className="card-overlay">
@@ -32,10 +35,7 @@ export const CardDetails = ({ card, comments, setComments, handleClose, handleSu
                         </CardOverlay.SectionHeader>
                         
                         <CardOverlay.SectionDetails>
-                            <CardOverlay.DescriptionBox 
-                                name="description" 
-                                placeholder="Add a more detailed description..." 
-                            ></CardOverlay.DescriptionBox>
+                            <CardDescriptionContainer />
                         </CardOverlay.SectionDetails>
                     </CardOverlay.Section>
 
@@ -47,27 +47,21 @@ export const CardDetails = ({ card, comments, setComments, handleClose, handleSu
                             <CardOverlay.SectionTitle>Activity</CardOverlay.SectionTitle>
                         </CardOverlay.SectionHeader>
                         
+                        
                         <CardOverlay.SectionDetails>
                             <CardOverlay.CommentSection>
+                                
                                 <CardOverlay.UserIcon />
-                                <CommentInputContainer 
-                                    handleSubmit={handleSubmit}
-                                    comment={comment}
-                                    setComment={setComment}
-                                />
+                                <CommentInputContainer setIsUpdated={setIsUpdated} />
 
                             </CardOverlay.CommentSection>
                             {!!comments.length && comments.map(comment => (
                                 <SingleCommentContainer 
-                                key={comment.id} 
-                                comment={comment} 
-                                setComment={setComment}
-                                handleSubmit={handleSubmit}
-                                handleEdit={handleEdit}
-                                handleDelete={handleDelete} 
+                                    key={comment.id} 
+                                    comment={comment} 
                                 />
                             ))}
-                           </CardOverlay.SectionDetails>
+                        </CardOverlay.SectionDetails>
                     </CardOverlay.Section>
 
                 </CardOverlay.Main>

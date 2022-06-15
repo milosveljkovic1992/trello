@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from "react"; 
 import { NewCard } from "../components";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -17,8 +17,8 @@ export const NewItem = ( {children, handleInput, handleSubmit, setIsCreatingNew,
             </NewCard.InputContainer>
             <NewCard.ButtonContainer>
                 <NewCard.Button onClick={handleSubmit}>{children}</NewCard.Button>
-                <NewCard.IconContainer>
-                    <AiOutlineClose onClick={() => setIsCreatingNew(false)}/>
+                <NewCard.IconContainer onClick={() => setIsCreatingNew(false)}>
+                    <AiOutlineClose/>
                 </NewCard.IconContainer>
             </NewCard.ButtonContainer>
         </NewCard>

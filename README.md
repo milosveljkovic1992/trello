@@ -19,5 +19,6 @@ A new card can be added to each list.
 A new list can be added to the board by clicking the button and adding a name.  
 When you click a card, a popup modal gets open.  
 Card modal contains the card title, description and comments.  
+You can add, edit or remove card description by clicking on it and entering/deleting text.  
 Comments can be added to the card. 
 Comments are displayed by date in descending order, from latest to earliest and they can be deleted or edited.  

@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
+import { useSelector, useDispatch } from 'react-redux/es/exports';
+import axios from 'axios';
+import { deleteComment } from '../../store/comments-slice';
 
 import { SingleComment } from '../../components';
 import { CommentEditContainer } from './comment-edit-container';
 
-export const SingleCommentContainer = ({ comment, handleEdit, handleDelete }) => {
+export const SingleCommentContainer = ({ comment }) => {
+    const dispatch = useDispatch();
+    const card = useSelector(state => state.card.details);
+
     const [isActive, setIsActive] = useState(false);
-    const [commentInput, setCommentInput] = useState(comment.data.text);
+
+    const handleDelete = () => {
+        const deleteRequest = async() => {
+            await axios.delete(`/1/cards/${card.id}/actions/${comment.id}/comments`);
+        };
+
+        try {
+            deleteRequest();
+            dispatch(deleteComment(comment));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     return (
@@ -19,7 +37,8 @@ export const SingleCommentContainer = ({ comment, handleEdit, handleDelete }) =>
                         ${new Date(comment.date).toLocaleTimeString('sr-RS')} 
                         `}
                     </SingleComment.Timestamp>
-                    {!isActive ?
+                    {!isActive 
+                    ?
                         <>
                             <SingleComment.CommentTextContainer>
                                 <SingleComment.CommentText>{comment.data.text}</SingleComment.CommentText>
@@ -30,14 +49,9 @@ export const SingleCommentContainer = ({ comment, handleEdit, handleDelete }) =>
                                 <SingleComment.ActionText onClick={() => handleDelete(comment.id)}>Delete</SingleComment.ActionText>
                             </SingleComment.Actions>
                         </>
-
-                        :
-
+                    :
                         <CommentEditContainer 
                             comment={comment}
-                            handleEdit={handleEdit}
-                            commentInput={commentInput}
-                            setCommentInput={setCommentInput}
                             isActive={isActive}
                             setIsActive={setIsActive}
                         />

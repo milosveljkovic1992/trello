@@ -1,8 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
 import { CommentInput } from '../../components';
 
-export const CommentInputContainer = ({ handleSubmit, comment, setComment }) => {
+export const CommentInputContainer = ({ setIsUpdated }) => {
+    const card = useSelector(state => state.card.details);
+    const [comment, setComment] = useState('');
     const [isDisplayed, setIsDisplayed] = useState(false);
+
+    const handleSubmit = () => {
+        const postComment = async() => {
+            await axios.post(`/1/cards/${card.id}/actions/comments?text=${comment}`);
+        };
+
+        try {
+            postComment();
+            setComment('');
+            setIsUpdated(true);
+            setIsDisplayed(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     return (
         <CommentInput isDisplayed={isDisplayed}>
