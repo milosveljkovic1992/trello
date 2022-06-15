@@ -13,15 +13,21 @@ import { resetListUpdate } from '../../store/lists-slice';
 export const SingleList = ({ listId, name }) => {
     const dispatch = useDispatch();
     const { isUpdated, updatedListId } = useSelector(state => state.lists);
-    const [cards, setCards] = useState();
 
+    const [cards, setCards] = useState();
     const [isCreatingNew, setIsCreatingNew] = useState(false);
     const [isListUpdated, setIsListUpdated] = useState(false);
     
+    
     useEffect(() => {
+        if (isUpdated && updatedListId === listId) {
+            setIsListUpdated(true);
+        }
+
         const fetchList = async() => {
             const res = await axios.get(`/1/lists/${listId}/cards`);
             setCards(res.data);
+            dispatch(resetListUpdate());
         };
         
         try {
@@ -31,23 +37,8 @@ export const SingleList = ({ listId, name }) => {
             console.log(error);
         };
 
-    }, [listId, isListUpdated]);
+    }, [dispatch, isUpdated, updatedListId, listId, isListUpdated]);
 
-    useEffect(() => {
-        if (isUpdated && updatedListId === listId) {
-            const fetchList = async() => {
-                const res = await axios.get(`/1/lists/${listId}/cards`);
-                setCards(res.data);
-            };
-            
-            try {
-                fetchList();
-                dispatch(resetListUpdate());
-            } catch (error) {
-                console.log(error);
-            };
-        }
-    }, [isUpdated]);
 
     return (
         <>

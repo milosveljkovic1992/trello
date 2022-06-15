@@ -22,7 +22,7 @@ export const CardTitleContainer = () => {
 
     const handleChange = () => {
         const submitChange = async() => {
-            await axios.put(`/1/cards/${card.id}?name=${title}`);
+            axios.put(`/1/cards/${card.id}?name=${title}`);
         }
 
         if (title.trim().length > 0) {
@@ -38,6 +38,7 @@ export const CardTitleContainer = () => {
         }
         setIsActive(false);
     };
+
 
     useEffect(() => {
         if (card.name !== title) {
