@@ -17,6 +17,7 @@ export const Overlay = styled.div`
 `;
 
 export const Container = styled.div`
+    position: relative;
     width: 100%;
     height: auto;
     min-height: 80vh;
@@ -30,7 +31,8 @@ export const Container = styled.div`
     @media (min-width: 768px) {
         margin: 50px 0 100px;
         width: 100%;
-    }
+    };
+
 `;
 
 export const CardHeader = styled.div`
@@ -51,6 +53,13 @@ export const CardContent = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    padding-right: 20px;
+    flex-direction: column;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+        padding-right: 0;
+    }
 `;
 
 export const Main = styled.div`
@@ -63,6 +72,10 @@ export const Main = styled.div`
 
 export const Sidebar = styled.div`
     width: calc(100% - 570px);
+        padding-left: 20px;
+    @media (min-width: 768px) {
+        padding-left: 0;
+    }
 `;
 
 export const Section = styled.div`
@@ -135,4 +148,23 @@ export const UserIcon = styled.div`
 
 export const CommentBox = styled.textarea`
     
+`;
+
+export const CloseButton = styled.div`
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: .135s;
+
+    &:focus,
+    &:hover {
+        background-color: rgba(9, 30, 66, 0.08);
+    }
 `;

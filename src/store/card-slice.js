@@ -35,7 +35,6 @@ const cardSlice = createSlice({
             state.isLoading = true;
         },
         [getCard.fulfilled]: (state, action) => {
-            console.log('fulfilled!')
             state.details = action.payload;
             state.isLoading = false;
         },

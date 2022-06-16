@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { CgCreditCard } from 'react-icons/cg';
 import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
+import { GrClose } from 'react-icons/gr';
 
 import { CardOverlay } from '../../components';
 import { CardTitleContainer } from './card-title-container';
@@ -73,6 +74,9 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
                 </CardOverlay.Sidebar>
                 </CardOverlay.CardContent>
 
+                <CardOverlay.CloseButton className="close-btn">
+                    <GrClose className="close-btn__icon"/>
+                </CardOverlay.CloseButton>
             </CardOverlay.Container>
         </CardOverlay>
     )

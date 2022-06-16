@@ -15,7 +15,8 @@ import { Overlay,
     DescriptionBox,
     CommentSection,
     UserIcon,
-    CommentBox } from './styles/card-overlay';
+    CommentBox,
+    CloseButton } from './styles/card-overlay';
 
 const CardOverlay = ({ children, ...restProps }) => {
     return <Overlay {...restProps}>{children}</Overlay>
@@ -83,6 +84,10 @@ CardOverlay.UserIcon = ({ children, ...restProps }) => {
 
 CardOverlay.CommentBox = ({ ...restProps }) => {
     return <CommentBox {...restProps}></CommentBox>
+};
+
+CardOverlay.CloseButton = ({ children, ...restProps }) => {
+    return <CloseButton {...restProps}>{children}</CloseButton>
 };
 
 

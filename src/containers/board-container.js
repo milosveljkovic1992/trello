@@ -101,6 +101,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
             value={boardName} 
             onChange={e => setBoardName(e.target.value)}
             onBlur={handleBoardName}
+            size={boardName.length - 6}
           ></Board.TitleInput>
         </>
         

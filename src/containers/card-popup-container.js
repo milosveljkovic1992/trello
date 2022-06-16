@@ -17,10 +17,14 @@ export const CardPopupContainer = () => {
     const [isUpdated, setIsUpdated] = useState(false);
     
     const handleClose = e => {
-        if (e.target.classList.contains('card-overlay')) {
-            navigate(`/b/${card.idBoard}`);
-            dispatch(closeModal());
-        }
+        console.log(e.target.classList);
+        if (e.target.classList.contains('card-overlay') ||
+            e.target.classList.contains('close-btn') ||
+            e.target.classList.contains('close-btn__icon')) 
+            {
+                navigate(`/b/${card.idBoard}`);
+                dispatch(closeModal());
+            }
     };
 
     useEffect(() => {

@@ -10,9 +10,15 @@ export const Container = styled.div`
 export const Header = styled.header`
     min-height: 5vh;
     width: 100%;
-    padding: 0 30px;
+    padding: 20px 0;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    @media (min-width: 768px) {
+        padding: 0 30px;
+        justify-content: flex-start;
+    }
 `;
 
 export const Title = styled.h1`
@@ -23,9 +29,12 @@ export const Title = styled.h1`
     
     padding: 5px 10px;
     background-color: #c7c7c7;
-    border: 2px solid transparent;
+    border: 1px solid transparent;
+    border-left-width: 2px;
+    border-right-width: 2px;
     border-radius: 3px;
     cursor: pointer;
+    user-select: none;
 
     &:focus,
     &:hover {
@@ -39,6 +48,7 @@ export const TitleInput = styled.input`
     line-height: 1;
     font-weight: bold;
     color: #fff;
+    width: auto;
 
     padding: 0 10px;
     background-color: #c7c7c7;
