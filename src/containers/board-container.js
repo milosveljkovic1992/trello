@@ -20,6 +20,17 @@ export const BoardContainer = ({ selectedBoardId }) => {
   const [pos, setPos] = useState(1);
   const [creatingNewList, setCreatingNewList] = useState(false);
   const [isBoardUpdated, setIsBoardUpdated] = useState(false);
+  const [board, setBoard] = useState(null);
+  const [boardName, setBoardName] = useState('');
+  const [isActive, setIsActive] = useState(false);
+
+  const titleRef = React.useRef(null);
+
+  useEffect(() => {
+    if (isActive) {
+      titleRef.current.select();
+    }
+  }, [isActive]);
 
   useEffect(() => {
     if (!!selectedBoardId || isBoardUpdated) {
@@ -29,9 +40,16 @@ export const BoardContainer = ({ selectedBoardId }) => {
         setLists(response.data);
         setPos(response.data[response.data.length - 1].pos + 1000);
       };
+
+      const getBoard = async() => {
+        const response = await axios.get(`/1/boards/${selectedBoardId}`);
+        setBoardName(response.data.name);
+        setBoard(response.data)
+      }
       
       try {
         getLists();
+        getBoard();
       } catch(error) {
         console.log(error);
       };
@@ -42,6 +60,22 @@ export const BoardContainer = ({ selectedBoardId }) => {
 
   }, [isBoardUpdated, selectedBoardId]);
 
+  const handleBoardName = () => {
+    const submitBoardName = async() => {
+      axios.put(`/1/boards/${boardId}?name=${boardName}`)
+    }
+
+    try {
+      submitBoardName();
+      setIsActive(false);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+ if (!board) {
+  return <></>
+ }
 
   return (
     <>
@@ -50,9 +84,27 @@ export const BoardContainer = ({ selectedBoardId }) => {
         <Route path={urlParams['*']} element={<CardPopupContainer />} />
       </Routes>
      }
-    
-    <Board>
-      <Board.Header></Board.Header>
+    {board && 
+    <Board backgroundImage={board.prefs.backgroundImage}>
+      <Board.Header>
+        
+        <>
+          <Board.Title
+            isActive={isActive}
+            onClick={() => setIsActive(true)}
+          >
+            {boardName}
+          </Board.Title>
+          <Board.TitleInput 
+            ref={titleRef}
+            isActive={isActive}
+            value={boardName} 
+            onChange={e => setBoardName(e.target.value)}
+            onBlur={handleBoardName}
+          ></Board.TitleInput>
+        </>
+        
+      </Board.Header>
       {lists && 
         <Board.Inner>
 
@@ -80,7 +132,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
         </Board.Inner>
       }
     </Board>
-
+    }
     </>
   )
 };

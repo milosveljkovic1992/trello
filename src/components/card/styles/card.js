@@ -26,8 +26,13 @@ export const Delete = styled(DeleteButton)`
     height: 29px;
     width: 29px;
     border-width: 1px;
+    border-radius: 0 3px 3px 0;
 
     & > * {
         font-size: 16px;
+    }
+    
+    & > svg > path {
+        color: rgba(205, 0, 0, 1)
     }
 `;

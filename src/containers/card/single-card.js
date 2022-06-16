@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { FaTrashAlt } from 'react-icons/fa';
+import { ImCancelCircle } from 'react-icons/im';
 
 import { Card, Link } from '../../components';
 import { getCard, deleteCard } from '../../store/card-slice';
@@ -28,7 +28,7 @@ export const SingleCard = ({ card, cards, setCards }) => {
                 <Card.Title onClick={() => handleClick(card)}>{card.name}</Card.Title>
             </Link>
             <Card.Delete onClick={() => handleDelete(card)}>
-                <FaTrashAlt />
+                <ImCancelCircle />
             </Card.Delete>
         </Card>
     )

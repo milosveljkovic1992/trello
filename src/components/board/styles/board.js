@@ -2,13 +2,60 @@ import styled from 'styled-components/macro';
 
 export const Container = styled.div`
     min-height: 100vh;
-    background-color: blue;
+    background-image: ${({ backgroundImage}) => backgroundImage && `url("${backgroundImage}")`};
+    background-size: cover;
+    background-position: top center;
 `;
 
 export const Header = styled.header`
     min-height: 5vh;
-    background-color: red;
     width: 100%;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+`;
+
+export const Title = styled.h1`
+    font-size: 21px;
+    line-height: 1;
+    font-weight: bold;
+    color: #fff;
+    
+    padding: 5px 10px;
+    background-color: #c7c7c7;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:focus,
+    &:hover {
+        background-color: #c7c7c7;
+    }
+    display: ${({ isActive }) => isActive ? 'none' : 'block'};
+`;
+
+export const TitleInput = styled.input`
+    font-size: 21px;
+    line-height: 1;
+    font-weight: bold;
+    color: #fff;
+
+    padding: 0 10px;
+    background-color: #c7c7c7;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    
+    cursor: pointer;
+    outline: none;
+
+    &:focus,
+    &:hover {
+        background-color: #c7c7c7;
+    }
+    &:focus {
+        border: 2px solid #fff;
+    }
+    display: ${({ isActive }) => isActive ? 'block' : 'none'};
 `;
 
 export const Inner = styled.div`
