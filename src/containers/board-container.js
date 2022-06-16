@@ -27,7 +27,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
       const getLists = async() => {
         const response = await axios.get(`/1/boards/${selectedBoardId}/lists`);
         setLists(response.data);
-        setPos(response.data[response.data.length - 1].pos * 1000);
+        setPos(response.data[response.data.length - 1].pos + 1000);
       };
       
       try {
@@ -61,6 +61,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
               key={list.id} 
               listId={list.id} 
               name={list.name} 
+              setIsBoardUpdated={setIsBoardUpdated}
             />
           ))}
 

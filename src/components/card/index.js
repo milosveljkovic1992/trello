@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, 
-    Title } from './styles/card';
+    Title,
+    Delete } from './styles/card';
 
 const Card = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>
@@ -8,6 +9,10 @@ const Card = ({ children, ...restProps }) => {
 
 Card.Title = ({ children, ...restProps }) => {
     return <Title {...restProps}>{children}</Title>
+};
+
+Card.Delete = ({ children, ...restProps }) => {
+    return <Delete {...restProps}>{children}</Delete>
 };
 
 

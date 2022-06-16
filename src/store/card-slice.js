@@ -13,7 +13,16 @@ export const getCard = createAsyncThunk('/cards/getCard',
         } catch (error) {
             console.log(error);
         }
-})
+});
+
+export const deleteCard = createAsyncThunk('/cards/deleteCard', 
+async({ id }) => {
+    try {
+        await axios.delete(`/1/cards/${id}`);
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 const cardSlice = createSlice({
     name: 'cards',
@@ -26,10 +35,20 @@ const cardSlice = createSlice({
             state.isLoading = true;
         },
         [getCard.fulfilled]: (state, action) => {
+            console.log('fulfilled!')
             state.details = action.payload;
             state.isLoading = false;
         },
         [getCard.rejected]: (state) => {
+            state.isLoading = false;
+        },
+        [deleteCard.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [deleteCard.fulfilled]: (state) => {
+            state.isLoading = false;
+        },
+        [deleteCard.rejected]: (state) => {
             state.isLoading = false;
         }
     }

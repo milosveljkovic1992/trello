@@ -12,9 +12,10 @@ export const CardPopupContainer = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const card = useSelector(state => state.card.details);
+    const cardId = useSelector(state => state.popup.currentCardOpen);
     const isLoading = useSelector(state => state.card.isLoading);
     const [isUpdated, setIsUpdated] = useState(false);
-
+    
     const handleClose = e => {
         if (e.target.classList.contains('card-overlay')) {
             navigate(`/b/${card.idBoard}`);
@@ -24,7 +25,7 @@ export const CardPopupContainer = () => {
 
     useEffect(() => {
         const fetchComments = async() => {
-            const response = await axios.get(`/1/cards/${card.id}/actions`);
+            const response = await axios.get(`/1/cards/${cardId}/actions`);
             dispatch(setComments(response.data));
         };
 
@@ -36,7 +37,7 @@ export const CardPopupContainer = () => {
                 console.log(error);
             }
         }
-    }, [dispatch, card, isLoading, isUpdated]);
+    }, [dispatch, card, cardId, isLoading, isUpdated]);
 
     if (!card) {
         return <></>

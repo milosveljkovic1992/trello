@@ -13,7 +13,7 @@ import { CardDescriptionContainer } from './card-description-container';
 
 export const CardDetails = ({ handleClose, setIsUpdated }) => {
     const comments = useSelector(state => state.comments.commentsList);
-
+    
     return (
         <CardOverlay onClick={e => handleClose(e)} className="card-overlay">
             <CardOverlay.Container>

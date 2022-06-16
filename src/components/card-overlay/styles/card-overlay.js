@@ -13,6 +13,7 @@ export const Overlay = styled.div`
 
     background-color: rgba(0, 0, 0, .65);
     overflow-y: auto;
+    z-index: 2;
 `;
 
 export const Container = styled.div`
