@@ -9,6 +9,11 @@ export const Container = styled.div`
     box-shadow: 0 1px #bbb;
 
     user-select: none;
+
+    &:hover > .edit-btn,
+    &:focus > .edit-btn {
+        display: flex;
+    }
 `;
 
 export const Title = styled.p`
@@ -22,17 +27,14 @@ export const Title = styled.p`
     }
 `;
 
-export const Delete = styled(DeleteButton)`
+export const Edit = styled(DeleteButton)`
+    display: none;
     height: 29px;
     width: 29px;
-    border-width: 1px;
+    border-width: 0;
     border-radius: 0 3px 3px 0;
 
     & > * {
         font-size: 16px;
-    }
-    
-    & > svg > path {
-        color: rgba(205, 0, 0, 1)
     }
 `;

@@ -15,6 +15,15 @@ export const getCard = createAsyncThunk('/cards/getCard',
         }
 });
 
+export const renameCard = createAsyncThunk('/cards/renameCard', 
+async({ id, title }) => {
+    try {
+        await axios.put(`/1/cards/${id}?name=${title}`)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 export const deleteCard = createAsyncThunk('/cards/deleteCard', 
 async({ id }) => {
     try {
@@ -39,6 +48,15 @@ const cardSlice = createSlice({
             state.isLoading = false;
         },
         [getCard.rejected]: (state) => {
+            state.isLoading = false;
+        },
+        [renameCard.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [renameCard.fulfilled]: (state) => {
+            state.isLoading = false;
+        },
+        [renameCard.rejected]: (state) => {
             state.isLoading = false;
         },
         [deleteCard.pending]: (state) => {

@@ -38,6 +38,7 @@ export const Button = styled.button`
     box-shadow: none;
     padding: 6px 12px;
     cursor: pointer;
+    transition: .135s;
 
     &:focus,
     &:hover {

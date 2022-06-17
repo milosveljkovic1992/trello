@@ -28,7 +28,6 @@ export const Title = styled.h1`
     color: #fff;
     
     padding: 5px 10px;
-    background-color: #c7c7c7;
     border: 1px solid transparent;
     border-left-width: 2px;
     border-right-width: 2px;
@@ -38,7 +37,7 @@ export const Title = styled.h1`
 
     &:focus,
     &:hover {
-        background-color: #c7c7c7;
+        background-color: rgba(175, 175, 175, .5);
     }
     display: ${({ isActive }) => isActive ? 'none' : 'block'};
 `;

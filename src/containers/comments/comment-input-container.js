@@ -14,14 +14,16 @@ export const CommentInputContainer = ({ setIsUpdated }) => {
             await axios.post(`/1/cards/${card.id}/actions/comments?text=${comment}`);
         };
 
-        try {
-            postComment();
-            setComment('');
-            setIsUpdated(true);
-            setIsDisplayed(false);
-        } catch (error) {
-            console.log(error);
+        if (comment.trim().length > 0) {
+            try {
+                postComment();
+            } catch (error) {
+                console.log(error);
+            }
         }
+        setComment('');
+        setIsUpdated(true);
+        setIsDisplayed(false);
     };
 
 

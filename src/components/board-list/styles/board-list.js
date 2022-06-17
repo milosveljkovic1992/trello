@@ -15,6 +15,11 @@ export const Container = styled.div`
 export const Heading = styled.div`
     margin: 0 0 5px;
     position: relative;
+
+    &:focus > .delete-btn,
+    &:hover > .delete-btn {
+        display: flex;
+    }
 `;
 
 export const CardContainer = styled.div`
@@ -64,7 +69,7 @@ export const Title = styled.textarea`
 `;
 
 export const Delete = styled.div`
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
 
@@ -75,7 +80,7 @@ export const Delete = styled.div`
     top: 0;
 
     background-color: #fff;
-    border: 2px solid #d7d7d7;
+    border: none;
     border-radius: 3px;
     cursor: pointer;
 
@@ -86,5 +91,6 @@ export const Delete = styled.div`
     &:focus,
     &:hover {
         background-color: #e7e7e7;
+        border: 2px solid #e7e7e7;
     }
 `;

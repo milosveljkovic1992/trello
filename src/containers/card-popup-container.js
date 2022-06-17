@@ -17,7 +17,6 @@ export const CardPopupContainer = () => {
     const [isUpdated, setIsUpdated] = useState(false);
     
     const handleClose = e => {
-        console.log(e.target.classList);
         if (e.target.classList.contains('card-overlay') ||
             e.target.classList.contains('close-btn') ||
             e.target.classList.contains('close-btn__icon')) 

@@ -25,13 +25,17 @@ export const CommentEditContainer = ({ comment, isActive, setIsActive }) => {
             await axios.put(`/1/cards/${card.id}/actions/${id}/comments?text=${value}`)
         };
 
-        try {
-            editRequest();
-            dispatch(editComment({id, value}));
-            setIsActive(false);
-        } catch (error) {
-            console.log(error);
+        if (value.trim().length > 0) {
+            try {
+                editRequest();
+                dispatch(editComment({id, value}));
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            setCommentInput(comment.data.text);
         }
+        setIsActive(false);
     };
 
 

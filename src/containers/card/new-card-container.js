@@ -11,20 +11,22 @@ export const NewCardContainer = ({ setIsCreatingNew, listId, setIsListUpdated })
         setUserInput(e.target.value);
     }
 
-    const submitCard = async() => {
-        const res = await axios.post(`/1/cards?idList=${listId}&name=${userInput}`);
-        return res.data;
-    }
-
     const handleSubmit = () => {
-        try {
-            submitCard();
-            setUserInput('');
-            setIsCreatingNew(false);
-            setIsListUpdated(true);
-        } catch (error) {
-            console.log(error);
+        const submitCard = async() => {
+            await axios.post(`/1/cards?idList=${listId}&name=${userInput}`);
         }
+
+        if (userInput.trim().length > 0) {
+            try {
+                submitCard();
+                
+                setIsListUpdated(true);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        setUserInput('');
+        setIsCreatingNew(false);
     }
 
     return (

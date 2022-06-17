@@ -1,18 +1,18 @@
 import React from 'react';
 import { Container, 
     Title,
-    Delete } from './styles/card';
+    Edit } from './styles/card';
 
-const Card = ({ children, ...restProps }) => {
-    return <Container {...restProps}>{children}</Container>
-};
+const Card = React.forwardRef(({ children, ...restProps }, ref) => {
+    return <Container ref={ref} {...restProps}>{children}</Container>
+});
 
 Card.Title = ({ children, ...restProps }) => {
     return <Title {...restProps}>{children}</Title>
 };
 
-Card.Delete = ({ children, ...restProps }) => {
-    return <Delete {...restProps}>{children}</Delete>
+Card.Edit = ({ children, ...restProps }) => {
+    return <Edit {...restProps}>{children}</Edit>
 };
 
 

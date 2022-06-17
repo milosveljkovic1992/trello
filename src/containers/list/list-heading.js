@@ -33,7 +33,7 @@ export const ListHeading = ({ handleTitle, listId, listTitle, setListTitle, setI
                 onChange={e => setListTitle(e.target.value)}
                 onBlur={handleTitle}
             ></BoardList.Title>
-            <BoardList.Delete onClick={handleArchive}>
+            <BoardList.Delete className="delete-btn" onClick={handleArchive}>
                 <FaTrashAlt />
             </BoardList.Delete>
         </BoardList.Heading>
