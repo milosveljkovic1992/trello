@@ -10,7 +10,7 @@ import { NewCardContainer } from '../card/new-card-container';
 import { resetListUpdate } from '../../store/lists-slice';
 
 
-export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
+export const SingleList = ({ listId, name, setIsBoardUpdated, setLists }) => {
     const dispatch = useDispatch();
     const { isUpdated, updatedListId } = useSelector(state => state.lists);
 
@@ -73,6 +73,9 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                             card={card}  
                             cards={cards}
                             setCards={setCards}
+                            setLists={setLists}
+                            setIsListUpdated={setIsListUpdated}
+                            setIsBoardUpdated={setIsBoardUpdated}
                         />
                     ))}
                 </BoardList.CardContainer>

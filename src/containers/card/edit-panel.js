@@ -15,8 +15,7 @@ export const EditPanel = ({ rect, card, title, setTitle, handleOpen, handleRenam
 
     const handleDisplay = (e) => {
         if (e.target.classList.contains('card-edit__overlay')) {
-            setIsEditOpen(false);
-            setIsMoveOpen(false);
+            isMoveOpen ? setIsMoveOpen(false) : setIsEditOpen(false);
         }
     };
 
@@ -65,7 +64,7 @@ export const EditPanel = ({ rect, card, title, setTitle, handleOpen, handleRenam
                     <CardEdit.Tab 
                         ref={moveRef}
                         className="card-edit__move-button" 
-                        onClick={() => handleMove(card)}
+                        onClick={() => setIsMoveOpen(!isMoveOpen)}
                     >
                         <CardEdit.IconContainer>
                             <ImArrowRight2 />
@@ -84,7 +83,7 @@ export const EditPanel = ({ rect, card, title, setTitle, handleOpen, handleRenam
 
                 <CardEdit.Button onClick={() => handleRename(card, title)}>Save</CardEdit.Button>
 
-                { isMoveOpen && tabRect && <CardMovePanel rect={tabRect} card={card} setIsMoveOpen={setIsMoveOpen} /> }
+                { isMoveOpen && tabRect && <CardMovePanel rect={tabRect} card={card} setIsMoveOpen={setIsMoveOpen} handleMove={handleMove} /> }
             </CardEdit.Container>
         </CardEdit>
     )

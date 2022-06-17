@@ -54,7 +54,6 @@ export const BoardContainer = ({ selectedBoardId }) => {
         console.log(error);
       };
 
-
       setIsBoardUpdated(false);
     }
 
@@ -114,6 +113,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
               key={list.id} 
               listId={list.id} 
               name={list.name} 
+              setLists={setLists}
               setIsBoardUpdated={setIsBoardUpdated}
             />
           ))}

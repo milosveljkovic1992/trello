@@ -7,7 +7,8 @@ import { Container,
     Label,
     Dropdown,
     Option,
-    IconContainer } from './styles/card-move';
+    IconContainer,
+    Button } from './styles/card-move';
 
 const CardMove = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>
@@ -43,6 +44,10 @@ CardMove.Option = ({ children, ...restProps }) => {
 
 CardMove.IconContainer = ({ children, ...restProps }) => {
     return <IconContainer {...restProps}>{children}</IconContainer>
+};
+
+CardMove.Button = ({ children, ...restProps }) => {
+    return <Button {...restProps}>{children}</Button>
 };
 
 

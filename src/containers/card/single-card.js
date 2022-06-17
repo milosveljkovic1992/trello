@@ -4,9 +4,10 @@ import { TbPencil } from 'react-icons/tb';
 
 import { Card, Link } from '../../components';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
-import { informListUpdate } from '../../store/lists-slice';
+import { informListUpdate, resetListUpdate } from '../../store/lists-slice';
 import { openModal } from '../../store/popup-slice';
 import { EditPanel } from './edit-panel';
+import axios from 'axios';
 
 export const SingleCard = ({ card, cards, setCards }) => {
     const dispatch = useDispatch();
@@ -57,9 +58,21 @@ export const SingleCard = ({ card, cards, setCards }) => {
         
     };
     
-    const handleMove = (card) => {
-        const { idList } = card;
-        setIsMoveOpen(!isMoveOpen);
+    const handleMove = (card, targetList, targetPosition) => {
+        const sendMoveRequest = async() => {
+            await axios.put(`/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`)
+        }
+
+        try {
+            sendMoveRequest();
+            setIsEditOpen(false);
+            setIsMoveOpen(false);
+            dispatch(informListUpdate(card.idList));
+            dispatch(informListUpdate(targetList));
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {

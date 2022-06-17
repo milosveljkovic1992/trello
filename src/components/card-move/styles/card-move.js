@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { Button as BlueButton } from '../../card-edit/styles/card-edit';
 
 export const Container = styled.div`
     position: fixed;
@@ -107,4 +108,11 @@ export const IconContainer = styled.div`
     &:hover > svg > path {
         stroke: #000;
     }
+`;
+
+export const Button = styled(BlueButton)`
+    position: relative;
+    bottom: initial;
+    left: initial;
+    margin-top: 15px;
 `;
