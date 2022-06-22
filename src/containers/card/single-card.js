@@ -20,6 +20,7 @@ export const SingleCard = ({ card, cards, setCards }) => {
 
     const handleOpen = card => {
         const { id } = card;
+        
         setIsEditOpen(false);
         try {
             dispatch(openModal(id));

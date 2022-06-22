@@ -87,7 +87,7 @@ export const SingleList = ({ list, listId, name, setIsBoardUpdated, setLists }) 
                     {cards.map(card => (
                         <Link 
                             key={card.id} 
-                            to={`c/${card.idShort}-${card.name.split(' ').join('-')}`} >
+                            to={`c/${card.id}`} >
                         <SingleCard 
                             card={card}  
                             cards={cards}

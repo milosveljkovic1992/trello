@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useParams } from 'react-router-dom';
 
 import { Board, BoardList } from '../components';
@@ -9,13 +9,17 @@ import { NewListContainer } from './list/new-list-container';
 import { SingleList } from './list/single-list';
 import { AddList } from './buttons/add-list';
 import { LoadingSpinner } from './loading-spinner';
+import { openModal } from '../store/popup-slice';
+import { getCard } from '../store/card-slice';
 
 
 export const BoardContainer = () => {
+  const dispatch = useDispatch();
   const popupModalOpen = useSelector(state => state.popup.open);
   
   const urlParams = useParams();
   const { boardId } = urlParams;
+  const { cardUrl } = urlParams;
   
   const [lists, setLists] = useState([]);
   const [pos, setPos] = useState(1);
@@ -31,9 +35,16 @@ export const BoardContainer = () => {
     if (isActive) {
       titleRef.current.select();
     }
-  }, [isActive]);
+    if (urlParams['*']) {
+      dispatch(openModal(cardUrl));
+    }
+    if (cardUrl) {
+      dispatch(getCard({ id: cardUrl}))
+    }
+  }, [dispatch, isActive, cardUrl, urlParams]);
 
   useEffect(() => {
+    
     if (!!boardId || isBoardUpdated) {
       
       const getLists = async() => {
@@ -76,12 +87,13 @@ export const BoardContainer = () => {
  if (!board) {
   return <LoadingSpinner />
  }
+ 
 
   return (
     <>
-    { popupModalOpen && urlParams &&
+    { !!popupModalOpen && !!cardUrl &&
       <Routes>
-        <Route path={urlParams['*']} element={<CardPopupContainer />} />
+        <Route path={`c/${cardUrl}`} element={<CardPopupContainer />} />
       </Routes>
      }
     {board && 
