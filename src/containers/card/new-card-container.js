@@ -4,7 +4,7 @@ import axios from 'axios';
 import { NewItem } from '../add-new-item';
 
 
-export const NewCardContainer = ({ setIsCreatingNew, listId, setIsListUpdated }) => {
+export const NewCardContainer = ({ setIsCreatingNew, listId, setCards }) => {
     const [userInput, setUserInput] = useState('');
     
     const handleInput = e => {
@@ -13,14 +13,13 @@ export const NewCardContainer = ({ setIsCreatingNew, listId, setIsListUpdated })
 
     const handleSubmit = () => {
         const submitCard = async() => {
-            await axios.post(`/1/cards?idList=${listId}&name=${userInput}`);
+            const response = await axios.post(`/1/cards?idList=${listId}&name=${userInput}`);
+            setCards(cards => [...cards, response.data]);
         }
 
         if (userInput.trim().length > 0) {
             try {
                 submitCard();
-                
-                setIsListUpdated(true);
             } catch (error) {
                 console.log(error);
             }

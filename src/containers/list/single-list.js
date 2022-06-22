@@ -21,9 +21,6 @@ export const SingleList = ({ list, listId, name, setIsBoardUpdated, setLists }) 
     const [listTitle, setListTitle] = useState(name);
     const [pos, setPos] = useState(1);
 
-    const dragItem = React.useRef();
-    const dragOverItem = React.useRef();
-
     const handleTitle = () => {
         const sendTitle = async() => {
             await axios.put(`/1/lists/${listId}?name=${listTitle}`);
@@ -50,21 +47,6 @@ export const SingleList = ({ list, listId, name, setIsBoardUpdated, setLists }) 
         } catch (error) {
             console.log(error);
         }
-    };
-
-    const dragStart = (e, index, card) => {
-        dragItem.current = e.target;
-        dragItem.classList.add('placeholder');
-    };
-
-
-
-    const dragEnter = async(e, position, card) => {
-        dragOverItem.current = {position, card};
-    };
-
-    const drop = (e, list) => {
-        console.log(cards);
     };
 
     useEffect(() => {
@@ -101,23 +83,15 @@ export const SingleList = ({ list, listId, name, setIsBoardUpdated, setLists }) 
                     setListTitle={setListTitle} 
                     setIsBoardUpdated={setIsBoardUpdated}
                 />
-                <BoardList.CardContainer onDragEnd={(e) => drop(e, list)}>
-                    {!isListUpdated && cards.map((card, index) => (
+                <BoardList.CardContainer>
+                    {cards.map(card => (
                         <Link 
                             key={card.id} 
-                            draggable 
-                            onMouseDown={(e) => dragStart(e, index, card)}
-                            onDragEnter={(e) => dragEnter(e, index, card)}
-                            
                             to={`c/${card.idShort}-${card.name.split(' ').join('-')}`} >
                         <SingleCard 
                             card={card}  
                             cards={cards}
                             setCards={setCards}
-                            setLists={setLists}
-                            setIsListUpdated={setIsListUpdated}
-                            setIsBoardUpdated={setIsBoardUpdated}
-                            
                         />
                         </Link>
                     ))}
@@ -127,7 +101,7 @@ export const SingleList = ({ list, listId, name, setIsBoardUpdated, setLists }) 
                     : <NewCardContainer 
                         setIsCreatingNew={setIsCreatingNew} 
                         listId={listId} 
-                        setIsListUpdated={setIsListUpdated}
+                        setCards={setCards}
                       />
                 }
             </BoardList>
