@@ -4,7 +4,7 @@ export const Container = styled.div`
     min-height: 100vh;
     background-image: ${({ backgroundImage}) => backgroundImage && `url("${backgroundImage}")`};
     background-size: cover;
-    background-position: top center;
+    background-position: center;
 `;
 
 export const Header = styled.header`

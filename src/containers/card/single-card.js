@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TbPencil } from 'react-icons/tb';
 
-import { Card, Link } from '../../components';
+import { Card } from '../../components';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
 import { informListUpdate, resetListUpdate } from '../../store/lists-slice';
 import { openModal } from '../../store/popup-slice';
@@ -84,9 +84,7 @@ export const SingleCard = ({ card, cards, setCards }) => {
 
     return (
         <Card ref={cardRef}>
-            <Link to={`c/${card.idShort}-${card.name.split(' ').join('-')}`} key={card.id}>
-                <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>
-            </Link>
+            <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>
             { isEditOpen && 
             <EditPanel 
                 rect={rect}

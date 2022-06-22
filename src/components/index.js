@@ -1,6 +1,7 @@
 export { default as AddBtn } from './add-btn'; 
 export { default as Board } from './board';
 export { default as BoardList } from './board-list';
+export { default as BoardSelect } from './board-select';
 export { default as Card } from './card';
 export { default as CardDescription } from './card-description';
 export { default as CardEdit } from './card-edit';
@@ -12,3 +13,4 @@ export { default as CommentInput } from './comment-input';
 export { default as Link } from './link';
 export { default as NewCard } from './new-card';
 export { default as SingleComment } from './single-comment';
+export { default as Spinner } from './spinner';

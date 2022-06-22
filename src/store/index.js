@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"; 
 import authSlice from "./auth";
+import boardsSlice from './boards-slice';
 import cardSlice from "./card-slice";
 import commentSlice from "./comment-slice";
 import commentsSlice from './comments-slice';
@@ -11,6 +12,7 @@ import popupSlice from "./popup-slice";
 const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
+        boards: boardsSlice.reducer,
         card: cardSlice.reducer,
         comment: commentSlice.reducer,
         comments: commentsSlice.reducer,

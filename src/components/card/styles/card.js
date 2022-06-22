@@ -3,6 +3,8 @@ import { Delete as DeleteButton } from '../../board-list/styles/board-list';
 
 export const Container = styled.div`
     position: relative;
+    width: 252px;
+    min-height: 29px;
     margin: 0 0 8px;
     background-color: #fff;
     border-radius: ${({ theme }) => theme.border.borderRadius};
@@ -13,6 +15,14 @@ export const Container = styled.div`
     &:hover > .edit-btn,
     &:focus > .edit-btn {
         display: flex;
+    }
+
+    .placeholder {
+        position: absolute;
+        background-color: #ddd;
+        border-radius: ${({ theme }) => theme.border.borderRadius};
+
+        
     }
 `;
 
@@ -37,4 +47,8 @@ export const Edit = styled(DeleteButton)`
     & > * {
         font-size: 16px;
     }
+`;
+
+export const Placeholder = styled.div`
+    
 `;

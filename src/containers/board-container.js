@@ -8,9 +8,10 @@ import { CardPopupContainer } from './card-popup-container';
 import { NewListContainer } from './list/new-list-container';
 import { SingleList } from './list/single-list';
 import { AddList } from './buttons/add-list';
+import { LoadingSpinner } from './loading-spinner';
 
 
-export const BoardContainer = ({ selectedBoardId }) => {
+export const BoardContainer = () => {
   const popupModalOpen = useSelector(state => state.popup.open);
   
   const urlParams = useParams();
@@ -33,16 +34,16 @@ export const BoardContainer = ({ selectedBoardId }) => {
   }, [isActive]);
 
   useEffect(() => {
-    if (!!selectedBoardId || isBoardUpdated) {
+    if (!!boardId || isBoardUpdated) {
       
       const getLists = async() => {
-        const response = await axios.get(`/1/boards/${selectedBoardId}/lists`);
+        const response = await axios.get(`/1/boards/${boardId}/lists`);
         setLists(response.data);
         setPos(response.data[response.data.length - 1].pos + 1000);
       };
 
       const getBoard = async() => {
-        const response = await axios.get(`/1/boards/${selectedBoardId}`);
+        const response = await axios.get(`/1/boards/${boardId}`);
         setBoardName(response.data.name);
         setBoard(response.data)
       }
@@ -57,7 +58,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
       setIsBoardUpdated(false);
     }
 
-  }, [isBoardUpdated, selectedBoardId]);
+  }, [isBoardUpdated, boardId]);
 
   const handleBoardName = () => {
     const submitBoardName = async() => {
@@ -73,7 +74,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
   }
 
  if (!board) {
-  return <></>
+  return <LoadingSpinner />
  }
 
   return (
@@ -111,6 +112,7 @@ export const BoardContainer = ({ selectedBoardId }) => {
           {lists.map(list => (
             <SingleList 
               key={list.id} 
+              list={list}
               listId={list.id} 
               name={list.name} 
               setLists={setLists}
