@@ -13,11 +13,9 @@ const initialState = {
 };
 
 export const getMemberInfo = createAsyncThunk(
-    'member/getMemberInfo', async(_, thunkAPI) => {
+    'member/getMemberInfo', async(APItoken, thunkAPI) => {
         try {
-            const { APItoken } = thunkAPI.getState().auth;
             const response = await axios.get(`/1/tokens/${APItoken}/member`);
-            
             return response.data;
         } catch (error) {
             console.log(error);

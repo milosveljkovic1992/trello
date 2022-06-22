@@ -2,20 +2,23 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     APIkey: '2c60f0038afd7c10c7f7b34541cf10e1',
-    APItoken: 'ea45abb0abdb247e28551121b047f432cab4d17c7adef5b641d5206d5f658561'
+    APItoken: null
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        getAuth() {
-            console.log('yep');
+        login(state, action) {
+            state.APItoken = action.payload;
         },
-        login() {},
-        logout() {}
+        logout(state) {
+            state.APItoken = null;
+        }
     }
-})
+});
 
+
+export const { login, logout } = authSlice.actions;
 
 export default authSlice;

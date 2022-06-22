@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -8,37 +8,58 @@ import { getMemberInfo } from './store/member-slice';
 import { BoardContainer } from './containers/board-container';
 import { SelectBoardContainer } from './containers/select-board-container';
 import { CardPopupContainer } from './containers/card-popup-container';
+import { Login } from './components';
+import { login } from './store/auth';
+import { LoadingSpinner } from './containers/loading-spinner';
+
 
 axios.defaults.baseURL = 'https://api.trello.com';
-axios.defaults.headers.common['Authorization'] = 'OAuth oauth_consumer_key="2c60f0038afd7c10c7f7b34541cf10e1", oauth_token="ea45abb0abdb247e28551121b047f432cab4d17c7adef5b641d5206d5f658561"';
+
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { APIkey } = useSelector(state => state.auth);
   const memberId = useSelector(state => state.member.id);
   const popupModalOpen = useSelector(state => state.popup.open);
   const [isLoading, setIsLoading] = useState(true);
 
-
   useEffect(() => {
-    if (isLoading) {
-      dispatch(getMemberInfo());
+    const trelloToken = localStorage.getItem('trelloToken');
+
+    if (!trelloToken && document.location.hash.includes('#token=')) {
+      const token = document.location.hash.replace('#token=', '');
+      dispatch(login(token));
+      localStorage.setItem('trelloToken', token);
+    }
+
+    if (trelloToken && isLoading) {
+      axios.defaults.headers.common['Authorization'] = `OAuth oauth_consumer_key="${APIkey}", oauth_token="${trelloToken}"`;
+      dispatch(getMemberInfo(trelloToken));
     }
 
     if (!!memberId) {
       setIsLoading(false);
     }
 
-  }, [dispatch, isLoading, memberId]);
+  }, [dispatch, APIkey, isLoading, memberId]);
+
+  if (!localStorage.getItem('trelloToken')) {
+    return ( 
+      <Login>
+        <Login.Text>Click here to</Login.Text>
+        <Login.Button href={`https://trello.com/1/authorize?return_url=http://localhost:3000&expiration=1day&name=MyPersonalToken&scope=read,write&response_type=token&key=${APIkey}`}>Login</Login.Button>
+      </Login>
+      )
+  }
 
   if (isLoading) {
-    return <></>
+    return <LoadingSpinner />
   }
 
   return (
     <Theme>
-      
       <Routes>
           <Route exact path={'/'} element={<SelectBoardContainer />} />
           <Route path={`/b/:boardId//*`} element={<BoardContainer />} >

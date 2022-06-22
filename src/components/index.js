@@ -11,6 +11,7 @@ export { default as CardTitle } from './card-title';
 export { default as CommentEdit } from './comment-edit';
 export { default as CommentInput } from './comment-input';
 export { default as Link } from './link';
+export { default as Login } from './login';
 export { default as NewCard } from './new-card';
 export { default as SingleComment } from './single-comment';
 export { default as Spinner } from './spinner';

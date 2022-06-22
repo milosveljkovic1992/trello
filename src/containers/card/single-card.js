@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TbPencil } from 'react-icons/tb';
 
-import { Card } from '../../components';
+import { Card, Link } from '../../components';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
-import { informListUpdate, resetListUpdate } from '../../store/lists-slice';
+import { informListUpdate } from '../../store/lists-slice';
 import { openModal } from '../../store/popup-slice';
 import { EditPanel } from './edit-panel';
 import axios from 'axios';
@@ -18,7 +18,7 @@ export const SingleCard = ({ card, cards, setCards }) => {
     
     const cardRef = React.useRef(null);
 
-    const handleOpen = card => {
+    const handleOpen = (e, card) => {
         const { id } = card;
         
         setIsEditOpen(false);
@@ -85,7 +85,9 @@ export const SingleCard = ({ card, cards, setCards }) => {
 
     return (
         <Card ref={cardRef}>
-            <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>
+            <Link to={`c/${card.id}`} >
+                <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>
+            </Link>
             { isEditOpen && 
             <EditPanel 
                 rect={rect}
