@@ -59,10 +59,7 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
 
                             </CardOverlay.CommentSection>
                             {!!comments.length && comments.map(comment => (
-                                <SingleCommentContainer 
-                                    key={comment.id} 
-                                    comment={comment} 
-                                />
+                                comment.data.text && <SingleCommentContainer  key={comment.id}  comment={comment}  />
                             ))}
                         </CardOverlay.SectionDetails>
                     </CardOverlay.Section>

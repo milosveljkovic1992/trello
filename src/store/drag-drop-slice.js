@@ -17,14 +17,12 @@ const dragDrop = createSlice({
         },
         dragOverCard(state, action) {
             state.targetIndex = action.payload.index;
-            state.targetListId = action.payload.idList;
             state.targetPosition = action.payload.pos;
         },
         dragOverList(state, action) {
             if (state.targetListId !== action.payload.listId) {
                 state.targetListId = action.payload.listId;
             }
-            
         },
         endDrag(state) {
             state.draggedCard = {};

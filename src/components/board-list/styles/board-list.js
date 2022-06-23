@@ -18,7 +18,7 @@ export const Heading = styled.div`
 
     &:focus > .delete-btn,
     &:hover > .delete-btn {
-        display: flex;
+        display: ${({ isInputActive }) => isInputActive ? 'none' : 'flex'}
     }
 `;
 

@@ -16,6 +16,8 @@ export const SelectBoardContainer = () => {
     const isLoading = useSelector(state => state.boards.isLoading);
     const member = useSelector(state => state.member);
 
+    console.log(boards);
+
     const [isInputActive, setIsInputActive] = useState(false);
     const [newBoardTitle, setNewBoardTitle] = useState('');
 
@@ -112,7 +114,7 @@ export const SelectBoardContainer = () => {
             <BoardSelect.CardsContainer>
 
             {boards.length > 0 && boards.map(board => (
-                <BoardSelect.SingleCardContainer key={board.id} onClick={e => handleClick(e, board)}>
+                <BoardSelect.SingleCardContainer key={board.id} onClick={e => handleClick(e, board)} backgroundImage={`${board.prefs.backgroundImageScaled[2].url}`}>
                     <BoardSelect.Card>
 
                         <BoardSelect.Title>{board.name}</BoardSelect.Title>

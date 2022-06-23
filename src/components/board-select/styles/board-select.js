@@ -38,23 +38,26 @@ export const CardsContainer = styled.div`
 export const SingleCardContainer = styled.div`
     position: relative;
     overflow: visible;
+    background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
+    background-color: #c7c7c7;
+    background-size: cover;
+    border-radius: 3px;
 `;
 
 export const Card = styled.div`
     width: 150px;
     height: 100px;
     position: relative;
-    background-color: gray;
+    background-color: transparent;
     padding: 8px 12px;
     border-radius: 3px;
     overflow: hidden;
     cursor: pointer;
-    opacity: .9;
     transition: .135s;
 
     &:focus,
     &:hover {
-        opacity: 1;
+        background-color: rgba(255, 255, 255, .25);
 
         .delete-btn {
             display: flex;

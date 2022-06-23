@@ -8,12 +8,11 @@ import { EditPanel } from './edit-panel';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
 import { informListUpdate } from '../../store/lists-slice';
 import { openModal } from '../../store/popup-slice';
-import { startDrag, dragOver, dragOverList, endDrag } from '../../store/drag-drop-slice';
+import { startDrag, dragOverCard, dragOverList, endDrag } from '../../store/drag-drop-slice';
 
 export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) => {
     const dispatch = useDispatch();
     const { draggedCard,
-        targetIndex,
         targetListId,
         targetPosition } = useSelector(state => state.dragDrop);
 
@@ -96,16 +95,20 @@ export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) =
         e.target.classList.add('drag-active');
     };
 
-    
 
-    const handleDragLeave = (e, card, index) => {
-        return
-    }
+    const handleDragEnterCard = (e, card, index) => {
+        let { pos } = card;
+        const isFirst = index === 0;
+
+        if (isFirst) {
+            pos = pos / 2;
+        }
+        dispatch(dragOverCard({index, pos}))
+    };
 
     const handleDragEnd = e => {
-        console.log('dropped');
         const sendMoveRequest = async() => {
-            await axios.put(`/1/cards/${draggedCard.id}?idList=${targetListId}`)
+            await axios.put(`/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`)
         };
 
         try {
@@ -116,6 +119,7 @@ export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) =
         } catch (error) {
             console.log(error);
         }
+
         e.target.classList.remove('drag-active');
     };
 
@@ -127,8 +131,7 @@ export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) =
                 to={`c/${card.id}`} 
                 draggable
                 onDragStart={e => handleDragStart(e, card, index)}
-                // onDragEnter={e => handleDragEnter(e, card, index)}
-                onDragLeave={e => handleDragLeave(e, card, index)}
+                onDragEnter={e => handleDragEnterCard(e, card, index)}
                 onDragEnd={e => handleDragEnd(e)}
             >
                 <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>

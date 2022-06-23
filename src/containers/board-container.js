@@ -28,7 +28,7 @@ export const BoardContainer = () => {
   const [board, setBoard] = useState(null);
   const [boardName, setBoardName] = useState('');
   const [isActive, setIsActive] = useState(false);
-
+  console.log(board);
   const titleRef = React.useRef(null);
 
   useEffect(() => {
