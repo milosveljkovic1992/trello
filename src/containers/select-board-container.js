@@ -6,6 +6,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 
 import { BoardSelect } from '../components';
 import { LoadingSpinner } from './loading-spinner';
+import { LogoutBtn } from './buttons/logout-btn';
 import { setBoards, addBoard, deleteBoard } from '../store/boards-slice';
 
 
@@ -15,8 +16,6 @@ export const SelectBoardContainer = () => {
     const boards = useSelector(state => state.boards.boardsArray);
     const isLoading = useSelector(state => state.boards.isLoading);
     const member = useSelector(state => state.member);
-
-    console.log(boards);
 
     const [isInputActive, setIsInputActive] = useState(false);
     const [newBoardTitle, setNewBoardTitle] = useState('');
@@ -114,14 +113,16 @@ export const SelectBoardContainer = () => {
             <BoardSelect.CardsContainer>
 
             {boards.length > 0 && boards.map(board => (
-                <BoardSelect.SingleCardContainer key={board.id} onClick={e => handleClick(e, board)} backgroundImage={board.prefs.backgroundImageScaled ? `url("${board.prefs.backgroundImageScaled[2].url}")` : 'none'}>
+                <BoardSelect.SingleCardContainer 
+                    key={board.id} 
+                    onClick={e => handleClick(e, board)} 
+                    backgroundImage={board.prefs.backgroundImageScaled ? `url("${board.prefs.backgroundImageScaled[2].url}")` : 'none'}
+                >
                     <BoardSelect.Card>
-
                         <BoardSelect.Title>{board.name}</BoardSelect.Title>
                         <BoardSelect.Delete className="delete-btn" onClick={() => handleDelete(board)}>
                             <FaTrashAlt />
                         </BoardSelect.Delete>
-
                     </BoardSelect.Card>
                 </BoardSelect.SingleCardContainer>
             ))}
@@ -152,6 +153,7 @@ export const SelectBoardContainer = () => {
             </BoardSelect.CardsContainer>
         </BoardSelect.Inner>
         
+        <LogoutBtn fixed={true} />
       </BoardSelect>
     )
 }

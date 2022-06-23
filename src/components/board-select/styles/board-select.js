@@ -1,5 +1,7 @@
 import styled from 'styled-components/macro';
 import { Button as DefaultButton } from '../../card-edit/styles/card-edit';
+import { Button as LogoutButton } from '../../board/styles/board';
+
 
 export const Container = styled.div`
     min-height: 100vh;
@@ -29,6 +31,7 @@ export const HeadingText = styled.h2`
 
 export const CardsContainer = styled.div`
     max-width: 830px;
+    margin: 0 20px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -129,4 +132,10 @@ export const Delete = styled.div`
     &:hover {
         background-color: #c7c7c7;
     }
+`;
+
+export const Logout = styled(LogoutButton)`
+    position: fixed;
+    top: 20px;
+    right: 20px;
 `;

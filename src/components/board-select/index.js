@@ -9,7 +9,8 @@ import { Container,
     Title,
     Input,
     Button,
-    Delete } from './styles/board-select';
+    Delete, 
+    Logout } from './styles/board-select';
 
 const BoardSelect = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>
@@ -53,6 +54,10 @@ BoardSelect.Button = React.forwardRef(({ children, ...restProps }, ref) => {
 
 BoardSelect.Delete = ({ children, ...restProps }) => {
     return <Delete {...restProps}>{children}</Delete>
+};
+
+BoardSelect.Logout = ({ children, ...restProps }) => {
+    return <Logout {...restProps}>{children}</Logout>
 };
 
 

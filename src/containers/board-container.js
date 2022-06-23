@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
+import { ImHome } from 'react-icons/im';
 
 import { Board, BoardList } from '../components';
+import { LogoutBtn } from './buttons/logout-btn';
 import { CardPopupContainer } from './card-popup-container';
 import { NewListContainer } from './list/new-list-container';
 import { SingleList } from './list/single-list';
@@ -12,11 +14,11 @@ import { LoadingSpinner } from './loading-spinner';
 import { openModal } from '../store/popup-slice';
 import { getCard } from '../store/card-slice';
 
-
 export const BoardContainer = () => {
   const dispatch = useDispatch();
   const popupModalOpen = useSelector(state => state.popup.open);
   
+  const navigate = useNavigate();
   const urlParams = useParams();
   const { boardId } = urlParams;
   const { cardUrl } = urlParams;
@@ -28,7 +30,6 @@ export const BoardContainer = () => {
   const [board, setBoard] = useState(null);
   const [boardName, setBoardName] = useState('');
   const [isActive, setIsActive] = useState(false);
-  console.log(board);
   const titleRef = React.useRef(null);
 
   useEffect(() => {
@@ -82,7 +83,13 @@ export const BoardContainer = () => {
     } catch (error) {
       console.log(error)
     }
+  };
+
+  const handleHomeButton = () => {
+    navigate('/');
   }
+
+
 
  if (!board) {
   return <LoadingSpinner />
@@ -99,8 +106,10 @@ export const BoardContainer = () => {
     {board && 
     <Board backgroundImage={board.prefs.backgroundImage}>
       <Board.Header>
-        
-        <>
+        <Board.IconContainer onClick={handleHomeButton}>
+          <ImHome />
+        </Board.IconContainer>
+        <Board.TitleContainer>
           <Board.Title
             isActive={isActive}
             onClick={() => setIsActive(true)}
@@ -115,7 +124,9 @@ export const BoardContainer = () => {
             onBlur={handleBoardName}
             size={boardName.length - 6}
           ></Board.TitleInput>
-        </>
+        </Board.TitleContainer>
+        <LogoutBtn />
+        
         
       </Board.Header>
       {lists && 
