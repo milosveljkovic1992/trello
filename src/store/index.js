@@ -4,6 +4,7 @@ import boardsSlice from './boards-slice';
 import cardSlice from "./card-slice";
 import commentSlice from "./comment-slice";
 import commentsSlice from './comments-slice';
+import dragDrop from "./drag-drop-slice";
 import editSlice from './edit-slice';
 import listsSlice from './lists-slice';
 import memberSlice from "./member-slice";
@@ -16,6 +17,7 @@ const store = configureStore({
         card: cardSlice.reducer,
         comment: commentSlice.reducer,
         comments: commentsSlice.reducer,
+        dragDrop: dragDrop.reducer,
         edit: editSlice.reducer,
         lists: listsSlice.reducer,
         member: memberSlice.reducer,

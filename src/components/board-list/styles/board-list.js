@@ -68,7 +68,7 @@ export const Title = styled.textarea`
     position: relative;
 `;
 
-export const Delete = styled.div`
+export const Actions = styled.div`
     display: none;
     align-items: center;
     justify-content: center;
@@ -78,7 +78,7 @@ export const Delete = styled.div`
     width: 32px;
     right: 0;
     top: 0;
-
+ 
     background-color: #fff;
     border: none;
     border-radius: 3px;

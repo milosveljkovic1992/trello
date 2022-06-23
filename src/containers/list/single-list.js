@@ -52,8 +52,8 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
         };
 
     }, [dispatch, isUpdated, updatedListId, listId, isListUpdated]);
-    
 
+    
 
     return (
         <>
@@ -67,9 +67,10 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                     setIsBoardUpdated={setIsBoardUpdated}
                 />
                 <BoardList.CardContainer>
-                    {cards.map(card => (
+                    {cards.map((card, index) => (
                         <SingleCard 
                             key={card.id} 
+                            index={index}
                             card={card}  
                             cards={cards}
                             setCards={setCards}

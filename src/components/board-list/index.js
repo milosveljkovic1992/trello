@@ -3,7 +3,7 @@ import { Container,
     Heading,
     CardContainer,
     Title,
-    Delete } from './styles/board-list';
+    Actions } from './styles/board-list';
 
 const BoardList = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>
@@ -21,8 +21,8 @@ BoardList.Title = React.forwardRef(({ children, ...restProps }, ref) => {
     return <Title ref={ref} {...restProps}>{children}</Title>
 });
 
-BoardList.Delete = ({ children, ...restProps }) => {
-    return <Delete {...restProps}>{children}</Delete>
+BoardList.Actions = ({ children, ...restProps }) => {
+    return <Actions {...restProps}>{children}</Actions>
 };
 
 

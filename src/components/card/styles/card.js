@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { Delete as DeleteButton } from '../../board-list/styles/board-list';
+import { Actions as ActionsButton } from '../../board-list/styles/board-list';
 
 export const Container = styled.div`
     position: relative;
@@ -21,8 +21,6 @@ export const Container = styled.div`
         position: absolute;
         background-color: #ddd;
         border-radius: ${({ theme }) => theme.border.borderRadius};
-
-        
     }
 `;
 
@@ -37,8 +35,11 @@ export const Title = styled.p`
     }
 `;
 
-export const Edit = styled(DeleteButton)`
+export const Edit = styled(ActionsButton)`
     display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
     height: 29px;
     width: 29px;
     border-width: 0;
@@ -49,6 +50,6 @@ export const Edit = styled(DeleteButton)`
     }
 `;
 
-export const Placeholder = styled.div`
-    
+export const Placeholder = styled(Container)`
+    background-color: #e7e7e7;
 `;

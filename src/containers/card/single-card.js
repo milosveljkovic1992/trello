@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TbPencil } from 'react-icons/tb';
+import axios from 'axios';
 
 import { Card, Link } from '../../components';
+import { EditPanel } from './edit-panel';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
 import { informListUpdate } from '../../store/lists-slice';
 import { openModal } from '../../store/popup-slice';
-import { EditPanel } from './edit-panel';
-import axios from 'axios';
+import { startDrag, dragOver, endDrag } from '../../store/drag-drop-slice';
 
-export const SingleCard = ({ card, cards, setCards }) => {
+export const SingleCard = ({ index, card, cards, setCards }) => {
     const dispatch = useDispatch();
+    const { draggedCard,
+        targetIndex,
+        targetListId,
+        targetPosition } = useSelector(state => state.dragDrop);
+
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isMoveOpen, setIsMoveOpen] = useState(false);
     const [title, setTitle] = useState(card.name);
@@ -18,7 +24,7 @@ export const SingleCard = ({ card, cards, setCards }) => {
     
     const cardRef = React.useRef(null);
 
-    const handleOpen = (e, card) => {
+    const handleOpen = (card) => {
         const { id } = card;
         
         setIsEditOpen(false);
@@ -83,9 +89,47 @@ export const SingleCard = ({ card, cards, setCards }) => {
     }, [isEditOpen]);
 
 
+    const handleDragStart = (e, card, index) => {
+        dispatch(startDrag(card));
+        e.target.classList.add('drag-active');
+    };
+
+    const handleDragEnter = (e, card, index) => {
+        const { idList, pos } = card;
+        dispatch(dragOver({ index, idList, pos }));
+    };
+
+    const handleDragLeave = (e, card, index) => {
+        return
+    }
+
+    const handleDrop = e => {
+        console.log('dropped');
+        const sendMoveRequest = async() => {
+            await axios.put(`/1/cards/${draggedCard.id}?idList=${targetListId}`)
+        };
+
+        try {
+            sendMoveRequest();
+            dispatch(endDrag());
+        } catch (error) {
+            console.log(error);
+        }
+        e.target.classList.remove('drag-active');
+    };
+
+
+
     return (
         <Card ref={cardRef}>
-            <Link to={`c/${card.id}`} >
+            <Link 
+                to={`c/${card.id}`} 
+                draggable
+                onDragStart={e => handleDragStart(e, card, index)}
+                onDragEnter={e => handleDragEnter(e, card, index)}
+                onDragLeave={e => handleDragLeave(e, card, index)}
+                onDragEnd={e => handleDrop(e)}
+            >
                 <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>
             </Link>
             { isEditOpen && 

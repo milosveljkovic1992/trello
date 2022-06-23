@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container, 
     Title,
-    Edit } from './styles/card';
+    Edit,
+    Placeholder } from './styles/card';
 
 const Card = React.forwardRef(({ children, ...restProps }, ref) => {
     return <Container ref={ref} {...restProps}>{children}</Container>
@@ -13,6 +14,10 @@ Card.Title = ({ children, ...restProps }) => {
 
 Card.Edit = ({ children, ...restProps }) => {
     return <Edit {...restProps}>{children}</Edit>
+};
+
+Card.Placeholder = ({ children, ...restProps }) => {
+    return <Placeholder {...restProps}>{children}</Placeholder>
 };
 
 
