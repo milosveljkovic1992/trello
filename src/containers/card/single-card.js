@@ -8,9 +8,9 @@ import { EditPanel } from './edit-panel';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
 import { informListUpdate } from '../../store/lists-slice';
 import { openModal } from '../../store/popup-slice';
-import { startDrag, dragOver, endDrag } from '../../store/drag-drop-slice';
+import { startDrag, dragOver, dragOverList, endDrag } from '../../store/drag-drop-slice';
 
-export const SingleCard = ({ index, card, cards, setCards }) => {
+export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) => {
     const dispatch = useDispatch();
     const { draggedCard,
         targetIndex,
@@ -90,20 +90,19 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
 
 
     const handleDragStart = (e, card, index) => {
+        const listId = card.idList;
         dispatch(startDrag(card));
+        dispatch(dragOverList({ listId }));
         e.target.classList.add('drag-active');
     };
 
-    const handleDragEnter = (e, card, index) => {
-        const { idList, pos } = card;
-        dispatch(dragOver({ index, idList, pos }));
-    };
+    
 
     const handleDragLeave = (e, card, index) => {
         return
     }
 
-    const handleDrop = e => {
+    const handleDragEnd = e => {
         console.log('dropped');
         const sendMoveRequest = async() => {
             await axios.put(`/1/cards/${draggedCard.id}?idList=${targetListId}`)
@@ -112,6 +111,8 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
         try {
             sendMoveRequest();
             dispatch(endDrag());
+            dispatch(informListUpdate(draggedCard));
+            dispatch(informListUpdate(targetListId));
         } catch (error) {
             console.log(error);
         }
@@ -121,14 +122,14 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
 
 
     return (
-        <Card ref={cardRef}>
+        <Card ref={cardRef} draggable>
             <Link 
                 to={`c/${card.id}`} 
                 draggable
                 onDragStart={e => handleDragStart(e, card, index)}
-                onDragEnter={e => handleDragEnter(e, card, index)}
+                // onDragEnter={e => handleDragEnter(e, card, index)}
                 onDragLeave={e => handleDragLeave(e, card, index)}
-                onDragEnd={e => handleDrop(e)}
+                onDragEnd={e => handleDragEnd(e)}
             >
                 <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>
             </Link>

@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     draggedCard: {},
-    targetIndex: '',
+    targetIndex: 0,
     targetListId: '',
-    targetPosition: ''
+    targetPosition: 10000
 }
 
 
@@ -15,10 +15,16 @@ const dragDrop = createSlice({
         startDrag(state, action) {
             state.draggedCard = action.payload;
         },
-        dragOver(state, action) {
+        dragOverCard(state, action) {
             state.targetIndex = action.payload.index;
             state.targetListId = action.payload.idList;
             state.targetPosition = action.payload.pos;
+        },
+        dragOverList(state, action) {
+            if (state.targetListId !== action.payload.listId) {
+                state.targetListId = action.payload.listId;
+            }
+            
         },
         endDrag(state) {
             state.draggedCard = {};
@@ -27,6 +33,6 @@ const dragDrop = createSlice({
 });
 
 
-export const { startDrag, dragOver, endDrag } = dragDrop.actions;
+export const { startDrag, dragOverCard, dragOverList, endDrag } = dragDrop.actions;
 
 export default dragDrop;

@@ -8,11 +8,13 @@ import { AddCard } from '../buttons/add-card';
 import { SingleCard } from '../card/single-card';
 import { NewCardContainer } from '../card/new-card-container';
 import { resetListUpdate } from '../../store/lists-slice';
+import { dragOverList } from '../../store/drag-drop-slice';
 
 
 export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     const dispatch = useDispatch();
     const { isUpdated, updatedListId } = useSelector(state => state.lists);
+    const { targetListId } = useSelector(state => state.dragDrop);
 
     const [cards, setCards] = useState();
     const [isCreatingNew, setIsCreatingNew] = useState(false);
@@ -29,6 +31,12 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
             sendTitle();
         } catch(error) {
             console.log(error);
+        }
+    };
+
+    const handleDragEnterList = (listId) => {
+        if (listId !== targetListId) {
+            dispatch(dragOverList({ listId }));
         }
     };
 
@@ -58,7 +66,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     return (
         <>
         {cards && 
-            <BoardList>
+            <BoardList onDragEnter={() => handleDragEnterList(listId)}>
                 <ListHeading 
                     handleTitle={handleTitle}
                     listId={listId} 
@@ -74,6 +82,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                             card={card}  
                             cards={cards}
                             setCards={setCards}
+                            setIsListUpdated={setIsListUpdated}
                         />
                     ))}
                 </BoardList.CardContainer>
