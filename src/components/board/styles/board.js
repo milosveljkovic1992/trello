@@ -14,6 +14,7 @@ export const Header = styled.header`
     display: flex;
     align-items: center;
     justify-content: center;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, .25), transparent);
 
     @media (min-width: 768px) {
         padding: 0 30px;

@@ -114,7 +114,7 @@ export const SelectBoardContainer = () => {
             <BoardSelect.CardsContainer>
 
             {boards.length > 0 && boards.map(board => (
-                <BoardSelect.SingleCardContainer key={board.id} onClick={e => handleClick(e, board)} backgroundImage={`${board.prefs.backgroundImageScaled[2].url}`}>
+                <BoardSelect.SingleCardContainer key={board.id} onClick={e => handleClick(e, board)} backgroundImage={board.prefs.backgroundImageScaled ? `url("${board.prefs.backgroundImageScaled[2].url}")` : 'none'}>
                     <BoardSelect.Card>
 
                         <BoardSelect.Title>{board.name}</BoardSelect.Title>

@@ -38,7 +38,7 @@ export const CardsContainer = styled.div`
 export const SingleCardContainer = styled.div`
     position: relative;
     overflow: visible;
-    background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
+    background-image: ${({ backgroundImage }) => backgroundImage && backgroundImage};
     background-color: #c7c7c7;
     background-size: cover;
     border-radius: 3px;
