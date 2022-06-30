@@ -8,51 +8,59 @@ export const Container = styled.div`
     margin-bottom: 10px;
     padding: 8px 10px;
     transition: .1s;
-`;
 
-export const InputBox = styled.textarea`
-    width: 100%;
-    margin-bottom: -3px;
-    border: 0;
-    resize: none;
-
-    &:focus {
-        outline: none;
-    }
-`;
-
-export const Text = styled.p``;
-
-export const ButtonContainer = styled.div`
-    box-shadow: none;
-    position: relative;
-    display: flex;
-    gap: 10px;
-
-
-`;
-
-export const Button = styled.button`
-background-color: #0079bf;
-color: #fff;
-border: none;
-padding: 6px 12px;
+    textarea {
+        width: 100%;
+        margin-bottom: -3px;
+        border: 0;
+        resize: none;
     
-    transition: .1s;
+        &:focus {
+            outline: none;
+        }
+    }
 
-    cursor: pointer;
+    .btn-container {
+        box-shadow: none;
+        position: relative;
+        display: flex;
+        gap: 10px;
+
+
+        button {
+            background-color: #0079bf;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+                
+            transition: .1s;
+
+            cursor: pointer;
+
+            &:focus,
+            &:hover {
+                background-color: #026aa7;
+            }
+
+            &:disabled {
+                color: #a5adba;
+                background-color: rgba(9, 30, 66, 0.04);
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .icon-container {
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        border-radius: ${({ theme }) => theme.border.borderRadius};
+        cursor: pointer;
 
         &:focus,
         &:hover {
-            background-color: #026aa7;
+            background-color: ${({ theme }) => theme.background.grayHover}
         }
-
-        &:disabled {
-            color: #a5adba;
-            background-color: rgba(9, 30, 66, 0.04);
-            cursor: not-allowed;
-        }
+    }
 
 `;
-
-export const IconContainer = styled.div``;
