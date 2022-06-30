@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GrClose } from 'react-icons/gr';
-import { CardMove } from '../../atoms';
+import { CardMove } from '../atoms';
 import { useParams } from 'react-router-dom';
 
 export const CardMovePanel = ({ rect, card, setIsMoveOpen, handleMove }) => {

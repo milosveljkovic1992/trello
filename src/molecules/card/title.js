@@ -6,7 +6,7 @@ import { CardTitle } from '../../atoms';
 import { informListUpdate } from '../../store/lists-slice';
 
 
-export const CardTitleContainer = () => {
+export const Title = () => {
     const dispatch = useDispatch();
     const card = useSelector(state => state.card.details);
     

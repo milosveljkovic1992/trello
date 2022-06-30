@@ -14,4 +14,4 @@ export { default as Link } from './link/link';
 export { default as Login } from './login/login';
 export { default as NewCard } from './new-card/new-card';
 export { default as SingleComment } from './single-comment/single-comment';
-export { default as Spinner } from './spinner/spinner';
+export { default as LoadingSpinner } from './loading-spinner/loading-spinner';

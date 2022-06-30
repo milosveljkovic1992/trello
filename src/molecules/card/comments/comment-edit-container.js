@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { CommentEdit, NewCard } from '../../atoms';
+import { CommentEdit, NewCard } from '../../../atoms';
 import { AiOutlineClose } from "react-icons/ai";
-import { editComment } from '../../store/comments-slice';
+import { editComment } from '../../../store/comments-slice';
 
 export const CommentEditContainer = ({ comment, isActive, setIsActive }) => {
     const dispatch = useDispatch();

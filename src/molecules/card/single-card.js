@@ -4,7 +4,7 @@ import { TbPencil } from 'react-icons/tb';
 import axios from 'axios';
 
 import { Card, Link } from '../../atoms';
-import { EditPanel } from './edit-panel';
+import { EditPanel } from '../../organisms/edit-panel';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
 import { informListUpdate } from '../../store/lists-slice';
 import { openModal } from '../../store/popup-slice';
@@ -29,7 +29,7 @@ export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) =
         setIsEditOpen(false);
         try {
             dispatch(openModal(id));
-            dispatch(getCard({ id }));
+            dispatch(getCard({ id })); 
         } catch (error) {
             console.log(error);
         }

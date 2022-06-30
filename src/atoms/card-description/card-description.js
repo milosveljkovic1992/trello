@@ -20,8 +20,4 @@ CardDescription.IconContainer = ({ children, ...restProps }) => {
     return <IconContainer {...restProps}>{children}</IconContainer>
 };
 
-CardDescription.IconContainer = ({ children, ...restProps }) => {
-    return <IconContainer {...restProps}>{children}</IconContainer>
-};
-
 export default CardDescription;

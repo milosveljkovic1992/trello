@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { NewItem } from '../add-new-item';
+import { NewItem } from '../../atoms/new-item/new-item';
 
 
 export const NewCardContainer = ({ setIsCreatingNew, listId, setCards }) => {

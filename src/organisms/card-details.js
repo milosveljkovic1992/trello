@@ -6,11 +6,11 @@ import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
 import { GrClose } from 'react-icons/gr';
 
-import { CardOverlay } from '../../atoms';
-import { CardTitleContainer } from './card-title-container';
-import { SingleCommentContainer } from '../comments/single-comment-container';
-import { CommentInputContainer } from '../comments/comment-input-container';
-import { CardDescriptionContainer } from './card-description-container';
+import { CardOverlay } from '../atoms';
+import { Title } from '../molecules/card/title';
+import { SingleCommentContainer } from '../molecules/card/comments/single-comment-container';
+import { CommentInputContainer } from '../molecules/card/comments/comment-input-container';
+import { Description } from '../molecules/card/description';
 
 export const CardDetails = ({ handleClose, setIsUpdated }) => {
     const comments = useSelector(state => state.comments.commentsList);
@@ -23,7 +23,7 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
                         <CgCreditCard />
                     </CardOverlay.Icon>
                     
-                    <CardTitleContainer />
+                    <Title />
 
                 </CardOverlay.CardHeader>
 
@@ -38,7 +38,7 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
                         </CardOverlay.SectionHeader>
                         
                         <CardOverlay.SectionDetails>
-                            <CardDescriptionContainer />
+                            <Description />
                         </CardOverlay.SectionDetails>
                     </CardOverlay.Section>
 

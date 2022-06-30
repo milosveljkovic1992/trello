@@ -5,7 +5,7 @@ import axios from 'axios';
 import { CardDescription, CommentEdit, NewCard } from '../../atoms';
 import { AiOutlineClose } from "react-icons/ai";
 
-export const CardDescriptionContainer = () => {
+export const Description = () => {
     const card = useSelector(state => state.card.details);
     const { isLoading } = useSelector(state => state.card)
     const [isInitialRender, setIsInitialRender] = useState(true);

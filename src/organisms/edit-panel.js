@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
-import { CardEdit } from '../../atoms';
+import { CardEdit } from '../atoms';
 import { CardMovePanel } from './card-move-panel';
 
 export const EditPanel = ({ rect, card, title, setTitle, handleOpen, handleRename, handleMove, handleDelete, isEditOpen, setIsEditOpen, isMoveOpen, setIsMoveOpen }) => {

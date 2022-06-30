@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import { CardDetails } from './card/card-details';
+import { CardDetails } from '../organisms/card-details';
 import { setComments } from '../store/comments-slice';
 import { closeModal } from '../store/popup-slice';
 
 
-export const CardPopupContainer = () => {
+export const CardPopup = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { cardUrl } = useParams();

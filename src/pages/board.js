@@ -5,12 +5,11 @@ import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
 import { ImHome } from 'react-icons/im';
 import { AiOutlinePlus } from "react-icons/ai";
 
-import { AddBtn, Board, BoardList } from '../atoms';
-import { LogoutBtn } from './buttons/logout-btn';
-import { CardPopupContainer } from './card-popup-container';
-import { NewListContainer } from './list/new-list-container';
-import { SingleList } from './list/single-list';
-import { LoadingSpinner } from './loading-spinner';
+import { AddBtn, Board, BoardList, LoadingSpinner } from '../atoms';
+import { LogoutBtn } from '../atoms/logout-btn/logout-btn';
+import { CardPopup } from './card-popup';
+import { NewListContainer } from '../molecules/list/new-list-container';
+import { SingleList } from '../molecules/list/single-list';
 import { openModal } from '../store/popup-slice';
 import { getCard } from '../store/card-slice';
 
@@ -100,7 +99,7 @@ export const BoardContainer = () => {
     <>
     { !!popupModalOpen && !!cardUrl &&
       <Routes>
-        <Route path={`c/${cardUrl}`} element={<CardPopupContainer />} />
+        <Route path={`c/${cardUrl}`} element={<CardPopup />} />
       </Routes>
      }
     {board && 

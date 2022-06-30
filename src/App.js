@@ -5,12 +5,11 @@ import axios from 'axios';
 
 import Theme from './Theme';
 import { getMemberInfo } from './store/member-slice';
-import { BoardContainer } from './containers/board-container';
-import { SelectBoardContainer } from './containers/select-board-container';
-import { CardPopupContainer } from './containers/card-popup-container';
-import { Login } from './atoms';
+import { BoardContainer } from './pages/board';
+import { SelectBoardContainer } from './pages/landing-page';
+import { CardPopup } from './pages/card-popup';
+import { LoadingSpinner, Login } from './atoms';
 import { login } from './store/auth';
-import { LoadingSpinner } from './containers/loading-spinner';
 
 
 axios.defaults.baseURL = 'https://api.trello.com';
@@ -63,7 +62,7 @@ const App = () => {
       <Routes>
           <Route exact path={'/'} element={<SelectBoardContainer />} />
           <Route path={`/b/:boardId//*`} element={<BoardContainer />} >
-            {popupModalOpen && <Route path={`c/:cardUrl`} element={<CardPopupContainer />} />}
+            {popupModalOpen && <Route path={`c/:cardUrl`} element={<CardPopup />} />}
           </Route>
       </Routes>
     </Theme>
