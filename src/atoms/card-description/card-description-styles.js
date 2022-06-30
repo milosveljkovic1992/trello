@@ -36,35 +36,34 @@ export const Container = styled.div`
             }
         }
     }
-`;
-
-export const Text = styled.p`
-    padding: 8px 12px;
-    display: ${({ isActive }) => isActive ? 'none' : 'block'};
-    cursor: pointer;
-    padding-left: ${({ hasDescription}) => hasDescription && 0};
-`;
-
-export const InputBox = styled.textarea`
-    display: ${({ isActive }) => isActive ? 'block' : 'none'};
-    min-height: 70px;
-    border-radius: 3px;
-    width: 100%;
-    padding: 8px 12px;
-    resize: none;
-    border: none;
     
-    &:focus {
-        outline: 1px solid #c7c7c7;
+    .desc-content {
+        padding: 8px 12px;
+        display: ${({ isActive }) => isActive ? 'none' : 'block'};
+        cursor: pointer;
+        padding-left: ${({ hasDescription}) => hasDescription && 0};
     }
-`;
 
+    .desc-input {
+        display: ${({ isActive }) => isActive ? 'block' : 'none'};
+        min-height: 70px;
+        border-radius: 3px;
+        width: 100%;
+        padding: 8px 12px;
+        resize: none;
+        border: none;
+        
+        &:focus {
+            outline: 1px solid #c7c7c7;
+        }
+    }
 
-export const IconContainer = styled.div`
-    position: absolute;
-    left: 0;
-    bottom: 6px;
+    .icon-container {
+        position: absolute;
+        left: 0;
+        bottom: 6px;
 
-    opacity: ${({ isActive }) => isActive ? 1 : 0};
-    visibility: ${({ isActive }) => isActive ? 'visible' : 'hidden'};
+        opacity: ${({ isActive }) => isActive ? 1 : 0};
+        visibility: ${({ isActive }) => isActive ? 'visible' : 'hidden'};
+    }
 `;

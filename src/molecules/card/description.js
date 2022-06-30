@@ -57,39 +57,34 @@ export const Description = () => {
             className="desc-box"
             hasDescription={description}
         >
-            <CardDescription.Text 
-                isActive={isActive}
-                hasDescription={description}
-            >
-                {description || "Add a more detailed description..."}
-            </CardDescription.Text>
+            <p className="desc-content">{description || "Add a more detailed description..."}</p>
 
-            <CardDescription.InputBox 
+            <textarea 
                 className="desc-input"
                 placeholder="Add a more detailed description..." 
                 ref={descRef}
-                isActive={isActive}
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-            ></CardDescription.InputBox>
-            <CardDescription.IconContainer isActive={isActive}>
-            <div className="btn-container">
-                <button
-                    className="desc-btn"
-                    onClick={() => handleEdit()}
-                >Save</button>
+            ></textarea>
 
-                <NewCard.IconContainer  
-                    className="desc-btn" 
-                    onClick={() => {
-                        setIsActive(false)
-                        setDescription(previousDescription)
-                    }}
-                >
-                    <AiOutlineClose/>
-                </NewCard.IconContainer>
+            <div className="icon-container">
+                <div className="btn-container">
+                    <button
+                        className="desc-btn"
+                        onClick={() => handleEdit()}
+                    >Save</button>
+
+                    <NewCard.IconContainer  
+                        className="desc-btn" 
+                        onClick={() => {
+                            setIsActive(false)
+                            setDescription(previousDescription)
+                        }}
+                    >
+                        <AiOutlineClose/>
+                    </NewCard.IconContainer>
+                </div>
             </div>
-            </CardDescription.IconContainer>
         </CardDescription>
     )
 }
