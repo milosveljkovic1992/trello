@@ -3,13 +3,13 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
 import { ImHome } from 'react-icons/im';
+import { AiOutlinePlus } from "react-icons/ai";
 
-import { Board, BoardList } from '../atoms';
+import { AddBtn, Board, BoardList } from '../atoms';
 import { LogoutBtn } from './buttons/logout-btn';
 import { CardPopupContainer } from './card-popup-container';
 import { NewListContainer } from './list/new-list-container';
 import { SingleList } from './list/single-list';
-import { AddList } from './buttons/add-list';
 import { LoadingSpinner } from './loading-spinner';
 import { openModal } from '../store/popup-slice';
 import { getCard } from '../store/card-slice';
@@ -145,7 +145,9 @@ export const BoardContainer = () => {
 
           <BoardList>
             {!creatingNewList
-              ? <AddList setCreatingNewList={setCreatingNewList} />
+              ? <AddBtn onClick={() => setCreatingNewList(true)} icon={<AiOutlinePlus />}>
+                  Add another list
+                </AddBtn>
               : <NewListContainer 
                 setCreatingNewList={setCreatingNewList}
                 boardId={boardId}

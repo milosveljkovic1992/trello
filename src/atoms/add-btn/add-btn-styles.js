@@ -19,14 +19,11 @@ export const Container = styled.button`
     &:hover {
         background-color: ${({ theme }) => theme.background.grayHover}
     }
-`;
 
-export const IconContainer = styled.span`
-    font-size: 16px;
-    display: flex;
-    margin-right: 3px;
-`;
-
-export const BtnText = styled.span`
-    color: ${({theme}) => theme.font.lightColor};
+    span {
+        display: flex;
+        align-items: center;
+        color: ${({theme}) => theme.font.lightColor};
+        padding-right: 3px;
+    }
 `;

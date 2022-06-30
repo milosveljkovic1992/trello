@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
+import { AiOutlinePlus } from "react-icons/ai";
 
-import { BoardList } from '../../atoms';
+import { AddBtn, BoardList } from '../../atoms';
 import { ListHeading } from './list-heading';
-import { AddCard } from '../buttons/add-card';
 import { SingleCard } from '../card/single-card';
 import { NewCardContainer } from '../card/new-card-container';
 import { resetListUpdate } from '../../store/lists-slice';
@@ -87,7 +87,9 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                     ))}
                 </BoardList.CardContainer>
                 {!isCreatingNew 
-                    ? <AddCard setIsCreatingNew={setIsCreatingNew} /> 
+                    ? <AddBtn onClick={() => setIsCreatingNew(true)} icon={<AiOutlinePlus />}>
+                        Add a card
+                      </AddBtn>
                     : <NewCardContainer 
                         setIsCreatingNew={setIsCreatingNew} 
                         listId={listId} 

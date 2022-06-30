@@ -1,19 +1,14 @@
 import React from 'react';
-import { Container,
-    IconContainer,
-    BtnText } from './add-btn-styles';
+import { Container } from './add-btn-styles';
 
     
-const AddBtn = ({ children, ...restProps }) => {
-    return <Container {...restProps}>{children}</Container>
-};
-
-AddBtn.IconContainer = ({ children, ...restProps }) => {
-    return <IconContainer {...restProps}>{children}</IconContainer>
-};
-
-AddBtn.BtnText = ({ children, ...restProps }) => {
-    return <BtnText {...restProps}>{children}</BtnText>
+const AddBtn = ({ children, onClick, icon }) => {
+    return (
+        <Container onClick={onClick}>
+            <span>{icon}</span>
+            <span>{children}</span>
+        </Container>
+    )
 };
 
 export default AddBtn;
