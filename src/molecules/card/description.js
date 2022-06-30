@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux/es/exports';
 import axios from 'axios';
 
-import { CardDescription, CommentEdit, NewCard } from '../../atoms';
+import { CardDescription, NewCard } from '../../atoms';
 import { AiOutlineClose } from "react-icons/ai";
 
 export const Description = () => {
@@ -10,6 +10,7 @@ export const Description = () => {
     const { isLoading } = useSelector(state => state.card)
     const [isInitialRender, setIsInitialRender] = useState(true);
     const [description, setDescription] = useState('');
+    const [previousDescription, setPreviousDescription] = useState('');
     const [isActive, setIsActive] = useState(false);
 
     const descRef = React.useRef(null);
@@ -38,6 +39,7 @@ export const Description = () => {
         if (isActive) {
             descRef.current.select();
         }
+        setPreviousDescription(description);
     }, [isActive]);
 
     useEffect(() => {
@@ -71,19 +73,22 @@ export const Description = () => {
                 onChange={e => setDescription(e.target.value)}
             ></CardDescription.InputBox>
             <CardDescription.IconContainer isActive={isActive}>
-            <CommentEdit.ButtonContainer>
-                <CommentEdit.Button 
+            <div className="btn-container">
+                <button
                     className="desc-btn"
                     onClick={() => handleEdit()}
-                >Save</CommentEdit.Button>
+                >Save</button>
 
                 <NewCard.IconContainer  
                     className="desc-btn" 
-                    onClick={() => setIsActive(false)}
+                    onClick={() => {
+                        setIsActive(false)
+                        setDescription(previousDescription)
+                    }}
                 >
                     <AiOutlineClose/>
                 </NewCard.IconContainer>
-            </CommentEdit.ButtonContainer>
+            </div>
             </CardDescription.IconContainer>
         </CardDescription>
     )

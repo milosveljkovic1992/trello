@@ -11,46 +11,44 @@ export const Container = styled.div`
 
     padding-bottom: ${({ isDisplayed }) => isDisplayed ? '40px' : 0};
     transition: .1s;
-`;
 
-export const InputBox = styled.textarea`
-    width: 100%;
-    margin-bottom: -3px;
-    border: 0;
-    resize: none;
+    textarea {
+        width: 100%;
+        margin-bottom: -3px;
+        border: 0;
+        resize: none;
 
-    &:focus {
-        outline: none;
-    }
-`;
-
-export const Text = styled.p``;
-
-export const Button = styled.button`
-    background-color: #0079bf;
-    color: #fff;
-    border: none;
-    box-shadow: none;
-    padding: 6px 12px;
-    cursor: pointer;
-
-    &:focus,
-    &:hover {
-        background-color: #026aa7;
+        &:focus {
+            outline: none;
+        }
     }
 
-    &:disabled {
-        color: #a5adba;
-        background-color: rgba(9, 30, 66, 0.04);
-        cursor: not-allowed;
+    button {
+        background-color: #0079bf;
+        color: #fff;
+        border: none;
+        box-shadow: none;
+        padding: 6px 12px;
+        cursor: pointer;
+
+        &:focus,
+        &:hover {
+            background-color: #026aa7;
+        }
+
+        &:disabled {
+            color: #a5adba;
+            background-color: rgba(9, 30, 66, 0.04);
+            cursor: not-allowed;
+        }
+
+        position: absolute;
+        opacity: ${({ isDisplayed}) => isDisplayed ? 1 : 0};
+        visibility: ${({ isDisplayed}) => isDisplayed ? 'visible' : 'hidden'};
+        bottom: 18px;
+        left: 12px;
+        
+        transition: .1s;
     }
 
-    position: absolute;
-    opacity: ${({ isDisplayed}) => isDisplayed ? 1 : 0};
-    visibility: ${({ isDisplayed}) => isDisplayed ? 'visible' : 'hidden'};
-    bottom: 18px;
-    left: 12px;
-    
-    transition: .1s;
-
-`;
+`; 

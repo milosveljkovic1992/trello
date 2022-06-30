@@ -47,7 +47,9 @@ export const Container = styled.div`
                 background-color: rgba(9, 30, 66, 0.04);
                 cursor: not-allowed;
             }
+            
         }
+
     }
 
     .icon-container {

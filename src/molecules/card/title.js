@@ -49,10 +49,9 @@ export const Title = () => {
     return (
         <CardTitle isActive={isActive}>
             { !isActive ?
-            <h2 isActive={isActive} onClick={() => setIsActive(true)}>{title}</h2>
+            <h2 onClick={() => setIsActive(true)}>{title}</h2>
             : <input 
                 ref={titleRef}
-                isActive={isActive}
                 onBlur={handleChange}
                 value={title} 
                 onChange={e => setTitle(e.target.value)}

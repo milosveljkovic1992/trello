@@ -6,7 +6,7 @@ import { Container,
 
 const CardDescription = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>
-};
+}; 
 
 CardDescription.Text = ({ children, ...restProps }) => {
     return <Text {...restProps}>{children}</Text>
