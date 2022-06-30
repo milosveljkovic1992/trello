@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TbPencil } from 'react-icons/tb';
 import axios from 'axios';
 
-import { Card, Link } from '../../components';
+import { Card, Link } from '../../atoms';
 import { EditPanel } from './edit-panel';
 import { getCard, deleteCard, renameCard } from '../../store/card-slice';
 import { informListUpdate } from '../../store/lists-slice';

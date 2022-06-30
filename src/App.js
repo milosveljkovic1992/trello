@@ -8,7 +8,7 @@ import { getMemberInfo } from './store/member-slice';
 import { BoardContainer } from './containers/board-container';
 import { SelectBoardContainer } from './containers/select-board-container';
 import { CardPopupContainer } from './containers/card-popup-container';
-import { Login } from './components';
+import { Login } from './atoms';
 import { login } from './store/auth';
 import { LoadingSpinner } from './containers/loading-spinner';
 

@@ -6,7 +6,7 @@ import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
 import { GrClose } from 'react-icons/gr';
 
-import { CardOverlay } from '../../components';
+import { CardOverlay } from '../../atoms';
 import { CardTitleContainer } from './card-title-container';
 import { SingleCommentContainer } from '../comments/single-comment-container';
 import { CommentInputContainer } from '../comments/comment-input-container';

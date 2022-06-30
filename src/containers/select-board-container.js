@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { BoardSelect } from '../components';
+import { BoardSelect } from '../atoms';
 import { LoadingSpinner } from './loading-spinner';
 import { LogoutBtn } from './buttons/logout-btn';
 import { setBoards, addBoard, deleteBoard } from '../store/boards-slice';

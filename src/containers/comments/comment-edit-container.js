@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { CommentEdit } from '../../components';
-import { NewCard } from '../../components';
+import { CommentEdit, NewCard } from '../../atoms';
 import { AiOutlineClose } from "react-icons/ai";
 import { editComment } from '../../store/comments-slice';
 

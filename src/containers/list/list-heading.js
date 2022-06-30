@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import axios from 'axios'
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { BoardList } from "../../components";
+import { BoardList } from "../../atoms";
 
 export const ListHeading = ({ handleTitle, listId, listTitle, setListTitle, setIsBoardUpdated }) => {
     const titleRef = useRef(null);

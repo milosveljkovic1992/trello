@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { CommentInput } from '../../components';
+import { CommentInput } from '../../atoms';
 
 export const CommentInputContainer = ({ setIsUpdated }) => {
     const card = useSelector(state => state.card.details);

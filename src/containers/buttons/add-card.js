@@ -1,5 +1,5 @@
 import React from 'react';
-import { AddBtn } from '../../components';
+import { AddBtn } from '../../atoms';
 import { AiOutlinePlus } from "react-icons/ai";
 
 export const AddCard = ({ setIsCreatingNew }) => {

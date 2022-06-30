@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import { CardTitle } from '../../components';
+import { CardTitle } from '../../atoms';
 import { informListUpdate } from '../../store/lists-slice';
 
 

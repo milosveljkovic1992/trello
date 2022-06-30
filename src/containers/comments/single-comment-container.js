@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';
 import axios from 'axios';
 import { deleteComment } from '../../store/comments-slice';
 
-import { Link, SingleComment } from '../../components';
+import { Link, SingleComment } from '../../atoms';
 import { CommentEditContainer } from './comment-edit-container';
 
 export const SingleCommentContainer = ({ comment }) => {

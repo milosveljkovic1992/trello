@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Board } from '../../components';
+import { Board } from '../../atoms';
 import { logout } from '../../store/auth';
 
 

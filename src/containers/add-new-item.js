@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"; 
-import { NewCard } from "../components";
+import { NewCard } from "../atoms";
 import { AiOutlineClose } from "react-icons/ai";
 
 export const NewItem = ( {children, handleInput, handleSubmit, setIsCreatingNew, placeholder} ) => {

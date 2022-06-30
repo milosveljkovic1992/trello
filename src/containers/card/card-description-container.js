@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux/es/exports';
 import axios from 'axios';
 
-import { CardDescription, CommentEdit, NewCard } from '../../components';
+import { CardDescription, CommentEdit, NewCard } from '../../atoms';
 import { AiOutlineClose } from "react-icons/ai";
 
 export const CardDescriptionContainer = () => {

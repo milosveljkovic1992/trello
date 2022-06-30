@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 
-import { BoardList } from '../../components';
+import { BoardList } from '../../atoms';
 import { ListHeading } from './list-heading';
 import { AddCard } from '../buttons/add-card';
 import { SingleCard } from '../card/single-card';

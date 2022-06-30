@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
 import { ImHome } from 'react-icons/im';
 
-import { Board, BoardList } from '../components';
+import { Board, BoardList } from '../atoms';
 import { LogoutBtn } from './buttons/logout-btn';
 import { CardPopupContainer } from './card-popup-container';
 import { NewListContainer } from './list/new-list-container';
