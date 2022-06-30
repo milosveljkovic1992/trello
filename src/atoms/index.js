@@ -11,6 +11,7 @@ export { default as CardTitle } from './card-title/card-title';
 export { default as CommentEdit } from './comment-edit/comment-edit';
 export { default as CommentInput } from './comment-input/comment-input';
 export { default as Link } from './link/link';
+export { default as ListTitle } from './list-title/list-title';
 export { default as Login } from './login/login';
 export { default as NewCard } from './new-card/new-card';
 export { default as SingleComment } from './single-comment/single-comment';
