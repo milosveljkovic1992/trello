@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import { CardDetails } from '../organisms/card-details';
 import { setComments } from '../store/comments-slice';
 import { closeModal } from '../store/popup-slice';
+import CardOverlay from '../templates/card-overlay/card-overlay';
 
 
 export const CardPopup = () => {
@@ -48,7 +48,7 @@ export const CardPopup = () => {
     }
 
     return (
-        <CardDetails handleClose={handleClose} setIsUpdated={setIsUpdated} />
+        <CardOverlay handleClose={handleClose} setIsUpdated={setIsUpdated} />
     )
 
 }

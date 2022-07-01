@@ -6,7 +6,6 @@ export { default as Card } from './card/card';
 export { default as CardDescription } from './card-description/card-description';
 export { default as CardEdit } from './card-edit/card-edit';
 export { default as CardMove } from './card-move/card-move';
-export { default as CardOverlay } from './card-overlay/card-overlay';
 export { default as CardTitle } from './card-title/card-title';
 export { default as CommentEdit } from './comment-edit/comment-edit';
 export { default as CommentInput } from './comment-input/comment-input';
