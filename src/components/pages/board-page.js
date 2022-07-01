@@ -16,7 +16,7 @@ import { NewListContainer } from 'components/molecules/list/new-list-container';
 import { SingleList } from 'components/organisms/single-list';
 
 
-export const BoardContainer = () => {
+export const BoardPage = () => {
   const dispatch = useDispatch();
   const popupModalOpen = useSelector(state => state.popup.open);
   

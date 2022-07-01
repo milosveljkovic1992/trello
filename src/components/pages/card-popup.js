@@ -7,7 +7,7 @@ import axios from 'axios';
 import { setComments } from 'store/comments-slice';
 import { closeModal } from 'store/popup-slice';
 
-import { CardOverlay } from 'components/templates/card-overlay/card-overlay';
+import { CardDetails } from 'components/templates/card-details/card-details';
 
 
 export const CardPopup = () => {
@@ -50,7 +50,7 @@ export const CardPopup = () => {
     }
 
     return (
-        <CardOverlay handleClose={handleClose} setIsUpdated={setIsUpdated} />
+        <CardDetails handleClose={handleClose} setIsUpdated={setIsUpdated} />
     )
 
 }

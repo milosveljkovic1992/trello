@@ -1,20 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { CgCreditCard } from 'react-icons/cg';
+import { GrClose } from 'react-icons/gr';
 import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
-import { GrClose } from 'react-icons/gr';
+import { CgCreditCard } from 'react-icons/cg';
 
-import { Overlay } from 'components/templates/card-overlay/card-overlay-styles';
-
+import { Overlay } from 'components/templates/card-details/card-details-styles';
 
 import { Title } from 'components/molecules/card/title';
 import { SingleCommentContainer } from 'components/molecules/card/comments/single-comment-container';
 import { CommentInputContainer } from 'components/molecules/card/comments/comment-input-container';
 import { Description } from 'components/molecules/card/description';
 
-export const CardOverlay = ({ handleClose, setIsUpdated }) => {
+
+export const CardDetails = ({ handleClose, setIsUpdated }) => {
     const comments = useSelector(state => state.comments.commentsList);
     
     return (
