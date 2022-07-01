@@ -6,12 +6,9 @@ import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
 import { CgCreditCard } from 'react-icons/cg';
 
-import { Overlay } from 'components/templates/card-details/card-details-styles';
+import { Overlay } from './card-details-styles';
 
-import { Title } from 'components/molecules/card/title';
-import { SingleCommentContainer } from 'components/molecules/card/comments/single-comment-container';
-import { CommentInputContainer } from 'components/molecules/card/comments/comment-input-container';
-import { Description } from 'components/molecules/card/description';
+import { CommentInputContainer, Description, SingleCommentContainer, Title } from 'components/molecules';
 
 
 export const CardDetails = ({ handleClose, setIsUpdated }) => {

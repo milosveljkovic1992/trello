@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, 
     Title,
     Edit,
-    Placeholder } from 'components/atoms/card/card-styles';
+    Placeholder } from './card-styles';
 
 export const Card = React.forwardRef(({ children, ...restProps }, ref) => {
     return <Container ref={ref} {...restProps}>{children}</Container>

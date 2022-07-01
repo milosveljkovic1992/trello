@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title } from 'components/atoms/list-title/list-title-styles';
+import { Title } from './list-title-styles';
 
 export const ListTitle = React.forwardRef(({ isInputActive, listTitle, setListTitle, handleFocus, handleBlur,handleSendToArchive, icon }, ref) => {
     return (

@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Container } from 'components/atoms/card-description/card-description-styles';
+import { Container } from './card-description-styles';
 
 export const CardDescription = ({ children, hasDescription, isActive, onClick }) => {
     return (

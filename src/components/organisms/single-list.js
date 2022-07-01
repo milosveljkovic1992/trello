@@ -5,9 +5,7 @@ import axios from 'axios';
 import { AiOutlinePlus } from "react-icons/ai";
 
 import { AddButton, BoardList } from 'components/atoms';
-import { ListHeading } from 'components/molecules/list/list-heading';
-import { SingleCard } from 'components/molecules/card/single-card';
-import { NewCardContainer } from 'components/molecules/card/new-card-container';
+import { ListHeading, NewCardContainer, SingleCard } from 'components/molecules';
 
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';

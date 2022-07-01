@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'components/atoms/single-comment/single-comment-styles';
+import { Container } from './single-comment-styles';
 
 export const SingleComment = ({ children }) => {
     return <Container>{children}</Container>

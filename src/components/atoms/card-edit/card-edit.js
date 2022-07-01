@@ -6,7 +6,7 @@ import { Overlay,
     Tab,
     IconContainer,
     Label,
-    Button } from 'components/atoms/card-edit/card-edit-styles';
+    Button } from './card-edit-styles';
 
 export const CardEdit = ({ children, ...restProps }) => {
     return <Overlay {...restProps}>{children}</Overlay>

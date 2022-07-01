@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Text, Button } from 'components/atoms/login/login-styles';
+import { Container, Text, Button } from './login-styles';
 
 export const Login = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>

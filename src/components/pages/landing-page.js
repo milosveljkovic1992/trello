@@ -6,7 +6,7 @@ import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';
 
 import { BoardSelect, LoadingSpinner } from 'components/atoms';
-import { LogoutBtn } from 'components/atoms/logout-btn/logout-btn';
+import { LogoutButton } from 'components/atoms/logout-button/logout-button';
 import { setBoards, addBoard, deleteBoard } from 'store/boards-slice';
 
 
@@ -153,7 +153,7 @@ export const LandingPage = () => {
             </BoardSelect.CardsContainer>
         </BoardSelect.Inner>
         
-        <LogoutBtn fixed={true} />
+        <LogoutButton fixed={true} />
       </BoardSelect>
     )
 }

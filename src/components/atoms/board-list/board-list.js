@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container,
-    CardContainer } from 'components/atoms/board-list/board-list-styles';
+    CardContainer } from './board-list-styles';
 
 export const BoardList = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>

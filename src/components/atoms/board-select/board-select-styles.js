@@ -1,6 +1,5 @@
 import styled from 'styled-components/macro';
 import { Button as DefaultButton } from '../card-edit/card-edit-styles';
-import { Button as LogoutButton } from '../board/board-styles';
 
 
 export const Container = styled.div`
@@ -134,8 +133,23 @@ export const Delete = styled.div`
     }
 `;
 
-export const Logout = styled(LogoutButton)`
+export const Logout = styled.button`
+    height: 33px;
+    width: 100px;
+    color: ${({ fixed }) => fixed ? "#333" : "#fff"};
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, .3);
+    border: ${({ fixed }) => fixed ? '2px solid #333' : '2px solid rgba(255, 255, 255, 1)'};
+    cursor: pointer;
+
     position: fixed;
     top: 20px;
     right: 20px;
+
+    &:focus,
+    &:hover {
+        color: #333;
+        background-color: rgba(255, 255, 255, .6);
+        border-color: rgba(225, 0, 0, 1);
+    };
 `;

@@ -4,7 +4,7 @@ import { Container,
     InputBox,
     ButtonContainer,
     Button,
-    IconContainer } from 'components/atoms/new-card/new-card-styles';
+    IconContainer } from './new-card-styles';
 
 export const NewCard = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>

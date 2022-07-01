@@ -3,17 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
-import { ImHome } from 'react-icons/im';
-import { AiOutlinePlus } from "react-icons/ai";
 
 import { openModal } from 'store/popup-slice';
 import { getCard } from 'store/card-slice';
 
-import { AddButton, Board, BoardList, LoadingSpinner } from 'components/atoms';
-import { LogoutBtn } from 'components/atoms/logout-btn/logout-btn';
+import { LoadingSpinner } from 'components/atoms';
+import { Board } from 'components/molecules';
 import { CardPopup } from 'components/pages/card-popup';
-import { NewListContainer } from 'components/molecules/list/new-list-container';
 import { SingleList } from 'components/organisms/single-list';
+import { AddList } from 'components/atoms';
 
 
 export const BoardPage = () => {
@@ -92,7 +90,6 @@ export const BoardPage = () => {
   }
 
 
-
  if (!board) {
   return <LoadingSpinner />
  }
@@ -106,33 +103,18 @@ export const BoardPage = () => {
       </Routes>
      }
     {board && 
-    <Board backgroundImage={board.prefs.backgroundImage}>
-      <Board.Header>
-        <Board.IconContainer onClick={handleHomeButton}>
-          <ImHome />
-        </Board.IconContainer>
-        <Board.TitleContainer>
-          <Board.Title
-            isActive={isActive}
-            onClick={() => setIsActive(true)}
-          >
-            {boardName}
-          </Board.Title>
-          <Board.TitleInput 
-            ref={titleRef}
-            isActive={isActive}
-            value={boardName} 
-            onChange={e => setBoardName(e.target.value)}
-            onBlur={handleBoardName}
-            size={boardName.length - 6}
-          ></Board.TitleInput>
-        </Board.TitleContainer>
-        <LogoutBtn />
-        
-        
-      </Board.Header>
+      <Board 
+        ref={titleRef}
+        board={board}
+        boardName={boardName}
+        setBoardName={setBoardName}
+        handleBoardName={handleBoardName}
+        handleHomeButton={handleHomeButton}
+        isActive={isActive}
+        setIsActive={setIsActive}
+      >
       {lists && 
-        <Board.Inner>
+        <div className="board-inner-container">
 
           {lists.map(list => (
             <SingleList 
@@ -145,21 +127,15 @@ export const BoardPage = () => {
             />
           ))}
 
-          <BoardList>
-            {!creatingNewList
-              ? <AddButton onClick={() => setCreatingNewList(true)} icon={<AiOutlinePlus />}>
-                  Add another list
-                </AddButton>
-              : <NewListContainer 
-                setCreatingNewList={setCreatingNewList}
-                boardId={boardId}
-                setIsBoardUpdated={setIsBoardUpdated}
-                pos={pos}
-              />
-            }
-          </BoardList>
+          <AddList 
+            creatingNewList={creatingNewList}
+            setCreatingNewList={setCreatingNewList}
+            boardId={boardId}
+            setIsBoardUpdated={setIsBoardUpdated}
+            pos={pos}
+          />
 
-        </Board.Inner>
+        </div>
       }
     </Board>
     }

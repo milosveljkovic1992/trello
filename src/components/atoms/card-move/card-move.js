@@ -8,7 +8,7 @@ import { Container,
     Dropdown,
     Option,
     IconContainer,
-    Button } from 'components/atoms/card-move/card-move-styles';
+    Button } from './card-move-styles';
 
 export const CardMove = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>

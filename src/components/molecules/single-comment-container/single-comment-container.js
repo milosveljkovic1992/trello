@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';
 import axios from 'axios';
 
 import { deleteComment } from 'store/comments-slice';
-import { CommentEditContainer } from 'components/molecules/card/comments/comment-edit-container';
-
+import { CommentEditContainer } from 'components/molecules';
 import { Link, SingleComment } from 'components/atoms';
 
 

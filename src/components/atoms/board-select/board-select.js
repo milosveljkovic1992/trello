@@ -10,7 +10,7 @@ import { Container,
     Input,
     Button,
     Delete, 
-    Logout } from 'components/atoms/board-select/board-select-styles';
+    Logout } from './board-select-styles';
 
 export const BoardSelect = ({ children, ...restProps }) => {
     return <Container {...restProps}>{children}</Container>

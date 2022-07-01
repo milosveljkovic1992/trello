@@ -14,7 +14,7 @@ import { Card, Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms/edit-panel';
 
 
-export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) => {
+export const SingleCard = ({ index, card, cards, setCards }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { draggedCard,
