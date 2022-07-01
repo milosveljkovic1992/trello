@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import Theme from './Theme';
-import { getMemberInfo } from './store/member-slice';
-import { BoardContainer } from './pages/board';
-import { SelectBoardContainer } from './pages/landing-page';
-import { CardPopup } from './pages/card-popup';
-import { LoadingSpinner, Login } from './atoms';
+
+import { BoardContainer } from 'components/pages/board';
+import { LandingPage } from 'components/pages/landing-page';
+import { CardPopup } from 'components/pages/card-popup';
+
 import { login } from './store/auth';
+import { getMemberInfo } from './store/member-slice';
+
+import { LoadingSpinner, Login } from 'components/atoms';
 
 
 axios.defaults.baseURL = 'https://api.trello.com';
-
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -60,7 +63,7 @@ const App = () => {
   return (
     <Theme>
       <Routes>
-          <Route exact path={'/'} element={<SelectBoardContainer />} />
+          <Route exact path={'/'} element={<LandingPage />} />
           <Route path={`/b/:boardId//*`} element={<BoardContainer />} >
             {popupModalOpen && <Route path={`c/:cardUrl`} element={<CardPopup />} />}
           </Route>
