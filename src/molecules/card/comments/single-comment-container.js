@@ -23,33 +23,33 @@ export const SingleCommentContainer = ({ comment }) => {
         } catch (error) {
             console.log(error);
         }
-    }
-
+    };
 
     return (
         <SingleComment key={comment.id}>
-            <SingleComment.Icon></SingleComment.Icon>
-            <SingleComment.Inner>
-                <SingleComment.DetailsContainer>
-                    <SingleComment.Name>{comment.memberCreator.fullName}</SingleComment.Name>
+            <div className="comment-avatar"></div>
+            
+            <div className="inner">
+                <div className="details">
+                    <div className="username">{comment.memberCreator.fullName}</div>
                     <Link to={`#comment-${comment.id}`}>
-                    <SingleComment.Timestamp>
+                    <p className="timestamp">
                         {`${new Date(comment.date).toLocaleDateString('sr-RS')} at 
                         ${new Date(comment.date).toLocaleTimeString('sr-RS')} 
                         `}
-                    </SingleComment.Timestamp>
+                    </p>
                     </Link>
                     {!isActive 
                     ?
                         <>
-                            <SingleComment.CommentTextContainer>
-                                <SingleComment.CommentText>{comment.data.text}</SingleComment.CommentText>
-                            </SingleComment.CommentTextContainer>
-                            <SingleComment.Actions>
-                                <SingleComment.ActionText onClick={() => setIsActive(true)}>Edit</SingleComment.ActionText> 
+                            <div className="text-container">
+                                <p>{comment.data.text}</p>
+                            </div>
+                            <div className="actions">
+                                <p onClick={() => setIsActive(true)}>Edit</p> 
                                 {` - `}
-                                <SingleComment.ActionText onClick={() => handleDelete(comment.id)}>Delete</SingleComment.ActionText>
-                            </SingleComment.Actions>
+                                <p onClick={() => handleDelete(comment.id)}>Delete</p>
+                            </div>
                         </>
                     :
                         <CommentEditContainer 
@@ -58,10 +58,9 @@ export const SingleCommentContainer = ({ comment }) => {
                             setIsActive={setIsActive}
                         />
 
-                        
                     }
-                </SingleComment.DetailsContainer>
-            </SingleComment.Inner>
+                </div>
+            </div>
         </SingleComment>
     )
 }

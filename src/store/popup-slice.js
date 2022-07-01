@@ -14,8 +14,7 @@ const popupSlice = createSlice({
             state.open = true;
         },
         closeModal(state) {
-            state.currentCardId = '';
-            state.cardUrl = '';
+            state.currentCardOpen = '';
             state.open = false
         }
     }

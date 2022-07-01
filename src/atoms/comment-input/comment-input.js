@@ -1,24 +1,8 @@
 import React from 'react';
-import { Container,
-    InputBox,
-    Text,
-    Button } from './comment-input-styles';
+import { Container } from './comment-input-styles';
 
-const CommentInput = ({ children, ...restProps }) => {
-    return <Container {...restProps}>{children}</Container>
-};
-
-CommentInput.InputBox = ({ children, ...restProps }) => {
-    return <InputBox {...restProps}>{children}</InputBox>
-};
-
-CommentInput.Text = ({ children, ...restProps }) => {
-    return <Text {...restProps}>{children}</Text>
-};
-
-CommentInput.Button = ({ children, ...restProps }) => {
-    return <Button {...restProps}>{children}</Button>
-};
-
+const CommentInput = ({ children, isDisplayed }) => {
+    return <Container isDisplayed={isDisplayed}>{children}</Container>
+}; 
 
 export default CommentInput;

@@ -17,65 +17,60 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
     
     return (
         <CardOverlay onClick={e => handleClose(e)} className="card-overlay">
-            <CardOverlay.Container>
-                <CardOverlay.CardHeader>
-                    <CardOverlay.Icon>
-                        <CgCreditCard />
-                    </CardOverlay.Icon>
-                    
-                    <Title />
+        
+        <div className="container">
+            <div className="header">
+                <div className="section-icon-container">
+                    <CgCreditCard />
+                </div>
+                <Title />
+            </div>
 
-                </CardOverlay.CardHeader>
-
-                <CardOverlay.CardContent>
-                <CardOverlay.Main>
-                    <CardOverlay.Section>
-                        <CardOverlay.SectionHeader>
-                            <CardOverlay.Icon>
+            <div className="card-content">
+                <div className="main">
+                    <section>
+                        <div className="section-header">
+                            <div className="section-icon-container">
                                 <IoMdList />
-                            </CardOverlay.Icon>
-                            <CardOverlay.SectionTitle>Description</CardOverlay.SectionTitle>
-                        </CardOverlay.SectionHeader>
+                            </div>
+                            <div className="section-title">Description</div>
+                        </div>
                         
-                        <CardOverlay.SectionDetails>
+                        <div className="section-content">
                             <Description />
-                        </CardOverlay.SectionDetails>
-                    </CardOverlay.Section>
+                        </div>
+                    </section>
 
-                    <CardOverlay.Section>
-                        <CardOverlay.SectionHeader>
-                            <CardOverlay.Icon>
+                    <section>
+                        <div className="section-header">
+                            <div className="section-icon-container">
                                 <MdChecklist />
-                            </CardOverlay.Icon>
-                            <CardOverlay.SectionTitle>Activity</CardOverlay.SectionTitle>
-                        </CardOverlay.SectionHeader>
+                            </div>
+                            <div className="section-title">Activity</div>
+                        </div>
                         
-                        
-                        <CardOverlay.SectionDetails>
-                            <CardOverlay.CommentSection>
-                                
-                                <CardOverlay.UserIcon />
-                                <CommentInputContainer setIsUpdated={setIsUpdated} />
-
-                            </CardOverlay.CommentSection>
+                        <div className="section-content">
+                            <div className="comment-section">
+                                <div className="user-icon" />
+                                <CommentInputContainer setIsUpdated={setIsUpdated}/>
+                            </div>
                             {!!comments.length && comments.map(comment => (
                                 comment.data.text && <SingleCommentContainer  key={comment.id}  comment={comment}  />
                             ))}
-                        </CardOverlay.SectionDetails>
-                    </CardOverlay.Section>
+                        </div>
+                    </section>
+                </div>
 
-                </CardOverlay.Main>
-
-                <CardOverlay.Sidebar>
+                <div className="sidebar">
                     <h2>Sidebar</h2>
-                </CardOverlay.Sidebar>
-                </CardOverlay.CardContent>
+                </div>
+            </div>
 
-                <CardOverlay.CloseButton className="close-btn">
-                    <GrClose className="close-btn__icon"/>
-                </CardOverlay.CloseButton>
-            </CardOverlay.Container>
-        </CardOverlay>
+            <div className="close-btn">
+                <GrClose className="close-btn__icon"/>
+            </div>
+        </div>
+    </CardOverlay>
     )
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { CommentEdit, NewCard } from '../../../atoms';
+import { CommentEdit } from '../../../atoms';
 import { AiOutlineClose } from "react-icons/ai";
 import { editComment } from '../../../store/comments-slice';
 
@@ -40,21 +40,23 @@ export const CommentEditContainer = ({ comment, isActive, setIsActive }) => {
 
     return (
         <CommentEdit>
-            <CommentEdit.InputBox 
+            <textarea 
                 ref={inputRef}
                 placeholder="Write a comment..." 
                 value={commentInput}
                 onChange={e => setCommentInput(e.target.value)}
-            ></CommentEdit.InputBox>
-            <CommentEdit.ButtonContainer>
-                <CommentEdit.Button 
+            ></textarea>
+
+            <div className="btn-container">
+                <button
                     disabled={!commentInput} 
                     onClick={() => handleEdit(comment.id, commentInput)}
-                >Save</CommentEdit.Button>
-                <NewCard.IconContainer onClick={() => setIsActive(false)}>
+                >Save</button>
+                <div className="icon-container" onClick={() => setIsActive(false)}>
                     <AiOutlineClose/>
-                </NewCard.IconContainer>
-            </CommentEdit.ButtonContainer>
+                </div>
+                
+            </div>
         </CommentEdit>
     )
 };

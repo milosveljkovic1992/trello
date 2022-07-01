@@ -9,7 +9,7 @@ import { AddBtn, Board, BoardList, LoadingSpinner } from '../atoms';
 import { LogoutBtn } from '../atoms/logout-btn/logout-btn';
 import { CardPopup } from './card-popup';
 import { NewListContainer } from '../molecules/list/new-list-container';
-import { SingleList } from '../molecules/list/single-list';
+import { SingleList } from '../organisms/single-list';
 import { openModal } from '../store/popup-slice';
 import { getCard } from '../store/card-slice';
 

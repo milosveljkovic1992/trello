@@ -29,18 +29,17 @@ export const CommentInputContainer = ({ setIsUpdated }) => {
 
     return (
         <CommentInput isDisplayed={isDisplayed}>
-            <CommentInput.InputBox 
+            <textarea 
                 placeholder="Write a comment..." 
                 value={comment}
                 onChange={e => setComment(e.target.value)}
                 onFocus={() => setIsDisplayed(true)}
                 onBlur={() => !comment && setIsDisplayed(false)}
-            ></CommentInput.InputBox>
-            <CommentInput.Button 
-                isDisplayed={isDisplayed}
+            ></textarea>
+            <button 
                 disabled={!comment} 
                 onClick={() => handleSubmit(comment, setComment)}
-            >Save</CommentInput.Button>
+            >Save</button>
         </CommentInput>
     )
 };

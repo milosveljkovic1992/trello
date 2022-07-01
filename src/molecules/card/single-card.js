@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { TbPencil } from 'react-icons/tb';
 import axios from 'axios';
 
@@ -12,6 +13,7 @@ import { startDrag, dragOverCard, dragOverList, endDrag } from '../../store/drag
 
 export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { draggedCard,
         targetListId,
         targetPosition } = useSelector(state => state.dragDrop);
@@ -25,7 +27,7 @@ export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) =
 
     const handleOpen = (card) => {
         const { id } = card;
-        
+        navigate(`c/${card.id}`);
         setIsEditOpen(false);
         try {
             dispatch(openModal(id));
@@ -134,7 +136,7 @@ export const SingleCard = ({ index, card, cards, setCards, setIsListUpdated }) =
                 onDragEnter={e => handleDragEnterCard(e, card, index)}
                 onDragEnd={e => handleDragEnd(e)}
             >
-                <Card.Title onClick={() => handleOpen(card)}>{card.name}</Card.Title>
+                <Card.Title>{card.name}</Card.Title>
             </Link>
             { isEditOpen && 
             <EditPanel 

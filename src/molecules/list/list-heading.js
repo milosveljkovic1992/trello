@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import axios from 'axios'
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { BoardList } from "../../atoms";
+import { ListTitle } from "../../atoms";
 
 export const ListHeading = ({ handleTitle, listId, listTitle, setListTitle, setIsBoardUpdated }) => {
     const titleRef = useRef(null);
@@ -32,18 +32,15 @@ export const ListHeading = ({ handleTitle, listId, listTitle, setListTitle, setI
     }
 
     return (
-        <BoardList.Heading isInputActive={isInputActive}>
-            <BoardList.Title 
-                onDrop={() => false}
-                ref={titleRef} 
-                value={listTitle} 
-                onClick={handleFocus} 
-                onChange={e => setListTitle(e.target.value)}
-                onBlur={handleBlur}
-            ></BoardList.Title>
-            <BoardList.Actions className="delete-btn" onClick={handleSendToArchive}>
-                <FaTrashAlt />
-            </BoardList.Actions>
-        </BoardList.Heading>
+        <ListTitle 
+            isInputActive={isInputActive} 
+            ref={titleRef} 
+            listTitle={listTitle} 
+            setListTitle={setListTitle} 
+            handleFocus={handleFocus} 
+            handleBlur={handleBlur} 
+            handleSendToArchive={handleSendToArchive}
+            icon={<FaTrashAlt />}
+        />
     )
 };
