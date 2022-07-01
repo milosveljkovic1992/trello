@@ -6,12 +6,10 @@ import axios from 'axios';
 
 import Theme from './Theme';
 
-import { BoardPage } from 'components/pages/board-page';
-import { LandingPage } from 'components/pages/landing-page';
-import { CardPopup } from 'components/pages/card-popup';
-
 import { login } from 'store/auth';
 import { getMemberInfo } from 'store/member-slice';
+
+import { BoardPage, CardPopup, LandingPage } from 'components/pages';
 
 import { LoadingSpinner, Login } from 'components/atoms';
 

@@ -9,8 +9,8 @@ import { getCard } from 'store/card-slice';
 
 import { LoadingSpinner } from 'components/atoms';
 import { Board } from 'components/molecules';
-import { CardPopup } from 'components/pages/card-popup';
-import { SingleList } from 'components/organisms/single-list';
+import { CardPopup } from 'components/pages';
+import { SingleList } from 'components/organisms';
 import { AddList } from 'components/atoms';
 
 

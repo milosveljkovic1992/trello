@@ -4,7 +4,7 @@ import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { CardEdit } from 'components/atoms';
-import { CardMovePanel } from 'components/organisms/card-move-panel';
+import { CardMovePanel } from 'components/organisms';
 
 
 export const EditPanel = ({ rect, card, title, setTitle, handleOpen, handleRename, handleMove, handleDelete, isEditOpen, setIsEditOpen, isMoveOpen, setIsMoveOpen }) => {

@@ -11,7 +11,7 @@ import { openModal } from 'store/popup-slice';
 import { startDrag, dragOverCard, dragOverList, endDrag } from 'store/drag-drop-slice';
 
 import { Card, Link } from 'components/atoms';
-import { EditPanel } from 'components/organisms/edit-panel';
+import { EditPanel } from 'components/organisms';
 
 
 export const SingleCard = ({ index, card, cards, setCards }) => {
