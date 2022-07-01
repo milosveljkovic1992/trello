@@ -20,7 +20,7 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
         
         <div className="container">
             <div className="header">
-                <div className="icon-container">
+                <div className="section-icon-container">
                     <CgCreditCard />
                 </div>
                 <Title />
@@ -30,7 +30,7 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
                 <div className="main">
                     <section>
                         <div className="section-header">
-                            <div className="icon-container">
+                            <div className="section-icon-container">
                                 <IoMdList />
                             </div>
                             <div className="section-title">Description</div>
@@ -43,7 +43,7 @@ export const CardDetails = ({ handleClose, setIsUpdated }) => {
 
                     <section>
                         <div className="section-header">
-                            <div className="icon-container">
+                            <div className="section-icon-container">
                                 <MdChecklist />
                             </div>
                             <div className="section-title">Activity</div>

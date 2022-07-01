@@ -39,7 +39,7 @@ export const Overlay = styled.div`
         min-height: 32px;
     };
 
-    .icon-container {
+    .section-icon-container {
         height: 32px;
         width: 32px;
         position: absolute;
