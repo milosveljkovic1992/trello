@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { AiOutlinePlus } from "react-icons/ai";
 
-import { AddBtn, BoardList } from '../../atoms';
-import { ListHeading } from './list-heading';
-import { SingleCard } from '../card/single-card';
-import { NewCardContainer } from '../card/new-card-container';
-import { resetListUpdate } from '../../store/lists-slice';
-import { dragOverList } from '../../store/drag-drop-slice';
+import { AddBtn, BoardList } from '../atoms';
+import { ListHeading } from '../molecules/list/list-heading';
+import { SingleCard } from '../molecules/card/single-card';
+import { NewCardContainer } from '../molecules/card/new-card-container';
+import { resetListUpdate } from '../store/lists-slice';
+import { dragOverList } from '../store/drag-drop-slice';
 
 
 export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
