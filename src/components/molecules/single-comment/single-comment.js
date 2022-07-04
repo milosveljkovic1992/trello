@@ -6,7 +6,7 @@ import axios from 'axios';
 import { deleteComment } from 'store/comments-slice';
 
 import { Link } from 'components/atoms';
-import { CommentEditContainer } from 'components/molecules';
+import { CommentEdit } from 'components/atoms';
 
 import { Container } from './single-comment-styles';
 
@@ -59,7 +59,7 @@ export const SingleComment = ({ comment }) => {
                             </div>
                         </>
                     :
-                        <CommentEditContainer 
+                        <CommentEdit
                             comment={comment}
                             isActive={isActive}
                             setIsActive={setIsActive}

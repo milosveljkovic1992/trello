@@ -1,9 +1,10 @@
 import React from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-import { Container } from './add-list-styles';
 import { AddButton } from 'components/atoms';
 import { NewListContainer } from 'components/molecules';
+
+import { Container } from './add-list-styles';
 
 
 export const AddList = (props) => {
