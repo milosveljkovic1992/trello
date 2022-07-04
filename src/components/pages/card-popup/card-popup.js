@@ -11,7 +11,7 @@ import { CgCreditCard } from 'react-icons/cg';
 import { setComments } from 'store/comments-slice';
 import { closeModal } from 'store/popup-slice';
 
-import { CommentInputContainer, Description, SingleComment, Title } from 'components/molecules';
+import { CommentInput, Description, SingleComment, Title } from 'components/molecules';
 
 import { Overlay } from './card-popup-styles';
 
@@ -92,7 +92,7 @@ export const CardPopup = () => {
                             <div className="section-content">
                                 <div className="comment-section">
                                     <div className="user-icon" />
-                                    <CommentInputContainer setIsUpdated={setIsUpdated}/>
+                                    <CommentInput setIsUpdated={setIsUpdated}/>
                                 </div>
                                 {!!comments.length && comments.map(comment => (
                                     comment.data.text && <SingleComment  key={comment.id}  comment={comment}  />

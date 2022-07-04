@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 
 import axios from 'axios';
 
-import { CommentInput } from 'components/atoms';
+import { Container } from './comment-input-styles';
 
 
-export const CommentInputContainer = ({ setIsUpdated }) => {
+export const CommentInput = ({ setIsUpdated }) => {
     const card = useSelector(state => state.card.details);
     const [comment, setComment] = useState('');
     const [isDisplayed, setIsDisplayed] = useState(false);
@@ -30,7 +30,7 @@ export const CommentInputContainer = ({ setIsUpdated }) => {
 
 
     return (
-        <CommentInput isDisplayed={isDisplayed}>
+        <Container isDisplayed={isDisplayed}>
             <textarea 
                 placeholder="Write a comment..." 
                 value={comment}
@@ -42,6 +42,6 @@ export const CommentInputContainer = ({ setIsUpdated }) => {
                 disabled={!comment} 
                 onClick={() => handleSubmit(comment, setComment)}
             >Save</button>
-        </CommentInput>
+        </Container>
     )
 };

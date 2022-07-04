@@ -8,7 +8,6 @@ export { CardEdit } from 'components/atoms/card-edit/card-edit';
 export { CardMove } from 'components/atoms/card-move/card-move';
 export { CardTitle } from 'components/atoms/card-title/card-title';
 export { CommentEdit } from 'components/atoms/comment-edit/comment-edit';
-export { CommentInput } from 'components/atoms/comment-input/comment-input';
 export { Link } from 'components/atoms/link/link';
 export { ListTitle } from 'components/atoms/list-title/list-title';
 export { Login } from 'components/atoms/login/login';

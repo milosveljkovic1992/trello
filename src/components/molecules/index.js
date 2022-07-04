@@ -1,5 +1,5 @@
 export { Board } from 'components/molecules/board/board';
-export { CommentInputContainer } from 'components/molecules/comment-input-container/comment-input-container';
+export { CommentInput } from 'components/molecules/comment-input/comment-input';
 export { Description } from 'components/molecules/description/description';
 export { ListHeading } from 'components/molecules/list-heading/list-heading';
 export { NewCardContainer } from 'components/molecules/new-card-container/new-card-container';
