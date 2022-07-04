@@ -38,7 +38,6 @@ export const Container = styled.div`
         .single-board-container {
             position: relative;
             overflow: visible;
-            background-image: ${({ backgroundImage }) => backgroundImage && backgroundImage};
             background-color: #c7c7c7;
             background-size: cover;
             border-radius: 3px;
@@ -66,11 +65,14 @@ export const Container = styled.div`
         };
 
         .board-title {
-            display: ${({ isActive }) => isActive && 'none'};
             word-break: break-word;
             text-overflow: ellipsis;
             padding-top: 2px;
             user-select: none;
+
+            color: #fff;
+            font-weight: 700;
+            text-shadow: 0 0 3px #000;
 
             &.isInputActive {
                 display: none;
