@@ -47,10 +47,7 @@ const App = () => {
 
   if (!localStorage.getItem('trelloToken')) {
     return ( 
-      <Login>
-        <Login.Text>Click here to</Login.Text>
-        <Login.Button href={`https://trello.com/1/authorize?return_url=http://localhost:3000&expiration=1day&name=MyPersonalToken&scope=read,write&response_type=token&key=${APIkey}`}>Login</Login.Button>
-      </Login>
+        <Login APIkey={APIkey}/>
       )
   }
 

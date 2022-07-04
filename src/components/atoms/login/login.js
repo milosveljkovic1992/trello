@@ -1,14 +1,11 @@
 import React from 'react';
-import { Container, Text, Button } from './login-styles';
+import { Container } from './login-styles';
 
-export const Login = ({ children, ...restProps }) => {
-    return <Container {...restProps}>{children}</Container>
-};
-
-Login.Text = ({ children, ...restProps }) => {
-    return <Text {...restProps}>{children}</Text>
-}
-
-Login.Button = ({ children, ...restProps }) => {
-    return <Button {...restProps}>{children}</Button>
+export const Login = ({ APIkey }) => {
+    return (
+        <Container>
+            <h1>Click here to</h1>
+            <a href={`https://trello.com/1/authorize?return_url=http://localhost:3000&expiration=1day&name=MyPersonalToken&scope=read,write&response_type=token&key=${APIkey}`}>Login</a>
+        </Container>
+    )
 };
