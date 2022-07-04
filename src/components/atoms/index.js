@@ -1,7 +1,6 @@
 export { AddButton } from 'components/atoms/add-button/add-button'; 
 export { AddList } from 'components/atoms/add-list/add-list'
 export { BoardSelect } from 'components/atoms/board-select/board-select';
-export { CardEdit } from 'components/atoms/card-edit/card-edit';
 export { CardTitle } from 'components/atoms/card-title/card-title';
 export { CommentEdit } from 'components/atoms/comment-edit/comment-edit';
 export { Link } from 'components/atoms/link/link';

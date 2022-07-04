@@ -99,20 +99,31 @@ export const Input = styled.textarea`
     }
 `;
 
-export const Button = styled(DefaultButton)`
+export const Button = styled.button`
     display: ${({ isActive }) => !isActive && 'none'};
-
     height: 35px;
-    transform: translateY(-20px);
-    transition: transform .135s;
-
-    &.slide-in-top {
-        transform: translateY(0);
-    }
     position: absolute;
     bottom: -50px;
     left: 0;
 
+    color: #fff;
+    background-color: ${({theme}) => theme.background.primary};
+    border: none;
+    box-shadow: none;
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .135s;
+    transform: translateY(-20px);
+
+    &:focus,
+    &:hover {
+        background-color: ${({ theme }) => theme.background.primaryHover }
+    };
+
+    &.slide-in-top {
+        transform: translateY(0);
+    };
 `;
 
 export const Delete = styled.div`

@@ -5,6 +5,7 @@ import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { CardEdit } from 'components/atoms';
 import { CardMove } from 'components/organisms';
+import { Overlay } from 'components/atoms/card-edit/card-edit-styles';
 
 
 export const EditPanel = ({ editPanelProps }) => {
@@ -42,52 +43,60 @@ export const EditPanel = ({ editPanelProps }) => {
     }
 
     return (
-        <CardEdit 
+        <Overlay 
             className="card-edit__overlay" 
             onClick={handleDisplay}
+            rect={rect}
+            direction={ rect.x + rect.width + 120 > window.innerWidth ? 'right' : 'left' }
         >
-            <CardEdit.Container rect={rect}>
-                <CardEdit.InputBox 
+            <div className="container">
+                <textarea 
                     ref={titleRef} 
                     value={title} 
                     onChange={e => setTitle(e.target.value)}
-                ></CardEdit.InputBox>
-                <CardEdit.OptionsContainer 
-                    ref={animationRef} 
-                    direction={ rect.x + rect.width + 120 > window.innerWidth ? 'right' : 'left' }
-                >
+                ></textarea>
+                <div className="edit-options-container" ref={animationRef} >
 
-                    <CardEdit.Tab onClick={() => handleOpen(card)}>
-                        <CardEdit.IconContainer>
+                    <div 
+                        className="edit-options-tab" 
+                        onClick={() => handleOpen(card)}
+                    >
+                        <div className="edit-options-icon-container">
                             <CgCreditCard />
-                        </CardEdit.IconContainer>
-                        <CardEdit.Label>Open card</CardEdit.Label>
-                    </CardEdit.Tab>
+                        </div>
+                        <div className="edit-options-tab-label">Open card</div>
+                    </div>
 
-                    <CardEdit.Tab 
+
+                    <div 
                         ref={moveRef}
-                        className="card-edit__move-button" 
+                        className="edit-options-tab card-edit__move-button" 
                         onClick={() => setIsMoveOpen(!isMoveOpen)}
                     >
-                        <CardEdit.IconContainer>
+                        <div className="edit-options-icon-container">
                             <ImArrowRight2 />
-                        </CardEdit.IconContainer>
-                        <CardEdit.Label>Move</CardEdit.Label>
-                    </CardEdit.Tab>
+                        </div>
+                        <div className="edit-options-tab-label">Move</div>
+                    </div>
+
                     
-                    <CardEdit.Tab onClick={() => handleDelete(card)}>
-                        <CardEdit.IconContainer>
+                    <div 
+                        className="edit-options-tab" 
+                        onClick={() => handleDelete(card)}
+                    >
+                        <div className="edit-options-icon-container">
                             <ImCross />
-                        </CardEdit.IconContainer>
-                        <CardEdit.Label>Delete</CardEdit.Label>
-                    </CardEdit.Tab>
+                        </div>
+                        <div className="edit-options-tab-label">Delete</div>
+                    </div>
 
-                </CardEdit.OptionsContainer>
 
-                <CardEdit.Button onClick={() => handleRename(card, title)}>Save</CardEdit.Button>
+                </div>
+
+                <div className="save-button" onClick={() => handleRename(card, title)}>Save</div>
 
                 { isMoveOpen && tabRect && <CardMove rect={tabRect} card={card} setIsMoveOpen={setIsMoveOpen} handleMove={handleMove} /> }
-            </CardEdit.Container>
-        </CardEdit>
+            </div>
+        </Overlay>
     )
 };
