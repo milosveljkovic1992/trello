@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
-import { CardEdit } from 'components/atoms';
 import { CardMove } from 'components/organisms';
-import { Overlay } from 'components/atoms/card-edit/card-edit-styles';
+import { Overlay } from './edit-panel-styles';
 
 
 export const EditPanel = ({ editPanelProps }) => {

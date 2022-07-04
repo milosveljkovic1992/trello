@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro';
-import { Button as DefaultButton } from '../card-edit/card-edit-styles';
 
 
 export const Container = styled.div`
