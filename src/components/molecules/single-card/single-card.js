@@ -10,8 +10,10 @@ import { informListUpdate } from 'store/lists-slice';
 import { openModal } from 'store/popup-slice';
 import { startDrag, dragOverCard, dragOverList, endDrag } from 'store/drag-drop-slice';
 
-import { Card, Link } from 'components/atoms';
+import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
+
+import { Container } from './single-card-styles';
 
 
 export const SingleCard = ({ index, card, cards, setCards }) => {
@@ -128,10 +130,22 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
         e.target.classList.remove('drag-active');
     };
 
-
+    let editPanelProps = {
+        rect,
+        card,
+        title,
+        setTitle,
+        setIsEditOpen,
+        isMoveOpen,
+        setIsMoveOpen,
+        handleOpen,
+        handleRename,
+        handleMove,
+        handleDelete
+    }
 
     return (
-        <Card ref={cardRef} draggable>
+        <Container ref={cardRef} draggable>
             <Link 
                 to={`c/${card.id}`} 
                 draggable
@@ -139,29 +153,15 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
                 onDragEnter={e => handleDragEnterCard(e, card, index)}
                 onDragEnd={e => handleDragEnd(e)}
             >
-                <Card.Title>{card.name}</Card.Title>
+                <p className="card-title">{card.name}</p>
             </Link>
-            { isEditOpen && 
-            <EditPanel 
-                rect={rect}
-                card={card} 
-                title={title}
-                setTitle={setTitle}
-                isEditOpen={isEditOpen}
-                setIsEditOpen={setIsEditOpen} 
-                isMoveOpen={isMoveOpen}
-                setIsMoveOpen={setIsMoveOpen}
-                handleOpen={handleOpen}
-                handleRename={handleRename}
-                handleMove={handleMove}
-                handleDelete={handleDelete}
-            /> }
-            <Card.Edit 
+            { isEditOpen && <EditPanel editPanelProps={editPanelProps} /> }
+            <div 
                 className="edit-btn" 
                 onClick={() => setIsEditOpen(true)}
             >
                 <TbPencil />
-            </Card.Edit>
-        </Card>
+            </div>
+        </Container>
     )
 }

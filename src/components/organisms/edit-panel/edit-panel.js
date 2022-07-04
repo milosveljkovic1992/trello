@@ -7,7 +7,8 @@ import { CardEdit } from 'components/atoms';
 import { CardMovePanel } from 'components/organisms';
 
 
-export const EditPanel = ({ rect, card, title, setTitle, handleOpen, handleRename, handleMove, handleDelete, isEditOpen, setIsEditOpen, isMoveOpen, setIsMoveOpen }) => {
+export const EditPanel = ({ editPanelProps }) => {
+    const { rect, card, title, setTitle, handleOpen, handleRename, handleMove, handleDelete, setIsEditOpen, isMoveOpen, setIsMoveOpen } = editPanelProps;
     const [isLoading, setIsLoading] = useState(true);
     const [tabRect, setTabRect] = useState(null);
 

@@ -1,9 +1,7 @@
 import styled from "styled-components/macro";
-import { Container as DefaultContainer} from '../card/card-styles';
+import { Container as DefaultContainer} from '../../molecules/single-card/single-card-styles';
 
-export const Container = styled.div`
-    
-`;
+export const Container = styled.div``;
 
 export const InputContainer = styled(DefaultContainer)`
     height: auto;
