@@ -4,7 +4,7 @@ import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { CardEdit } from 'components/atoms';
-import { CardMovePanel } from 'components/organisms';
+import { CardMove } from 'components/organisms';
 
 
 export const EditPanel = ({ editPanelProps }) => {
@@ -86,7 +86,7 @@ export const EditPanel = ({ editPanelProps }) => {
 
                 <CardEdit.Button onClick={() => handleRename(card, title)}>Save</CardEdit.Button>
 
-                { isMoveOpen && tabRect && <CardMovePanel rect={tabRect} card={card} setIsMoveOpen={setIsMoveOpen} handleMove={handleMove} /> }
+                { isMoveOpen && tabRect && <CardMove rect={tabRect} card={card} setIsMoveOpen={setIsMoveOpen} handleMove={handleMove} /> }
             </CardEdit.Container>
         </CardEdit>
     )
