@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { AiOutlinePlus } from "react-icons/ai";
 
-import { AddButton, BoardList } from 'components/atoms';
-import { ListHeading, NewCardContainer, SingleCard } from 'components/molecules';
-
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
+
+import { AddButton } from 'components/atoms';
+import { ListHeading, NewCardContainer, SingleCard } from 'components/molecules';
+
+import { Container } from './single-list-styles';
 
 
 export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
@@ -66,7 +68,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     return (
         <>
         {cards && 
-            <BoardList onDragEnter={() => handleDragEnterList(listId)}>
+            <Container onDragEnter={() => handleDragEnterList(listId)}>
                 <ListHeading 
                     handleTitle={handleTitle}
                     listId={listId} 
@@ -74,7 +76,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                     setListTitle={setListTitle} 
                     setIsBoardUpdated={setIsBoardUpdated}
                 />
-                <BoardList.CardContainer>
+                <div className="card-container">
                     {cards.map((card, index) => (
                         <SingleCard 
                             key={card.id} 
@@ -85,7 +87,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                             setIsListUpdated={setIsListUpdated}
                         />
                     ))}
-                </BoardList.CardContainer>
+                </div>
                 {!isCreatingNew 
                     ? <AddButton onClick={() => setIsCreatingNew(true)} icon={<AiOutlinePlus />}>
                         Add a card
@@ -96,7 +98,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                         setCards={setCards}
                       />
                 }
-            </BoardList>
+            </Container>
         }
         </>
     )

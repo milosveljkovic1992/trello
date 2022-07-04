@@ -11,7 +11,8 @@ import { CgCreditCard } from 'react-icons/cg';
 import { setComments } from 'store/comments-slice';
 import { closeModal } from 'store/popup-slice';
 
-import { CommentInput, CardDescription, SingleComment, Title } from 'components/molecules';
+import { CommentInput, CardDescription, SingleComment } from 'components/molecules';
+import { CardTitle } from 'components/atoms';
 
 import { Overlay } from './card-popup-styles';
 
@@ -63,7 +64,7 @@ export const CardPopup = () => {
                     <div className="section-icon-container">
                         <CgCreditCard />
                     </div>
-                    <Title />
+                    <CardTitle />
                 </div>
 
                 <div className="card-content">

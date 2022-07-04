@@ -6,4 +6,3 @@ export { NewCardContainer } from 'components/molecules/new-card-container/new-ca
 export { NewListContainer } from 'components/molecules/new-list-container/new-list-container';
 export { SingleCard } from 'components/molecules/single-card/single-card';
 export { SingleComment } from 'components/molecules/single-comment/single-comment';
-export { Title } from 'components/molecules/title/title';
