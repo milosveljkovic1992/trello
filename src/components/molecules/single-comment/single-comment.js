@@ -4,11 +4,14 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';
 import axios from 'axios';
 
 import { deleteComment } from 'store/comments-slice';
+
+import { Link } from 'components/atoms';
 import { CommentEditContainer } from 'components/molecules';
-import { Link, SingleComment } from 'components/atoms';
+
+import { Container } from './single-comment-styles';
 
 
-export const SingleCommentContainer = ({ comment }) => {
+export const SingleComment = ({ comment }) => {
     const dispatch = useDispatch();
     const card = useSelector(state => state.card.details);
 
@@ -28,19 +31,21 @@ export const SingleCommentContainer = ({ comment }) => {
     };
 
     return (
-        <SingleComment key={comment.id}>
+        <Container key={comment.id}>
             <div className="comment-avatar"></div>
             
             <div className="inner">
                 <div className="details">
                     <div className="username">{comment.memberCreator.fullName}</div>
+
                     <Link to={`#comment-${comment.id}`}>
-                    <p className="timestamp">
-                        {`${new Date(comment.date).toLocaleDateString('sr-RS')} at 
-                        ${new Date(comment.date).toLocaleTimeString('sr-RS')} 
-                        `}
-                    </p>
+                        <p className="timestamp">
+                            {`${new Date(comment.date).toLocaleDateString('sr-RS')} at 
+                            ${new Date(comment.date).toLocaleTimeString('sr-RS')} 
+                            `}
+                        </p>
                     </Link>
+
                     {!isActive 
                     ?
                         <>
@@ -59,10 +64,9 @@ export const SingleCommentContainer = ({ comment }) => {
                             isActive={isActive}
                             setIsActive={setIsActive}
                         />
-
                     }
                 </div>
             </div>
-        </SingleComment>
+        </Container>
     )
-}
+}; 

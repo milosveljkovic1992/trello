@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { BoardSelect, LoadingSpinner } from 'components/atoms';
-import { LogoutButton } from 'components/atoms/logout-button/logout-button';
+import { BoardSelect, LoadingSpinner, LogoutButton } from 'components/atoms';
 import { setBoards, addBoard, deleteBoard } from 'store/boards-slice';
 
 

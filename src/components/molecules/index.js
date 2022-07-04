@@ -6,5 +6,5 @@ export { ListHeading } from 'components/molecules/list-heading/list-heading';
 export { NewCardContainer } from 'components/molecules/new-card-container/new-card-container';
 export { NewListContainer } from 'components/molecules/new-list-container/new-list-container';
 export { SingleCard } from 'components/molecules/single-card/single-card';
-export { SingleCommentContainer } from 'components/molecules/single-comment-container/single-comment-container';
+export { SingleComment } from 'components/molecules/single-comment/single-comment';
 export { Title } from 'components/molecules/title/title';

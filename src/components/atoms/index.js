@@ -15,5 +15,4 @@ export { Login } from 'components/atoms/login/login';
 export { LogoutButton } from 'components/atoms/logout-button/logout-button'
 export { NewCard } from 'components/atoms/new-card/new-card';
 export { NewItem } from 'components/atoms/new-item/new-item';
-export { SingleComment } from 'components/atoms/single-comment/single-comment';
 export { LoadingSpinner } from 'components/atoms/loading-spinner/loading-spinner';
