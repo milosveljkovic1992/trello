@@ -98,31 +98,30 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
                 <div className="dropdown-container list-dropdown">
                     <div className="dropdown-label">List</div>
                     <select className="dropdown" onChange={handleSelect} value={selectedListId}>
+                        
                         {allLists && currentList && allLists.map(option => (
-                                <option 
-                                    key={`option-${option.id}`} 
-                                    value={option.id}
-                                >
+                                <option key={`option-${option.id}`} value={option.id}>
                                     {option.name} {option.id === currentList[0].idList && '(current)'}
                                 </option>
                         ))}
+
                     </select>
                 </div>
 
                 <div className="dropdown-container position-dropdown">
                     <div className="dropdown-label">Position</div>
                     <select className="dropdown" onChange={handlePosition}>
+
                         {allLists && selectedList && selectedList.map((option, index) => (
-                                <option 
-                                    key={`option-${option.id}`} 
-                                    value={index}
-                                >
+                                <option key={`option-${option.id}`} value={index}>
                                     {index + 1}
                                 </option>
                         ))}
+
                         {currentList[0].idList !== selectedList[0].idList && 
                             <option value={selectedList.length}>{selectedList.length + 1}</option>
                         }
+
                     </select>
                 </div>
             </div>
