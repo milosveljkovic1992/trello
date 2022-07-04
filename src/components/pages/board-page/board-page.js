@@ -8,10 +8,9 @@ import { openModal } from 'store/popup-slice';
 import { getCard } from 'store/card-slice';
 
 import { LoadingSpinner } from 'components/atoms';
-import { Board } from 'components/molecules';
+import { AddList, Board } from 'components/molecules';
 import { CardPopup } from 'components/pages';
 import { SingleList } from 'components/organisms';
-import { AddList } from 'components/atoms';
 
 
 export const BoardPage = () => {
