@@ -3,7 +3,6 @@ export { AddList } from 'components/atoms/add-list/add-list'
 export { BoardList } from 'components/atoms/board-list/board-list';
 export { BoardSelect } from 'components/atoms/board-select/board-select';
 export { Card } from 'components/atoms/card/card';
-export { CardDescription } from 'components/atoms/card-description/card-description';
 export { CardEdit } from 'components/atoms/card-edit/card-edit';
 export { CardMove } from 'components/atoms/card-move/card-move';
 export { CardTitle } from 'components/atoms/card-title/card-title';

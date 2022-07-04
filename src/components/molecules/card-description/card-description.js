@@ -4,10 +4,12 @@ import { useSelector } from 'react-redux/es/exports';
 import axios from 'axios';
 import { AiOutlineClose } from "react-icons/ai";
 
-import { CardDescription, NewCard } from 'components/atoms';
+import { NewCard } from 'components/atoms';
+
+import { Container } from './card-description-styles';
 
 
-export const Description = () => {
+export const CardDescription = () => {
     const card = useSelector(state => state.card.details);
     const { isLoading } = useSelector(state => state.card)
     const [isInitialRender, setIsInitialRender] = useState(true);
@@ -53,7 +55,7 @@ export const Description = () => {
 
 
     return (
-        <CardDescription 
+        <Container 
             isActive={isActive} 
             onClick={(e) => handleActive(e)} 
             className="desc-box"
@@ -87,6 +89,6 @@ export const Description = () => {
                     </NewCard.IconContainer>
                 </div>
             </div>
-        </CardDescription>
+        </Container>
     )
 }
