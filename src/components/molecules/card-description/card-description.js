@@ -78,15 +78,14 @@ export const CardDescription = () => {
                         onClick={() => handleEdit()}
                     >Save</button>
 
-                    <NewCard.IconContainer  
-                        className="desc-btn" 
+                    <div className="desc-btn close-icon-container" 
                         onClick={() => {
                             setIsActive(false)
                             setDescription(previousDescription)
                         }}
                     >
                         <AiOutlineClose/>
-                    </NewCard.IconContainer>
+                    </div>
                 </div>
             </div>
         </Container>

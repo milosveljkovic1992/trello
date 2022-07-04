@@ -1,6 +1,9 @@
 import React, { useEffect } from "react"; 
-import { NewCard } from "components/atoms";
+
 import { AiOutlineClose } from "react-icons/ai";
+
+import { Container } from "./new-item-styles";
+
 
 export const NewItem = ( {children, handleInput, handleSubmit, setIsCreatingNew, placeholder} ) => {
 
@@ -10,17 +13,20 @@ export const NewItem = ( {children, handleInput, handleSubmit, setIsCreatingNew,
        inputRef.current.focus();
     }, []);
 
+
     return (
-        <NewCard>
-            <NewCard.InputContainer>
-                <NewCard.InputBox ref={inputRef} placeholder={placeholder} onChange={handleInput}></NewCard.InputBox>
-            </NewCard.InputContainer>
-            <NewCard.ButtonContainer>
-                <NewCard.Button onClick={handleSubmit}>{children}</NewCard.Button>
-                <NewCard.IconContainer onClick={() => setIsCreatingNew(false)}>
+        <Container className="new-item">
+            <div className="input-container">
+                <textarea ref={inputRef} placeholder={placeholder} onChange={handleInput}></textarea>
+            </div>
+
+            <div className="button-container">
+                <button onClick={handleSubmit}>{children}</button>
+                <div className="icon-container" onClick={() => setIsCreatingNew(false)}>
                     <AiOutlineClose/>
-                </NewCard.IconContainer>
-            </NewCard.ButtonContainer>
-        </NewCard>
+                </div>
+            </div>
+
+        </Container>
     )
 };

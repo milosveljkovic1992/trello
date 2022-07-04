@@ -66,4 +66,17 @@ export const Container = styled.div`
         opacity: ${({ isActive }) => isActive ? 1 : 0};
         visibility: ${({ isActive }) => isActive ? 'visible' : 'hidden'};
     }
+
+    .close-icon-container {
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        border-radius: ${({ theme }) => theme.border.borderRadius};
+        cursor: pointer;
+
+        &:focus,
+        &:hover {
+            background-color: ${({ theme }) => theme.background.grayHover}
+        };
+    }
 `;
