@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { BoardSelect, LoadingSpinner, LogoutButton } from 'components/atoms';
+import { LoadingSpinner, LogoutButton } from 'components/atoms';
 import { setBoards, addBoard, deleteBoard } from 'store/boards-slice';
+
+import { Container } from './landing-page-styles';
 
 
 export const LandingPage = () => {
@@ -103,57 +105,58 @@ export const LandingPage = () => {
 
 
     return (
-        <BoardSelect>
-        <BoardSelect.Inner>
-            <BoardSelect.Heading>
-                <BoardSelect.HeadingText>Your workplaces</BoardSelect.HeadingText>
-            </BoardSelect.Heading>
+        <Container>
+        <div className="inner-container">
+            <div className="landing-header">
+                <h2>Your workplaces</h2>
+            </div>
 
-            <BoardSelect.CardsContainer>
+            <div className="boards-container">
 
             {boards.length > 0 && boards.map(board => (
-                <BoardSelect.SingleCardContainer 
+                <div className="single-board-container" 
                     key={board.id} 
                     onClick={e => handleClick(e, board)} 
-                    backgroundImage={board.prefs.backgroundImageScaled ? `url("${board.prefs.backgroundImageScaled[2].url}")` : 'none'}
+                    style={{ backgroundImage: board.prefs.backgroundImageScaled ? `url("${board.prefs.backgroundImageScaled[2].url}")` : 'none'}}
+                    
                 >
-                    <BoardSelect.Card>
-                        <BoardSelect.Title>{board.name}</BoardSelect.Title>
-                        <BoardSelect.Delete className="delete-btn" onClick={() => handleDelete(board)}>
+                    <div className="board">
+                        <div className="board-title">{board.name}</div>
+                        <div className="delete-container delete-btn" onClick={() => handleDelete(board)}>
                             <FaTrashAlt />
-                        </BoardSelect.Delete>
-                    </BoardSelect.Card>
-                </BoardSelect.SingleCardContainer>
+                        </div>
+                    </div>
+                </div>
             ))}
 
             {boards.length < 10 && 
-                <BoardSelect.SingleCardContainer>
-                    <BoardSelect.Card onClick={handleActive}>
+                <div className="single-board-container">
+                    <div className="board" onClick={handleActive}>
 
-                        <BoardSelect.Title isActive={isInputActive}>Add new</BoardSelect.Title>
-                        <BoardSelect.Input 
+                        <div className={`board-title ${isInputActive && 'isInputActive'}`}>Add new</div>
+                        <textarea 
                             ref={inputRef}
-                            isActive={isInputActive} 
+                            className={`${!isInputActive && 'isInputActive'}`}
                             placeholder="Start typing..."
                             value={newBoardTitle} 
                             onBlur={handleCreateNew}
                             onChange={e => setNewBoardTitle(e.target.value)}
-                        ></BoardSelect.Input>
-                    </BoardSelect.Card>
+                        ></textarea>
+                    </div>
                     
-                    <BoardSelect.Button 
+                    <button 
                         ref={btnRef}
-                        isActive={isInputActive} 
+                        className={`create-new-button ${!isInputActive && 'isInputActive'}`}
                         onClick={handleCreateNew}
-                    >Create</BoardSelect.Button>
-                </BoardSelect.SingleCardContainer>
+                    >Create</button>
+                </div>
             }
 
-            </BoardSelect.CardsContainer>
-        </BoardSelect.Inner>
+            </div>
+        </div>
         
         <LogoutButton fixed={true} />
-      </BoardSelect>
+      </Container>
     )
 }
 
