@@ -15,32 +15,34 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .spinner-circle {
+      border: 2px solid #000;
+      border-radius: 50%;
+      border-right-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bigger {
+      height: 100px;
+      width: 100px;
+
+      animation: ${spin} 3s linear infinite;
+    };
+
+    .smaller {
+      height: 75px;
+      width: 75px;
+
+      animation: ${spin} 3s linear infinite;
+    };
+
+    .smallest {
+      height: 50px;
+      width: 50px;
+
+      animation: ${spin} 1s linear infinite;
+    }
 `;
-
-export const Bigger = styled.div`
-    height: 100px;
-    width: 100px;
-    border: 2px solid #000;
-    border-radius: 50%;
-    border-right-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    animation: ${spin} 3s linear infinite;
-`;
-
-export const Smaller = styled(Bigger)`
-    height: 75px;
-    width: 75px;
-
-    animation: ${spin} 2s linear infinite reverse;
-`;
-
-export const Smallest = styled(Bigger)`
-    height: 50px;
-    width: 50px;
-
-    animation: ${spin} 1s linear infinite;
-`;
-

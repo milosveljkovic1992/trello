@@ -1,17 +1,14 @@
 import React from 'react';
-import { Container,
-    Bigger,
-    Smaller,
-    Smallest } from './loading-spinner-styles';
+import { Container } from './loading-spinner-styles';
 
 export const LoadingSpinner = () => {
     return (
         <Container>
-            <Bigger>
-                <Smaller>
-                    <Smallest />
-                </Smaller>
-            </Bigger>
+            <div className="spinner-circle bigger">
+                <div className="spinner-circle smaller">
+                    <div className="spinner-circle smallest"></div>
+                </div>
+            </div>
         </Container>
     )
 };
