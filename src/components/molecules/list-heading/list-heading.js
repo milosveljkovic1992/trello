@@ -1,48 +1,53 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 
-import axios from 'axios'
+import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { ListTitle } from "components/atoms";
+import { ListTitle } from 'components/atoms';
 
+export const ListHeading = ({
+  handleTitle,
+  listId,
+  listTitle,
+  setListTitle,
+  setIsBoardUpdated,
+}) => {
+  const titleRef = useRef(null);
+  const [isInputActive, setIsInputActive] = useState(false);
 
-export const ListHeading = ({ handleTitle, listId, listTitle, setListTitle, setIsBoardUpdated }) => {
-    const titleRef = useRef(null);
-    const [isInputActive, setIsInputActive] = useState(false);
-
-    const handleSendToArchive = () => {
-        const sendRequest = async() => {
-            await axios.put(`/1/lists/${listId}?closed=true`)
-            setIsBoardUpdated(true);
-        }
-
-        try {
-            sendRequest();
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    
-    const handleFocus = () => {
-        setIsInputActive(true);
-        titleRef.current.select();
+  const handleSendToArchive = () => {
+    const sendRequest = async () => {
+      await axios.put(`/1/lists/${listId}?closed=true`);
+      setIsBoardUpdated(true);
     };
 
-    const handleBlur = () => {
-        handleTitle();
-        setIsInputActive(false);
+    try {
+      sendRequest();
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return (
-        <ListTitle 
-            isInputActive={isInputActive} 
-            ref={titleRef} 
-            listTitle={listTitle} 
-            setListTitle={setListTitle} 
-            handleFocus={handleFocus} 
-            handleBlur={handleBlur} 
-            handleSendToArchive={handleSendToArchive}
-            icon={<FaTrashAlt />}
-        />
-    )
+  const handleFocus = () => {
+    setIsInputActive(true);
+    titleRef.current.select();
+  };
+
+  const handleBlur = () => {
+    handleTitle();
+    setIsInputActive(false);
+  };
+
+  return (
+    <ListTitle
+      isInputActive={isInputActive}
+      ref={titleRef}
+      listTitle={listTitle}
+      setListTitle={setListTitle}
+      handleFocus={handleFocus}
+      handleBlur={handleBlur}
+      handleSendToArchive={handleSendToArchive}
+      icon={<FaTrashAlt />}
+    />
+  );
 };

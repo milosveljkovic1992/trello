@@ -6,14 +6,18 @@ import { logout } from 'store/auth';
 import { Button } from './logout-button-styles';
 
 export const LogoutButton = ({ fixed }) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem('trelloToken');
-        dispatch(logout());
-        navigate('/');
-    };
+  const handleLogout = () => {
+    localStorage.removeItem('trelloToken');
+    dispatch(logout());
+    navigate('/');
+  };
 
-    return <Button onClick={handleLogout} fixed={fixed}>Log Out</Button>
+  return (
+    <Button onClick={handleLogout} fixed={fixed}>
+      Log Out
+    </Button>
+  );
 };

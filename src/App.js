@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,11 +18,10 @@ axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-
 const App = () => {
   const dispatch = useDispatch();
-  const memberId = useSelector(state => state.member.id);
-  const popupModalOpen = useSelector(state => state.popup.open);
+  const memberId = useSelector((state) => state.member.id);
+  const popupModalOpen = useSelector((state) => state.popup.open);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -35,36 +34,37 @@ const App = () => {
     }
 
     if (trelloToken && isLoading) {
-      axios.defaults.headers.common['Authorization'] = `OAuth oauth_consumer_key="${API_KEY}", oauth_token="${trelloToken}"`;
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `OAuth oauth_consumer_key="${API_KEY}", oauth_token="${trelloToken}"`;
       dispatch(getMemberInfo(trelloToken));
     }
 
-    if (!!memberId) {
+    if (memberId) {
       setIsLoading(false);
     }
-
   }, [dispatch, isLoading, memberId]);
 
   if (!localStorage.getItem('trelloToken')) {
-    return ( 
-        <Login />
-      )
+    return <Login />;
   }
 
   if (isLoading) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
 
   return (
     <Theme>
       <Routes>
-          <Route exact path={'/'} element={<LandingPage />} />
-          <Route path={`/b/:boardId//*`} element={<BoardPage />} >
-            {popupModalOpen && <Route path={`c/:cardUrl`} element={<CardPopup />} />}
-          </Route>
+        <Route exact path={'/'} element={<LandingPage />} />
+        <Route path={`/b/:boardId//*`} element={<BoardPage />}>
+          {popupModalOpen && (
+            <Route path={`c/:cardUrl`} element={<CardPopup />} />
+          )}
+        </Route>
       </Routes>
     </Theme>
-  )
+  );
 };
 
 export default App;

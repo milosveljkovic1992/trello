@@ -1,17 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit"; 
+import { createSlice } from '@reduxjs/toolkit';
 
 const commentSlice = createSlice({
-    name: 'input',
-    initialState: {
-        input: ''
+  name: 'input',
+  initialState: {
+    input: '',
+  },
+  reducers: {
+    updateComment(state, action) {
+      state.input = action.payload;
     },
-    reducers: {
-        updateComment(state, action) {
-            state.input = action.payload;
-        }
-    }
+  },
 });
-
 
 export const { updateComment } = commentSlice.actions;
 
