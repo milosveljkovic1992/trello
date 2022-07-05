@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { NewItem } from 'components/atoms';
 
-export const NewCardContainer = ({ setIsCreatingNew, listId, setCards }) => {
+export const NewCard = ({ setIsCreatingNew, listId, setCards }) => {
   const [userInput, setUserInput] = useState('');
 
   const handleInput = (e) => {

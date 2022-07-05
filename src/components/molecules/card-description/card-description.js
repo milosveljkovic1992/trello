@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux/es/exports';
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 
-import { NewCard } from 'components/atoms';
-
 import { Container } from './card-description-styles';
 
 export const CardDescription = () => {

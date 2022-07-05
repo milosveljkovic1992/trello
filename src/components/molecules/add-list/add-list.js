@@ -2,7 +2,7 @@ import React from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { AddButton } from 'components/atoms';
-import { NewListContainer } from 'components/molecules';
+import { NewList } from 'components/molecules';
 
 import { Container } from './add-list-styles';
 
@@ -25,7 +25,7 @@ export const AddList = (props) => {
           Add another list
         </AddButton>
       ) : (
-        <NewListContainer
+        <NewList
           setCreatingNewList={setCreatingNewList}
           boardId={boardId}
           setIsBoardUpdated={setIsBoardUpdated}

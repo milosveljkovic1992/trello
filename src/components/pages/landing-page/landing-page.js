@@ -23,7 +23,7 @@ export const LandingPage = () => {
   const inputRef = React.useRef(null);
   const btnRef = React.useRef(null);
 
-  const handleActive = (e) => {
+  const handleActive = () => {
     setIsInputActive(true);
   };
 

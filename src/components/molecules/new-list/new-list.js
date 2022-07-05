@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { NewItem } from 'components/atoms';
 
-export const NewListContainer = ({
+export const NewList = ({
   setCreatingNewList,
   boardId,
   setIsBoardUpdated,

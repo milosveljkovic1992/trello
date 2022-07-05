@@ -138,8 +138,7 @@ export const Container = styled.div`
     color: ${({ fixed }) => (fixed ? '#333' : '#fff')};
     font-weight: 600;
     background-color: rgba(255, 255, 255, 0.3);
-    border: ${({ fixed }) =>
-      fixed ? '2px solid #333' : '2px solid rgba(255, 255, 255, 1)'};
+    border: ${({ fixed }) => fixed ? '2px solid #333' : '2px solid rgba(255, 255, 255, 1)'};
     cursor: pointer;
 
     position: ${({ fixed }) => fixed && 'fixed'};

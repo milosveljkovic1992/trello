@@ -32,9 +32,6 @@ const editSlice = createSlice({
       state.isEditOpen = true;
       state.cardId = action.payload;
     },
-    closeEdit(state) {
-      state = initialState;
-    },
   },
   extraReducers: {
     [changeName.pending]: (state) => {
@@ -60,6 +57,6 @@ const editSlice = createSlice({
   },
 });
 
-export const { openEdit, closeEdit } = editSlice.actions;
+export const { openEdit } = editSlice.actions;
 
 export default editSlice;

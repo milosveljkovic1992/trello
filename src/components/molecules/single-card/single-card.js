@@ -97,7 +97,7 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
     }
   }, [isEditOpen]);
 
-  const handleDragStart = (e, card, index) => {
+  const handleDragStart = (e, card) => {
     const listId = card.idList;
     dispatch(startDrag(card));
     dispatch(dragOverList({ listId }));

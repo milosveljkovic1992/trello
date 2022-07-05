@@ -10,7 +10,7 @@ import { dragOverList } from 'store/drag-drop-slice';
 import { AddButton } from 'components/atoms';
 import {
   ListHeading,
-  NewCardContainer,
+  NewCard,
   SingleCard,
 } from 'components/molecules';
 
@@ -95,7 +95,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
               Add a card
             </AddButton>
           ) : (
-            <NewCardContainer
+            <NewCard
               setIsCreatingNew={setIsCreatingNew}
               listId={listId}
               setCards={setCards}
