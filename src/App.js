@@ -4,9 +4,8 @@ import { Route, Routes } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import Theme from './Theme';
-
-import { API_KEY, BASE_URL } from 'constants';
+import Theme from 'global/Theme';
+import { API_KEY, API_URL } from 'global/constants';
 
 import { login } from 'store/auth';
 import { getMemberInfo } from 'store/member-slice';
@@ -15,7 +14,7 @@ import { BoardPage, CardPopup, LandingPage } from 'components/pages';
 
 import { LoadingSpinner, Login } from 'components/atoms';
 
-axios.defaults.baseURL = BASE_URL;
+axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
