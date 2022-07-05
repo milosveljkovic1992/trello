@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { logout } from "./auth";
 
 const initialState = {
     id: '',
@@ -18,7 +19,10 @@ export const getMemberInfo = createAsyncThunk(
             const response = await axios.get(`/1/tokens/${APItoken}/member`);
             return response.data;
         } catch (error) {
-            console.log(error);
+            if (error.response.status === 401) {
+                localStorage.removeItem('trelloToken');
+                thunkAPI.dispatch(logout);
+            }
         };
     }
 );

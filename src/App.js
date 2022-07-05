@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import Theme from './Theme';
-import { getMemberInfo } from './store/member-slice';
-import { BoardContainer } from './pages/board';
-import { SelectBoardContainer } from './pages/landing-page';
-import { CardPopup } from './pages/card-popup';
-import { LoadingSpinner, Login } from './atoms';
-import { login } from './store/auth';
+
+import { login } from 'store/auth';
+import { getMemberInfo } from 'store/member-slice';
+
+import { BoardPage, CardPopup, LandingPage } from 'components/pages';
+
+import { LoadingSpinner, Login } from 'components/atoms';
 
 
 axios.defaults.baseURL = 'https://api.trello.com';
-
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
@@ -46,10 +47,7 @@ const App = () => {
 
   if (!localStorage.getItem('trelloToken')) {
     return ( 
-      <Login>
-        <Login.Text>Click here to</Login.Text>
-        <Login.Button href={`https://trello.com/1/authorize?return_url=http://localhost:3000&expiration=1day&name=MyPersonalToken&scope=read,write&response_type=token&key=${APIkey}`}>Login</Login.Button>
-      </Login>
+        <Login APIkey={APIkey}/>
       )
   }
 
@@ -60,8 +58,8 @@ const App = () => {
   return (
     <Theme>
       <Routes>
-          <Route exact path={'/'} element={<SelectBoardContainer />} />
-          <Route path={`/b/:boardId//*`} element={<BoardContainer />} >
+          <Route exact path={'/'} element={<LandingPage />} />
+          <Route path={`/b/:boardId//*`} element={<BoardPage />} >
             {popupModalOpen && <Route path={`c/:cardUrl`} element={<CardPopup />} />}
           </Route>
       </Routes>
