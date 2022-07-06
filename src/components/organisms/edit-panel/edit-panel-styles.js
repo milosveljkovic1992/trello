@@ -34,11 +34,13 @@ export const Overlay = styled.div`
     z-index: 3;
     display: block;
     // transform: translateX(-20px);
-    transform: ${({ direction }) => direction === 'left' ? 'translateX(-20px)' : 'translateX(0px)'};
+    transform: ${({ direction }) =>
+      direction === 'left' ? 'translateX(-20px)' : 'translateX(0px)'};
     transition: 0.1s;
 
     &.card-edit {
-      transform: ${({ direction }) => direction === 'left' ? 'translateX(0px)' : 'translateX(-20px)'};
+      transform: ${({ direction }) =>
+        direction === 'left' ? 'translateX(0px)' : 'translateX(-20px)'};
     }
   }
 

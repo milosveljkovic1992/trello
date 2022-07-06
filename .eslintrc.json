@@ -18,5 +18,10 @@
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "react/prop-types": "off",
     "semi": ["error", "always"]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

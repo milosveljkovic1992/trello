@@ -8,11 +8,7 @@ import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
 
 import { AddButton } from 'components/atoms';
-import {
-  ListHeading,
-  NewCard,
-  SingleCard,
-} from 'components/molecules';
+import { ListHeading, NewCard, SingleCard } from 'components/molecules';
 
 import { Container } from './single-list-styles';
 
