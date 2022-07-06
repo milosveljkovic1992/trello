@@ -22,7 +22,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
+    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\"",
+    "lint-fix": "eslint \"src/**/*.{js,jsx}\" --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -53,7 +54,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json}": [
-      "eslint . --fix",
+      "npm run lint-fix",
       "prettier --write ."
     ]
   }
