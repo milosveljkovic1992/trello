@@ -12,16 +12,15 @@ import { AddList, Board } from 'components/molecules';
 import { CardPopup } from 'components/pages';
 import { SingleList } from 'components/organisms';
 
-
 export const BoardPage = () => {
   const dispatch = useDispatch();
-  const popupModalOpen = useSelector(state => state.popup.open);
-  
+  const popupModalOpen = useSelector((state) => state.popup.open);
+
   const navigate = useNavigate();
   const urlParams = useParams();
   const { boardId } = urlParams;
   const { cardUrl } = urlParams;
-  
+
   const [lists, setLists] = useState([]);
   const [pos, setPos] = useState(1);
   const [creatingNewList, setCreatingNewList] = useState(false);
@@ -39,105 +38,98 @@ export const BoardPage = () => {
       dispatch(openModal(cardUrl));
     }
     if (cardUrl) {
-      dispatch(getCard({ id: cardUrl}))
+      dispatch(getCard({ id: cardUrl }));
     }
   }, [dispatch, isActive, cardUrl, urlParams]);
 
   useEffect(() => {
-    
     if (!!boardId || isBoardUpdated) {
-      
-      const getLists = async() => {
+      const getLists = async () => {
         const response = await axios.get(`/1/boards/${boardId}/lists`);
         setLists(response.data);
         setPos(response.data[response.data.length - 1].pos + 1000);
       };
 
-      const getBoard = async() => {
+      const getBoard = async () => {
         const response = await axios.get(`/1/boards/${boardId}`);
         setBoardName(response.data.name);
-        setBoard(response.data)
-      }
-      
+        setBoard(response.data);
+      };
+
       try {
         getLists();
         getBoard();
-      } catch(error) {
+      } catch (error) {
         console.log(error);
-      };
+      }
 
       setIsBoardUpdated(false);
     }
-
   }, [isBoardUpdated, boardId]);
 
   const handleBoardName = () => {
-    const submitBoardName = async() => {
-      axios.put(`/1/boards/${boardId}?name=${boardName}`)
-    }
+    const submitBoardName = async () => {
+      axios.put(`/1/boards/${boardId}?name=${boardName}`);
+    };
 
     try {
       submitBoardName();
       setIsActive(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   const handleHomeButton = () => {
     navigate('/');
+  };
+
+  if (!board) {
+    return <LoadingSpinner />;
   }
-
-
- if (!board) {
-  return <LoadingSpinner />
- }
- 
 
   return (
     <>
-    { !!popupModalOpen && !!cardUrl &&
-      <Routes>
-        <Route path={`c/${cardUrl}`} element={<CardPopup />} />
-      </Routes>
-     }
-    {board && 
-      <Board 
-        ref={titleRef}
-        board={board}
-        boardName={boardName}
-        setBoardName={setBoardName}
-        handleBoardName={handleBoardName}
-        handleHomeButton={handleHomeButton}
-        isActive={isActive}
-        setIsActive={setIsActive}
-      >
-      {lists && 
-        <div className="board-inner-container">
+      {!!popupModalOpen && !!cardUrl && (
+        <Routes>
+          <Route path={`c/${cardUrl}`} element={<CardPopup />} />
+        </Routes>
+      )}
+      {board && (
+        <Board
+          ref={titleRef}
+          board={board}
+          boardName={boardName}
+          setBoardName={setBoardName}
+          handleBoardName={handleBoardName}
+          handleHomeButton={handleHomeButton}
+          isActive={isActive}
+          setIsActive={setIsActive}
+        >
+          {lists && (
+            <div className="board-inner-container">
+              {lists.map((list) => (
+                <SingleList
+                  key={list.id}
+                  list={list}
+                  listId={list.id}
+                  name={list.name}
+                  setLists={setLists}
+                  setIsBoardUpdated={setIsBoardUpdated}
+                />
+              ))}
 
-          {lists.map(list => (
-            <SingleList 
-              key={list.id} 
-              list={list}
-              listId={list.id} 
-              name={list.name} 
-              setLists={setLists}
-              setIsBoardUpdated={setIsBoardUpdated}
-            />
-          ))}
-
-          <AddList 
-            creatingNewList={creatingNewList}
-            setCreatingNewList={setCreatingNewList}
-            boardId={boardId}
-            setIsBoardUpdated={setIsBoardUpdated}
-            pos={pos}
-          />
-
-        </div>
-      }
-    </Board>
-    }
+              <AddList
+                creatingNewList={creatingNewList}
+                setCreatingNewList={setCreatingNewList}
+                boardId={boardId}
+                setIsBoardUpdated={setIsBoardUpdated}
+                pos={pos}
+              />
+            </div>
+          )}
+        </Board>
+      )}
     </>
-  )
+  );
 };

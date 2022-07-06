@@ -1,70 +1,68 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro';
 
 export const Container = styled.div`
-    .input-container {
-        position: relative;
-        width: 252px;
-        height: auto;
-        min-height: 29px;
-        margin: 0 0 8px;
-        background-color: #fff;
-        border-radius: ${({ theme }) => theme.border.borderRadius};
-        box-shadow: 0 1px #bbb;
+  .input-container {
+    position: relative;
+    width: 252px;
+    height: auto;
+    min-height: 29px;
+    margin: 0 0 8px;
+    background-color: #fff;
+    border-radius: ${({ theme }) => theme.border.borderRadius};
+    box-shadow: 0 1px #bbb;
 
-        user-select: none;
-    };
+    user-select: none;
+  }
 
-    .button-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-    };
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
 
-    .icon-container {
-        padding: 6px;
-        display: flex;
-        align-items: center;
-        border-radius: ${({ theme }) => theme.border.borderRadius};
-        cursor: pointer;
+  .icon-container {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    border-radius: ${({ theme }) => theme.border.borderRadius};
+    cursor: pointer;
 
-        &:focus,
-        &:hover {
-            background-color: ${({ theme }) => theme.background.grayHover}
-        };
-    };
+    &:focus,
+    &:hover {
+      background-color: ${({ theme }) => theme.background.grayHover};
+    }
+  }
 
-    textarea {
-        width: 100%;
-        border: none;
-        height: auto;
-        min-height: 60px;
-        max-height: 160px;
-        resize: vertical;
-        margin-bottom: -3px;
-        padding: 5px 5px 0;
+  textarea {
+    width: 100%;
+    border: none;
+    height: auto;
+    min-height: 60px;
+    max-height: 160px;
+    resize: vertical;
+    margin-bottom: -3px;
+    padding: 5px 5px 0;
 
-        &:focus {
-            outline: none;
-        };
-    };
+    &:focus {
+      outline: none;
+    }
+  }
 
-    button {
-        color: #fff;
-        background-color: ${({theme}) => theme.background.primary};
-        border: none;
-        box-shadow: none;
-        padding: 6px 12px;
-        cursor: pointer;
-        transition: .135s;
+  button {
+    color: #fff;
+    background-color: ${({ theme }) => theme.background.primary};
+    border: none;
+    box-shadow: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: 0.135s;
 
-        &:focus,
-        &:hover {
-            background-color: ${({ theme }) => theme.background.primaryHover }
-        };
-    };
+    &:focus,
+    &:hover {
+      background-color: ${({ theme }) => theme.background.primaryHover};
+    }
+  }
 `;
 
-export const IconContainer = styled.div`
-    
-`;
+export const IconContainer = styled.div``;

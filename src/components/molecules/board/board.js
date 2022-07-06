@@ -5,40 +5,51 @@ import { ImHome } from 'react-icons/im';
 import { LogoutButton } from 'components/atoms';
 import { Container } from './board-styles';
 
-
-export const Board = React.forwardRef(({children, 
-    board, 
-    boardName, 
-    setBoardName,
-    handleBoardName,
-    handleHomeButton, 
-    isActive, 
-    setIsActive}, ref) => {
-
+// eslint-disable-next-line react/display-name
+export const Board = React.forwardRef(
+  (
+    {
+      children,
+      board,
+      boardName,
+      setBoardName,
+      handleBoardName,
+      handleHomeButton,
+      isActive,
+      setIsActive,
+    },
+    ref,
+  ) => {
     return (
-        <Container backgroundImage={board.prefs.backgroundImage} isActive={isActive}>
-            <header className="board-header">
-                <div className="board-icon-container" onClick={handleHomeButton}>
-                    <ImHome />
-                </div>
+      <Container
+        backgroundImage={board.prefs.backgroundImage}
+        isActive={isActive}
+      >
+        <header className="board-header">
+          <div className="board-icon-container" onClick={handleHomeButton}>
+            <ImHome />
+          </div>
 
-                <div className="board-title-container">
-                    <h1 className="board-title" onClick={() => setIsActive(true)}>{boardName}</h1>
+          <div className="board-title-container">
+            <h1 className="board-title" onClick={() => setIsActive(true)}>
+              {boardName}
+            </h1>
 
-                    <input 
-                        className="board-title-input" 
-                        ref={ref}
-                        value={boardName} 
-                        onChange={e => setBoardName(e.target.value)}
-                        onBlur={handleBoardName}
-                        size={boardName.length - 6}
-                    ></input>
-                </div>
+            <input
+              className="board-title-input"
+              ref={ref}
+              value={boardName}
+              onChange={(e) => setBoardName(e.target.value)}
+              onBlur={handleBoardName}
+              size={boardName.length - 6}
+            ></input>
+          </div>
 
-                <LogoutButton />
-            </header>
+          <LogoutButton />
+        </header>
 
-            {children}
-        </Container>
-    )
-});
+        {children}
+      </Container>
+    );
+  },
+);

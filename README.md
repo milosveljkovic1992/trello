@@ -9,7 +9,7 @@ Components are built using styled-components.
 Routing is handled by react-router.  
 Global state is managed using Redux Toolkit.  
 Icons are added via react-icons.  
-Data fetching is done using Axios.  
+Data fetching is done using Axios.
 
 ## Features
 
@@ -24,5 +24,5 @@ When you click a card, a popup modal gets open.
 Card modal contains the card title, description and comments.  
 You can edit card title from within modal, by clicking on it and modifying text.  
 You can add, edit or remove card description by clicking on it and entering/deleting text.  
-Comments can be added to the card. 
-Comments are displayed by date in descending order, from latest to earliest and they can be deleted or edited.  
+Comments can be added to the card.
+Comments are displayed by date in descending order, from latest to earliest and they can be deleted or edited.
