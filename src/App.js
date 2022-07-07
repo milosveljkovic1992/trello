@@ -34,7 +34,7 @@ const App = () => {
       dispatch(login(trelloToken));
     }
 
-    if (trelloToken) {
+    if (trelloToken && !APItoken) {
       dispatch(login(trelloToken));
     }
 
