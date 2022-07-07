@@ -32,14 +32,16 @@ const App = () => {
     if (!trelloToken && document.location.hash.includes('#token=')) {
       const token = document.location.hash.replace('#token=', '');
       localStorage.setItem('trelloToken', token);
-      dispatch(login(trelloToken));
+      dispatch(login(token));
     }
 
-    if (trelloToken && !APItoken) {
+    if (trelloToken && !isAuth) {
       dispatch(login(trelloToken));
     }
+  }, [dispatch, isAuth]);
 
-    if (APItoken && !memberId) {
+  useEffect(() => {
+    if (isAuth && !memberId) {
       axios.defaults.headers.common[
         'Authorization'
       ] = `OAuth oauth_consumer_key="${API_KEY}", oauth_token="${APItoken}"`;
@@ -50,6 +52,10 @@ const App = () => {
             navigate('/');
             localStorage.removeItem('trelloToken');
             dispatch(logout());
+
+            return Promise.reject(
+              `There's been an authorization missmatch. Redirecting to login page...`,
+            );
           } else {
             return response;
           }
@@ -63,14 +69,14 @@ const App = () => {
             localStorage.removeItem('trelloToken');
             dispatch(logout());
           } else {
-            console.log(error.response.status);
+            console.log(error);
           }
           return Promise.reject(error);
         },
       );
       dispatch(getMemberInfo(APItoken));
     }
-  }, [dispatch, memberId, APItoken, isAuth]);
+  }, [APItoken]);
 
   if (!localStorage.getItem('trelloToken')) {
     return <Login />;
