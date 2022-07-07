@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,30 +20,31 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { APItoken, isAuth } = useSelector((state) => state.auth);
   const memberId = useSelector((state) => state.member.id);
+  const { isLoading } = useSelector((state) => state.member);
   const popupModalOpen = useSelector((state) => state.popup.open);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const trelloToken = localStorage.getItem('trelloToken');
 
     if (!trelloToken && document.location.hash.includes('#token=')) {
       const token = document.location.hash.replace('#token=', '');
-      dispatch(login(token));
       localStorage.setItem('trelloToken', token);
+      dispatch(login(trelloToken));
     }
 
-    if (trelloToken && isLoading) {
+    if (trelloToken) {
+      dispatch(login(trelloToken));
+    }
+
+    if (APItoken) {
       axios.defaults.headers.common[
         'Authorization'
       ] = `OAuth oauth_consumer_key="${API_KEY}", oauth_token="${trelloToken}"`;
-      dispatch(getMemberInfo(trelloToken));
+      dispatch(getMemberInfo(APItoken));
     }
-
-    if (memberId) {
-      setIsLoading(false);
-    }
-  }, [dispatch, isLoading, memberId]);
+  }, [dispatch, memberId, APItoken, isAuth]);
 
   if (!localStorage.getItem('trelloToken')) {
     return <Login />;
