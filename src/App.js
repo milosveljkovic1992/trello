@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import Theme from 'global/Theme';
 import { API_KEY, API_URL } from 'global/constants';
 
-import { login } from 'store/auth';
+import { login, logout } from 'store/auth';
 import { getMemberInfo } from 'store/member-slice';
 
 import { BoardPage, CardPopup, LandingPage } from 'components/pages';
@@ -20,6 +20,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { APItoken, isAuth } = useSelector((state) => state.auth);
   const memberId = useSelector((state) => state.member.id);
   const { isLoading } = useSelector((state) => state.member);
@@ -38,10 +39,35 @@ const App = () => {
       dispatch(login(trelloToken));
     }
 
-    if (APItoken) {
+    if (APItoken && !memberId) {
       axios.defaults.headers.common[
         'Authorization'
-      ] = `OAuth oauth_consumer_key="${API_KEY}", oauth_token="${trelloToken}"`;
+      ] = `OAuth oauth_consumer_key="${API_KEY}", oauth_token="${APItoken}"`;
+
+      axios.interceptors.response.use(
+        (response) => {
+          if (APItoken !== localStorage.getItem('trelloToken')) {
+            navigate('/');
+            localStorage.removeItem('trelloToken');
+            dispatch(logout());
+          } else {
+            return response;
+          }
+        },
+        (error) => {
+          if (error.response.status === 401) {
+            console.error(
+              `An authorization error has occured. Redirecting to login page...`,
+            );
+            navigate('/');
+            localStorage.removeItem('trelloToken');
+            dispatch(logout());
+          } else {
+            console.log(error.response.status);
+          }
+          return Promise.reject(error);
+        },
+      );
       dispatch(getMemberInfo(APItoken));
     }
   }, [dispatch, memberId, APItoken, isAuth]);
