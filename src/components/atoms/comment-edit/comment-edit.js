@@ -30,7 +30,7 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
         );
         dispatch(editComment({ id, value }));
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Comment could not be edited'));
       }
     };
 

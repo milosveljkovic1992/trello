@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const errorSlice = createSlice({
   name: 'errorHandler',
   initialState: {
-    isErrorDisplayed: true,
-    errorMessage: 'errorMessage',
+    isErrorDisplayed: false,
+    errorMessage: '',
   },
   reducers: {
     throwError(state, action) {

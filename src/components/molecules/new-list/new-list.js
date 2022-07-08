@@ -26,7 +26,7 @@ export const NewList = ({
         `/1/lists?name=${userInput}&pos=${pos}&idBoard=${boardId}`,
       );
     } catch (error) {
-      dispatch(throwError(error.response.status));
+      dispatch(throwError('New list could not be added'));
     }
   };
 

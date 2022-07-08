@@ -21,7 +21,7 @@ export const getMemberInfo = createAsyncThunk(
       const response = await axios.get(`/1/tokens/${APItoken}/member`);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Could not get your boards'));
     }
   },
 );

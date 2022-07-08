@@ -14,7 +14,7 @@ export const getCard = createAsyncThunk(
       const response = await axios.get(`/1/cards/${id}`);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Could not get card'));
     }
   },
 );
@@ -25,7 +25,7 @@ export const renameCard = createAsyncThunk(
     try {
       await axios.put(`/1/cards/${id}?name=${title}`);
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Could not rename card'));
     }
   },
 );
@@ -36,7 +36,7 @@ export const deleteCard = createAsyncThunk(
     try {
       await axios.delete(`/1/cards/${id}`);
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Could not delete card'));
     }
   },
 );

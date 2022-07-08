@@ -18,7 +18,7 @@ export const changeName = createAsyncThunk(
     try {
       await axios.put(`/1/cards/${id}?name=${name}`);
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Could not change name'));
     }
   },
 );
@@ -29,7 +29,7 @@ export const changeList = createAsyncThunk(
     try {
       await axios.put(`/1/cards/${id}?idList=${listId}`);
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Could not change list'));
     }
   },
 );

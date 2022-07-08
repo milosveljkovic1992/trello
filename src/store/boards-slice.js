@@ -10,7 +10,7 @@ export const setBoards = createAsyncThunk(
       const response = await axios.get(`/1/members/${memberid}/boards`);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Could not get your boards'));
     }
   },
 );
@@ -22,7 +22,7 @@ export const addBoard = createAsyncThunk(
       const response = await axios.post(`/1/boards/?name=${newBoardTitle}`);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Board could not be added'));
     }
   },
 );
@@ -33,7 +33,7 @@ export const sendDeleteRequest = createAsyncThunk(
     try {
       await axios.delete(`/1/boards/${board.id}`);
     } catch (error) {
-      thunkAPI.dispatch(throwError(error.response.status));
+      thunkAPI.dispatch(throwError('Board could not be deleted'));
     }
   },
 );

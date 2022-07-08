@@ -29,7 +29,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
         await axios.put(`/1/lists/${listId}?name=${listTitle}`);
         setIsListUpdated(false);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Could not update title'));
       }
     };
 
@@ -54,7 +54,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
         dispatch(resetListUpdate());
         setIsListUpdated(false);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Could not get the lists'));
       }
     };
 

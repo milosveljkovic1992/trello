@@ -51,7 +51,7 @@ export const BoardPage = () => {
           setLists(response.data);
           setPos(response.data[response.data.length - 1].pos + 1000);
         } catch (error) {
-          dispatch(throwError(error.response.status));
+          dispatch(throwError('Could not get the lists'));
         }
       };
 
@@ -61,7 +61,7 @@ export const BoardPage = () => {
           setBoardName(response.data.name);
           setBoard(response.data);
         } catch (error) {
-          dispatch(throwError(error.response.status));
+          dispatch(throwError('Could not get your board'));
         }
       };
 
@@ -75,11 +75,11 @@ export const BoardPage = () => {
   const handleBoardName = () => {
     const submitBoardName = async () => {
       try {
-        axios.put(`/1/boards/${boardId}?name=${boardName}`);
-        setIsActive(false);
+        await axios.put(`/1/boards/${boardId}?name=${boardName}`);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Could not edit board name'));
       }
+      setIsActive(false);
     };
 
     submitBoardName();

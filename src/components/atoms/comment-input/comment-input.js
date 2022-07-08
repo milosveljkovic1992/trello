@@ -20,7 +20,7 @@ export const CommentInput = ({ setIsUpdated }) => {
           `/1/cards/${card.id}/actions/comments?text=${comment}`,
         );
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Comment could not be added'));
       }
     };
 

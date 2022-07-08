@@ -26,7 +26,7 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
         const response = await axios.get(`/1/boards/${boardId}/lists`);
         setAllLists(response.data);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Ooops something went wrong'));
       }
     };
 
@@ -37,7 +37,7 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
         setSelectedList(response.data);
         setSelectedListId(response.data[0].idList);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Ooops something went wrong'));
       }
     };
 
@@ -57,7 +57,7 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
           response.data[response.data.length - 1].pos + 10000,
         );
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Ooops something went wrong'));
       }
     };
 

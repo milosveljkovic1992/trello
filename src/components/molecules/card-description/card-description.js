@@ -23,7 +23,8 @@ export const CardDescription = () => {
       try {
         await axios.put(`/1/cards/${card.id}?desc=${description}`);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Description could not be edited'));
+        setDescription(previousDescription);
       }
     };
     fetchDescription();

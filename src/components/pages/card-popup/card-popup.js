@@ -47,7 +47,7 @@ export const CardPopup = () => {
         const response = await axios.get(`/1/cards/${cardUrl}/actions`);
         dispatch(setComments(response.data));
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Could not get the comments'));
       }
     };
 

@@ -80,7 +80,7 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
           `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
         );
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Could not move card'));
       }
     };
 
@@ -121,7 +121,7 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
           `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
         );
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Could not move card'));
       }
     };
 

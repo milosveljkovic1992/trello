@@ -20,13 +20,15 @@ export const SingleComment = ({ comment }) => {
   const handleDelete = () => {
     const deleteRequest = async () => {
       try {
-        await axios.delete(`/1/cards/${card.id}/actions/${comment.id}/comment`);
-        dispatch(deleteComment(comment));
+        await axios.delete(
+          `/1/cards/${card.id}/actions/${comment.id}/comments`,
+        );
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Could not delete comment'));
       }
     };
     deleteRequest();
+    dispatch(deleteComment(comment));
   };
 
   return (

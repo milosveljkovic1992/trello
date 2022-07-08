@@ -23,7 +23,7 @@ export const NewCard = ({ setIsCreatingNew, listId, setCards }) => {
         );
         setCards((cards) => [...cards, response.data]);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('New card could not be added'));
       }
     };
 
