@@ -25,15 +25,15 @@ export const CardTitle = () => {
   const handleChange = () => {
     const submitChange = async () => {
       try {
-        axios.put(`/1/cards/${card.id}?name=${title}`);
-        dispatch(informListUpdate(card.idList));
+        await axios.put(`/1/cards/${card.id}?name=${title}`);
       } catch (error) {
-        dispatch(throwError(error.response.status));
+        dispatch(throwError('Title could not be changed'));
       }
     };
 
     if (title.trim().length > 0) {
       submitChange();
+      dispatch(informListUpdate(card.idList));
     } else {
       setTitle(card.name);
     }

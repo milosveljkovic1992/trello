@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -7,12 +8,12 @@ import axios from 'axios';
 import Theme from 'global/Theme';
 import { API_KEY, API_URL } from 'global/constants';
 
-import { login } from 'store/auth';
+import { login, logout } from 'store/auth';
 import { getMemberInfo } from 'store/member-slice';
 
 import { BoardPage, CardPopup, LandingPage } from 'components/pages';
 
-import { LoadingSpinner, Login } from 'components/atoms';
+import { ErrorModal, LoadingSpinner, Login } from 'components/atoms';
 import { throwError } from 'store/error-slice';
 
 axios.defaults.baseURL = API_URL;
@@ -21,10 +22,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { APItoken, isAuth } = useSelector((state) => state.auth);
   const memberId = useSelector((state) => state.member.id);
   const { isLoading } = useSelector((state) => state.member);
-  const { hasError } = useSelector((state) => state.errorHandler);
+  const { isErrorDisplayed } = useSelector((state) => state.errorHandler);
   const popupModalOpen = useSelector((state) => state.popup.open);
 
   useEffect(() => {
@@ -49,7 +51,10 @@ const App = () => {
 
       axios.interceptors.request.use((config) => {
         if (APItoken !== localStorage.getItem('trelloToken')) {
-          dispatch(throwError());
+          dispatch(throwError('Session expired. Please login to continue'));
+          dispatch(logout());
+          localStorage.removeItem('trelloToken');
+          navigate('/');
         }
         return config;
       }),
@@ -61,10 +66,6 @@ const App = () => {
     }
   }, [APItoken]);
 
-  if (hasError) {
-    return <h1>Error</h1>;
-  }
-
   if (!isAuth) {
     return <Login />;
   }
@@ -75,6 +76,11 @@ const App = () => {
 
   return (
     <Theme>
+      {isErrorDisplayed &&
+        ReactDOM.createPortal(
+          <ErrorModal />,
+          document.getElementById('error-root'),
+        )}
       <Routes>
         <Route exact path={'/'} element={<LandingPage />} />
         <Route path={`/b/:boardId//*`} element={<BoardPage />}>

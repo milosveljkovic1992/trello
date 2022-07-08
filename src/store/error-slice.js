@@ -3,14 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 const errorSlice = createSlice({
   name: 'errorHandler',
   initialState: {
-    hasError: false,
+    isErrorDisplayed: true,
+    errorMessage: 'errorMessage',
   },
   reducers: {
-    throwError(state) {
-      state.hasError = true;
+    throwError(state, action) {
+      state.isErrorDisplayed = true;
+      state.errorMessage = action.payload;
     },
     resetError(state) {
-      state.hasError = false;
+      state.isErrorDisplayed = false;
+      state.errorMessage = '';
     },
   },
 });
