@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux/es/exports';
+import { useSelector, useDispatch } from 'react-redux/es/exports';
 
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { Container } from './card-description-styles';
+import { throwError } from 'store/error-slice';
 
 export const CardDescription = () => {
+  const dispatch = useDispatch();
   const card = useSelector((state) => state.card.details);
   const { isLoading } = useSelector((state) => state.card);
   const [isInitialRender, setIsInitialRender] = useState(true);
@@ -18,14 +20,13 @@ export const CardDescription = () => {
 
   const handleEdit = () => {
     const fetchDescription = async () => {
-      await axios.put(`/1/cards/${card.id}?desc=${description}`);
+      try {
+        await axios.put(`/1/cards/${card.id}?desc=${description}`);
+      } catch (error) {
+        dispatch(throwError(error.response.status));
+      }
     };
-
-    try {
-      fetchDescription();
-    } catch (error) {
-      console.log(error);
-    }
+    fetchDescription();
   };
 
   const handleActive = (e) => {

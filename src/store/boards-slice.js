@@ -1,27 +1,40 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { throwError } from './error-slice';
+
 export const setBoards = createAsyncThunk(
   'boards/setBoards',
-  async (memberid) => {
-    const response = await axios.get(`/1/members/${memberid}/boards`);
-    return response.data;
+  async (memberid, thunkAPI) => {
+    try {
+      const response = await axios.get(`/1/members/${memberid}/boards`);
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(throwError(error.response.status));
+    }
   },
 );
 
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
-  async (newBoardTitle) => {
-    const response = await axios.post(`/1/boards/?name=${newBoardTitle}`);
-    return response.data;
+  async (newBoardTitle, thunkAPI) => {
+    try {
+      const response = await axios.post(`/1/boards/?name=${newBoardTitle}`);
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(throwError(error.response.status));
+    }
   },
 );
 
 export const sendDeleteRequest = createAsyncThunk(
   'boards/sendDeleteRequest',
-  async (board) => {
-    await axios.delete(`/1/boards/${board.id}`);
-    return board;
+  async (board, thunkAPI) => {
+    try {
+      await axios.delete(`/1/boards/${board.id}`);
+    } catch (error) {
+      thunkAPI.dispatch(throwError(error.response.status));
+    }
   },
 );
 

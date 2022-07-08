@@ -14,12 +14,12 @@ import {
   dragOverList,
   endDrag,
 } from 'store/drag-drop-slice';
+import { throwError } from 'store/error-slice';
 
 import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
 
 import { Container } from './single-card-styles';
-
 export const SingleCard = ({ index, card, cards, setCards }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,20 +75,20 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
 
   const handleMove = (card, targetList, targetPosition) => {
     const sendMoveRequest = async () => {
-      await axios.put(
-        `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
-      );
+      try {
+        await axios.put(
+          `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
+        );
+      } catch (error) {
+        dispatch(throwError(error.response.status));
+      }
     };
 
-    try {
-      sendMoveRequest();
-      setIsEditOpen(false);
-      setIsMoveOpen(false);
-      dispatch(informListUpdate(card.idList));
-      dispatch(informListUpdate(targetList));
-    } catch (error) {
-      console.log(error);
-    }
+    sendMoveRequest();
+    setIsEditOpen(false);
+    setIsMoveOpen(false);
+    dispatch(informListUpdate(card.idList));
+    dispatch(informListUpdate(targetList));
   };
 
   useEffect(() => {
@@ -116,19 +116,19 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
 
   const handleDragEnd = (e) => {
     const sendMoveRequest = async () => {
-      await axios.put(
-        `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
-      );
+      try {
+        await axios.put(
+          `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
+        );
+      } catch (error) {
+        dispatch(throwError(error.response.status));
+      }
     };
 
-    try {
-      sendMoveRequest();
-      dispatch(endDrag());
-      dispatch(informListUpdate(draggedCard));
-      dispatch(informListUpdate(targetListId));
-    } catch (error) {
-      console.log(error);
-    }
+    sendMoveRequest();
+    dispatch(endDrag());
+    dispatch(informListUpdate(draggedCard));
+    dispatch(informListUpdate(targetListId));
 
     e.target.classList.remove('drag-active');
   };

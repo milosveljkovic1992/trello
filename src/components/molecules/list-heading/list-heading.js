@@ -20,12 +20,7 @@ export const ListHeading = ({
       await axios.put(`/1/lists/${listId}?closed=true`);
       setIsBoardUpdated(true);
     };
-
-    try {
-      sendRequest();
-    } catch (error) {
-      console.log(error);
-    }
+    sendRequest();
   };
 
   const handleFocus = () => {

@@ -1,37 +1,42 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { throwError } from './error-slice';
+
 const initialState = {
   isLoading: true,
 };
 
-export const getCard = createAsyncThunk('/cards/getCard', async ({ id }) => {
-  try {
-    const response = await axios.get(`/1/cards/${id}`);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-});
+export const getCard = createAsyncThunk(
+  '/cards/getCard',
+  async ({ id }, thunkAPI) => {
+    try {
+      const response = await axios.get(`/1/cards/${id}`);
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(throwError(error.response.status));
+    }
+  },
+);
 
 export const renameCard = createAsyncThunk(
   '/cards/renameCard',
-  async ({ id, title }) => {
+  async ({ id, title }, thunkAPI) => {
     try {
       await axios.put(`/1/cards/${id}?name=${title}`);
     } catch (error) {
-      console.log(error);
+      thunkAPI.dispatch(throwError(error.response.status));
     }
   },
 );
 
 export const deleteCard = createAsyncThunk(
   '/cards/deleteCard',
-  async ({ id }) => {
+  async ({ id }, thunkAPI) => {
     try {
       await axios.delete(`/1/cards/${id}`);
     } catch (error) {
-      console.log(error);
+      thunkAPI.dispatch(throwError(error.response.status));
     }
   },
 );

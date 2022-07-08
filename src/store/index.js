@@ -6,6 +6,7 @@ import commentSlice from './comment-slice';
 import commentsSlice from './comments-slice';
 import dragDrop from './drag-drop-slice';
 import editSlice from './edit-slice';
+import errorSlice from './error-slice';
 import listsSlice from './lists-slice';
 import memberSlice from './member-slice';
 import popupSlice from './popup-slice';
@@ -19,6 +20,7 @@ const store = configureStore({
     comments: commentsSlice.reducer,
     dragDrop: dragDrop.reducer,
     edit: editSlice.reducer,
+    errorHandler: errorSlice.reducer,
     lists: listsSlice.reducer,
     member: memberSlice.reducer,
     popup: popupSlice.reducer,

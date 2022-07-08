@@ -11,6 +11,7 @@ import { LoadingSpinner } from 'components/atoms';
 import { AddList, Board } from 'components/molecules';
 import { CardPopup } from 'components/pages';
 import { SingleList } from 'components/organisms';
+import { throwError } from 'store/error-slice';
 
 export const BoardPage = () => {
   const dispatch = useDispatch();
@@ -45,23 +46,27 @@ export const BoardPage = () => {
   useEffect(() => {
     if (!!boardId || isBoardUpdated) {
       const getLists = async () => {
-        const response = await axios.get(`/1/boards/${boardId}/lists`);
-        setLists(response.data);
-        setPos(response.data[response.data.length - 1].pos + 1000);
+        try {
+          const response = await axios.get(`/1/boards/${boardId}/lists`);
+          setLists(response.data);
+          setPos(response.data[response.data.length - 1].pos + 1000);
+        } catch (error) {
+          dispatch(throwError(error.response.status));
+        }
       };
 
       const getBoard = async () => {
-        const response = await axios.get(`/1/boards/${boardId}`);
-        setBoardName(response.data.name);
-        setBoard(response.data);
+        try {
+          const response = await axios.get(`/1/boards/${boardId}`);
+          setBoardName(response.data.name);
+          setBoard(response.data);
+        } catch (error) {
+          dispatch(throwError(error.response.status));
+        }
       };
 
-      try {
-        getLists();
-        getBoard();
-      } catch (error) {
-        console.log(error);
-      }
+      getLists();
+      getBoard();
 
       setIsBoardUpdated(false);
     }
@@ -69,15 +74,15 @@ export const BoardPage = () => {
 
   const handleBoardName = () => {
     const submitBoardName = async () => {
-      axios.put(`/1/boards/${boardId}?name=${boardName}`);
+      try {
+        axios.put(`/1/boards/${boardId}?name=${boardName}`);
+        setIsActive(false);
+      } catch (error) {
+        dispatch(throwError(error.response.status));
+      }
     };
 
-    try {
-      submitBoardName();
-      setIsActive(false);
-    } catch (error) {
-      console.log(error);
-    }
+    submitBoardName();
   };
 
   const handleHomeButton = () => {

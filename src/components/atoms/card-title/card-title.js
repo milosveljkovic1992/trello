@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { informListUpdate } from 'store/lists-slice';
+import { throwError } from 'store/error-slice';
 
 import { Container } from './card-title-styles';
 
@@ -23,16 +24,16 @@ export const CardTitle = () => {
 
   const handleChange = () => {
     const submitChange = async () => {
-      axios.put(`/1/cards/${card.id}?name=${title}`);
+      try {
+        axios.put(`/1/cards/${card.id}?name=${title}`);
+        dispatch(informListUpdate(card.idList));
+      } catch (error) {
+        dispatch(throwError(error.response.status));
+      }
     };
 
     if (title.trim().length > 0) {
-      try {
-        submitChange();
-        dispatch(informListUpdate(card.idList));
-      } catch (error) {
-        console.log(error);
-      }
+      submitChange();
     } else {
       setTitle(card.name);
     }

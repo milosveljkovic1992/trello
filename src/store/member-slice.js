@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { throwError } from './error-slice';
+
 const initialState = {
   id: '',
   avatarUrl: '',
@@ -14,9 +16,13 @@ const initialState = {
 
 export const getMemberInfo = createAsyncThunk(
   'member/getMemberInfo',
-  async (APItoken) => {
-    const response = await axios.get(`/1/tokens/${APItoken}/member`);
-    return response.data;
+  async (APItoken, thunkAPI) => {
+    try {
+      const response = await axios.get(`/1/tokens/${APItoken}/member`);
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(throwError(error.response.status));
+    }
   },
 );
 

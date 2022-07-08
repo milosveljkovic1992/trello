@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import axios from 'axios';
+
+import { throwError } from 'store/error-slice';
 
 import { Container } from './comment-input-styles';
 
 export const CommentInput = ({ setIsUpdated }) => {
+  const dispatch = useDispatch();
   const card = useSelector((state) => state.card.details);
   const [comment, setComment] = useState('');
   const [isDisplayed, setIsDisplayed] = useState(false);
 
   const handleSubmit = () => {
     const postComment = async () => {
-      await axios.post(`/1/cards/${card.id}/actions/comments?text=${comment}`);
+      try {
+        await axios.post(
+          `/1/cards/${card.id}/actions/comments?text=${comment}`,
+        );
+      } catch (error) {
+        dispatch(throwError(error.response.status));
+      }
     };
 
     if (comment.trim().length > 0) {
-      try {
-        postComment();
-      } catch (error) {
-        console.log(error);
-      }
+      postComment();
     }
     setComment('');
     setIsUpdated(true);

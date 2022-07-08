@@ -5,6 +5,7 @@ import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { editComment } from 'store/comments-slice';
+import { throwError } from 'store/error-slice';
 
 import { Container } from './comment-edit-styles';
 
@@ -23,18 +24,18 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
 
   const handleEdit = (id, value) => {
     const editRequest = async () => {
-      await axios.put(
-        `/1/cards/${card.id}/actions/${id}/comments?text=${value}`,
-      );
+      try {
+        await axios.put(
+          `/1/cards/${card.id}/actions/${id}/comments?text=${value}`,
+        );
+        dispatch(editComment({ id, value }));
+      } catch (error) {
+        dispatch(throwError(error.response.status));
+      }
     };
 
     if (value.trim().length > 0) {
-      try {
-        editRequest();
-        dispatch(editComment({ id, value }));
-      } catch (error) {
-        console.log(error);
-      }
+      editRequest();
     } else {
       setCommentInput(comment.data.text);
     }

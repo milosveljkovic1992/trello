@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { throwError } from './error-slice';
+
 const initialState = {
   isEditOpen: false,
   isLoading: true,
@@ -12,15 +14,23 @@ const initialState = {
 
 export const changeName = createAsyncThunk(
   '/edit/changeName',
-  async ({ id, name }) => {
-    await axios.put(`/1/cards/${id}?name=${name}`);
+  async ({ id, name }, thunkAPI) => {
+    try {
+      await axios.put(`/1/cards/${id}?name=${name}`);
+    } catch (error) {
+      thunkAPI.dispatch(throwError(error.response.status));
+    }
   },
 );
 
 export const changeList = createAsyncThunk(
   '/edit/changeList',
-  async ({ id, listId }) => {
-    await axios.put(`/1/cards/${id}?idList=${listId}`);
+  async ({ id, listId }, thunkAPI) => {
+    try {
+      await axios.put(`/1/cards/${id}?idList=${listId}`);
+    } catch (error) {
+      thunkAPI.dispatch(throwError(error.response.status));
+    }
   },
 );
 
