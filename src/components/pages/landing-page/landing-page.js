@@ -5,12 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
 
 import { LoadingSpinner, LogoutButton } from 'components/atoms';
-import {
-  setBoards,
-  addBoard,
-  deleteBoard,
-  sendDeleteRequest,
-} from 'store/boards-slice';
+import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
 
 import { Container } from './landing-page-styles';
 
@@ -46,7 +41,6 @@ export const LandingPage = () => {
 
   const handleDelete = (board) => {
     dispatch(sendDeleteRequest(board));
-    dispatch(deleteBoard(board));
   };
 
   useEffect(() => {

@@ -11,6 +11,7 @@ export const setBoards = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get your boards'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );
@@ -23,6 +24,7 @@ export const addBoard = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Board could not be added'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );
@@ -32,8 +34,10 @@ export const sendDeleteRequest = createAsyncThunk(
   async (board, thunkAPI) => {
     try {
       await axios.delete(`/1/boards/${board.id}`);
+      return board.id;
     } catch (error) {
       thunkAPI.dispatch(throwError('Board could not be deleted'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );
@@ -44,14 +48,7 @@ const boardsSlice = createSlice({
     boardsArray: [],
     isLoading: true,
   },
-  reducers: {
-    deleteBoard(state, action) {
-      state.boardsArray = state.boardsArray.filter(
-        (board) => board.id !== action.payload.id,
-      );
-      state.isLoading = false;
-    },
-  },
+  reducers: {},
 
   extraReducers: {
     [setBoards.pending]: (state) => {
@@ -77,7 +74,10 @@ const boardsSlice = createSlice({
     [sendDeleteRequest.pending]: (state) => {
       state.isLoading = false;
     },
-    [sendDeleteRequest.fulfilled]: (state) => {
+    [sendDeleteRequest.fulfilled]: (state, action) => {
+      state.boardsArray = state.boardsArray.filter(
+        (board) => board.id !== action.payload,
+      );
       state.isLoading = false;
     },
     [sendDeleteRequest.rejected]: (state) => {
@@ -85,7 +85,5 @@ const boardsSlice = createSlice({
     },
   },
 });
-
-export const { deleteBoard } = boardsSlice.actions;
 
 export default boardsSlice;
