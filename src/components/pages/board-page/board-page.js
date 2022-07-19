@@ -29,6 +29,7 @@ export const BoardPage = () => {
   const [isBoardUpdated, setIsBoardUpdated] = useState(false);
   const [board, setBoard] = useState(null);
   const [boardName, setBoardName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [isActive, setIsActive] = useState(false);
   const titleRef = React.useRef(null);
 
@@ -71,7 +72,7 @@ export const BoardPage = () => {
 
       getLists();
       getBoard();
-
+      setIsLoading(false);
       setIsBoardUpdated(false);
     }
   }, [isBoardUpdated, boardId]);
@@ -85,15 +86,16 @@ export const BoardPage = () => {
       }
       setIsActive(false);
     };
-
-    submitBoardName();
+    if (boardName.trim().length > 0) {
+      submitBoardName();
+    }
   };
 
   const handleHomeButton = () => {
     navigate('/');
   };
 
-  if (!board) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -104,41 +106,39 @@ export const BoardPage = () => {
           <Route path={`c/${cardUrl}`} element={<CardPopup />} />
         </Routes>
       )}
-      {board && (
-        <Board
-          ref={titleRef}
-          board={board}
-          boardName={boardName}
-          setBoardName={setBoardName}
-          handleBoardName={handleBoardName}
-          handleHomeButton={handleHomeButton}
-          isActive={isActive}
-          setIsActive={setIsActive}
-        >
-          {lists && (
-            <div className="board-inner-container">
-              {lists.map((list) => (
-                <SingleList
-                  key={list.id}
-                  list={list}
-                  listId={list.id}
-                  name={list.name}
-                  setLists={setLists}
-                  setIsBoardUpdated={setIsBoardUpdated}
-                />
-              ))}
-
-              <AddList
-                creatingNewList={creatingNewList}
-                setCreatingNewList={setCreatingNewList}
-                boardId={boardId}
+      <Board
+        ref={titleRef}
+        board={board}
+        boardName={boardName}
+        setBoardName={setBoardName}
+        handleBoardName={handleBoardName}
+        handleHomeButton={handleHomeButton}
+        isActive={isActive}
+        setIsActive={setIsActive}
+      >
+        {board && lists && (
+          <div className="board-inner-container">
+            {lists.map((list) => (
+              <SingleList
+                key={list.id}
+                list={list}
+                listId={list.id}
+                name={list.name}
+                setLists={setLists}
                 setIsBoardUpdated={setIsBoardUpdated}
-                pos={pos}
               />
-            </div>
-          )}
-        </Board>
-      )}
+            ))}
+
+            <AddList
+              creatingNewList={creatingNewList}
+              setCreatingNewList={setCreatingNewList}
+              boardId={boardId}
+              setIsBoardUpdated={setIsBoardUpdated}
+              pos={pos}
+            />
+          </div>
+        )}
+      </Board>
     </>
   );
 };

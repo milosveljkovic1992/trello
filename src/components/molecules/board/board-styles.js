@@ -3,7 +3,9 @@ import styled from 'styled-components/macro';
 export const Container = styled.div`
   min-height: 100vh;
   background-image: ${({ backgroundImage }) =>
-    backgroundImage && `url("${backgroundImage}")`};
+    backgroundImage
+      ? `url("${backgroundImage}")`
+      : 'linear-gradient(to right, #fff, #fff)'};
   background-size: cover;
   background-position: center;
 
@@ -14,11 +16,10 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.25),
-      transparent
-    );
+    background-image: ${({ backgroundImage }) =>
+      backgroundImage
+        ? 'linear-gradient(to bottom, rgba(0, 0, 0, 0.25), transparent)'
+        : 'linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25))'};
 
     @media (min-width: 768px) {
       padding: 0 15px;

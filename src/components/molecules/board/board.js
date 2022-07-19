@@ -22,7 +22,7 @@ export const Board = React.forwardRef(
   ) => {
     return (
       <Container
-        backgroundImage={board.prefs.backgroundImage}
+        backgroundImage={board?.prefs.backgroundImage}
         isActive={isActive}
       >
         <header className="board-header">
@@ -31,9 +31,11 @@ export const Board = React.forwardRef(
           </div>
 
           <div className="board-title-container">
-            <h1 className="board-title" onClick={() => setIsActive(true)}>
-              {boardName}
-            </h1>
+            {boardName && (
+              <h1 className="board-title" onClick={() => setIsActive(true)}>
+                {boardName}
+              </h1>
+            )}
 
             <input
               className="board-title-input"
