@@ -16,6 +16,7 @@ import { throwError } from 'store/error-slice';
 export const BoardPage = () => {
   const dispatch = useDispatch();
   const popupModalOpen = useSelector((state) => state.popup.open);
+  const hasFetchingFailed = useSelector((state) => state.card.hasFailed);
 
   const navigate = useNavigate();
   const urlParams = useParams();
@@ -40,6 +41,9 @@ export const BoardPage = () => {
     }
     if (cardUrl) {
       dispatch(getCard({ id: cardUrl }));
+    }
+    if (cardUrl && hasFetchingFailed) {
+      navigate(`/b/${board.id}`);
     }
   }, [dispatch, isActive, cardUrl, urlParams]);
 

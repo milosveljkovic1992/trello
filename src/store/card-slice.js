@@ -2,8 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { throwError } from './error-slice';
+import { closeModal } from './popup-slice';
 
 const initialState = {
+  hasFailed: false,
   isLoading: true,
 };
 
@@ -15,6 +17,8 @@ export const getCard = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get card'));
+      thunkAPI.dispatch(closeModal());
+      return thunkAPI.rejectWithValue();
     }
   },
 );
@@ -26,6 +30,7 @@ export const renameCard = createAsyncThunk(
       await axios.put(`/1/cards/${id}?name=${title}`);
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not rename card'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );
@@ -37,6 +42,7 @@ export const deleteCard = createAsyncThunk(
       await axios.delete(`/1/cards/${id}`);
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not delete card'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );
@@ -47,13 +53,18 @@ const cardSlice = createSlice({
   reducers: {},
   extraReducers: {
     [getCard.pending]: (state) => {
+      state.details = {};
+      state.hasFailed = false;
       state.isLoading = true;
     },
     [getCard.fulfilled]: (state, action) => {
       state.details = action.payload;
+      state.hasFailed = false;
       state.isLoading = false;
     },
     [getCard.rejected]: (state) => {
+      state.details = {};
+      state.hasFailed = true;
       state.isLoading = false;
     },
     [renameCard.pending]: (state) => {
