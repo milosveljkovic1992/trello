@@ -8,7 +8,7 @@ import axios from 'axios';
 import Theme from 'global/Theme';
 import { API_KEY, API_URL } from 'global/constants';
 
-import { login, logout } from 'store/auth';
+import { login, logout } from 'store/auth-slice';
 import { getMemberInfo } from 'store/member-slice';
 
 import { BoardPage, CardPopup, LandingPage } from 'components/pages';

@@ -62,7 +62,7 @@ export const LandingPage = () => {
     }
   }, [dispatch, isLoading]);
 
-  if (isLoading) {
+  if (member.isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -98,7 +98,7 @@ export const LandingPage = () => {
               </div>
             ))}
 
-          {boards.length < 10 && (
+          {!!boards.length && boards.length < 10 && (
             <div className="single-board-container">
               <div className="board" onClick={handleActive}>
                 <div

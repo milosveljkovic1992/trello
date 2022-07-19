@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { logout } from 'store/auth';
+import { logout } from 'store/auth-slice';
 import { Button } from './logout-button-styles';
 
 export const LogoutButton = ({ fixed }) => {

@@ -22,6 +22,7 @@ export const getMemberInfo = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get your boards'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );
