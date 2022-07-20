@@ -83,6 +83,7 @@ export const BoardPage = () => {
         await axios.put(`/1/boards/${boardId}?name=${boardName}`);
       } catch (error) {
         dispatch(throwError('Could not edit board name'));
+        setBoardName(board.name);
       }
       setIsActive(false);
     };

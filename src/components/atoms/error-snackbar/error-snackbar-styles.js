@@ -3,12 +3,12 @@ import styled from 'styled-components/macro';
 export const Snackbar = styled.div`
   position: fixed;
   bottom: 5px;
-  left: calc(50% - 150px);
-  min-width: 300px;
+  left: 0;
+  width: 100%;
 
   text-align: center;
   padding: 20px 10px;
-  background-color: rgba(215, 0, 0, 0.6);
+  background-color: rgba(215, 0, 0, 0.8);
   border-radius: 3px;
   overflow: hidden;
   cursor: pointer;

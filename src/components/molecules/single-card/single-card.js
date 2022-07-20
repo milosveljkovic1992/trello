@@ -57,6 +57,7 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
       }
     } else {
       setTitle(card.name);
+      dispatch(throwError('Card name cannot be empty'));
     }
 
     setIsEditOpen(false);

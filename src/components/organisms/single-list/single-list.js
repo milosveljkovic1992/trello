@@ -29,6 +29,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
         await axios.put(`/1/lists/${listId}?name=${listTitle}`);
         setIsListUpdated(false);
       } catch (error) {
+        setListTitle(name);
         dispatch(throwError('Could not update title'));
       }
     };
