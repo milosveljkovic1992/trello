@@ -57,8 +57,8 @@ const App = () => {
           setTimeout(() => {
             dispatch(logout());
             localStorage.removeItem('trelloToken');
+            navigate('/');
           }, 4000);
-          navigate('/');
         }
         return config;
       }),
