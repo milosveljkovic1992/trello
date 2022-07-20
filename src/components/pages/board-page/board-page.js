@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ export const BoardPage = () => {
   const [boardName, setBoardName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isActive, setIsActive] = useState(false);
-  const titleRef = React.useRef(null);
+  const titleRef = useRef(null);
 
   useEffect(() => {
     if (isActive) {

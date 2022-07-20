@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container } from './login-styles';
 
 import { API_KEY, BASE_URL } from 'global/constants';

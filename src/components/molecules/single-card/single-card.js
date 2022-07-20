@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,7 +32,7 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
   const [title, setTitle] = useState(card.name);
   const [rect, setRect] = useState(null);
 
-  const cardRef = React.useRef(null);
+  const cardRef = useRef(null);
 
   const handleOpen = (card) => {
     const { id } = card;

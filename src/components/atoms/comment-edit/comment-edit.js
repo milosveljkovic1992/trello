@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
@@ -14,7 +14,7 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
   const card = useSelector((state) => state.card.details);
   const [commentInput, setCommentInput] = useState(comment.data.text);
 
-  const inputRef = React.useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     if (isActive) {

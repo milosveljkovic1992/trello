@@ -1,8 +1,8 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import { Title } from './list-title-styles';
 
 // eslint-disable-next-line react/display-name
-export const ListTitle = React.forwardRef(
+export const ListTitle = forwardRef(
   (
     {
       isInputActive,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import axios from 'axios';
@@ -14,7 +14,7 @@ export const CardTitle = () => {
 
   const [title, setTitle] = useState(card.name);
   const [isActive, setIsActive] = useState(false);
-  const titleRef = React.useRef(null);
+  const titleRef = useRef(null);
 
   useEffect(() => {
     if (isActive) {

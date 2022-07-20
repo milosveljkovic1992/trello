@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,8 +19,8 @@ export const LandingPage = () => {
   const [isInputActive, setIsInputActive] = useState(false);
   const [newBoardTitle, setNewBoardTitle] = useState('');
 
-  const inputRef = React.useRef(null);
-  const btnRef = React.useRef(null);
+  const inputRef = useRef(null);
+  const btnRef = useRef(null);
 
   const handleActive = () => {
     setIsInputActive(true);

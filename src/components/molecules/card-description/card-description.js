@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
 
 import axios from 'axios';
@@ -16,7 +16,7 @@ export const CardDescription = () => {
   const [previousDescription, setPreviousDescription] = useState('');
   const [isActive, setIsActive] = useState(false);
 
-  const descRef = React.useRef(null);
+  const descRef = useRef(null);
 
   const handleEdit = () => {
     const fetchDescription = async () => {

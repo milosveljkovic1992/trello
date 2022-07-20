@@ -1,4 +1,4 @@
-import React from 'react';
+import { forwardRef } from 'react';
 
 import { ImHome } from 'react-icons/im';
 
@@ -6,7 +6,7 @@ import { LogoutButton } from 'components/atoms';
 import { Container } from './board-styles';
 
 // eslint-disable-next-line react/display-name
-export const Board = React.forwardRef(
+export const Board = forwardRef(
   (
     {
       children,
