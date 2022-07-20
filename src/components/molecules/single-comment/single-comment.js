@@ -23,12 +23,12 @@ export const SingleComment = ({ comment }) => {
         await axios.delete(
           `/1/cards/${card.id}/actions/${comment.id}/comments`,
         );
+        dispatch(deleteComment(comment));
       } catch (error) {
         dispatch(throwError('Could not delete comment'));
       }
     };
     deleteRequest();
-    dispatch(deleteComment(comment));
   };
 
   return (

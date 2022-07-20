@@ -65,8 +65,8 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
   const handleDelete = (card) => {
     const { id } = card;
     try {
-      const remainingCards = cards.filter((card) => card.id !== id);
       dispatch(deleteCard({ id }));
+      const remainingCards = cards.filter((card) => card.id !== id);
       setCards(remainingCards);
     } catch (error) {
       console.log(error);
