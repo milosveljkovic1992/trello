@@ -81,10 +81,10 @@ const App = () => {
       {isErrorDisplayed &&
         createPortal(<ErrorSnackbar />, document.getElementById('error-root'))}
       <Routes>
-        <Route exact path={'/'} element={<LandingPage />} />
-        <Route path={`/b/:boardId//*`} element={<BoardPage />}>
+        <Route exact path="/" element={<LandingPage />} />
+        <Route path="/b/:boardId/*" element={<BoardPage />}>
           {popupModalOpen && (
-            <Route path={`c/:cardUrl`} element={<CardPopup />} />
+            <Route path="c/:cardUrl" element={<CardPopup />} />
           )}
         </Route>
       </Routes>
