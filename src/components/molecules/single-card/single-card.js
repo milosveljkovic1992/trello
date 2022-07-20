@@ -39,10 +39,10 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
     navigate(`c/${card.id}`);
     setIsEditOpen(false);
     try {
-      dispatch(openModal(id));
       dispatch(getCard({ id }));
+      dispatch(openModal(id));
     } catch (error) {
-      console.log(error);
+      dispatch(throwError('Could not open card'));
     }
   };
 
@@ -53,7 +53,7 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
         dispatch(renameCard({ id, title }));
         dispatch(informListUpdate(card.idList));
       } catch (error) {
-        console.log(error);
+        dispatch(throwError('Could not rename card'));
       }
     } else {
       setTitle(card.name);
@@ -69,7 +69,7 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
       const remainingCards = cards.filter((card) => card.id !== id);
       setCards(remainingCards);
     } catch (error) {
-      console.log(error);
+      dispatch(throwError('Could not delete card'));
     }
   };
 
