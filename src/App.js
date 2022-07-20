@@ -51,21 +51,6 @@ const App = () => {
         'Authorization'
       ] = `OAuth oauth_consumer_key="${API_KEY}", oauth_token="${APItoken}"`;
 
-      axios.interceptors.request.use((config) => {
-        if (APItoken !== localStorage.getItem('trelloToken')) {
-          dispatch(throwError('Authorization error. Please login to continue'));
-          setTimeout(() => {
-            dispatch(logout());
-            localStorage.removeItem('trelloToken');
-            navigate('/');
-          }, 4000);
-        }
-        return config;
-      }),
-        (error) => {
-          return Promise.reject(error);
-        };
-
       axios.interceptors.response.use(
         (response) => {
           return response;
