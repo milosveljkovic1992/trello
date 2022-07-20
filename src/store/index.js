@@ -2,7 +2,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './auth-slice';
 import boardsSlice from './boards-slice';
 import cardSlice from './card-slice';
-import commentSlice from './comment-slice';
 import commentsSlice from './comments-slice';
 import dragDrop from './drag-drop-slice';
 import errorSlice from './error-slice';
@@ -15,7 +14,6 @@ const store = configureStore({
     auth: authSlice.reducer,
     boards: boardsSlice.reducer,
     card: cardSlice.reducer,
-    comment: commentSlice.reducer,
     comments: commentsSlice.reducer,
     dragDrop: dragDrop.reducer,
     errorHandler: errorSlice.reducer,

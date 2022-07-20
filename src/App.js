@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -79,10 +79,7 @@ const App = () => {
   return (
     <Theme>
       {isErrorDisplayed &&
-        ReactDOM.createPortal(
-          <ErrorModal />,
-          document.getElementById('error-root'),
-        )}
+        createPortal(<ErrorModal />, document.getElementById('error-root'))}
       <Routes>
         <Route exact path={'/'} element={<LandingPage />} />
         <Route path={`/b/:boardId//*`} element={<BoardPage />}>
