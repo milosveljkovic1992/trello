@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { logout } from './auth';
+
+import { throwError } from './error-slice';
 
 const initialState = {
   id: '',
@@ -21,9 +22,13 @@ export const getMemberInfo = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error.response.status === 401) {
-        localStorage.removeItem('trelloToken');
-        thunkAPI.dispatch(logout);
+        thunkAPI.dispatch(
+          throwError('Session expired. Please login to continue'),
+        );
+      } else {
+        thunkAPI.dispatch(throwError('Could not get your boards'));
       }
+      return thunkAPI.rejectWithValue();
     }
   },
 );

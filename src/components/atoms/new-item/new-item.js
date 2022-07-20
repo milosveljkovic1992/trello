@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -11,7 +11,7 @@ export const NewItem = ({
   setIsCreatingNew,
   placeholder,
 }) => {
-  const inputRef = React.useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     inputRef.current.focus();

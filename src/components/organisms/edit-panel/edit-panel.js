@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
@@ -23,9 +23,9 @@ export const EditPanel = ({ editPanelProps }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [tabRect, setTabRect] = useState(null);
 
-  const titleRef = React.useRef();
-  const animationRef = React.useRef();
-  const moveRef = React.useRef();
+  const titleRef = useRef();
+  const animationRef = useRef();
+  const moveRef = useRef();
 
   const handleDisplay = (e) => {
     if (e.target.classList.contains('card-edit__overlay')) {

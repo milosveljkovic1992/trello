@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
@@ -6,6 +6,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
+import { throwError } from 'store/error-slice';
 
 import { AddButton } from 'components/atoms';
 import { ListHeading, NewCard, SingleCard } from 'components/molecules';
@@ -24,15 +25,16 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
 
   const handleTitle = () => {
     const sendTitle = async () => {
-      await axios.put(`/1/lists/${listId}?name=${listTitle}`);
-      setIsListUpdated(false);
+      try {
+        await axios.put(`/1/lists/${listId}?name=${listTitle}`);
+        setIsListUpdated(false);
+      } catch (error) {
+        setListTitle(name);
+        dispatch(throwError('Could not update title'));
+      }
     };
 
-    try {
-      sendTitle();
-    } catch (error) {
-      console.log(error);
-    }
+    sendTitle();
   };
 
   const handleDragEnterList = (listId) => {
@@ -47,17 +49,17 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     }
 
     const fetchList = async () => {
-      const res = await axios.get(`/1/lists/${listId}/cards`);
-      setCards(res.data);
-      dispatch(resetListUpdate());
+      try {
+        const res = await axios.get(`/1/lists/${listId}/cards`);
+        setCards(res.data);
+        dispatch(resetListUpdate());
+        setIsListUpdated(false);
+      } catch (error) {
+        dispatch(throwError('Could not get the lists'));
+      }
     };
 
-    try {
-      fetchList();
-      setIsListUpdated(false);
-    } catch (error) {
-      console.log(error);
-    }
+    fetchList();
   }, [dispatch, isUpdated, updatedListId, listId, isListUpdated]);
 
   return (

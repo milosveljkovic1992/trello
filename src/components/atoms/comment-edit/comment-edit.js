@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { editComment } from 'store/comments-slice';
+import { throwError } from 'store/error-slice';
 
 import { Container } from './comment-edit-styles';
 
@@ -13,7 +14,7 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
   const card = useSelector((state) => state.card.details);
   const [commentInput, setCommentInput] = useState(comment.data.text);
 
-  const inputRef = React.useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     if (isActive) {
@@ -23,18 +24,18 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
 
   const handleEdit = (id, value) => {
     const editRequest = async () => {
-      await axios.put(
-        `/1/cards/${card.id}/actions/${id}/comments?text=${value}`,
-      );
+      try {
+        await axios.put(
+          `/1/cards/${card.id}/actions/${id}/comments?text=${value}`,
+        );
+        dispatch(editComment({ id, value }));
+      } catch (error) {
+        dispatch(throwError('Comment could not be edited'));
+      }
     };
 
     if (value.trim().length > 0) {
-      try {
-        editRequest();
-        dispatch(editComment({ id, value }));
-      } catch (error) {
-        console.log(error);
-      }
+      editRequest();
     } else {
       setCommentInput(comment.data.text);
     }

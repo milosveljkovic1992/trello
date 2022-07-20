@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
 
 import axios from 'axios';
 
+import { throwError } from 'store/error-slice';
 import { deleteComment } from 'store/comments-slice';
 
 import { Link } from 'components/atoms';
@@ -18,15 +19,16 @@ export const SingleComment = ({ comment }) => {
 
   const handleDelete = () => {
     const deleteRequest = async () => {
-      await axios.delete(`/1/cards/${card.id}/actions/${comment.id}/comments`);
+      try {
+        await axios.delete(
+          `/1/cards/${card.id}/actions/${comment.id}/comments`,
+        );
+        dispatch(deleteComment(comment));
+      } catch (error) {
+        dispatch(throwError('Could not delete comment'));
+      }
     };
-
-    try {
-      deleteRequest();
-      dispatch(deleteComment(comment));
-    } catch (error) {
-      console.log(error);
-    }
+    deleteRequest();
   };
 
   return (

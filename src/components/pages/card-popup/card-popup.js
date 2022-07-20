@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import { CgCreditCard } from 'react-icons/cg';
 
 import { setComments } from 'store/comments-slice';
 import { closeModal } from 'store/popup-slice';
+import { throwError } from 'store/error-slice';
 
 import {
   CommentInput,
@@ -42,17 +43,17 @@ export const CardPopup = () => {
 
   useEffect(() => {
     const fetchComments = async () => {
-      const response = await axios.get(`/1/cards/${cardUrl}/actions`);
-      dispatch(setComments(response.data));
+      try {
+        const response = await axios.get(`/1/cards/${cardUrl}/actions`);
+        dispatch(setComments(response.data));
+      } catch (error) {
+        dispatch(throwError('Could not get the comments'));
+      }
     };
 
     if (!isLoading || isUpdated) {
-      try {
-        fetchComments();
-        setIsUpdated(false);
-      } catch (error) {
-        console.log(error);
-      }
+      fetchComments();
+      setIsUpdated(false);
     }
   }, [dispatch, card, cardUrl, isLoading, isUpdated]);
 

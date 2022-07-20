@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+
+import { throwError } from 'store/error-slice';
 
 import { NewItem } from 'components/atoms';
 
 export const NewCard = ({ setIsCreatingNew, listId, setCards }) => {
+  const dispatch = useDispatch();
   const [userInput, setUserInput] = useState('');
 
   const handleInput = (e) => {
@@ -13,18 +17,18 @@ export const NewCard = ({ setIsCreatingNew, listId, setCards }) => {
 
   const handleSubmit = () => {
     const submitCard = async () => {
-      const response = await axios.post(
-        `/1/cards?idList=${listId}&name=${userInput}`,
-      );
-      setCards((cards) => [...cards, response.data]);
+      try {
+        const response = await axios.post(
+          `/1/card?idList=${listId}&name=${userInput}`,
+        );
+        setCards((cards) => [...cards, response.data]);
+      } catch (error) {
+        dispatch(throwError('New card could not be added'));
+      }
     };
 
     if (userInput.trim().length > 0) {
-      try {
-        submitCard();
-      } catch (error) {
-        console.log(error);
-      }
+      submitCard();
     }
     setUserInput('');
     setIsCreatingNew(false);

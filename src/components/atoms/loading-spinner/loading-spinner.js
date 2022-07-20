@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container } from './loading-spinner-styles';
 
 export const LoadingSpinner = () => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Container } from './add-button-styles';
 
 export const AddButton = ({ children, onClick, icon }) => {

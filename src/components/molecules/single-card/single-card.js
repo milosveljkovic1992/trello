@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,12 +14,12 @@ import {
   dragOverList,
   endDrag,
 } from 'store/drag-drop-slice';
+import { throwError } from 'store/error-slice';
 
 import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
 
 import { Container } from './single-card-styles';
-
 export const SingleCard = ({ index, card, cards, setCards }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,17 +32,17 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
   const [title, setTitle] = useState(card.name);
   const [rect, setRect] = useState(null);
 
-  const cardRef = React.useRef(null);
+  const cardRef = useRef(null);
 
   const handleOpen = (card) => {
     const { id } = card;
     navigate(`c/${card.id}`);
     setIsEditOpen(false);
     try {
-      dispatch(openModal(id));
       dispatch(getCard({ id }));
+      dispatch(openModal(id));
     } catch (error) {
-      console.log(error);
+      dispatch(throwError('Could not open card'));
     }
   };
 
@@ -53,10 +53,11 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
         dispatch(renameCard({ id, title }));
         dispatch(informListUpdate(card.idList));
       } catch (error) {
-        console.log(error);
+        dispatch(throwError('Could not rename card'));
       }
     } else {
       setTitle(card.name);
+      dispatch(throwError('Card name cannot be empty'));
     }
 
     setIsEditOpen(false);
@@ -65,30 +66,30 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
   const handleDelete = (card) => {
     const { id } = card;
     try {
-      const remainingCards = cards.filter((card) => card.id !== id);
       dispatch(deleteCard({ id }));
+      const remainingCards = cards.filter((card) => card.id !== id);
       setCards(remainingCards);
     } catch (error) {
-      console.log(error);
+      dispatch(throwError('Could not delete card'));
     }
   };
 
   const handleMove = (card, targetList, targetPosition) => {
     const sendMoveRequest = async () => {
-      await axios.put(
-        `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
-      );
+      try {
+        await axios.put(
+          `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
+        );
+      } catch (error) {
+        dispatch(throwError('Could not move card'));
+      }
     };
 
-    try {
-      sendMoveRequest();
-      setIsEditOpen(false);
-      setIsMoveOpen(false);
-      dispatch(informListUpdate(card.idList));
-      dispatch(informListUpdate(targetList));
-    } catch (error) {
-      console.log(error);
-    }
+    sendMoveRequest();
+    setIsEditOpen(false);
+    setIsMoveOpen(false);
+    dispatch(informListUpdate(card.idList));
+    dispatch(informListUpdate(targetList));
   };
 
   useEffect(() => {
@@ -116,19 +117,19 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
 
   const handleDragEnd = (e) => {
     const sendMoveRequest = async () => {
-      await axios.put(
-        `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
-      );
+      try {
+        await axios.put(
+          `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
+        );
+      } catch (error) {
+        dispatch(throwError('Could not move card'));
+      }
     };
 
-    try {
-      sendMoveRequest();
-      dispatch(endDrag());
-      dispatch(informListUpdate(draggedCard));
-      dispatch(informListUpdate(targetListId));
-    } catch (error) {
-      console.log(error);
-    }
+    sendMoveRequest();
+    dispatch(endDrag());
+    dispatch(informListUpdate(draggedCard));
+    dispatch(informListUpdate(targetListId));
 
     e.target.classList.remove('drag-active');
   };

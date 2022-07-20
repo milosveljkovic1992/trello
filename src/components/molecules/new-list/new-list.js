@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+
+import { throwError } from 'store/error-slice';
 
 import { NewItem } from 'components/atoms';
 
@@ -10,6 +13,7 @@ export const NewList = ({
   setIsBoardUpdated,
   pos,
 }) => {
+  const dispatch = useDispatch();
   const [userInput, setUserInput] = useState('');
 
   const handleInput = (e) => {
@@ -17,21 +21,22 @@ export const NewList = ({
   };
 
   const submitList = async () => {
-    const res = await axios.post(
-      `/1/lists?name=${userInput}&pos=${pos}&idBoard=${boardId}`,
-    );
-    return res.data;
+    try {
+      await axios.post(
+        `/1/lists?name=${userInput}&pos=${pos}&idBoard=${boardId}`,
+      );
+    } catch (error) {
+      dispatch(throwError('New list could not be added'));
+    }
   };
 
   const handleSubmit = () => {
-    try {
+    if (userInput.trim().length > 0) {
       submitList();
-      setUserInput('');
-      setCreatingNewList(false);
       setIsBoardUpdated(true);
-    } catch (error) {
-      console.log(error);
     }
+    setUserInput('');
+    setCreatingNewList(false);
   };
 
   return (

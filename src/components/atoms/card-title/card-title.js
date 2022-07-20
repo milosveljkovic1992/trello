@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import axios from 'axios';
 
 import { informListUpdate } from 'store/lists-slice';
+import { throwError } from 'store/error-slice';
 
 import { Container } from './card-title-styles';
 
@@ -13,7 +14,7 @@ export const CardTitle = () => {
 
   const [title, setTitle] = useState(card.name);
   const [isActive, setIsActive] = useState(false);
-  const titleRef = React.useRef(null);
+  const titleRef = useRef(null);
 
   useEffect(() => {
     if (isActive) {
@@ -23,16 +24,16 @@ export const CardTitle = () => {
 
   const handleChange = () => {
     const submitChange = async () => {
-      axios.put(`/1/cards/${card.id}?name=${title}`);
+      try {
+        await axios.put(`/1/cards/${card.id}?name=${title}`);
+      } catch (error) {
+        dispatch(throwError('Title could not be changed'));
+      }
     };
 
     if (title.trim().length > 0) {
-      try {
-        submitChange();
-        dispatch(informListUpdate(card.idList));
-      } catch (error) {
-        console.log(error);
-      }
+      submitChange();
+      dispatch(informListUpdate(card.idList));
     } else {
       setTitle(card.name);
     }

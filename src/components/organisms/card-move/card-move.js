@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import axios from 'axios';
 import { GrClose } from 'react-icons/gr';
 
 import { Container } from './card-move-styles';
+import { throwError } from 'store/error-slice';
 
 export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [allLists, setAllLists] = useState(null);
   const [currentList, setCurrentList] = useState(null);
@@ -18,40 +22,46 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
 
   const getListsInfo = () => {
     const fetchAllLists = async () => {
-      const response = await axios.get(`/1/boards/${boardId}/lists`);
-      setAllLists(response.data);
+      try {
+        const response = await axios.get(`/1/boards/${boardId}/lists`);
+        setAllLists(response.data);
+      } catch (error) {
+        dispatch(throwError('Ooops something went wrong'));
+      }
     };
 
     const fetchCurrentList = async () => {
-      const response = await axios.get(`/1/lists/${card.idList}/cards`);
-      setCurrentList(response.data);
-      setSelectedList(response.data);
-      setSelectedListId(response.data[0].idList);
+      try {
+        const response = await axios.get(`/1/lists/${card.idList}/cards`);
+        setCurrentList(response.data);
+        setSelectedList(response.data);
+        setSelectedListId(response.data[0].idList);
+      } catch (error) {
+        dispatch(throwError('Ooops something went wrong'));
+      }
     };
 
-    try {
-      fetchAllLists();
-      fetchCurrentList();
-    } catch (error) {
-      console.log(error);
-    }
+    fetchAllLists();
+    fetchCurrentList();
   };
 
   const handleSelect = (e) => {
     const listId = e.target.value;
 
     const fetchSelectedList = async () => {
-      const response = await axios.get(`/1/lists/${listId}/cards`);
-      setSelectedList(response.data);
-      setSelectedListId(response.data[0].idList);
-      setSelectedPosition(response.data[response.data.length - 1].pos + 10000);
+      try {
+        const response = await axios.get(`/1/lists/${listId}/cards`);
+        setSelectedList(response.data);
+        setSelectedListId(response.data[0].idList);
+        setSelectedPosition(
+          response.data[response.data.length - 1].pos + 10000,
+        );
+      } catch (error) {
+        dispatch(throwError('Ooops something went wrong'));
+      }
     };
 
-    try {
-      fetchSelectedList();
-    } catch (error) {
-      console.log(error);
-    }
+    fetchSelectedList();
   };
 
   const handlePosition = (e) => {

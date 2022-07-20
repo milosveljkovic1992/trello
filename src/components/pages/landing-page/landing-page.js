@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import axios from 'axios';
 import { FaTrashAlt } from 'react-icons/fa';
 
 import { LoadingSpinner, LogoutButton } from 'components/atoms';
-import { setBoards, addBoard, deleteBoard } from 'store/boards-slice';
+import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
 
 import { Container } from './landing-page-styles';
 
@@ -20,8 +19,8 @@ export const LandingPage = () => {
   const [isInputActive, setIsInputActive] = useState(false);
   const [newBoardTitle, setNewBoardTitle] = useState('');
 
-  const inputRef = React.useRef(null);
-  const btnRef = React.useRef(null);
+  const inputRef = useRef(null);
+  const btnRef = useRef(null);
 
   const handleActive = () => {
     setIsInputActive(true);
@@ -30,48 +29,18 @@ export const LandingPage = () => {
   const handleClick = (e, board) => {
     e.stopPropagation();
     if (e.target.closest('.delete-btn')) return;
-
-    const fetchBoard = async () => {
-      await axios.get(`/1/boards/${board.id}`);
-    };
-
-    try {
-      fetchBoard();
-      navigate(`/b/${board.id}`);
-    } catch (error) {
-      console.log(error);
-    }
+    navigate(`/b/${board.id}`);
   };
 
   const handleCreateNew = () => {
-    const sendCreateRequest = async () => {
-      const response = await axios.post(`/1/boards/?name=${newBoardTitle}`);
-      dispatch(addBoard(response.data));
-    };
-
-    if (newBoardTitle.trim().length > 0) {
-      try {
-        sendCreateRequest();
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    if (newBoardTitle.trim().length > 0) dispatch(addBoard(newBoardTitle));
 
     setNewBoardTitle('');
     setIsInputActive(false);
   };
 
   const handleDelete = (board) => {
-    const sendDeleteRequest = async () => {
-      await axios.delete(`/1/boards/${board.id}`);
-    };
-
-    try {
-      sendDeleteRequest();
-      dispatch(deleteBoard(board));
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(sendDeleteRequest(board));
   };
 
   useEffect(() => {
@@ -82,21 +51,12 @@ export const LandingPage = () => {
   }, [boards, isInputActive]);
 
   useEffect(() => {
-    const getMemberBoards = async () => {
-      const response = await axios.get(`/1/members/${member.id}/boards`);
-      dispatch(setBoards(response.data));
-    };
-
     if (member.id && isLoading) {
-      try {
-        getMemberBoards();
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(setBoards(member.id));
     }
-  }, [dispatch, member, isLoading]);
+  }, [dispatch, isLoading]);
 
-  if (isLoading) {
+  if (member.isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -132,7 +92,7 @@ export const LandingPage = () => {
               </div>
             ))}
 
-          {boards.length < 10 && (
+          {!!boards.length && boards.length < 10 && (
             <div className="single-board-container">
               <div className="board" onClick={handleActive}>
                 <div

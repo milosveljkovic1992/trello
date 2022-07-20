@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { FaTrashAlt } from 'react-icons/fa';
 
 import { ListTitle } from 'components/atoms';
+import { throwError } from 'store/error-slice';
 
 export const ListHeading = ({
   handleTitle,
@@ -15,17 +17,18 @@ export const ListHeading = ({
   const titleRef = useRef(null);
   const [isInputActive, setIsInputActive] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleSendToArchive = () => {
     const sendRequest = async () => {
-      await axios.put(`/1/lists/${listId}?closed=true`);
-      setIsBoardUpdated(true);
+      try {
+        await axios.put(`/1/lists/${listId}?closed=true`);
+        setIsBoardUpdated(true);
+      } catch (error) {
+        dispatch(throwError('List could not be removed'));
+      }
     };
-
-    try {
-      sendRequest();
-    } catch (error) {
-      console.log(error);
-    }
+    sendRequest();
   };
 
   const handleFocus = () => {
