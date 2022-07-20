@@ -21,7 +21,13 @@ export const getMemberInfo = createAsyncThunk(
       const response = await axios.get(`/1/tokens/${APItoken}/member`);
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(throwError('Could not get your boards'));
+      if (error.response.status === 401) {
+        thunkAPI.dispatch(
+          throwError('Session expired. Please login to continue'),
+        );
+      } else {
+        thunkAPI.dispatch(throwError('Could not get your boards'));
+      }
       return thunkAPI.rejectWithValue();
     }
   },

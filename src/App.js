@@ -57,12 +57,10 @@ const App = () => {
         },
         (error) => {
           if (error.response.status === 401) {
-            dispatch(throwError('Session expired. Please login to continue'));
-            setTimeout(() => {
-              dispatch(logout());
-              localStorage.removeItem('trelloToken');
-            }, 4000);
+            dispatch(logout());
+            localStorage.removeItem('trelloToken');
             navigate('/');
+            dispatch(throwError('Session expired. Please login to continue'));
           }
           return Promise.reject(error);
         },
@@ -72,26 +70,24 @@ const App = () => {
     }
   }, [APItoken]);
 
-  if (!isAuth) {
-    return <Login />;
-  }
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <Theme>
       {isErrorDisplayed &&
         createPortal(<ErrorSnackbar />, document.getElementById('error-root'))}
-      <Routes>
-        <Route exact path="/" element={<LandingPage />} />
-        <Route path="/b/:boardId/*" element={<BoardPage />}>
-          {popupModalOpen && (
-            <Route path="c/:cardUrl" element={<CardPopup />} />
-          )}
-        </Route>
-      </Routes>
+      {!isAuth ? (
+        <Login />
+      ) : isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <Routes>
+          <Route exact path="/" element={<LandingPage />} />
+          <Route path="/b/:boardId/*" element={<BoardPage />}>
+            {popupModalOpen && (
+              <Route path="c/:cardUrl" element={<CardPopup />} />
+            )}
+          </Route>
+        </Routes>
+      )}
     </Theme>
   );
 };
