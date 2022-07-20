@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -23,6 +23,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { APItoken, isAuth } = useSelector((state) => state.auth);
   const memberId = useSelector((state) => state.member.id);
   const { isLoading } = useSelector((state) => state.member);
@@ -32,8 +34,8 @@ const App = () => {
   useEffect(() => {
     const trelloToken = localStorage.getItem('trelloToken');
 
-    if (!trelloToken && document.location.hash.includes('#token=')) {
-      const token = document.location.hash.replace('#token=', '');
+    if (!trelloToken && !!location.hash) {
+      const token = location.hash.replace('#token=', '');
       localStorage.setItem('trelloToken', token);
       dispatch(login(token));
     }
