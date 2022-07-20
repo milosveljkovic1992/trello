@@ -53,9 +53,11 @@ const App = () => {
 
       axios.interceptors.request.use((config) => {
         if (APItoken !== localStorage.getItem('trelloToken')) {
-          dispatch(throwError('Session expired. Please login to continue'));
-          dispatch(logout());
-          localStorage.removeItem('trelloToken');
+          dispatch(throwError('Authorization error. Please login to continue'));
+          setTimeout(() => {
+            dispatch(logout());
+            localStorage.removeItem('trelloToken');
+          }, 4000);
           navigate('/');
         }
         return config;
@@ -63,6 +65,23 @@ const App = () => {
         (error) => {
           return Promise.reject(error);
         };
+
+      axios.interceptors.response.use(
+        (response) => {
+          return response;
+        },
+        (error) => {
+          if (error.response.status === 401) {
+            dispatch(throwError('Session expired. Please login to continue'));
+            setTimeout(() => {
+              dispatch(logout());
+              localStorage.removeItem('trelloToken');
+            }, 4000);
+            navigate('/');
+          }
+          return Promise.reject(error);
+        },
+      );
 
       dispatch(getMemberInfo(APItoken));
     }
