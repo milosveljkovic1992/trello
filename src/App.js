@@ -13,7 +13,7 @@ import { getMemberInfo } from 'store/member-slice';
 
 import { BoardPage, CardPopup, LandingPage } from 'components/pages';
 
-import { ErrorModal, LoadingSpinner, Login } from 'components/atoms';
+import { ErrorSnackbar, LoadingSpinner, Login } from 'components/atoms';
 import { throwError } from 'store/error-slice';
 
 axios.defaults.baseURL = API_URL;
@@ -79,7 +79,7 @@ const App = () => {
   return (
     <Theme>
       {isErrorDisplayed &&
-        createPortal(<ErrorModal />, document.getElementById('error-root'))}
+        createPortal(<ErrorSnackbar />, document.getElementById('error-root'))}
       <Routes>
         <Route exact path={'/'} element={<LandingPage />} />
         <Route path={`/b/:boardId//*`} element={<BoardPage />}>

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { resetError } from 'store/error-slice';
 
-import { Snackbar } from './error-modal-styles';
+import { Snackbar } from './error-snackbar-styles';
 
-export const ErrorModal = () => {
+export const ErrorSnackbar = () => {
   const dispatch = useDispatch();
   const { errorMessage } = useSelector((state) => state.errorHandler);
 
