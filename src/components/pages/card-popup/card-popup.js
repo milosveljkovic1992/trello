@@ -28,7 +28,7 @@ export const CardPopup = () => {
   const card = useSelector((state) => state.card.details);
   const isLoading = useSelector((state) => state.card.isLoading);
   const comments = useSelector((state) => state.comments.commentsList);
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(true);
 
   const handleClose = (e) => {
     if (
@@ -51,7 +51,7 @@ export const CardPopup = () => {
       }
     };
 
-    if (!isLoading || isUpdated) {
+    if (!isLoading && isUpdated) {
       fetchComments();
       setIsUpdated(false);
     }

@@ -50,16 +50,6 @@ export const BoardPage = () => {
 
   useEffect(() => {
     if (!!boardId || isBoardUpdated) {
-      const getLists = async () => {
-        try {
-          const response = await axios.get(`/1/boards/${boardId}/lists`);
-          setLists(response.data);
-          setPos(response.data[response.data.length - 1].pos + 1000);
-        } catch (error) {
-          dispatch(throwError('Could not get the lists'));
-        }
-      };
-
       const getBoard = async () => {
         try {
           const response = await axios.get(`/1/boards/${boardId}`);
@@ -70,8 +60,18 @@ export const BoardPage = () => {
         }
       };
 
-      getLists();
+      const getLists = async () => {
+        try {
+          const response = await axios.get(`/1/boards/${boardId}/lists`);
+          setLists(response.data);
+          setPos(response.data[response.data.length - 1].pos + 1000);
+        } catch (error) {
+          dispatch(throwError('Could not get the lists'));
+        }
+      };
+
       getBoard();
+      getLists();
       setIsLoading(false);
       setIsBoardUpdated(false);
     }
