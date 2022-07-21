@@ -50,28 +50,26 @@ export const BoardPage = () => {
 
   useEffect(() => {
     if (!!boardId || isBoardUpdated) {
-      const getBoard = async () => {
+      const fetchBoardListsAndCards = async () => {
         try {
-          const response = await axios.get(`/1/boards/${boardId}`);
-          setBoardName(response.data.name);
-          setBoard(response.data);
+          const response = await axios.get(
+            `/1/batch?urls=/1/boards/${boardId},/1/boards/${boardId}/lists,/1/boards/${boardId}/cards`,
+          );
+          const fetchedBoard = response.data[0][200];
+          const fetchedLists = response.data[1][200];
+
+          setBoard(fetchedBoard);
+          setBoardName(fetchedBoard.name);
+
+          setLists(fetchedLists);
+          const lastList = fetchedLists[fetchedLists.length - 1];
+          setPos(lastList.pos + 1000);
         } catch (error) {
-          dispatch(throwError('Could not get your board'));
+          dispatch(throwError('Could not get board info'));
         }
       };
 
-      const getLists = async () => {
-        try {
-          const response = await axios.get(`/1/boards/${boardId}/lists`);
-          setLists(response.data);
-          setPos(response.data[response.data.length - 1].pos + 1000);
-        } catch (error) {
-          dispatch(throwError('Could not get the lists'));
-        }
-      };
-
-      getBoard();
-      getLists();
+      fetchBoardListsAndCards();
       setIsLoading(false);
       setIsBoardUpdated(false);
     }
