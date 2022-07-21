@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { throwError } from './error-slice';
 import { closeModal } from './popup-slice';
+import { resetComments } from './comments-slice';
 
 const initialState = {
   hasFailed: false,
@@ -18,6 +19,9 @@ export const getCard = createAsyncThunk(
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get card'));
       thunkAPI.dispatch(closeModal());
+      thunkAPI.dispatch(resetCard());
+      thunkAPI.dispatch(resetComments());
+
       return thunkAPI.rejectWithValue();
     }
   },
@@ -50,7 +54,13 @@ export const deleteCard = createAsyncThunk(
 const cardSlice = createSlice({
   name: 'cards',
   initialState,
-  reducers: {},
+  reducers: {
+    resetCard(state) {
+      state.details = {};
+      state.hasFailed = false;
+      state.isLoading = true;
+    },
+  },
   extraReducers: {
     [getCard.pending]: (state) => {
       state.details = {};
@@ -88,6 +98,6 @@ const cardSlice = createSlice({
   },
 });
 
-export const cardSliceAction = cardSlice.actions;
+export const { resetCard } = cardSlice.actions;
 
 export default cardSlice;
