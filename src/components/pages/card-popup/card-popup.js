@@ -8,8 +8,9 @@ import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
 import { CgCreditCard } from 'react-icons/cg';
 
-import { setComments } from 'store/comments-slice';
+import { setComments, resetComments } from 'store/comments-slice';
 import { closeModal } from 'store/popup-slice';
+import { resetCard } from 'store/card-slice';
 import { throwError } from 'store/error-slice';
 
 import {
@@ -28,7 +29,7 @@ export const CardPopup = () => {
   const card = useSelector((state) => state.card.details);
   const isLoading = useSelector((state) => state.card.isLoading);
   const comments = useSelector((state) => state.comments.commentsList);
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(true);
 
   const handleClose = (e) => {
     if (
@@ -38,6 +39,8 @@ export const CardPopup = () => {
     ) {
       navigate(`/b/${card.idBoard}`);
       dispatch(closeModal());
+      dispatch(resetCard());
+      dispatch(resetComments());
     }
   };
 
@@ -51,11 +54,11 @@ export const CardPopup = () => {
       }
     };
 
-    if (!isLoading || isUpdated) {
+    if (!isLoading && isUpdated) {
       fetchComments();
       setIsUpdated(false);
     }
-  }, [dispatch, card, cardUrl, isLoading, isUpdated]);
+  }, [dispatch, card, cardUrl, isLoading, isUpdated, comments]);
 
   if (!card) {
     return <></>;

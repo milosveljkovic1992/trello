@@ -19,6 +19,7 @@ export const CommentInput = ({ setIsUpdated }) => {
         await axios.post(
           `/1/cards/${card.id}/actions/comments?text=${comment}`,
         );
+        setIsUpdated(true);
       } catch (error) {
         dispatch(throwError('Comment could not be added'));
       }
@@ -28,7 +29,6 @@ export const CommentInput = ({ setIsUpdated }) => {
       postComment();
     }
     setComment('');
-    setIsUpdated(true);
     setIsDisplayed(false);
   };
 

@@ -15,12 +15,13 @@ import { Container } from './single-list-styles';
 
 export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   const dispatch = useDispatch();
-  const { isUpdated, updatedListId } = useSelector((state) => state.lists);
+  const cards = useSelector((state) => state.cards.cardsArray);
   const { targetListId } = useSelector((state) => state.dragDrop);
+  const { updatedListId } = useSelector((state) => state.lists);
 
-  const [cards, setCards] = useState();
+  const [cardsOnThisList, setCardsOnThisList] = useState([]);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
-  const [isListUpdated, setIsListUpdated] = useState(false);
+  const [isListUpdated, setIsListUpdated] = useState(true);
   const [listTitle, setListTitle] = useState(name);
 
   const handleTitle = () => {
@@ -44,23 +45,16 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   };
 
   useEffect(() => {
-    if (isUpdated && updatedListId === listId) {
-      setIsListUpdated(true);
+    if (isListUpdated || updatedListId === listId) {
+      setCardsOnThisList(
+        cards
+          .filter((card) => card.idList === listId && card)
+          .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0)),
+      );
+      setIsListUpdated(false);
+      dispatch(resetListUpdate());
     }
-
-    const fetchList = async () => {
-      try {
-        const res = await axios.get(`/1/lists/${listId}/cards`);
-        setCards(res.data);
-        dispatch(resetListUpdate());
-        setIsListUpdated(false);
-      } catch (error) {
-        dispatch(throwError('Could not get the lists'));
-      }
-    };
-
-    fetchList();
-  }, [dispatch, isUpdated, updatedListId, listId, isListUpdated]);
+  }, [dispatch, isListUpdated, updatedListId]);
 
   return (
     <>
@@ -74,16 +68,18 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
             setIsBoardUpdated={setIsBoardUpdated}
           />
           <div className="card-container">
-            {cards.map((card, index) => (
-              <SingleCard
-                key={card.id}
-                index={index}
-                card={card}
-                cards={cards}
-                setCards={setCards}
-                setIsListUpdated={setIsListUpdated}
-              />
-            ))}
+            {cardsOnThisList.map(
+              (card, index) =>
+                card.idList === listId && (
+                  <SingleCard
+                    key={card.id}
+                    index={index}
+                    card={card}
+                    setIsListUpdated={setIsListUpdated}
+                    setCardsOnThisList={setCardsOnThisList}
+                  />
+                ),
+            )}
           </div>
           {!isCreatingNew ? (
             <AddButton
@@ -93,11 +89,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
               Add a card
             </AddButton>
           ) : (
-            <NewCard
-              setIsCreatingNew={setIsCreatingNew}
-              listId={listId}
-              setCards={setCards}
-            />
+            <NewCard setIsCreatingNew={setIsCreatingNew} listId={listId} />
           )}
         </Container>
       )}

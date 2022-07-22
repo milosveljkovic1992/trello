@@ -6,8 +6,10 @@ import axios from 'axios';
 import { throwError } from 'store/error-slice';
 
 import { NewItem } from 'components/atoms';
+import { addCard } from 'store/cards-slice';
+import { informListUpdate } from 'store/lists-slice';
 
-export const NewCard = ({ setIsCreatingNew, listId, setCards }) => {
+export const NewCard = ({ setIsCreatingNew, listId }) => {
   const dispatch = useDispatch();
   const [userInput, setUserInput] = useState('');
 
@@ -21,7 +23,8 @@ export const NewCard = ({ setIsCreatingNew, listId, setCards }) => {
         const response = await axios.post(
           `/1/card?idList=${listId}&name=${userInput}`,
         );
-        setCards((cards) => [...cards, response.data]);
+        dispatch(addCard(response.data));
+        dispatch(informListUpdate(listId));
       } catch (error) {
         dispatch(throwError('New card could not be added'));
       }

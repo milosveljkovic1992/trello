@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   draggedCard: {},
+  startIndex: 0,
   targetIndex: 0,
   targetListId: '',
   targetPosition: 10000,
@@ -12,7 +13,8 @@ const dragDrop = createSlice({
   initialState,
   reducers: {
     startDrag(state, action) {
-      state.draggedCard = action.payload;
+      state.startIndex = action.payload.index;
+      state.draggedCard = action.payload.card;
     },
     dragOverCard(state, action) {
       state.targetIndex = action.payload.index;

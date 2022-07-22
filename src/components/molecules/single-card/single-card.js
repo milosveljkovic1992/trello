@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TbPencil } from 'react-icons/tb';
 
-import { getCard, deleteCard, renameCard } from 'store/card-slice';
+import { deleteCard, getCard, renameCard } from 'store/card-slice';
+import { updateCard } from 'store/cards-slice';
 import { informListUpdate } from 'store/lists-slice';
 import { openModal } from 'store/popup-slice';
 import {
@@ -20,7 +21,8 @@ import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
 
 import { Container } from './single-card-styles';
-export const SingleCard = ({ index, card, cards, setCards }) => {
+
+export const SingleCard = ({ index, card, setIsListUpdated }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { draggedCard, targetListId, targetPosition } = useSelector(
@@ -47,11 +49,10 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
   };
 
   const handleRename = (card, title) => {
-    const { id } = card;
+    const { id, idList } = card;
     if (title.trim().length > 0) {
       try {
-        dispatch(renameCard({ id, title }));
-        dispatch(informListUpdate(card.idList));
+        dispatch(renameCard({ id, title, idList }));
       } catch (error) {
         dispatch(throwError('Could not rename card'));
       }
@@ -64,22 +65,19 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
   };
 
   const handleDelete = (card) => {
-    const { id } = card;
-    try {
-      dispatch(deleteCard({ id }));
-      const remainingCards = cards.filter((card) => card.id !== id);
-      setCards(remainingCards);
-    } catch (error) {
-      dispatch(throwError('Could not delete card'));
-    }
+    dispatch(deleteCard(card));
+    setIsEditOpen(false);
   };
 
   const handleMove = (card, targetList, targetPosition) => {
     const sendMoveRequest = async () => {
       try {
-        await axios.put(
+        const response = await axios.put(
           `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
         );
+        dispatch(updateCard(response.data));
+        setIsListUpdated(true);
+        dispatch(informListUpdate(targetList));
       } catch (error) {
         dispatch(throwError('Could not move card'));
       }
@@ -88,8 +86,6 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
     sendMoveRequest();
     setIsEditOpen(false);
     setIsMoveOpen(false);
-    dispatch(informListUpdate(card.idList));
-    dispatch(informListUpdate(targetList));
   };
 
   useEffect(() => {
@@ -98,9 +94,9 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
     }
   }, [isEditOpen]);
 
-  const handleDragStart = (e, card) => {
+  const handleDragStart = (e, card, index) => {
     const listId = card.idList;
-    dispatch(startDrag(card));
+    dispatch(startDrag({ card, index }));
     dispatch(dragOverList({ listId }));
     e.target.classList.add('drag-active');
   };
@@ -111,25 +107,30 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
 
     if (isFirst) {
       pos = pos / 2;
+    } else if (draggedCard.pos > card.pos) {
+      pos = pos - 1;
     }
+
     dispatch(dragOverCard({ index, pos }));
   };
 
   const handleDragEnd = (e) => {
     const sendMoveRequest = async () => {
       try {
-        await axios.put(
+        const response = await axios.put(
           `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
         );
+        dispatch(updateCard(response.data));
+        setIsListUpdated(true);
+        dispatch(informListUpdate(targetListId));
       } catch (error) {
         dispatch(throwError('Could not move card'));
       }
     };
 
     sendMoveRequest();
+    setIsListUpdated(true);
     dispatch(endDrag());
-    dispatch(informListUpdate(draggedCard));
-    dispatch(informListUpdate(targetListId));
 
     e.target.classList.remove('drag-active');
   };
@@ -159,7 +160,9 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
       >
         <p className="card-title">{card.name}</p>
       </Link>
-      {isEditOpen && <EditPanel editPanelProps={editPanelProps} />}
+      {isEditOpen && (
+        <EditPanel editPanelProps={editPanelProps} index={index} />
+      )}
       <div className="edit-btn" onClick={() => setIsEditOpen(true)}>
         <TbPencil />
       </div>

@@ -9,6 +9,9 @@ const commentsSlice = createSlice({
     setComments(state, action) {
       state.commentsList = action.payload;
     },
+    resetComments(state) {
+      state.commentsList = [];
+    },
     editComment(state, action) {
       const { id, value } = action.payload;
       state.commentsList = state.commentsList.map((comment) => {
@@ -26,7 +29,7 @@ const commentsSlice = createSlice({
   },
 });
 
-export const { setComments, editComment, deleteComment } =
+export const { setComments, resetComments, editComment, deleteComment } =
   commentsSlice.actions;
 
 export default commentsSlice;

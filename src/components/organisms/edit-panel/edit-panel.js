@@ -6,7 +6,7 @@ import { ImArrowRight2, ImCross } from 'react-icons/im';
 import { CardMove } from 'components/organisms';
 import { Overlay } from './edit-panel-styles';
 
-export const EditPanel = ({ editPanelProps }) => {
+export const EditPanel = ({ editPanelProps, index }) => {
   const {
     rect,
     card,
@@ -103,6 +103,7 @@ export const EditPanel = ({ editPanelProps }) => {
             card={card}
             setIsMoveOpen={setIsMoveOpen}
             handleMove={handleMove}
+            index={index}
           />
         )}
       </div>
