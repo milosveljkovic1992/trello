@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TbPencil } from 'react-icons/tb';
 
-import { getCard, deleteCard, renameCard } from 'store/card-slice';
+import { getCard, renameCard } from 'store/card-slice';
+import { updateCard } from 'store/cards-slice';
 import { informListUpdate } from 'store/lists-slice';
 import { openModal } from 'store/popup-slice';
 import {
@@ -20,7 +21,8 @@ import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
 
 import { Container } from './single-card-styles';
-export const SingleCard = ({ index, card, cards, setCards }) => {
+
+export const SingleCard = ({ index, card, setIsListUpdated }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { draggedCard, targetListId, targetPosition } = useSelector(
@@ -63,16 +65,17 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
     setIsEditOpen(false);
   };
 
-  const handleDelete = (card) => {
-    const { id } = card;
-    try {
-      dispatch(deleteCard({ id }));
-      const remainingCards = cards.filter((card) => card.id !== id);
-      setCards(remainingCards);
-    } catch (error) {
-      dispatch(throwError('Could not delete card'));
-    }
-  };
+  // const handleDelete = (card) => {
+  //   const { id } = card;
+  //   try {
+  //     dispatch(deleteCard({ id }));
+  //     const remainingCards = cards.filter((card) => card.id !== id);
+  //     setCards(remainingCards);
+  //   } catch (error) {
+  //     dispatch(throwError('Could not delete card'));
+  //   }
+  // };
+  const handleDelete = () => {};
 
   const handleMove = (card, targetList, targetPosition) => {
     const sendMoveRequest = async () => {
@@ -118,15 +121,18 @@ export const SingleCard = ({ index, card, cards, setCards }) => {
   const handleDragEnd = (e) => {
     const sendMoveRequest = async () => {
       try {
-        await axios.put(
+        const response = await axios.put(
           `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
         );
+        dispatch(updateCard(response.data));
+        setIsListUpdated(true);
       } catch (error) {
         dispatch(throwError('Could not move card'));
       }
     };
 
     sendMoveRequest();
+    setIsListUpdated(true);
     dispatch(endDrag());
     dispatch(informListUpdate(draggedCard));
     dispatch(informListUpdate(targetListId));

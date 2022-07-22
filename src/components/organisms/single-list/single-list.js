@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-import { resetListUpdate } from 'store/lists-slice';
+// import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
 import { throwError } from 'store/error-slice';
 
@@ -15,12 +15,12 @@ import { Container } from './single-list-styles';
 
 export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   const dispatch = useDispatch();
-  const { isUpdated, updatedListId } = useSelector((state) => state.lists);
   const { targetListId } = useSelector((state) => state.dragDrop);
+  const cards = useSelector((state) => state.cards.cardsArray);
 
-  const [cards, setCards] = useState();
+  const [cardsOnThisList, setCardsOnThisList] = useState([]);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
-  const [isListUpdated, setIsListUpdated] = useState(false);
+  const [isListUpdated, setIsListUpdated] = useState(true);
   const [listTitle, setListTitle] = useState(name);
 
   const handleTitle = () => {
@@ -44,23 +44,17 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   };
 
   useEffect(() => {
-    if (isUpdated && updatedListId === listId) {
-      setIsListUpdated(true);
+    if (isListUpdated) {
+      setCardsOnThisList(
+        cards
+          .filter((card) => card.idList === listId && card)
+          .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0)),
+      );
+      console.log(cardsOnThisList);
+      setIsListUpdated(false);
     }
-
-    const fetchList = async () => {
-      try {
-        const res = await axios.get(`/1/lists/${listId}/cards`);
-        setCards(res.data);
-        dispatch(resetListUpdate());
-        setIsListUpdated(false);
-      } catch (error) {
-        dispatch(throwError('Could not get the lists'));
-      }
-    };
-
-    fetchList();
-  }, [dispatch, isUpdated, updatedListId, listId, isListUpdated]);
+    cardsOnThisList.forEach((card) => console.log(card.pos));
+  }, [dispatch, isListUpdated]);
 
   return (
     <>
@@ -74,16 +68,17 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
             setIsBoardUpdated={setIsBoardUpdated}
           />
           <div className="card-container">
-            {cards.map((card, index) => (
-              <SingleCard
-                key={card.id}
-                index={index}
-                card={card}
-                cards={cards}
-                setCards={setCards}
-                setIsListUpdated={setIsListUpdated}
-              />
-            ))}
+            {cardsOnThisList.map(
+              (card, index) =>
+                card.idList === listId && (
+                  <SingleCard
+                    key={card.id}
+                    index={index}
+                    card={card}
+                    setIsListUpdated={setIsListUpdated}
+                  />
+                ),
+            )}
           </div>
           {!isCreatingNew ? (
             <AddButton
@@ -93,11 +88,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
               Add a card
             </AddButton>
           ) : (
-            <NewCard
-              setIsCreatingNew={setIsCreatingNew}
-              listId={listId}
-              setCards={setCards}
-            />
+            <NewCard setIsCreatingNew={setIsCreatingNew} listId={listId} />
           )}
         </Container>
       )}

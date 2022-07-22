@@ -3,12 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isUpdated: false,
   updatedListId: '',
+  listsArray: [],
 };
 
 const listsSlice = createSlice({
   name: 'lists',
   initialState,
   reducers: {
+    setListsArray(state, action) {
+      state.listsArray = action.payload;
+    },
     informListUpdate(state, action) {
       state.isUpdated = true;
       state.updatedListId = action.payload;
@@ -20,6 +24,7 @@ const listsSlice = createSlice({
   },
 });
 
-export const { informListUpdate, resetListUpdate } = listsSlice.actions;
+export const { setListsArray, informListUpdate, resetListUpdate } =
+  listsSlice.actions;
 
 export default listsSlice;
