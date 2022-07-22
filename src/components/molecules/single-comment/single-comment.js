@@ -10,6 +10,8 @@ import { Link } from 'components/atoms';
 import { CommentEdit } from 'components/atoms';
 
 import { Container } from './single-comment-styles';
+import { decrementComment } from 'store/cards-slice';
+import { informListUpdate } from 'store/lists-slice';
 
 export const SingleComment = ({ comment }) => {
   const dispatch = useDispatch();
@@ -24,6 +26,8 @@ export const SingleComment = ({ comment }) => {
           `/1/cards/${card.id}/actions/${comment.id}/comments`,
         );
         dispatch(deleteComment(comment));
+        dispatch(decrementComment(card));
+        dispatch(informListUpdate(card.idList));
       } catch (error) {
         dispatch(throwError('Could not delete comment'));
       }

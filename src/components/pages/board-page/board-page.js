@@ -67,7 +67,6 @@ export const BoardPage = () => {
           const lastList = fetchedLists[fetchedLists.length - 1];
           setPos(lastList ? lastList.pos + 1000 : 5000);
           dispatch(setCards(fetchedCards));
-          console.log(fetchedCards);
         } catch (error) {
           dispatch(throwError('Could not get board info'));
         }

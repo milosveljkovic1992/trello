@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import { TbPencil } from 'react-icons/tb';
+import { HiViewList } from 'react-icons/hi';
+import { FaRegComment } from 'react-icons/fa';
 
 import { deleteCard, getCard, renameCard } from 'store/card-slice';
 import { updateCard } from 'store/cards-slice';
@@ -150,15 +152,35 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
   };
 
   return (
-    <Container ref={cardRef} draggable>
+    <Container ref={cardRef} draggable className="card-box">
       <Link
         to={`c/${card.id}`}
         draggable
+        className="card-link"
         onDragStart={(e) => handleDragStart(e, card, index)}
         onDragEnter={(e) => handleDragEnterCard(e, card, index)}
         onDragEnd={(e) => handleDragEnd(e)}
       >
-        <p className="card-title">{card.name}</p>
+        <div className="card-content-box">
+          <p className="card-title">{card.name}</p>
+          <div className="badges">
+            {card.badges.description && (
+              <div className="badge-icon-container">
+                <span className="badge-icon">
+                  <HiViewList />
+                </span>
+              </div>
+            )}
+            {!!card.badges.comments && (
+              <div className="badge-icon-container">
+                <span className="badge-icon">
+                  <FaRegComment />
+                </span>
+                <span className="badge-count">{card.badges.comments}</span>
+              </div>
+            )}
+          </div>
+        </div>
       </Link>
       {isEditOpen && (
         <EditPanel editPanelProps={editPanelProps} index={index} />
