@@ -4,7 +4,7 @@ import axios from 'axios';
 import { throwError } from './error-slice';
 import { closeModal } from './popup-slice';
 import { resetComments } from './comments-slice';
-import { updateCard } from './cards-slice';
+import { setCards, updateCard } from './cards-slice';
 import { informListUpdate } from './lists-slice';
 
 const initialState = {
@@ -45,9 +45,13 @@ export const renameCard = createAsyncThunk(
 
 export const deleteCard = createAsyncThunk(
   '/cards/deleteCard',
-  async ({ id }, thunkAPI) => {
+  async (card, thunkAPI) => {
     try {
-      await axios.delete(`/1/cards/${id}`);
+      await axios.delete(`/1/cards/${card.id}`);
+      const cards = thunkAPI.getState().cards.cardsArray;
+      const remainingCards = cards.filter(({ id }) => id !== card.id);
+      thunkAPI.dispatch(setCards(remainingCards));
+      thunkAPI.dispatch(informListUpdate(card.idList));
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not delete card'));
       return thunkAPI.rejectWithValue();

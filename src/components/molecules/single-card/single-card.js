@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TbPencil } from 'react-icons/tb';
 
-import { getCard, renameCard } from 'store/card-slice';
+import { deleteCard, getCard, renameCard } from 'store/card-slice';
 import { updateCard } from 'store/cards-slice';
 import { informListUpdate } from 'store/lists-slice';
 import { openModal } from 'store/popup-slice';
@@ -64,17 +64,10 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
     setIsEditOpen(false);
   };
 
-  // const handleDelete = (card) => {
-  //   const { id } = card;
-  //   try {
-  //     dispatch(deleteCard({ id }));
-  //     const remainingCards = cards.filter((card) => card.id !== id);
-  //     setCards(remainingCards);
-  //   } catch (error) {
-  //     dispatch(throwError('Could not delete card'));
-  //   }
-  // };
-  const handleDelete = () => {};
+  const handleDelete = (card) => {
+    dispatch(deleteCard(card));
+    setIsEditOpen(false);
+  };
 
   const handleMove = (card, targetList, targetPosition) => {
     const sendMoveRequest = async () => {
@@ -93,7 +86,6 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
     sendMoveRequest();
     setIsEditOpen(false);
     setIsMoveOpen(false);
-    // dispatch(informListUpdate(card.idList));
   };
 
   useEffect(() => {
@@ -139,7 +131,6 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
     sendMoveRequest();
     setIsListUpdated(true);
     dispatch(endDrag());
-    // dispatch(informListUpdate(draggedCard));
 
     e.target.classList.remove('drag-active');
   };

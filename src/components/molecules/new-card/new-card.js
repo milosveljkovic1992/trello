@@ -7,6 +7,7 @@ import { throwError } from 'store/error-slice';
 
 import { NewItem } from 'components/atoms';
 import { addCard } from 'store/cards-slice';
+import { informListUpdate } from 'store/lists-slice';
 
 export const NewCard = ({ setIsCreatingNew, listId }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export const NewCard = ({ setIsCreatingNew, listId }) => {
           `/1/card?idList=${listId}&name=${userInput}`,
         );
         dispatch(addCard(response.data));
+        dispatch(informListUpdate(listId));
       } catch (error) {
         dispatch(throwError('New card could not be added'));
       }

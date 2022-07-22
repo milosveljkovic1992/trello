@@ -76,6 +76,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
                     index={index}
                     card={card}
                     setIsListUpdated={setIsListUpdated}
+                    setCardsOnThisList={setCardsOnThisList}
                   />
                 ),
             )}

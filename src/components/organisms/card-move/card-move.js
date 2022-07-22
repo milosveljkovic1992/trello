@@ -29,11 +29,9 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove, index }) => {
     setSelectedList(cards.filter((card) => card.idList === listId));
     setSelectedListId(listId);
     setSelectedPosition(1);
-    console.log('handle select');
   };
 
   const handlePosition = (e) => {
-    console.log('handle position');
     const targetPosition = Number(e.target.value);
 
     const isSameList = currentList[0].idList === selectedList[0].idList;
