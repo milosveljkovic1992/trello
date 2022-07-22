@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-// import { resetListUpdate } from 'store/lists-slice';
+import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
 import { throwError } from 'store/error-slice';
 
@@ -15,8 +15,9 @@ import { Container } from './single-list-styles';
 
 export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   const dispatch = useDispatch();
-  const { targetListId } = useSelector((state) => state.dragDrop);
   const cards = useSelector((state) => state.cards.cardsArray);
+  const { targetListId } = useSelector((state) => state.dragDrop);
+  const { updatedListId } = useSelector((state) => state.lists);
 
   const [cardsOnThisList, setCardsOnThisList] = useState([]);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
@@ -44,17 +45,16 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   };
 
   useEffect(() => {
-    if (isListUpdated) {
+    if (isListUpdated || updatedListId === listId) {
       setCardsOnThisList(
         cards
           .filter((card) => card.idList === listId && card)
           .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0)),
       );
-      console.log(cardsOnThisList);
       setIsListUpdated(false);
+      dispatch(resetListUpdate());
     }
-    cardsOnThisList.forEach((card) => console.log(card.pos));
-  }, [dispatch, isListUpdated]);
+  }, [dispatch, isListUpdated, updatedListId]);
 
   return (
     <>

@@ -80,9 +80,12 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
   const handleMove = (card, targetList, targetPosition) => {
     const sendMoveRequest = async () => {
       try {
-        await axios.put(
+        const response = await axios.put(
           `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
         );
+        dispatch(updateCard(response.data));
+        setIsListUpdated(true);
+        dispatch(informListUpdate(targetList));
       } catch (error) {
         dispatch(throwError('Could not move card'));
       }
@@ -91,8 +94,7 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
     sendMoveRequest();
     setIsEditOpen(false);
     setIsMoveOpen(false);
-    dispatch(informListUpdate(card.idList));
-    dispatch(informListUpdate(targetList));
+    // dispatch(informListUpdate(card.idList));
   };
 
   useEffect(() => {
@@ -101,9 +103,9 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
     }
   }, [isEditOpen]);
 
-  const handleDragStart = (e, card) => {
+  const handleDragStart = (e, card, index) => {
     const listId = card.idList;
-    dispatch(startDrag(card));
+    dispatch(startDrag({ card, index }));
     dispatch(dragOverList({ listId }));
     e.target.classList.add('drag-active');
   };
@@ -114,7 +116,10 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
 
     if (isFirst) {
       pos = pos / 2;
+    } else if (draggedCard.pos > card.pos) {
+      pos = pos - 1;
     }
+
     dispatch(dragOverCard({ index, pos }));
   };
 
@@ -126,6 +131,7 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
         );
         dispatch(updateCard(response.data));
         setIsListUpdated(true);
+        dispatch(informListUpdate(targetListId));
       } catch (error) {
         dispatch(throwError('Could not move card'));
       }
@@ -134,8 +140,7 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
     sendMoveRequest();
     setIsListUpdated(true);
     dispatch(endDrag());
-    dispatch(informListUpdate(draggedCard));
-    dispatch(informListUpdate(targetListId));
+    // dispatch(informListUpdate(draggedCard));
 
     e.target.classList.remove('drag-active');
   };
@@ -165,7 +170,9 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
       >
         <p className="card-title">{card.name}</p>
       </Link>
-      {isEditOpen && <EditPanel editPanelProps={editPanelProps} />}
+      {isEditOpen && (
+        <EditPanel editPanelProps={editPanelProps} index={index} />
+      )}
       <div className="edit-btn" onClick={() => setIsEditOpen(true)}>
         <TbPencil />
       </div>

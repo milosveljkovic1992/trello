@@ -9,14 +9,14 @@ import { GrClose } from 'react-icons/gr';
 import { Container } from './card-move-styles';
 import { throwError } from 'store/error-slice';
 
-export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
+export const CardMove = ({ rect, card, setIsMoveOpen, handleMove, index }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [allLists, setAllLists] = useState(null);
   const [currentList, setCurrentList] = useState(null);
   const [selectedList, setSelectedList] = useState(null);
   const [selectedListId, setSelectedListId] = useState(null);
-  const [selectedPosition, setSelectedPosition] = useState(0);
+  const [selectedPosition, setSelectedPosition] = useState(1);
 
   const { boardId } = useParams();
 
@@ -53,35 +53,40 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove }) => {
         const response = await axios.get(`/1/lists/${listId}/cards`);
         setSelectedList(response.data);
         setSelectedListId(response.data[0].idList);
-        setSelectedPosition(
-          response.data[response.data.length - 1].pos + 10000,
-        );
+        setSelectedPosition(1);
+        if (response.data.length > 0) {
+          setSelectedPosition(response.data[0].pos - 1);
+        }
       } catch (error) {
         dispatch(throwError('Ooops something went wrong'));
       }
     };
 
     fetchSelectedList();
+    console.log(selectedPosition);
   };
 
   const handlePosition = (e) => {
-    const index = Number(e.target.value);
+    const targetPosition = Number(e.target.value);
 
-    if (index === 0) {
+    const isSameList = currentList[0].idList === selectedList[0].idList;
+    const isLastIndex = targetPosition === selectedList.length - 1;
+    const isLastItemOnAnotherList = targetPosition === selectedList.length;
+
+    if (targetPosition === 0) {
       setSelectedPosition(Math.round(selectedList[0].pos / 2) - 1);
-    } else if (
-      currentList[0].idList === selectedList[0].idList &&
-      index === selectedList.length - 1
-    ) {
-      setSelectedPosition(selectedList[index].pos + 11000);
-    } else if (index === selectedList.length) {
+    } else if (isSameList && isLastIndex) {
+      setSelectedPosition(selectedList[targetPosition].pos + 11000);
+    } else if (isLastItemOnAnotherList) {
       setSelectedPosition(selectedList[index - 1].pos + 10000);
+    } else if (targetPosition > index) {
+      setSelectedPosition(selectedList[targetPosition].pos + 1);
     } else {
       setSelectedPosition(
-        selectedList[index].pos -
-          Math.round(
-            (selectedList[index].pos - selectedList[index - 1].pos) / 2,
-          ),
+        selectedList[targetPosition].pos -
+          (selectedList[targetPosition].pos -
+            selectedList[targetPosition - 1].pos) /
+            2,
       );
     }
   };
