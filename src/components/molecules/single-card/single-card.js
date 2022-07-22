@@ -49,11 +49,10 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
   };
 
   const handleRename = (card, title) => {
-    const { id } = card;
+    const { id, idList } = card;
     if (title.trim().length > 0) {
       try {
-        dispatch(renameCard({ id, title }));
-        dispatch(informListUpdate(card.idList));
+        dispatch(renameCard({ id, title, idList }));
       } catch (error) {
         dispatch(throwError('Could not rename card'));
       }

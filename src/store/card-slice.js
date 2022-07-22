@@ -4,6 +4,8 @@ import axios from 'axios';
 import { throwError } from './error-slice';
 import { closeModal } from './popup-slice';
 import { resetComments } from './comments-slice';
+import { updateCard } from './cards-slice';
+import { informListUpdate } from './lists-slice';
 
 const initialState = {
   hasFailed: false,
@@ -29,9 +31,11 @@ export const getCard = createAsyncThunk(
 
 export const renameCard = createAsyncThunk(
   '/cards/renameCard',
-  async ({ id, title }, thunkAPI) => {
+  async ({ id, title, idList }, thunkAPI) => {
     try {
-      await axios.put(`/1/cards/${id}?name=${title}`);
+      const response = await axios.put(`/1/cards/${id}?name=${title}`);
+      thunkAPI.dispatch(updateCard(response.data));
+      thunkAPI.dispatch(informListUpdate(idList));
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not rename card'));
       return thunkAPI.rejectWithValue();
