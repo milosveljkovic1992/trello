@@ -12,6 +12,7 @@ const popupSlice = createSlice({
   reducers: {
     openModal(state, action) {
       state.currentCardOpen = action.payload;
+      state.isUpdated = true;
       state.open = true;
     },
     closeModal(state) {

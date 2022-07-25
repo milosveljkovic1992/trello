@@ -1,17 +1,14 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import axios from 'axios';
 import { GrClose } from 'react-icons/gr';
 import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
 import { CgCreditCard } from 'react-icons/cg';
 
-import { setComments, resetComments } from 'store/comments-slice';
-import { closeModal, resetUpdate } from 'store/popup-slice';
+import { resetComments } from 'store/comments-slice';
+import { closeModal } from 'store/popup-slice';
 import { resetCard } from 'store/card-slice';
-import { throwError } from 'store/error-slice';
 
 import {
   CommentInput,
@@ -25,11 +22,8 @@ import { Overlay } from './card-popup-styles';
 export const CardPopup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { cardUrl } = useParams();
   const card = useSelector((state) => state.card.details);
-  const isLoading = useSelector((state) => state.card.isLoading);
   const comments = useSelector((state) => state.comments.commentsList);
-  const { isUpdated } = useSelector((state) => state.popup);
 
   const handleClose = (e) => {
     if (
@@ -44,21 +38,7 @@ export const CardPopup = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await axios.get(`/1/cards/${cardUrl}/actions`);
-        dispatch(setComments(response.data));
-      } catch (error) {
-        dispatch(throwError('Could not get the comments'));
-      }
-    };
-
-    if (!isLoading && isUpdated) {
-      fetchComments();
-      dispatch(resetUpdate());
-    }
-  }, [dispatch, card, cardUrl, isLoading, isUpdated, comments]);
+  console.log(card);
 
   if (!card) {
     return <></>;

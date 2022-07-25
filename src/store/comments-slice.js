@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { updateCard } from 'store/cards-slice';
 import { informListUpdate } from './lists-slice';
 import { throwError } from './error-slice';
 import { updateModal } from './popup-slice';
+import { updateCard } from './cards-slice';
 
 export const submitComment = createAsyncThunk(
   '/commentsSlice/submitComment',
@@ -16,6 +16,7 @@ export const submitComment = createAsyncThunk(
 
       const updatedCard = await axios.get(`/1/cards/${card.id}`);
       thunkAPI.dispatch(updateCard(updatedCard.data));
+
       thunkAPI.dispatch(informListUpdate(card.idList));
       thunkAPI.dispatch(updateModal());
       return response.data;
@@ -53,6 +54,7 @@ const commentsSlice = createSlice({
         (action) => action.type === 'commentCard',
       );
       state.commentsList = comments;
+      state.isLoading = false;
     },
     resetComments(state) {
       state.commentsList = [];
@@ -67,7 +69,8 @@ const commentsSlice = createSlice({
     [submitComment.pending]: (state) => {
       state.isLoading = true;
     },
-    [submitComment.fulfilled]: (state) => {
+    [submitComment.fulfilled]: (state, action) => {
+      state.commentsList.unshift(action.payload);
       state.isLoading = false;
     },
     [submitComment.rejected]: (state) => {
