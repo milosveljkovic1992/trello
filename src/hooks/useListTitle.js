@@ -15,7 +15,6 @@ export const useListTitle = ({ listId, handleTitle }) => {
   const handleFocus = () => {
     setIsInputActive(true);
     titleRef.current.select();
-    console.log(titleRef.current);
   };
 
   const handleBlur = () => {

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './auth-slice';
+import boardSlice from './board-slice';
 import boardsSlice from './boards-slice';
 import cardSlice from './card-slice';
 import cardsSlice from './cards-slice';
@@ -13,6 +14,7 @@ import popupSlice from './popup-slice';
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+    board: boardSlice.reducer,
     boards: boardsSlice.reducer,
     card: cardSlice.reducer,
     cards: cardsSlice.reducer,

@@ -27,15 +27,5 @@ export const ListTitle = ({ handleTitle, listId, listTitle, setListTitle }) => {
         <FaTrashAlt />
       </div>
     </Title>
-    // <ListTitle
-    //   isInputActive={isInputActive}
-    //   ref={titleRef}
-    //   listTitle={listTitle}
-    //   setListTitle={setListTitle}
-    //   handleFocus={handleFocus}
-    //   handleBlur={handleBlur}
-    //   handleSendToArchive={handleSendToArchive}
-    //   icon={}
-    // />
   );
 };

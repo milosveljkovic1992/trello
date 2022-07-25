@@ -8,7 +8,6 @@ export const fetchCard = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios.get(`/1/cards/${id}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Card could not be updated'));

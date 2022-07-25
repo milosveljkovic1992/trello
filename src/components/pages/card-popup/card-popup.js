@@ -38,8 +38,6 @@ export const CardPopup = () => {
     }
   };
 
-  console.log(card);
-
   if (!card) {
     return <></>;
   }
