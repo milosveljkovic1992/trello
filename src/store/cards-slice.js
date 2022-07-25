@@ -18,43 +18,11 @@ const cardsSlice = createSlice({
       let newArray = state.cardsArray.map((card) =>
         card.id === id ? action.payload : card,
       );
-
-      state.cardsArray = newArray;
-    },
-    incrementComment(state, action) {
-      const { id } = action.payload;
-
-      let newArray = state.cardsArray.map((card) => {
-        if (card.id === id) {
-          card.badges.comments++;
-        }
-        return card;
-      });
-
-      state.cardsArray = newArray;
-    },
-    decrementComment(state, action) {
-      const { id } = action.payload;
-
-      let newArray = state.cardsArray.map((card) => {
-        if (card.id === id) {
-          card.badges.comments--;
-          console.log(card.badges.comments);
-        }
-        return card;
-      });
-
       state.cardsArray = newArray;
     },
   },
 });
 
-export const {
-  setCards,
-  addCard,
-  updateCard,
-  incrementComment,
-  decrementComment,
-} = cardsSlice.actions;
+export const { setCards, addCard, updateCard } = cardsSlice.actions;
 
 export default cardsSlice;

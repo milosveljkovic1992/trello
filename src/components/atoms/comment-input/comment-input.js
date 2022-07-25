@@ -7,7 +7,7 @@ import { informListUpdate } from 'store/lists-slice';
 import { throwError } from 'store/error-slice';
 
 import { Container } from './comment-input-styles';
-import { incrementComment } from 'store/cards-slice';
+import { updateCard } from 'store/cards-slice';
 
 export const CommentInput = ({ setIsUpdated }) => {
   const dispatch = useDispatch();
@@ -22,9 +22,12 @@ export const CommentInput = ({ setIsUpdated }) => {
         await axios.post(
           `/1/cards/${card.id}/actions/comments?text=${comment}`,
         );
-        setIsUpdated(true);
-        dispatch(incrementComment(card));
+
+        const updatedCard = await axios.get(`/1/cards/${card.id}`);
+        dispatch(updateCard(updatedCard.data));
+
         dispatch(informListUpdate(card.idList));
+        setIsUpdated(true);
       } catch (error) {
         dispatch(throwError('Comment could not be added'));
       }
