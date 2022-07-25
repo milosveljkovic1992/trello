@@ -163,23 +163,25 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
       >
         <div className="card-content-box">
           <p className="card-title">{card.name}</p>
-          <div className="badges">
-            {card.badges.description && (
-              <div className="badge-icon-container">
-                <span className="badge-icon">
-                  <HiViewList />
-                </span>
-              </div>
-            )}
-            {!!card.badges.comments && (
-              <div className="badge-icon-container">
-                <span className="badge-icon">
-                  <FaRegComment />
-                </span>
-                <span className="badge-count">{card.badges.comments}</span>
-              </div>
-            )}
-          </div>
+          {(card.badges.description || !!card.badges.comments) && (
+            <div className="badges">
+              {card.badges.description && (
+                <div className="badge-icon-container">
+                  <span className="badge-icon">
+                    <HiViewList />
+                  </span>
+                </div>
+              )}
+              {!!card.badges.comments && (
+                <div className="badge-icon-container">
+                  <span className="badge-icon">
+                    <FaRegComment />
+                  </span>
+                  <span className="badge-count">{card.badges.comments}</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </Link>
       {isEditOpen && (
