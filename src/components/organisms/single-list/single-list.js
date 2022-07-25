@@ -8,8 +8,8 @@ import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
 import { throwError } from 'store/error-slice';
 
-import { AddButton } from 'components/atoms';
-import { ListHeading, NewCard, SingleCard } from 'components/molecules';
+import { AddButton, ListTitle } from 'components/atoms';
+import { NewCard, SingleCard } from 'components/molecules';
 
 import { Container } from './single-list-styles';
 
@@ -48,7 +48,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     if (isListUpdated || updatedListId === listId) {
       setCardsOnThisList(
         cards
-          .filter((card) => card.idList === listId && card)
+          .filter((card) => card.idList === listId)
           .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0)),
       );
       setIsListUpdated(false);
@@ -60,7 +60,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     <>
       {cards && (
         <Container onDragEnter={() => handleDragEnterList(listId)}>
-          <ListHeading
+          <ListTitle
             handleTitle={handleTitle}
             listId={listId}
             listTitle={listTitle}

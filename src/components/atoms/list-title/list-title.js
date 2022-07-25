@@ -1,34 +1,41 @@
-import { forwardRef } from 'react';
-import { Title } from './list-title-styles';
+import { FaTrashAlt } from 'react-icons/fa';
 
-// eslint-disable-next-line react/display-name
-export const ListTitle = forwardRef(
-  (
-    {
-      isInputActive,
-      listTitle,
-      setListTitle,
-      handleFocus,
-      handleBlur,
-      handleSendToArchive,
-      icon,
-    },
-    ref,
-  ) => {
-    return (
-      <Title isInputActive={isInputActive}>
-        <textarea
-          ref={ref}
-          onDrop={() => false}
-          value={listTitle}
-          onClick={handleFocus}
-          onChange={(e) => setListTitle(e.target.value)}
-          onBlur={handleBlur}
-        ></textarea>
-        <div className="delete-btn" onClick={handleSendToArchive}>
-          {icon}
-        </div>
-      </Title>
-    );
-  },
-);
+import { useListTitle } from 'hooks/useListTitle';
+
+import { Title } from 'components/atoms/list-title/list-title-styles';
+
+export const ListTitle = ({ handleTitle, listId, listTitle, setListTitle }) => {
+  const {
+    isInputActive,
+    handleSendToArchive,
+    handleFocus,
+    handleBlur,
+    titleRef,
+  } = useListTitle({ listId, handleTitle });
+
+  return (
+    <Title isInputActive={isInputActive}>
+      <textarea
+        ref={titleRef}
+        onDrop={() => false}
+        value={listTitle}
+        onClick={handleFocus}
+        onChange={(e) => setListTitle(e.target.value)}
+        onBlur={handleBlur}
+      ></textarea>
+      <div className="delete-btn" onClick={handleSendToArchive}>
+        <FaTrashAlt />
+      </div>
+    </Title>
+    // <ListTitle
+    //   isInputActive={isInputActive}
+    //   ref={titleRef}
+    //   listTitle={listTitle}
+    //   setListTitle={setListTitle}
+    //   handleFocus={handleFocus}
+    //   handleBlur={handleBlur}
+    //   handleSendToArchive={handleSendToArchive}
+    //   icon={}
+    // />
+  );
+};

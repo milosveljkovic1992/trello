@@ -50,7 +50,7 @@ const commentsSlice = createSlice({
   reducers: {
     setComments(state, action) {
       const comments = action.payload.filter(
-        (action) => action.type === 'commentCard' && action,
+        (action) => action.type === 'commentCard',
       );
       state.commentsList = comments;
     },
