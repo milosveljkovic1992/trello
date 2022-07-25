@@ -1,7 +1,31 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { updateCard } from 'store/cards-slice';
+import { informListUpdate } from './lists-slice';
 import { throwError } from './error-slice';
+import { updateModal } from './popup-slice';
+
+export const submitComment = createAsyncThunk(
+  '/commentsSlice/submitComment',
+  async ({ card, comment }, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `/1/cards/${card.id}/actions/comments?text=${comment}`,
+      );
+
+      const updatedCard = await axios.get(`/1/cards/${card.id}`);
+      thunkAPI.dispatch(updateCard(updatedCard.data));
+      thunkAPI.dispatch(informListUpdate(card.idList));
+
+      thunkAPI.dispatch(updateModal());
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(throwError('Comment could not be added'));
+      return thunkAPI.rejectWithValue();
+    }
+  },
+);
 
 export const editComment = createAsyncThunk(
   '/commentsSlice/editComment',
@@ -26,7 +50,10 @@ const commentsSlice = createSlice({
   },
   reducers: {
     setComments(state, action) {
-      state.commentsList = action.payload;
+      const comments = action.payload.filter(
+        (action) => action.type === 'commentCard' && action,
+      );
+      state.commentsList = comments;
     },
     resetComments(state) {
       state.commentsList = [];
@@ -38,6 +65,15 @@ const commentsSlice = createSlice({
     },
   },
   extraReducers: {
+    [submitComment.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [submitComment.fulfilled]: (state) => {
+      state.isLoading = false;
+    },
+    [submitComment.rejected]: (state) => {
+      state.isLoading = false;
+    },
     [editComment.pending]: (state) => {
       state.isLoading = true;
     },

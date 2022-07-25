@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ import { MdChecklist } from 'react-icons/md';
 import { CgCreditCard } from 'react-icons/cg';
 
 import { setComments, resetComments } from 'store/comments-slice';
-import { closeModal } from 'store/popup-slice';
+import { closeModal, resetUpdate } from 'store/popup-slice';
 import { resetCard } from 'store/card-slice';
 import { throwError } from 'store/error-slice';
 
@@ -29,8 +29,9 @@ export const CardPopup = () => {
   const card = useSelector((state) => state.card.details);
   const isLoading = useSelector((state) => state.card.isLoading);
   const comments = useSelector((state) => state.comments.commentsList);
-  const [isUpdated, setIsUpdated] = useState(true);
-
+  // const [isUpdated, setIsUpdated] = useState(true);
+  const { isUpdated } = useSelector((state) => state.popup);
+  console.log(isUpdated);
   const handleClose = (e) => {
     if (
       e.target.classList.contains('card-overlay') ||
@@ -56,7 +57,7 @@ export const CardPopup = () => {
 
     if (!isLoading && isUpdated) {
       fetchComments();
-      setIsUpdated(false);
+      dispatch(resetUpdate());
     }
   }, [dispatch, card, cardUrl, isLoading, isUpdated, comments]);
 
@@ -100,7 +101,7 @@ export const CardPopup = () => {
               <div className="section-content">
                 <div className="comment-section">
                   <div className="user-icon" />
-                  <CommentInput setIsUpdated={setIsUpdated} />
+                  <CommentInput />
                 </div>
                 {!!comments.length &&
                   comments.map(
