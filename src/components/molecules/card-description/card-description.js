@@ -6,6 +6,8 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 import { Container } from './card-description-styles';
 import { throwError } from 'store/error-slice';
+import { informListUpdate } from 'store/lists-slice';
+import { updateCard } from 'store/cards-slice';
 
 export const CardDescription = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,9 @@ export const CardDescription = () => {
     const fetchDescription = async () => {
       try {
         await axios.put(`/1/cards/${card.id}?desc=${description}`);
+        const response = await axios.get(`/1/cards/${card.id}`);
+        dispatch(updateCard(response.data));
+        dispatch(informListUpdate(card.idList));
       } catch (error) {
         dispatch(throwError('Description could not be edited'));
         setDescription(previousDescription);

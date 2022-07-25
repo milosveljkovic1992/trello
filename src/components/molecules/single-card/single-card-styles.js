@@ -11,20 +11,23 @@ export const Container = styled.div`
 
   user-select: none;
 
+  &:focus,
+  &:hover {
+    background-color: #f4f5f7;
+  }
+
   .placeholder {
     position: absolute;
     background-color: #ddd;
     border-radius: ${({ theme }) => theme.border.borderRadius};
   }
 
-  .card-title {
-    width: calc(100% - 29px);
-    padding: 5px 8px;
+  .card-content-box {
+    padding: 5px 29px 5px 8px;
     cursor: pointer;
 
-    &:focus,
-    &:hover {
-      background-color: #f4f5f7;
+    p {
+      margin: 2px 0;
     }
   }
 
@@ -34,14 +37,13 @@ export const Container = styled.div`
     justify-content: center;
 
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 2px;
+    top: 2px;
     height: 29px;
     width: 29px;
 
-    background-color: #fff;
     border: none;
-    border-radius: 0 3px 3px 0;
+    border-radius: 3px;
     cursor: pointer;
 
     & > * {
@@ -58,5 +60,29 @@ export const Container = styled.div`
   &:hover > .edit-btn,
   &:focus > .edit-btn {
     display: flex;
+  }
+
+  .badges {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+
+    svg > path {
+      color: #6b778c;
+    }
+  }
+
+  .badge-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+
+    margin: 0 10px 5px 0;
+
+    .badge-icon {
+      margin-right: 3px;
+    }
   }
 `;

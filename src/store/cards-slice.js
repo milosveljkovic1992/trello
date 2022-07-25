@@ -14,6 +14,7 @@ const cardsSlice = createSlice({
     },
     updateCard(state, action) {
       const { id } = action.payload;
+
       let newArray = state.cardsArray.map((card) =>
         card.id === id ? action.payload : card,
       );
