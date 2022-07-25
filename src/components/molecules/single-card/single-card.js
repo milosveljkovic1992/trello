@@ -7,7 +7,7 @@ import { TbPencil } from 'react-icons/tb';
 import { HiViewList } from 'react-icons/hi';
 import { FaRegComment } from 'react-icons/fa';
 
-import { deleteCard, getCard, renameCard } from 'store/card-slice';
+import { deleteCard, getCard } from 'store/card-slice';
 import { updateCard } from 'store/cards-slice';
 import { informListUpdate } from 'store/lists-slice';
 import { openModal } from 'store/popup-slice';
@@ -33,7 +33,6 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isMoveOpen, setIsMoveOpen] = useState(false);
-  const [title, setTitle] = useState(card.name);
   const [rect, setRect] = useState(null);
 
   const cardRef = useRef(null);
@@ -48,22 +47,6 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
     } catch (error) {
       dispatch(throwError('Could not open card'));
     }
-  };
-
-  const handleRename = (card, title) => {
-    const { id, idList } = card;
-    if (title.trim().length > 0) {
-      try {
-        dispatch(renameCard({ id, title, idList }));
-      } catch (error) {
-        dispatch(throwError('Could not rename card'));
-      }
-    } else {
-      setTitle(card.name);
-      dispatch(throwError('Card name cannot be empty'));
-    }
-
-    setIsEditOpen(false);
   };
 
   const handleDelete = (card) => {
@@ -140,13 +123,10 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
   let editPanelProps = {
     rect,
     card,
-    title,
-    setTitle,
     setIsEditOpen,
     isMoveOpen,
     setIsMoveOpen,
     handleOpen,
-    handleRename,
     handleMove,
     handleDelete,
   };
