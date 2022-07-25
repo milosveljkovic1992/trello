@@ -14,23 +14,19 @@ export const ErrorSnackbar = () => {
   const transitionDuration = 200;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setIsDisplayed(true);
+
+    const resetTimer = setTimeout(() => {
       dispatch(resetError());
     }, displayTime);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  useEffect(() => {
-    setIsDisplayed(true);
-    const timer = setTimeout(() => {
+    const displayTimer = setTimeout(() => {
       setIsDisplayed(false);
     }, displayTime - transitionDuration);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(resetTimer);
+      clearTimeout(displayTimer);
     };
   }, []);
 

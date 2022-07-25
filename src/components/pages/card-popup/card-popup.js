@@ -29,9 +29,8 @@ export const CardPopup = () => {
   const card = useSelector((state) => state.card.details);
   const isLoading = useSelector((state) => state.card.isLoading);
   const comments = useSelector((state) => state.comments.commentsList);
-  // const [isUpdated, setIsUpdated] = useState(true);
   const { isUpdated } = useSelector((state) => state.popup);
-  console.log(isUpdated);
+
   const handleClose = (e) => {
     if (
       e.target.classList.contains('card-overlay') ||

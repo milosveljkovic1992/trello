@@ -17,7 +17,6 @@ export const submitComment = createAsyncThunk(
       const updatedCard = await axios.get(`/1/cards/${card.id}`);
       thunkAPI.dispatch(updateCard(updatedCard.data));
       thunkAPI.dispatch(informListUpdate(card.idList));
-
       thunkAPI.dispatch(updateModal());
       return response.data;
     } catch (error) {

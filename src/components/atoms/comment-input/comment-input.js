@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Container } from './comment-input-styles';
 import { submitComment } from 'store/comments-slice';
-import { resetUpdate } from 'store/popup-slice';
 
 export const CommentInput = () => {
   const dispatch = useDispatch();
@@ -15,7 +14,6 @@ export const CommentInput = () => {
   const handleSubmit = () => {
     if (comment.trim().length > 0) {
       dispatch(submitComment({ card, comment }));
-      dispatch(resetUpdate());
     }
     setComment('');
     setIsDisplayed(false);
