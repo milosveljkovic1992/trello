@@ -33,6 +33,22 @@ export const submitCard = createAsyncThunk(
   },
 );
 
+export const moveCard = createAsyncThunk(
+  '/cards/moveCard',
+  async ({ card, targetList, targetPosition, setIsListUpdated }, thunkAPI) => {
+    try {
+      const response = await axios.put(
+        `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
+      );
+      thunkAPI.dispatch(updateCard(response.data));
+      setIsListUpdated(true);
+      thunkAPI.dispatch(informListUpdate(targetList));
+    } catch (error) {
+      thunkAPI.dispatch(throwError('Could not move card'));
+    }
+  },
+);
+
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {

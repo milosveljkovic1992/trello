@@ -2,14 +2,12 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import axios from 'axios';
 import { TbPencil } from 'react-icons/tb';
 import { HiViewList } from 'react-icons/hi';
 import { FaRegComment } from 'react-icons/fa';
 
 import { deleteCard, getCard } from 'store/card-slice';
-import { updateCard } from 'store/cards-slice';
-import { informListUpdate } from 'store/lists-slice';
+import { moveCard } from 'store/cards-slice';
 import { openModal } from 'store/popup-slice';
 import {
   startDrag,
@@ -55,20 +53,8 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
   };
 
   const handleMove = (card, targetList, targetPosition) => {
-    const sendMoveRequest = async () => {
-      try {
-        const response = await axios.put(
-          `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
-        );
-        dispatch(updateCard(response.data));
-        setIsListUpdated(true);
-        dispatch(informListUpdate(targetList));
-      } catch (error) {
-        dispatch(throwError('Could not move card'));
-      }
-    };
+    dispatch(moveCard({ card, targetList, targetPosition, setIsListUpdated }));
 
-    sendMoveRequest();
     setIsEditOpen(false);
     setIsMoveOpen(false);
   };
@@ -100,20 +86,15 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
   };
 
   const handleDragEnd = (e) => {
-    const sendMoveRequest = async () => {
-      try {
-        const response = await axios.put(
-          `/1/cards/${draggedCard.id}?idList=${targetListId}&pos=${targetPosition}`,
-        );
-        dispatch(updateCard(response.data));
-        setIsListUpdated(true);
-        dispatch(informListUpdate(targetListId));
-      } catch (error) {
-        dispatch(throwError('Could not move card'));
-      }
-    };
+    dispatch(
+      moveCard({
+        card: draggedCard,
+        targetList: targetListId,
+        targetPosition,
+        setIsListUpdated,
+      }),
+    );
 
-    sendMoveRequest();
     setIsListUpdated(true);
     dispatch(endDrag());
 
