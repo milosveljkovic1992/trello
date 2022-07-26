@@ -1,5 +1,6 @@
-import { useCommentEdit } from 'hooks/useCommentEdit';
 import { AiOutlineClose } from 'react-icons/ai';
+
+import { useCommentEdit } from 'hooks/useCommentEdit';
 
 import { Container } from './comment-edit-styles';
 
