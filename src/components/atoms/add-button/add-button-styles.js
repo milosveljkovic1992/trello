@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.button`
+export const Button = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;

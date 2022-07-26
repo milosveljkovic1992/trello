@@ -1,13 +1,13 @@
 import { useCommentInput } from 'hooks/useCommentInput';
 
-import { Container } from './comment-input-styles';
+import { Comment } from './comment-input-styles';
 
 export const CommentInput = () => {
   const { isDisplayed, setIsDisplayed, comment, setComment, handleSubmit } =
     useCommentInput();
 
   return (
-    <Container isDisplayed={isDisplayed}>
+    <Comment isDisplayed={isDisplayed}>
       <textarea
         placeholder="Write a comment..."
         value={comment}
@@ -21,6 +21,6 @@ export const CommentInput = () => {
       >
         Save
       </button>
-    </Container>
+    </Comment>
   );
 };

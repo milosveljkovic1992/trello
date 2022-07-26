@@ -2,14 +2,14 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 import { useCommentEdit } from 'hooks/useCommentEdit';
 
-import { Container } from './comment-edit-styles';
+import { Comment } from './comment-edit-styles';
 
 export const CommentEdit = ({ comment, isActive, setIsActive }) => {
   const { commentInput, setCommentInput, handleEdit, inputRef } =
     useCommentEdit({ comment, isActive, setIsActive });
 
   return (
-    <Container>
+    <Comment>
       <textarea
         ref={inputRef}
         placeholder="Write a comment..."
@@ -29,6 +29,6 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
           <AiOutlineClose />
         </div>
       </div>
-    </Container>
+    </Comment>
   );
 };
