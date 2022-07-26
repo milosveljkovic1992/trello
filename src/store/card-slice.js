@@ -33,20 +33,6 @@ export const getCard = createAsyncThunk(
   },
 );
 
-export const renameCard = createAsyncThunk(
-  '/cards/renameCard',
-  async ({ id, title, idList }, thunkAPI) => {
-    try {
-      const response = await axios.put(`/1/cards/${id}?name=${title}`);
-      thunkAPI.dispatch(updateCard(response.data));
-      thunkAPI.dispatch(informListUpdate(idList));
-    } catch (error) {
-      thunkAPI.dispatch(throwError('Could not rename card'));
-      return thunkAPI.rejectWithValue();
-    }
-  },
-);
-
 export const deleteCard = createAsyncThunk(
   '/cards/deleteCard',
   async (card, thunkAPI) => {
@@ -108,15 +94,6 @@ const cardSlice = createSlice({
     [getCard.rejected]: (state) => {
       state.details = {};
       state.hasFailed = true;
-      state.isLoading = false;
-    },
-    [renameCard.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [renameCard.fulfilled]: (state) => {
-      state.isLoading = false;
-    },
-    [renameCard.rejected]: (state) => {
       state.isLoading = false;
     },
     [deleteCard.pending]: (state) => {
