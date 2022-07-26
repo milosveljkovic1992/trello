@@ -34,7 +34,7 @@ export const BoardPage = () => {
     if (isActive) {
       titleRef.current.select();
     }
-    if (urlParams['*']) {
+    if (urlParams['*'] && !popupModalOpen) {
       dispatch(openModal(cardUrl));
     }
     if (cardUrl) {

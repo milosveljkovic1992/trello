@@ -5,10 +5,12 @@ import { NewList } from 'components/molecules';
 
 import { Container } from './add-list-styles';
 
-export const AddList = (props) => {
-  const { creatingNewList, setCreatingNewList, boardId, setIsBoardUpdated } =
-    props;
-
+export const AddList = ({
+  creatingNewList,
+  setCreatingNewList,
+  boardId,
+  setIsBoardUpdated,
+}) => {
   return (
     <Container>
       {!creatingNewList ? (

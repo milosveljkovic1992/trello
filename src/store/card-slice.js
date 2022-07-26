@@ -14,7 +14,7 @@ const initialState = {
 };
 
 export const getCard = createAsyncThunk(
-  '/cards/getCard',
+  '/card/getCard',
   async ({ id }, thunkAPI) => {
     try {
       const response = await axios.get(
@@ -34,7 +34,7 @@ export const getCard = createAsyncThunk(
 );
 
 export const deleteCard = createAsyncThunk(
-  '/cards/deleteCard',
+  '/card/deleteCard',
   async (card, thunkAPI) => {
     try {
       await axios.delete(`/1/cards/${card.id}`);
@@ -50,7 +50,7 @@ export const deleteCard = createAsyncThunk(
 );
 
 export const editDescription = createAsyncThunk(
-  '/cards/editDescription',
+  '/card/editDescription',
   async (
     { card, description, setDescription, previousDescription },
     thunkAPI,
@@ -71,7 +71,7 @@ export const editDescription = createAsyncThunk(
 );
 
 const cardSlice = createSlice({
-  name: 'cards',
+  name: 'card',
   initialState,
   reducers: {
     resetCard(state) {
