@@ -79,6 +79,7 @@ export const editDescription = createAsyncThunk(
     } catch (error) {
       thunkAPI.dispatch(throwError('Description could not be edited'));
       setDescription(previousDescription);
+      return thunkAPI.rejectWithValue();
     }
   },
 );

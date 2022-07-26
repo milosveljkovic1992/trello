@@ -45,6 +45,7 @@ export const moveCard = createAsyncThunk(
       thunkAPI.dispatch(informListUpdate(targetList));
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not move card'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );

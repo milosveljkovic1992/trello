@@ -42,6 +42,23 @@ export const editComment = createAsyncThunk(
   },
 );
 
+export const deleteComment = createAsyncThunk(
+  '/comments/deleteComment',
+  async ({ card, comment }, thunkAPI) => {
+    try {
+      await axios.delete(`/1/cards/${card.id}/actions/${comment.id}/comments`);
+
+      const updatedCard = await axios.get(`/1/cards/${card.id}`);
+      thunkAPI.dispatch(updateCard(updatedCard.data));
+      thunkAPI.dispatch(informListUpdate(card.idList));
+      return comment.id;
+    } catch (error) {
+      thunkAPI.dispatch(throwError('Could not delete comment'));
+      return thunkAPI.rejectWithValue();
+    }
+  },
+);
+
 const commentsSlice = createSlice({
   name: 'comments',
   initialState: {
@@ -58,11 +75,6 @@ const commentsSlice = createSlice({
     },
     resetComments(state) {
       state.commentsList = [];
-    },
-    deleteComment(state, action) {
-      state.commentsList = state.commentsList.filter(
-        (comment) => comment.id !== action.payload.id,
-      );
     },
   },
   extraReducers: {
@@ -93,10 +105,22 @@ const commentsSlice = createSlice({
     [editComment.rejected]: (state) => {
       state.isLoading = false;
     },
+    [deleteComment.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteComment.fulfilled]: (state, action) => {
+      const id = action.payload;
+      state.commentsList = state.commentsList.filter(
+        (comment) => comment.id !== id,
+      );
+      state.isLoading = false;
+    },
+    [deleteComment.rejected]: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 
-export const { setComments, resetComments, deleteComment } =
-  commentsSlice.actions;
+export const { setComments, resetComments } = commentsSlice.actions;
 
 export default commentsSlice;

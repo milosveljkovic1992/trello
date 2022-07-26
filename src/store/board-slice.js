@@ -24,6 +24,7 @@ export const fetchBoardListsAndCards = createAsyncThunk(
       return fetchedBoard;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get board info'));
+      return thunkAPI.rejectWithValue();
     }
   },
 );
