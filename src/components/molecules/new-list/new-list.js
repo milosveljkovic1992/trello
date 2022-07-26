@@ -1,40 +1,28 @@
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { throwError } from 'store/error-slice';
+import { submitList } from 'store/lists-slice';
 
 import { NewItem } from 'components/atoms';
 
-export const NewList = ({
-  setCreatingNewList,
-  boardId,
-  setIsBoardUpdated,
-  pos,
-}) => {
+export const NewList = ({ setCreatingNewList, boardId, setIsBoardUpdated }) => {
   const dispatch = useDispatch();
+  const lists = useSelector((state) => state.lists.listsArray);
   const [userInput, setUserInput] = useState('');
 
   const handleInput = (e) => {
     setUserInput(e.target.value);
   };
 
-  const submitList = async () => {
-    try {
-      await axios.post(
-        `/1/lists?name=${userInput}&pos=${pos}&idBoard=${boardId}`,
-      );
-    } catch (error) {
-      dispatch(throwError('New list could not be added'));
-    }
-  };
+  console.log(lists);
 
   const handleSubmit = () => {
     if (userInput.trim().length > 0) {
-      submitList();
-      setIsBoardUpdated(true);
+      const pos = lists.length > 0 ? lists[lists.length - 1].pos + 5000 : 5000;
+      dispatch(submitList({ userInput, boardId, pos }));
     }
+    setIsBoardUpdated(true);
     setUserInput('');
     setCreatingNewList(false);
   };

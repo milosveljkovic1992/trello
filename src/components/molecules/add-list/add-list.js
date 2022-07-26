@@ -6,13 +6,8 @@ import { NewList } from 'components/molecules';
 import { Container } from './add-list-styles';
 
 export const AddList = (props) => {
-  const {
-    creatingNewList,
-    setCreatingNewList,
-    boardId,
-    setIsBoardUpdated,
-    pos,
-  } = props;
+  const { creatingNewList, setCreatingNewList, boardId, setIsBoardUpdated } =
+    props;
 
   return (
     <Container>
@@ -28,7 +23,6 @@ export const AddList = (props) => {
           setCreatingNewList={setCreatingNewList}
           boardId={boardId}
           setIsBoardUpdated={setIsBoardUpdated}
-          pos={pos}
         />
       )}
     </Container>

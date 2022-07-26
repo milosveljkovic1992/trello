@@ -24,9 +24,8 @@ export const BoardPage = () => {
   const { boardId } = urlParams;
   const { cardUrl } = urlParams;
 
-  const [pos, setPos] = useState(1);
   const [creatingNewList, setCreatingNewList] = useState(false);
-  const [isBoardUpdated, setIsBoardUpdated] = useState(false);
+  const [isBoardUpdated, setIsBoardUpdated] = useState(true);
   const [boardName, setBoardName] = useState('');
   const [isActive, setIsActive] = useState(false);
   const titleRef = useRef(null);
@@ -47,12 +46,11 @@ export const BoardPage = () => {
   }, [dispatch, isActive, cardUrl, urlParams]);
 
   useEffect(() => {
-    if (!!boardId || isBoardUpdated) {
+    if (!!boardId && isLoading) {
       dispatch(fetchBoardListsAndCards({ boardId, setBoardName }));
-
+    }
+    if (isBoardUpdated) {
       setIsBoardUpdated(false);
-      const lastList = lists[lists.length - 1];
-      setPos(lastList ? lastList.pos + 1000 : 5000);
     }
   }, [isBoardUpdated, boardId]);
 
@@ -105,7 +103,6 @@ export const BoardPage = () => {
               setCreatingNewList={setCreatingNewList}
               boardId={boardId}
               setIsBoardUpdated={setIsBoardUpdated}
-              pos={pos}
             />
           </div>
         )}
