@@ -15,8 +15,6 @@ export const NewList = ({ setCreatingNewList, boardId, setIsBoardUpdated }) => {
     setUserInput(e.target.value);
   };
 
-  console.log(lists);
-
   const handleSubmit = () => {
     if (userInput.trim().length > 0) {
       const pos = lists.length > 0 ? lists[lists.length - 1].pos + 5000 : 5000;

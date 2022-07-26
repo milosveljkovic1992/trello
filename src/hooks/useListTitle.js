@@ -1,15 +1,23 @@
 import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { archiveList } from 'store/lists-slice';
 
-export const useListTitle = ({ listId, handleTitle }) => {
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+
+import { throwError } from 'store/error-slice';
+
+export const useListTitle = ({ oldTitle, listId, listTitle, setListTitle }) => {
   const dispatch = useDispatch();
   const [isInputActive, setIsInputActive] = useState(false);
 
   const titleRef = useRef(null);
 
-  const handleSendToArchive = () => {
-    dispatch(archiveList(listId));
+  const submitTitle = async () => {
+    try {
+      await axios.put(`/1/lists/${listId}?name=${listTitle}`);
+    } catch (error) {
+      setListTitle(oldTitle);
+      dispatch(throwError('Could not update title'));
+    }
   };
 
   const handleFocus = () => {
@@ -18,13 +26,12 @@ export const useListTitle = ({ listId, handleTitle }) => {
   };
 
   const handleBlur = () => {
-    handleTitle();
+    submitTitle();
     setIsInputActive(false);
   };
 
   return {
     isInputActive,
-    handleSendToArchive,
     handleFocus,
     handleBlur,
     titleRef,

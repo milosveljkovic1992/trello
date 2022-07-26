@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import axios from 'axios';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
-import { throwError } from 'store/error-slice';
 
 import { AddButton, ListTitle } from 'components/atoms';
 import { NewCard, SingleCard } from 'components/molecules';
@@ -23,20 +21,6 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [isListUpdated, setIsListUpdated] = useState(true);
   const [listTitle, setListTitle] = useState(name);
-
-  const handleTitle = () => {
-    const sendTitle = async () => {
-      try {
-        await axios.put(`/1/lists/${listId}?name=${listTitle}`);
-        setIsListUpdated(false);
-      } catch (error) {
-        setListTitle(name);
-        dispatch(throwError('Could not update title'));
-      }
-    };
-
-    sendTitle();
-  };
 
   const handleDragEnterList = (listId) => {
     if (listId !== targetListId) {
@@ -61,7 +45,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
       {cards && (
         <Container onDragEnter={() => handleDragEnterList(listId)}>
           <ListTitle
-            handleTitle={handleTitle}
+            oldTitle={name}
             listId={listId}
             listTitle={listTitle}
             setListTitle={setListTitle}
