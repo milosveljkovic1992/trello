@@ -1,29 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useCommentEdit } from 'hooks/useCommentEdit';
 import { AiOutlineClose } from 'react-icons/ai';
-
-import { editComment } from 'store/comments-slice';
 
 import { Container } from './comment-edit-styles';
 
 export const CommentEdit = ({ comment, isActive, setIsActive }) => {
-  const dispatch = useDispatch();
-  const card = useSelector((state) => state.card.details);
-  const [commentInput, setCommentInput] = useState(comment.data.text);
-
-  const inputRef = useRef();
-
-  const handleEdit = (comment, value) => {
-    dispatch(editComment({ card, id: comment.id, value, setIsActive }));
-    setIsActive(false);
-  };
-
-  useEffect(() => {
-    if (isActive) {
-      inputRef.current.select();
-    }
-  }, [isActive]);
+  const { commentInput, setCommentInput, handleEdit, inputRef } =
+    useCommentEdit({ comment, isActive, setIsActive });
 
   return (
     <Container>
