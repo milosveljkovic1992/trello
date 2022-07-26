@@ -1,35 +1,15 @@
-import { useState } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
-
-import { submitList } from 'store/lists-slice';
+import { useNewList } from 'hooks/useNewList';
 
 import { NewItem } from 'components/atoms';
 
-export const NewList = ({ setCreatingNewList, boardId, setIsBoardUpdated }) => {
-  const dispatch = useDispatch();
-  const lists = useSelector((state) => state.lists.listsArray);
-  const [userInput, setUserInput] = useState('');
-
-  const handleInput = (e) => {
-    setUserInput(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    if (userInput.trim().length > 0) {
-      const pos = lists.length > 0 ? lists[lists.length - 1].pos + 5000 : 5000;
-      dispatch(submitList({ userInput, boardId, pos }));
-    }
-    setIsBoardUpdated(true);
-    setUserInput('');
-    setCreatingNewList(false);
-  };
+export const NewList = (props) => {
+  const { handleInput, handleSubmit } = useNewList(props);
 
   return (
     <NewItem
       handleInput={handleInput}
       handleSubmit={handleSubmit}
-      setIsCreatingNew={setCreatingNewList}
+      setIsCreatingNew={props.setCreatingNewList}
       placeholder="Enter list title..."
     >
       Add list

@@ -1,7 +1,4 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux/es/exports';
-
-import { deleteComment } from 'store/comments-slice';
+import { useSingleComment } from 'hooks/useSingleComment';
 
 import { Link } from 'components/atoms';
 import { CommentEdit } from 'components/atoms';
@@ -9,14 +6,7 @@ import { CommentEdit } from 'components/atoms';
 import { Container } from './single-comment-styles';
 
 export const SingleComment = ({ comment }) => {
-  const dispatch = useDispatch();
-  const card = useSelector((state) => state.card.details);
-
-  const [isActive, setIsActive] = useState(false);
-
-  const handleDelete = () => {
-    dispatch(deleteComment({ card, comment }));
-  };
+  const { isActive, setIsActive, handleDelete } = useSingleComment({ comment });
 
   return (
     <Container key={comment.id}>
