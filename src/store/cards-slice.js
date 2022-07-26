@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { throwError } from './error-slice';
+import { informListUpdate } from './lists-slice';
 
 export const fetchCard = createAsyncThunk(
   '/cards/fetchCard',
@@ -11,6 +12,22 @@ export const fetchCard = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Card could not be updated'));
+      return thunkAPI.rejectWithValue();
+    }
+  },
+);
+
+export const submitCard = createAsyncThunk(
+  '/cards/submitCard',
+  async ({ listId, userInput }, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        `/1/card?idList=${listId}&name=${userInput}`,
+      );
+      thunkAPI.dispatch(addCard(response.data));
+      thunkAPI.dispatch(informListUpdate(listId));
+    } catch (error) {
+      thunkAPI.dispatch(throwError('New card could not be added'));
       return thunkAPI.rejectWithValue();
     }
   },
@@ -51,6 +68,15 @@ const cardsSlice = createSlice({
       state.isLoading = false;
     },
     [fetchCard.rejected]: (state) => {
+      state.isLoading = false;
+    },
+    [submitCard.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [submitCard.fulfilled]: (state) => {
+      state.isLoading = false;
+    },
+    [submitCard.rejected]: (state) => {
       state.isLoading = false;
     },
   },
