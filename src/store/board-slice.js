@@ -51,7 +51,12 @@ const boardSlice = createSlice({
     details: {},
     isLoading: true,
   },
-  reducers: {},
+  reducers: {
+    resetBoard(state) {
+      state.details = {};
+      state.isLoading = true;
+    },
+  },
   extraReducers: {
     [fetchBoardListsAndCards.pending]: (state) => {
       state.isLoading = true;
@@ -70,5 +75,7 @@ const boardSlice = createSlice({
     [submitBoardName.rejected]: () => {},
   },
 });
+
+export const { resetBoard } = boardSlice.actions;
 
 export default boardSlice;

@@ -5,12 +5,7 @@ import { NewList } from 'components/molecules';
 
 import { Container } from './add-list-styles';
 
-export const AddList = ({
-  creatingNewList,
-  setCreatingNewList,
-  boardId,
-  setIsBoardUpdated,
-}) => {
+export const AddList = ({ creatingNewList, setCreatingNewList, boardId }) => {
   return (
     <Container>
       {!creatingNewList ? (
@@ -21,11 +16,7 @@ export const AddList = ({
           Add another list
         </AddButton>
       ) : (
-        <NewList
-          setCreatingNewList={setCreatingNewList}
-          boardId={boardId}
-          setIsBoardUpdated={setIsBoardUpdated}
-        />
+        <NewList setCreatingNewList={setCreatingNewList} boardId={boardId} />
       )}
     </Container>
   );

@@ -4,11 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { submitList } from 'store/lists-slice';
 
-export const useNewList = ({
-  setCreatingNewList,
-  boardId,
-  setIsBoardUpdated,
-}) => {
+export const useNewList = ({ setCreatingNewList, boardId }) => {
   const dispatch = useDispatch();
   const lists = useSelector((state) => state.lists.listsArray);
   const [userInput, setUserInput] = useState('');
@@ -22,7 +18,6 @@ export const useNewList = ({
       const pos = lists.length > 0 ? lists[lists.length - 1].pos + 5000 : 5000;
       dispatch(submitList({ userInput, boardId, pos }));
     }
-    setIsBoardUpdated(true);
     setUserInput('');
     setCreatingNewList(false);
   };

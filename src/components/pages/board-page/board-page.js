@@ -2,7 +2,11 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
 
-import { fetchBoardListsAndCards, submitBoardName } from 'store/board-slice';
+import {
+  fetchBoardListsAndCards,
+  resetBoard,
+  submitBoardName,
+} from 'store/board-slice';
 import { openModal } from 'store/popup-slice';
 import { getCard } from 'store/card-slice';
 
@@ -25,7 +29,6 @@ export const BoardPage = () => {
   const { cardUrl } = urlParams;
 
   const [creatingNewList, setCreatingNewList] = useState(false);
-  const [isBoardUpdated, setIsBoardUpdated] = useState(true);
   const [boardName, setBoardName] = useState('');
   const [isActive, setIsActive] = useState(false);
   const titleRef = useRef(null);
@@ -49,10 +52,7 @@ export const BoardPage = () => {
     if (!!boardId && isLoading) {
       dispatch(fetchBoardListsAndCards({ boardId, setBoardName }));
     }
-    if (isBoardUpdated) {
-      setIsBoardUpdated(false);
-    }
-  }, [isBoardUpdated, boardId]);
+  }, [boardId, isLoading]);
 
   const handleBoardName = () => {
     dispatch(submitBoardName({ board, boardName, setBoardName }));
@@ -64,6 +64,7 @@ export const BoardPage = () => {
 
   const handleHomeButton = () => {
     navigate('/');
+    dispatch(resetBoard());
   };
 
   if (isLoading) {
@@ -90,19 +91,13 @@ export const BoardPage = () => {
         {board && lists && (
           <div className="board-inner-container">
             {lists.map((list) => (
-              <SingleList
-                key={list.id}
-                listId={list.id}
-                name={list.name}
-                setIsBoardUpdated={setIsBoardUpdated}
-              />
+              <SingleList key={list.id} listId={list.id} name={list.name} />
             ))}
 
             <AddList
               creatingNewList={creatingNewList}
               setCreatingNewList={setCreatingNewList}
               boardId={boardId}
-              setIsBoardUpdated={setIsBoardUpdated}
             />
           </div>
         )}

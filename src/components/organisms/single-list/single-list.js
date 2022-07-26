@@ -11,7 +11,7 @@ import { NewCard, SingleCard } from 'components/molecules';
 
 import { Container } from './single-list-styles';
 
-export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
+export const SingleList = ({ listId, name }) => {
   const dispatch = useDispatch();
   const cards = useSelector((state) => state.cards.cardsArray);
   const { targetListId } = useSelector((state) => state.dragDrop);
@@ -49,7 +49,6 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
             listId={listId}
             listTitle={listTitle}
             setListTitle={setListTitle}
-            setIsBoardUpdated={setIsBoardUpdated}
           />
           <div className="card-container">
             {cardsOnThisList.map(
