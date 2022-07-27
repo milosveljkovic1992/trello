@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import axios from 'axios';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
-import { throwError } from 'store/error-slice';
 
-import { AddButton } from 'components/atoms';
-import { ListHeading, NewCard, SingleCard } from 'components/molecules';
+import { AddButton, ListTitle, NewCard } from 'components/atoms';
+import { SingleCard } from 'components/molecules';
 
 import { Container } from './single-list-styles';
 
-export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
+export const SingleList = ({ listId, name }) => {
   const dispatch = useDispatch();
   const cards = useSelector((state) => state.cards.cardsArray);
   const { targetListId } = useSelector((state) => state.dragDrop);
@@ -23,20 +21,6 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [isListUpdated, setIsListUpdated] = useState(true);
   const [listTitle, setListTitle] = useState(name);
-
-  const handleTitle = () => {
-    const sendTitle = async () => {
-      try {
-        await axios.put(`/1/lists/${listId}?name=${listTitle}`);
-        setIsListUpdated(false);
-      } catch (error) {
-        setListTitle(name);
-        dispatch(throwError('Could not update title'));
-      }
-    };
-
-    sendTitle();
-  };
 
   const handleDragEnterList = (listId) => {
     if (listId !== targetListId) {
@@ -48,7 +32,7 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     if (isListUpdated || updatedListId === listId) {
       setCardsOnThisList(
         cards
-          .filter((card) => card.idList === listId && card)
+          .filter((card) => card.idList === listId)
           .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0)),
       );
       setIsListUpdated(false);
@@ -60,12 +44,11 @@ export const SingleList = ({ listId, name, setIsBoardUpdated }) => {
     <>
       {cards && (
         <Container onDragEnter={() => handleDragEnterList(listId)}>
-          <ListHeading
-            handleTitle={handleTitle}
+          <ListTitle
+            oldTitle={name}
             listId={listId}
             listTitle={listTitle}
             setListTitle={setListTitle}
-            setIsBoardUpdated={setIsBoardUpdated}
           />
           <div className="card-container">
             {cardsOnThisList.map(

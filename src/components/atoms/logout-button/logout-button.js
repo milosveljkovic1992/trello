@@ -1,18 +1,9 @@
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLogout } from 'hooks/useLogout';
 
-import { logout } from 'store/auth-slice';
 import { Button } from './logout-button-styles';
 
 export const LogoutButton = ({ fixed }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('trelloToken');
-    dispatch(logout());
-    navigate('/');
-  };
+  const { handleLogout } = useLogout();
 
   return (
     <Button onClick={handleLogout} fixed={fixed}>

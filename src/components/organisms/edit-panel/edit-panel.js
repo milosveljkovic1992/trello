@@ -5,15 +5,13 @@ import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { CardMove } from 'components/organisms';
 import { Overlay } from './edit-panel-styles';
+import { useCardTitle } from 'hooks/useCardTitle';
 
 export const EditPanel = ({ editPanelProps, index }) => {
   const {
     rect,
     card,
-    title,
-    setTitle,
     handleOpen,
-    handleRename,
     handleMove,
     handleDelete,
     setIsEditOpen,
@@ -22,8 +20,8 @@ export const EditPanel = ({ editPanelProps, index }) => {
   } = editPanelProps;
   const [isLoading, setIsLoading] = useState(true);
   const [tabRect, setTabRect] = useState(null);
+  const { title, setTitle, handleRename, titleRef } = useCardTitle({ card });
 
-  const titleRef = useRef();
   const animationRef = useRef();
   const moveRef = useRef();
 
@@ -93,7 +91,10 @@ export const EditPanel = ({ editPanelProps, index }) => {
           </div>
         </div>
 
-        <div className="save-button" onClick={() => handleRename(card, title)}>
+        <div
+          className="save-button"
+          onClick={() => handleRename(setIsEditOpen)}
+        >
           Save
         </div>
 

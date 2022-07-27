@@ -1,49 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 
-import { editComment } from 'store/comments-slice';
-import { throwError } from 'store/error-slice';
+import { useCommentEdit } from 'hooks/useCommentEdit';
 
-import { Container } from './comment-edit-styles';
+import { Comment } from './comment-edit-styles';
 
 export const CommentEdit = ({ comment, isActive, setIsActive }) => {
-  const dispatch = useDispatch();
-  const card = useSelector((state) => state.card.details);
-  const [commentInput, setCommentInput] = useState(comment.data.text);
-
-  const inputRef = useRef();
-
-  useEffect(() => {
-    if (isActive) {
-      inputRef.current.select();
-    }
-  }, [isActive]);
-
-  const handleEdit = (id, value) => {
-    const editRequest = async () => {
-      try {
-        await axios.put(
-          `/1/cards/${card.id}/actions/${id}/comments?text=${value}`,
-        );
-        dispatch(editComment({ id, value }));
-      } catch (error) {
-        dispatch(throwError('Comment could not be edited'));
-      }
-    };
-
-    if (value.trim().length > 0) {
-      editRequest();
-    } else {
-      setCommentInput(comment.data.text);
-    }
-    setIsActive(false);
-  };
+  const { commentInput, setCommentInput, handleEdit, inputRef } =
+    useCommentEdit({ comment, isActive, setIsActive });
 
   return (
-    <Container>
+    <Comment>
       <textarea
         ref={inputRef}
         placeholder="Write a comment..."
@@ -54,7 +20,7 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
       <div className="btn-container">
         <button
           disabled={!commentInput}
-          onClick={() => handleEdit(comment.id, commentInput)}
+          onClick={() => handleEdit(comment, commentInput)}
         >
           Save
         </button>
@@ -63,6 +29,6 @@ export const CommentEdit = ({ comment, isActive, setIsActive }) => {
           <AiOutlineClose />
         </div>
       </div>
-    </Container>
+    </Comment>
   );
 };

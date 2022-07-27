@@ -6,5 +6,7 @@ export { Link } from 'components/atoms/link/link';
 export { ListTitle } from 'components/atoms/list-title/list-title';
 export { Login } from 'components/atoms/login/login';
 export { LogoutButton } from 'components/atoms/logout-button/logout-button';
+export { NewCard } from 'components/atoms/new-card/new-card';
 export { NewItem } from 'components/atoms/new-item/new-item';
+export { NewList } from 'components/atoms/new-list/new-list';
 export { LoadingSpinner } from 'components/atoms/loading-spinner/loading-spinner';

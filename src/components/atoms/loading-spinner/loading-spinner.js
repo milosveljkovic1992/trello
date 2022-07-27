@@ -1,13 +1,13 @@
-import { Container } from './loading-spinner-styles';
+import { Overlay } from './loading-spinner-styles';
 
 export const LoadingSpinner = () => {
   return (
-    <Container>
+    <Overlay>
       <div className="spinner-circle bigger">
         <div className="spinner-circle smaller">
           <div className="spinner-circle smallest"></div>
         </div>
       </div>
-    </Container>
+    </Overlay>
   );
 };

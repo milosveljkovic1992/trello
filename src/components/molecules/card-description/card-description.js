@@ -1,61 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux/es/exports';
-
-import axios from 'axios';
+import { useCardDescription } from 'hooks/useCardDescription';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { Container } from './card-description-styles';
-import { throwError } from 'store/error-slice';
-import { informListUpdate } from 'store/lists-slice';
-import { updateCard } from 'store/cards-slice';
 
 export const CardDescription = () => {
-  const dispatch = useDispatch();
-  const card = useSelector((state) => state.card.details);
-  const { isLoading } = useSelector((state) => state.card);
-  const [isInitialRender, setIsInitialRender] = useState(true);
-  const [description, setDescription] = useState('');
-  const [previousDescription, setPreviousDescription] = useState('');
-  const [isActive, setIsActive] = useState(false);
-
-  const descRef = useRef(null);
-
-  const handleEdit = () => {
-    const fetchDescription = async () => {
-      try {
-        await axios.put(`/1/cards/${card.id}?desc=${description}`);
-        const response = await axios.get(`/1/cards/${card.id}`);
-        dispatch(updateCard(response.data));
-        dispatch(informListUpdate(card.idList));
-      } catch (error) {
-        dispatch(throwError('Description could not be edited'));
-        setDescription(previousDescription);
-      }
-    };
-    fetchDescription();
-  };
-
-  const handleActive = (e) => {
-    if (e.target.closest('.desc-btn')) {
-      setIsActive(false);
-    } else {
-      setIsActive(true);
-    }
-  };
-
-  useEffect(() => {
-    if (isActive) {
-      descRef.current.select();
-    }
-    setPreviousDescription(description);
-  }, [isActive]);
-
-  useEffect(() => {
-    if (isInitialRender && !isLoading) {
-      setDescription(card.desc);
-      setIsInitialRender(false);
-    }
-  }, [isInitialRender, isLoading, card]);
+  const {
+    isActive,
+    setIsActive,
+    description,
+    setDescription,
+    previousDescription,
+    descRef,
+    handleActive,
+    handleEdit,
+  } = useCardDescription();
 
   return (
     <Container

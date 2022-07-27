@@ -1,19 +1,11 @@
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { AddButton } from 'components/atoms';
-import { NewList } from 'components/molecules';
+import { NewList } from 'components/atoms';
 
 import { Container } from './add-list-styles';
 
-export const AddList = (props) => {
-  const {
-    creatingNewList,
-    setCreatingNewList,
-    boardId,
-    setIsBoardUpdated,
-    pos,
-  } = props;
-
+export const AddList = ({ creatingNewList, setCreatingNewList, boardId }) => {
   return (
     <Container>
       {!creatingNewList ? (
@@ -24,12 +16,7 @@ export const AddList = (props) => {
           Add another list
         </AddButton>
       ) : (
-        <NewList
-          setCreatingNewList={setCreatingNewList}
-          boardId={boardId}
-          setIsBoardUpdated={setIsBoardUpdated}
-          pos={pos}
-        />
+        <NewList setCreatingNewList={setCreatingNewList} boardId={boardId} />
       )}
     </Container>
   );

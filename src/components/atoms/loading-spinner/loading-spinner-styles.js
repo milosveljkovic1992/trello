@@ -9,7 +9,7 @@ const spin = keyframes`
   }
 `;
 
-export const Container = styled.div`
+export const Overlay = styled.div`
   position: fixed;
   top: 0;
   right: 0;

@@ -3,21 +3,25 @@ import axios from 'axios';
 
 import { throwError } from './error-slice';
 import { closeModal } from './popup-slice';
-import { resetComments } from './comments-slice';
+import { setComments, resetComments } from './comments-slice';
 import { setCards, updateCard } from './cards-slice';
 import { informListUpdate } from './lists-slice';
 
 const initialState = {
+  details: {},
   hasFailed: false,
   isLoading: true,
 };
 
 export const getCard = createAsyncThunk(
-  '/cards/getCard',
+  '/card/getCard',
   async ({ id }, thunkAPI) => {
     try {
-      const response = await axios.get(`/1/cards/${id}`);
-      return response.data;
+      const response = await axios.get(
+        `/1/batch?urls=/1/cards/${id},/1/cards/${id}/actions`,
+      );
+      thunkAPI.dispatch(setComments(response.data[1][200]));
+      return response.data[0][200];
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get card'));
       thunkAPI.dispatch(closeModal());
@@ -29,22 +33,8 @@ export const getCard = createAsyncThunk(
   },
 );
 
-export const renameCard = createAsyncThunk(
-  '/cards/renameCard',
-  async ({ id, title, idList }, thunkAPI) => {
-    try {
-      const response = await axios.put(`/1/cards/${id}?name=${title}`);
-      thunkAPI.dispatch(updateCard(response.data));
-      thunkAPI.dispatch(informListUpdate(idList));
-    } catch (error) {
-      thunkAPI.dispatch(throwError('Could not rename card'));
-      return thunkAPI.rejectWithValue();
-    }
-  },
-);
-
 export const deleteCard = createAsyncThunk(
-  '/cards/deleteCard',
+  '/card/deleteCard',
   async (card, thunkAPI) => {
     try {
       await axios.delete(`/1/cards/${card.id}`);
@@ -59,21 +49,42 @@ export const deleteCard = createAsyncThunk(
   },
 );
 
+export const editDescription = createAsyncThunk(
+  '/card/editDescription',
+  async (
+    { card, description, setDescription, previousDescription },
+    thunkAPI,
+  ) => {
+    try {
+      const response = await axios.put(
+        `/1/cards/${card.id}?desc=${description}`,
+      );
+      thunkAPI.dispatch(updateCard(response.data));
+      thunkAPI.dispatch(informListUpdate(card.idList));
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(throwError('Description could not be edited'));
+      setDescription(previousDescription);
+      return thunkAPI.rejectWithValue();
+    }
+  },
+);
+
 const cardSlice = createSlice({
-  name: 'cards',
+  name: 'card',
   initialState,
   reducers: {
     resetCard(state) {
-      state.details = {};
-      state.hasFailed = false;
-      state.isLoading = true;
+      state.details = initialState.details;
+      state.hasFailed = initialState.hasFailed;
+      state.isLoading = initialState.isLoading;
     },
   },
   extraReducers: {
     [getCard.pending]: (state) => {
-      state.details = {};
-      state.hasFailed = false;
-      state.isLoading = true;
+      state.details = initialState.details;
+      state.hasFailed = initialState.hasFailed;
+      state.isLoading = initialState.isLoading;
     },
     [getCard.fulfilled]: (state, action) => {
       state.details = action.payload;
@@ -85,15 +96,6 @@ const cardSlice = createSlice({
       state.hasFailed = true;
       state.isLoading = false;
     },
-    [renameCard.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [renameCard.fulfilled]: (state) => {
-      state.isLoading = false;
-    },
-    [renameCard.rejected]: (state) => {
-      state.isLoading = false;
-    },
     [deleteCard.pending]: (state) => {
       state.isLoading = true;
     },
@@ -101,6 +103,14 @@ const cardSlice = createSlice({
       state.isLoading = false;
     },
     [deleteCard.rejected]: (state) => {
+      state.isLoading = false;
+    },
+    [editDescription.pending]: () => {},
+    [editDescription.fulfilled]: (state, action) => {
+      state.details = action.payload;
+      state.isLoading = false;
+    },
+    [editDescription.rejected]: (state) => {
       state.isLoading = false;
     },
   },
