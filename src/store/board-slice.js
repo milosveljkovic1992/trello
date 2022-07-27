@@ -68,11 +68,15 @@ const boardSlice = createSlice({
     [fetchBoardListsAndCards.rejected]: (state) => {
       state.isLoading = false;
     },
-    [submitBoardName.pending]: () => {},
+    [submitBoardName.pending]: (state) => {
+      state.isLoading = false;
+    },
     [submitBoardName.fulfilled]: (state, action) => {
       state.details = action.payload;
     },
-    [submitBoardName.rejected]: () => {},
+    [submitBoardName.rejected]: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 
