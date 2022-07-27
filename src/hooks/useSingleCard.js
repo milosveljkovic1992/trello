@@ -9,7 +9,7 @@ import { openModal } from 'store/popup-slice';
 
 import { throwError } from 'store/error-slice';
 
-export const useSingleCard = ({ setIsListUpdated }) => {
+export const useSingleCard = ({ setIsListUpdated, card }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,7 +50,9 @@ export const useSingleCard = ({ setIsListUpdated }) => {
   }, [isEditOpen]);
 
   return {
+    card,
     rect,
+    isEditOpen,
     setIsEditOpen,
     isMoveOpen,
     setIsMoveOpen,

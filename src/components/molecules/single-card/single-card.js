@@ -13,7 +13,7 @@ export const SingleCard = ({ index, card, setIsListUpdated }) => {
   const { handleDragStart, handleDragEnterCard, handleDragEnd } =
     useDragAndDrop({ setIsListUpdated });
 
-  const editPanelProps = useSingleCard({ setIsListUpdated });
+  const editPanelProps = useSingleCard({ setIsListUpdated, card });
 
   return (
     <Container ref={editPanelProps.cardRef} draggable className="card-box">
