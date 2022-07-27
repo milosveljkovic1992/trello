@@ -105,9 +105,7 @@ const cardSlice = createSlice({
     [deleteCard.rejected]: (state) => {
       state.isLoading = false;
     },
-    [editDescription.pending]: (state) => {
-      state.isLoading = true;
-    },
+    [editDescription.pending]: () => {},
     [editDescription.fulfilled]: (state, action) => {
       state.details = action.payload;
       state.isLoading = false;
