@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+
 import { useSelector } from 'react-redux';
 
 import { useCardTitle } from 'hooks/useCardTitle';
@@ -8,9 +9,7 @@ import { Container } from './card-title-styles';
 export const CardTitle = () => {
   const card = useSelector((state) => state.card.details);
   const [isActive, setIsActive] = useState(false);
-  const { title, setTitle, handleRename } = useCardTitle({ card });
-
-  const titleRef = useRef(null);
+  const { title, setTitle, handleRename, titleRef } = useCardTitle({ card });
 
   useEffect(() => {
     if (isActive) {

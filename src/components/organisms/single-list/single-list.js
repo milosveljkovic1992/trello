@@ -6,8 +6,8 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
 
-import { AddButton, ListTitle } from 'components/atoms';
-import { NewCard, SingleCard } from 'components/molecules';
+import { AddButton, ListTitle, NewCard } from 'components/atoms';
+import { SingleCard } from 'components/molecules';
 
 import { Container } from './single-list-styles';
 

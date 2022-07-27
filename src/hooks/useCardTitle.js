@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -10,6 +10,8 @@ import { informListUpdate } from 'store/lists-slice';
 export const useCardTitle = ({ card }) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState(card.name);
+
+  const titleRef = useRef(null);
 
   const renameCard = async () => {
     try {
@@ -37,5 +39,5 @@ export const useCardTitle = ({ card }) => {
     }
   }, [card]);
 
-  return { title, setTitle, handleRename };
+  return { title, setTitle, handleRename, titleRef };
 };
