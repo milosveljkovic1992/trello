@@ -4,20 +4,26 @@ import { throwError } from './error-slice';
 
 export const archiveList = createAsyncThunk(
   '/lists/archiveList',
-  async (listId, thunkAPI) => {
+  async (listId: string, thunkAPI) => {
     try {
       await axios.put(`/1/lists/${listId}?closed=true`);
       return listId;
     } catch (error) {
       thunkAPI.dispatch(throwError('List could not be removed'));
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
 
+interface SubmitList {
+  userInput: string;
+  pos: number;
+  boardId: string;
+}
+
 export const submitList = createAsyncThunk(
   '/lists/submitList',
-  async ({ userInput, pos, boardId }, thunkAPI) => {
+  async ({ userInput, pos, boardId }: SubmitList, thunkAPI) => {
     try {
       const response = await axios.post(
         `/1/lists?name=${userInput}&pos=${pos}&idBoard=${boardId}`,
@@ -25,12 +31,18 @@ export const submitList = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('New list could not be added'));
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
 
-const initialState = {
+interface InitialState {
+  isUpdated: boolean;
+  updatedListId: string;
+  listsArray: Array<any>;
+}
+
+const initialState: InitialState = {
   isUpdated: false,
   updatedListId: '',
   listsArray: [],
@@ -52,29 +64,29 @@ const listsSlice = createSlice({
       state.updatedListId = '';
     },
   },
-  extraReducers: {
-    [archiveList.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(archiveList.pending, (state) => {
       state.isUpdated = false;
-    },
-    [archiveList.fulfilled]: (state, action) => {
+    });
+    builder.addCase(archiveList.fulfilled, (state, action) => {
       state.isUpdated = true;
       state.listsArray = state.listsArray.filter(
         (list) => list.id !== action.payload,
       );
-    },
-    [archiveList.rejected]: (state) => {
+    });
+    builder.addCase(archiveList.rejected, (state) => {
       state.isUpdated = false;
-    },
-    [submitList.pending]: (state) => {
+    });
+    builder.addCase(submitList.pending, (state) => {
       state.isUpdated = false;
-    },
-    [submitList.fulfilled]: (state, action) => {
+    });
+    builder.addCase(submitList.fulfilled, (state, action) => {
       state.isUpdated = true;
       state.listsArray.push(action.payload);
-    },
-    [submitList.rejected]: (state) => {
+    });
+    builder.addCase(submitList.rejected, (state) => {
       state.isUpdated = false;
-    },
+    });
   },
 });
 

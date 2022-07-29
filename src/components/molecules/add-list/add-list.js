@@ -5,18 +5,25 @@ import { NewList } from 'components/atoms';
 
 import { Container } from './add-list-styles';
 
-export const AddList = ({ creatingNewList, setCreatingNewList, boardId }) => {
+export const AddList = ({
+  isCreatingNewList,
+  setIsCreatingNewList,
+  boardId,
+}) => {
   return (
     <Container>
-      {!creatingNewList ? (
+      {!isCreatingNewList ? (
         <AddButton
-          onClick={() => setCreatingNewList(true)}
+          onClick={() => setIsCreatingNewList(true)}
           icon={<AiOutlinePlus />}
         >
           Add another list
         </AddButton>
       ) : (
-        <NewList setCreatingNewList={setCreatingNewList} boardId={boardId} />
+        <NewList
+          setIsCreatingNewList={setIsCreatingNewList}
+          boardId={boardId}
+        />
       )}
     </Container>
   );

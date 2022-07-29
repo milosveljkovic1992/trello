@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 
 import { AiOutlineClose } from 'react-icons/ai';
+import { NewItemProps } from './new-item.props';
 
-import { Container } from './new-item-styles';
+import { Container } from './new-item.styles';
 
 export const NewItem = ({
   children,
@@ -10,11 +11,11 @@ export const NewItem = ({
   handleSubmit,
   setIsCreatingNew,
   placeholder,
-}) => {
-  const inputRef = useRef();
+}: NewItemProps) => {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }, []);
 
   return (
@@ -23,7 +24,7 @@ export const NewItem = ({
         <textarea
           ref={inputRef}
           placeholder={placeholder}
-          onChange={handleInput}
+          onChange={(e) => handleInput(e)}
         ></textarea>
       </div>
 

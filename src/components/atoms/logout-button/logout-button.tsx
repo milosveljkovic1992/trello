@@ -1,8 +1,9 @@
 import { useLogout } from 'hooks/useLogout';
 
-import { Button } from './logout-button-styles';
+import { LogoutButtonProps } from './logout-button.types';
+import { Button } from './logout-button.styles';
 
-export const LogoutButton = ({ fixed }) => {
+export const LogoutButton = ({ fixed }: LogoutButtonProps) => {
   const { handleLogout } = useLogout();
 
   return (

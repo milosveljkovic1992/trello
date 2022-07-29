@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
+interface Props {
+  fixed: boolean;
+}
+
+export const Button = styled.button<Props>`
   height: 33px;
   width: 100px;
   color: ${({ fixed }) => (fixed ? '#333' : '#fff')};

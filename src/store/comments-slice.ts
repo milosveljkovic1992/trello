@@ -93,12 +93,12 @@ export const deleteComment = createAsyncThunk(
   },
 );
 
-interface initialState {
+interface InitialState {
   commentsList: Comment[];
   isLoading: boolean;
 }
 
-const initialState: initialState = {
+const initialState: InitialState = {
   commentsList: [],
   isLoading: true,
 };

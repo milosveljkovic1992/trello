@@ -1,8 +1,9 @@
 import { useNewCard } from 'hooks/useNewCard';
+import { NewCardProps } from './new-card.types';
 
 import { NewItem } from 'components/atoms';
 
-export const NewCard = ({ setIsCreatingNew, listId }) => {
+export const NewCard = ({ setIsCreatingNew, listId }: NewCardProps) => {
   const { handleInput, handleSubmit } = useNewCard({
     setIsCreatingNew,
     listId,

@@ -1,14 +1,19 @@
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { useDispatch } from 'react-redux';
-
+import { useAppDispatch } from 'store';
 import { archiveList } from 'store/lists-slice';
 import { useListTitle } from 'hooks/useListTitle';
 
-import { Title } from 'components/atoms/list-title/list-title-styles';
+import { ListTitleProps } from './list-title.types';
+import { Title } from 'components/atoms/list-title/list-title.styles';
 
-export const ListTitle = ({ oldTitle, listId, listTitle, setListTitle }) => {
-  const dispatch = useDispatch();
+export const ListTitle = ({
+  oldTitle,
+  listId,
+  listTitle,
+  setListTitle,
+}: ListTitleProps) => {
+  const dispatch = useAppDispatch();
   const { isInputActive, handleFocus, handleBlur, titleRef } = useListTitle({
     oldTitle,
     listId,

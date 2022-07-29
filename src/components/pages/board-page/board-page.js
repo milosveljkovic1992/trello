@@ -28,7 +28,7 @@ export const BoardPage = () => {
   const { boardId } = urlParams;
   const { cardUrl } = urlParams;
 
-  const [creatingNewList, setCreatingNewList] = useState(false);
+  const [isCreatingNewList, setIsCreatingNewList] = useState(false);
   const [boardName, setBoardName] = useState('');
   const [isActive, setIsActive] = useState(false);
   const titleRef = useRef(null);
@@ -95,8 +95,8 @@ export const BoardPage = () => {
             ))}
 
             <AddList
-              creatingNewList={creatingNewList}
-              setCreatingNewList={setCreatingNewList}
+              isCreatingNewList={isCreatingNewList}
+              setIsCreatingNewList={setIsCreatingNewList}
               boardId={boardId}
             />
           </div>

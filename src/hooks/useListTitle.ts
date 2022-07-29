@@ -5,11 +5,18 @@ import axios from 'axios';
 
 import { throwError } from 'store/error-slice';
 
-export const useListTitle = ({ oldTitle, listId, listTitle, setListTitle }) => {
+import { ListTitleProps } from 'components/atoms/list-title/list-title.types';
+
+export const useListTitle = ({
+  oldTitle,
+  listId,
+  listTitle,
+  setListTitle,
+}: ListTitleProps) => {
   const dispatch = useDispatch();
   const [isInputActive, setIsInputActive] = useState(false);
 
-  const titleRef = useRef(null);
+  const titleRef = useRef<HTMLTextAreaElement>(null);
 
   const submitTitle = async () => {
     try {
@@ -22,7 +29,7 @@ export const useListTitle = ({ oldTitle, listId, listTitle, setListTitle }) => {
 
   const handleFocus = () => {
     setIsInputActive(true);
-    titleRef.current.select();
+    titleRef.current?.select();
   };
 
   const handleBlur = () => {

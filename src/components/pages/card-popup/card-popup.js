@@ -15,7 +15,7 @@ import {
   CardDescription,
   SingleComment,
 } from 'components/molecules';
-import { CardTitle, LoadingSpinner } from 'components/atoms';
+import { CardTitle, LoadingBars } from 'components/atoms';
 
 import { Overlay } from './card-popup-styles';
 
@@ -47,7 +47,7 @@ export const CardPopup = () => {
     <Overlay onClick={(e) => handleClose(e)} className="card-overlay">
       <div className="container">
         {isLoading ? (
-          <LoadingSpinner />
+          <LoadingBars />
         ) : (
           <>
             <div className="header">

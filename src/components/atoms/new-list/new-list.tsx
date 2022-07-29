@@ -1,10 +1,11 @@
 import { useNewList } from 'hooks/useNewList';
 
+import { NewListProps } from './new-list.types';
 import { NewItem } from 'components/atoms';
 
-export const NewList = ({ setCreatingNewList, boardId }) => {
+export const NewList = ({ setIsCreatingNewList, boardId }: NewListProps) => {
   const { handleInput, handleSubmit } = useNewList({
-    setCreatingNewList,
+    setIsCreatingNewList,
     boardId,
   });
 
@@ -12,7 +13,7 @@ export const NewList = ({ setCreatingNewList, boardId }) => {
     <NewItem
       handleInput={handleInput}
       handleSubmit={handleSubmit}
-      setIsCreatingNew={setCreatingNewList}
+      setIsCreatingNew={setIsCreatingNewList}
       placeholder="Enter list title..."
     >
       Add list

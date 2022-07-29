@@ -1,6 +1,10 @@
 import styled from 'styled-components/macro';
 
-export const Title = styled.div`
+interface Props {
+  isInputActive: boolean;
+}
+
+export const Title = styled.div<Props>`
   margin: 0 0 5px;
   position: relative;
 

@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 
-import { useDispatch } from 'react-redux';
-
+import { useAppDispatch } from 'store';
 import { submitCard } from 'store/cards-slice';
 
-export const useNewCard = ({ setIsCreatingNew, listId }) => {
-  const dispatch = useDispatch();
+import { NewCardProps } from 'components/atoms/new-card/new-card.types';
+
+export const useNewCard = ({ setIsCreatingNew, listId }: NewCardProps) => {
+  const dispatch = useAppDispatch();
   const [userInput, setUserInput] = useState('');
 
-  const handleInput = (e) => {
+  const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setUserInput(e.target.value);
   };
 
