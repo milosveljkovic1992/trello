@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
+import { useSelector } from 'react-redux';
+
+import { RootState, useAppDispatch } from 'store';
 import { submitComment } from 'store/comments-slice';
+import type { CardType } from 'store/card-slice';
 
 export const useCommentInput = () => {
-  const dispatch = useDispatch();
-  const card = useSelector((state) => state.card.details);
+  const dispatch = useAppDispatch();
+  const card: CardType = useSelector((state: RootState) => state.card.details);
 
   const [comment, setComment] = useState('');
   const [isDisplayed, setIsDisplayed] = useState(false);

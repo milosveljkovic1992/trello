@@ -1,6 +1,10 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.div`
+interface Props {
+  isActive: boolean;
+}
+
+export const Container = styled.div<Props>`
   h2 {
     display: ${({ isActive }) => (isActive ? 'none' : 'block')};
     font-size: 20px;

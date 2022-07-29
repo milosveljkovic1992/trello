@@ -4,8 +4,9 @@ import { Link } from 'components/atoms';
 import { CommentEdit } from 'components/atoms';
 
 import { Container } from './single-comment-styles';
+import type { Comment } from 'store/comments-slice';
 
-export const SingleComment = ({ comment }) => {
+export const SingleComment = ({ comment }: { comment: Comment }) => {
   const { isActive, setIsActive, handleDelete } = useSingleComment({ comment });
 
   return (
@@ -32,7 +33,7 @@ export const SingleComment = ({ comment }) => {
               <div className="actions">
                 <p onClick={() => setIsActive(true)}>Edit</p>
                 {` - `}
-                <p onClick={() => handleDelete(comment.id)}>Delete</p>
+                <p onClick={() => handleDelete()}>Delete</p>
               </div>
             </>
           ) : (

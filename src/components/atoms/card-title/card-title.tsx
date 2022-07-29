@@ -1,19 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
+import { RootState } from 'store';
 import { useCardTitle } from 'hooks/useCardTitle';
+import type { CardType } from 'store/card-slice';
 
-import { Container } from './card-title-styles';
+import { Container } from './card-title.styles';
 
 export const CardTitle = () => {
-  const card = useSelector((state) => state.card.details);
-  const [isActive, setIsActive] = useState(false);
-  const { title, setTitle, handleRename, titleRef } = useCardTitle({ card });
+  const card: CardType = useSelector((state: RootState) => state.card.details);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const { title, setTitle, handleRename } = useCardTitle({ card });
+
+  const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isActive) {
-      titleRef.current.select();
+      titleRef.current?.select();
     }
   }, [isActive]);
 

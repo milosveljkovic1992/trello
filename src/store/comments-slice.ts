@@ -1,14 +1,32 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { informListUpdate } from './lists-slice';
 import { throwError } from './error-slice';
 import { updateModal } from './popup-slice';
 import { updateCard } from './cards-slice';
+import type { CardType } from './card-slice';
+
+export type Comment = {
+  type: string;
+  id: string;
+  data: {
+    text: string;
+  };
+  memberCreator: {
+    fullName: string;
+  };
+  date: string;
+};
+
+type submitComment = {
+  card: CardType;
+  comment: string;
+};
 
 export const submitComment = createAsyncThunk(
   '/commentsSlice/submitComment',
-  async ({ card, comment }, thunkAPI) => {
+  async ({ card, comment }: submitComment, thunkAPI) => {
     try {
       const response = await axios.post(
         `/1/cards/${card.id}/actions/comments?text=${comment}`,
@@ -22,14 +40,25 @@ export const submitComment = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Comment could not be added'));
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
 
+type editComment = {
+  card: CardType;
+  id: string;
+  value: string;
+};
+
+type editedComment = {
+  id: string;
+  value: string;
+};
+
 export const editComment = createAsyncThunk(
   '/commentsSlice/editComment',
-  async ({ card, id, value }, thunkAPI) => {
+  async ({ card, id, value }: editComment, thunkAPI) => {
     try {
       await axios.put(
         `/1/cards/${card.id}/actions/${id}/comments?text=${value}`,
@@ -37,14 +66,19 @@ export const editComment = createAsyncThunk(
       return { id, value };
     } catch (error) {
       thunkAPI.dispatch(throwError('Comment could not be edited'));
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
 
+type deleteComment = {
+  card: CardType;
+  comment: Comment;
+};
+
 export const deleteComment = createAsyncThunk(
   '/comments/deleteComment',
-  async ({ card, comment }, thunkAPI) => {
+  async ({ card, comment }: deleteComment, thunkAPI) => {
     try {
       await axios.delete(`/1/cards/${card.id}/actions/${comment.id}/comments`);
 
@@ -54,21 +88,28 @@ export const deleteComment = createAsyncThunk(
       return comment.id;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not delete comment'));
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
 
+interface initialState {
+  commentsList: Comment[];
+  isLoading: boolean;
+}
+
+const initialState: initialState = {
+  commentsList: [],
+  isLoading: true,
+};
+
 const commentsSlice = createSlice({
   name: 'comments',
-  initialState: {
-    commentsList: [],
-    isLoading: true,
-  },
+  initialState,
   reducers: {
-    setComments(state, action) {
+    setComments(state, action: PayloadAction<Comment[]>) {
       const comments = action.payload.filter(
-        (action) => action.type === 'commentCard',
+        (comment) => comment.type === 'commentCard',
       );
       state.commentsList = comments;
       state.isLoading = false;
@@ -77,47 +118,50 @@ const commentsSlice = createSlice({
       state.commentsList = [];
     },
   },
-  extraReducers: {
-    [submitComment.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(submitComment.pending, (state) => {
       state.isLoading = true;
-    },
-    [submitComment.fulfilled]: (state, action) => {
+    });
+    builder.addCase(submitComment.fulfilled, (state, action) => {
       state.commentsList.unshift(action.payload);
       state.isLoading = false;
-    },
-    [submitComment.rejected]: (state) => {
+    });
+    builder.addCase(submitComment.rejected, (state) => {
       state.isLoading = false;
-    },
-    [editComment.pending]: (state) => {
+    });
+    builder.addCase(editComment.pending, (state) => {
       state.isLoading = true;
-    },
-    [editComment.fulfilled]: (state, action) => {
-      const { id, value } = action.payload;
+    });
+    builder.addCase(
+      editComment.fulfilled,
+      (state, action: PayloadAction<editedComment>) => {
+        const { id, value } = action.payload;
 
-      state.commentsList = state.commentsList.map((comment) => {
-        if (comment.id === id) {
-          comment.data.text = value;
-        }
-        return comment;
-      });
+        state.commentsList = state.commentsList.map((comment: Comment) => {
+          if (comment.id === id) {
+            comment.data.text = value;
+          }
+          return comment;
+        });
+        state.isLoading = false;
+      },
+    );
+    builder.addCase(editComment.rejected, (state) => {
       state.isLoading = false;
-    },
-    [editComment.rejected]: (state) => {
-      state.isLoading = false;
-    },
-    [deleteComment.pending]: (state) => {
+    });
+    builder.addCase(deleteComment.pending, (state) => {
       state.isLoading = true;
-    },
-    [deleteComment.fulfilled]: (state, action) => {
+    });
+    builder.addCase(deleteComment.fulfilled, (state, action) => {
       const id = action.payload;
       state.commentsList = state.commentsList.filter(
         (comment) => comment.id !== id,
       );
       state.isLoading = false;
-    },
-    [deleteComment.rejected]: (state) => {
+    });
+    builder.addCase(deleteComment.rejected, (state) => {
       state.isLoading = false;
-    },
+    });
   },
 });
 

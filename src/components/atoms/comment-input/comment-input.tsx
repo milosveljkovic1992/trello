@@ -15,10 +15,7 @@ export const CommentInput = () => {
         onFocus={() => setIsDisplayed(true)}
         onBlur={() => !comment && setIsDisplayed(false)}
       ></textarea>
-      <button
-        disabled={!comment}
-        onClick={() => handleSubmit(comment, setComment)}
-      >
+      <button disabled={!comment} onClick={() => handleSubmit()}>
         Save
       </button>
     </Comment>

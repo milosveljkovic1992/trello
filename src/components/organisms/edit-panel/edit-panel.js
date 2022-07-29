@@ -20,8 +20,9 @@ export const EditPanel = ({ editPanelProps, index }) => {
   } = editPanelProps;
   const [isLoading, setIsLoading] = useState(true);
   const [tabRect, setTabRect] = useState(null);
-  const { title, setTitle, handleRename, titleRef } = useCardTitle({ card });
+  const { title, setTitle, handleRename } = useCardTitle({ card });
 
+  const titleRef = useRef();
   const animationRef = useRef();
   const moveRef = useRef();
 

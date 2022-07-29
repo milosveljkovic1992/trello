@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { RootState } from 'store';
 import { resetError } from 'store/error-slice';
 
 export const useErrorSnackbar = () => {
   const dispatch = useDispatch();
-  const { errorMessage } = useSelector((state) => state.errorHandler);
+  const { errorMessage } = useSelector(
+    (state: RootState) => state.errorHandler,
+  );
   const [isDisplayed, setIsDisplayed] = useState(false);
 
   const displayTime = 4000;

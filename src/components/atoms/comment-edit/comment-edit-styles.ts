@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const Comment = styled.div`
+export const Container = styled.div`
   width: 100%;
   border-radius: 3px;
   min-height: 40px;

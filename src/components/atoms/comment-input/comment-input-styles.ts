@@ -1,6 +1,10 @@
 import styled from 'styled-components/macro';
 
-export const Comment = styled.div`
+interface Props {
+  isDisplayed: boolean;
+}
+
+export const Comment = styled.div<Props>`
   width: 100%;
   border-radius: 3px;
   height: 100%;
