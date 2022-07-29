@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { RootState } from 'store';
+import { RootState, useAppDispatch } from 'store';
 import { resetError } from 'store/error-slice';
 
 export const useErrorSnackbar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { errorMessage } = useSelector(
     (state: RootState) => state.errorHandler,
   );

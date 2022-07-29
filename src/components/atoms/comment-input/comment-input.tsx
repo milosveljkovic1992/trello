@@ -1,6 +1,6 @@
 import { useCommentInput } from 'hooks/useCommentInput';
 
-import { Comment } from './comment-input-styles';
+import { Comment } from './comment-input.styles';
 
 export const CommentInput = () => {
   const { isDisplayed, setIsDisplayed, comment, setComment, handleSubmit } =

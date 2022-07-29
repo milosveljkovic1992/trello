@@ -4,7 +4,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { useCommentEdit } from 'hooks/useCommentEdit';
 import type { Comment } from 'store/comments-slice';
 
-import { Container } from './comment-edit-styles';
+import { Container } from './comment-edit.styles';
 
 interface Props {
   comment: Comment;

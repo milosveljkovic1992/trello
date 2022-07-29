@@ -1,6 +1,11 @@
 import styled from 'styled-components/macro';
 
-export const Snackbar = styled.div`
+interface Props {
+  transitionDuration: number;
+  isDisplayed: boolean;
+}
+
+export const Snackbar = styled.div<Props>`
   position: fixed;
   bottom: 5px;
   left: 0;

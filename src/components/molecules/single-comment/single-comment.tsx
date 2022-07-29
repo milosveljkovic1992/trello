@@ -2,9 +2,9 @@ import { useSingleComment } from 'hooks/useSingleComment';
 
 import { Link } from 'components/atoms';
 import { CommentEdit } from 'components/atoms';
-
-import { Container } from './single-comment-styles';
 import type { Comment } from 'store/comments-slice';
+
+import { Container } from './single-comment.styles';
 
 export const SingleComment = ({ comment }: { comment: Comment }) => {
   const { isActive, setIsActive, handleDelete } = useSingleComment({ comment });
