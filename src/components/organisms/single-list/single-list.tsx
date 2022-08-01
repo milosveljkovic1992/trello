@@ -1,28 +1,32 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { AiOutlinePlus } from 'react-icons/ai';
 
+import { RootState, useAppDispatch } from 'store';
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
 
 import { AddButton, ListTitle, NewCard } from 'components/atoms';
 import { SingleCard } from 'components/molecules';
 
-import { Container } from './single-list-styles';
+import { SingleListProps } from './single-list.types';
+import { Container } from './single-list.styles';
+import { CardType } from 'store/card-slice';
+import { nanoid } from 'nanoid';
 
-export const SingleList = ({ listId, name }) => {
-  const dispatch = useDispatch();
-  const cards = useSelector((state) => state.cards.cardsArray);
-  const { targetListId } = useSelector((state) => state.dragDrop);
-  const { updatedListId } = useSelector((state) => state.lists);
+export const SingleList = ({ listId, name }: SingleListProps) => {
+  const dispatch = useAppDispatch();
+  const cards = useSelector((state: RootState) => state.cards.cardsArray);
+  const { targetListId } = useSelector((state: RootState) => state.dragDrop);
+  const { updatedListId } = useSelector((state: RootState) => state.lists);
 
-  const [cardsOnThisList, setCardsOnThisList] = useState([]);
+  const [cardsOnThisList, setCardsOnThisList] = useState<CardType[]>([]);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [isListUpdated, setIsListUpdated] = useState(true);
   const [listTitle, setListTitle] = useState(name);
 
-  const handleDragEnterList = (listId) => {
+  const handleDragEnterList = (listId: string) => {
     if (listId !== targetListId) {
       dispatch(dragOverList({ listId }));
     }
@@ -55,11 +59,10 @@ export const SingleList = ({ listId, name }) => {
               (card, index) =>
                 card.idList === listId && (
                   <SingleCard
-                    key={card.id}
+                    key={nanoid()}
                     index={index}
                     card={card}
                     setIsListUpdated={setIsListUpdated}
-                    setCardsOnThisList={setCardsOnThisList}
                   />
                 ),
             )}

@@ -1,34 +1,37 @@
-import { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState, useRef, MouseEvent } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { FaTrashAlt } from 'react-icons/fa';
 
 import { LoadingSpinner, LogoutButton } from 'components/atoms';
 import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
+import { RootState, useAppDispatch } from 'store';
+import type { BoardType } from 'store/board-slice';
 
 import { Container } from './landing-page-styles';
 
 export const LandingPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const boards = useSelector((state) => state.boards.boardsArray);
-  const isLoading = useSelector((state) => state.boards.isLoading);
-  const member = useSelector((state) => state.member);
+  const boards = useSelector((state: RootState) => state.boards.boardsArray);
+  const isLoading = useSelector((state: RootState) => state.boards.isLoading);
+  const member = useSelector((state: RootState) => state.member);
 
   const [isInputActive, setIsInputActive] = useState(false);
   const [newBoardTitle, setNewBoardTitle] = useState('');
 
-  const inputRef = useRef(null);
-  const btnRef = useRef(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   const handleActive = () => {
     setIsInputActive(true);
   };
 
-  const handleClick = (e, board) => {
+  const handleClick = (e: MouseEvent<HTMLDivElement>, board: BoardType) => {
     e.stopPropagation();
-    if (e.target.closest('.delete-btn')) return;
+    const target = e.target as Element;
+    if (target.closest('.delete-btn')) return;
     navigate(`/b/${board.id}`);
   };
 
@@ -39,14 +42,14 @@ export const LandingPage = () => {
     setIsInputActive(false);
   };
 
-  const handleDelete = (board) => {
+  const handleDelete = (board: BoardType) => {
     dispatch(sendDeleteRequest(board));
   };
 
   useEffect(() => {
     if (isInputActive) {
-      inputRef.current.focus();
-      btnRef.current.classList.add('slide-in-top');
+      inputRef.current?.focus();
+      btnRef.current?.classList.add('slide-in-top');
     }
   }, [boards, isInputActive]);
 

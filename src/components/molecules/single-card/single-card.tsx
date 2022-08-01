@@ -5,11 +5,17 @@ import { FaRegComment } from 'react-icons/fa';
 import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
 
-import { Container } from './single-card-styles';
 import { useDragAndDrop } from 'hooks/useDragAndDrop';
 import { useSingleCard } from 'hooks/useSingleCard';
 
-export const SingleCard = ({ index, card, setIsListUpdated }) => {
+import { SingleCardProps } from './single-card.types';
+import { Container } from './single-card.styles';
+
+export const SingleCard = ({
+  index,
+  card,
+  setIsListUpdated,
+}: SingleCardProps) => {
   const { handleDragStart, handleDragEnterCard, handleDragEnd } =
     useDragAndDrop({ setIsListUpdated });
 

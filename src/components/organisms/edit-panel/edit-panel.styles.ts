@@ -1,6 +1,11 @@
 import styled from 'styled-components/macro';
 
-export const Overlay = styled.div`
+interface Props {
+  rect: DOMRect;
+  direction: string;
+}
+
+export const Overlay = styled.div<Props>`
   position: fixed;
   top: 0;
   right: 0;

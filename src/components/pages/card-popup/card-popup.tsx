@@ -1,4 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { MouseEvent } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { GrClose } from 'react-icons/gr';
@@ -9,6 +10,7 @@ import { CgCreditCard } from 'react-icons/cg';
 import { resetComments } from 'store/comments-slice';
 import { closeModal } from 'store/popup-slice';
 import { resetCard } from 'store/card-slice';
+import type { Comment } from 'store/comments-slice';
 
 import {
   CommentInput,
@@ -18,19 +20,23 @@ import {
 import { CardTitle, LoadingBars } from 'components/atoms';
 
 import { Overlay } from './card-popup-styles';
+import { RootState, useAppDispatch } from 'store';
 
 export const CardPopup = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const card = useSelector((state) => state.card.details);
-  const { isLoading } = useSelector((state) => state.card);
-  const comments = useSelector((state) => state.comments.commentsList);
+  const card = useSelector((state: RootState) => state.card.details);
+  const { isLoading } = useSelector((state: RootState) => state.card);
+  const comments = useSelector(
+    (state: RootState) => state.comments.commentsList,
+  );
 
-  const handleClose = (e) => {
+  const handleClose = (e: MouseEvent<HTMLDivElement>) => {
+    const target = e.target as Element;
     if (
-      e.target.classList.contains('card-overlay') ||
-      e.target.classList.contains('close-btn') ||
-      e.target.classList.contains('close-btn__icon')
+      target.classList.contains('card-overlay') ||
+      target.classList.contains('close-btn') ||
+      target.classList.contains('close-btn__icon')
     ) {
       navigate(`/b/${card.idBoard}`);
       dispatch(closeModal());
@@ -87,7 +93,7 @@ export const CardPopup = () => {
                     </div>
                     {!!comments.length &&
                       comments.map(
-                        (comment) =>
+                        (comment: Comment) =>
                           comment.data.text && (
                             <SingleComment key={comment.id} comment={comment} />
                           ),

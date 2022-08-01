@@ -1,9 +1,27 @@
-import { forwardRef } from 'react';
+import {
+  Dispatch,
+  ForwardedRef,
+  forwardRef,
+  ReactNode,
+  SetStateAction,
+} from 'react';
 
 import { ImHome } from 'react-icons/im';
 
+import { BoardType } from 'store/board-slice';
 import { LogoutButton } from 'components/atoms';
-import { Container } from './board-styles';
+import { Container } from './board.styles';
+
+interface BoardProps {
+  children: ReactNode;
+  board: BoardType;
+  boardName: string;
+  setBoardName: Dispatch<SetStateAction<string>>;
+  handleBoardName: () => void;
+  handleHomeButton: () => void;
+  isActive: boolean;
+  setIsActive: Dispatch<SetStateAction<boolean>>;
+}
 
 // eslint-disable-next-line react/display-name
 export const Board = forwardRef(
@@ -17,8 +35,8 @@ export const Board = forwardRef(
       handleHomeButton,
       isActive,
       setIsActive,
-    },
-    ref,
+    }: BoardProps,
+    ref: ForwardedRef<HTMLInputElement>,
   ) => {
     return (
       <Container
@@ -47,7 +65,7 @@ export const Board = forwardRef(
             ></input>
           </div>
 
-          <LogoutButton />
+          <LogoutButton fixed={false} />
         </header>
 
         {children}

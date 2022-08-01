@@ -1,7 +1,8 @@
-import { useCardDescription } from 'hooks/useCardDescription';
 import { AiOutlineClose } from 'react-icons/ai';
 
-import { Container } from './card-description-styles';
+import { useCardDescription } from 'hooks/useCardDescription';
+
+import { Container } from './card-description.styles';
 
 export const CardDescription = () => {
   const {
@@ -18,9 +19,9 @@ export const CardDescription = () => {
   return (
     <Container
       isActive={isActive}
-      onClick={(e) => handleActive(e)}
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => handleActive(e)}
       className="desc-box"
-      hasDescription={description}
+      hasDescription={!!description}
     >
       <p className="desc-content">
         {description || 'Add a more detailed description...'}

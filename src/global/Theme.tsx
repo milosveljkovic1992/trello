@@ -1,4 +1,9 @@
+import { ReactNode } from 'react';
 import { ThemeProvider } from 'styled-components';
+
+interface Props {
+  children: ReactNode;
+}
 
 const theme = {
   background: {
@@ -17,7 +22,7 @@ const theme = {
   },
 };
 
-const Theme = ({ children }) => {
+const Theme = ({ children }: Props) => {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 

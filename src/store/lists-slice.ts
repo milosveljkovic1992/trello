@@ -2,6 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { throwError } from './error-slice';
 
+export type ListType = {
+  id: string;
+  name: string;
+  pos: number;
+  idBoard: string;
+};
+
 export const archiveList = createAsyncThunk(
   '/lists/archiveList',
   async (listId: string, thunkAPI) => {
@@ -39,7 +46,7 @@ export const submitList = createAsyncThunk(
 interface InitialState {
   isUpdated: boolean;
   updatedListId: string;
-  listsArray: Array<any>;
+  listsArray: ListType[];
 }
 
 const initialState: InitialState = {

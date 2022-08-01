@@ -1,13 +1,20 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, MouseEvent } from 'react';
 
 import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { CardMove } from 'components/organisms';
-import { Overlay } from './edit-panel-styles';
 import { useCardTitle } from 'hooks/useCardTitle';
+import { IEditPanelProps } from './edit-panel.types';
+import { Overlay } from './edit-panel.styles';
 
-export const EditPanel = ({ editPanelProps, index }) => {
+export const EditPanel = ({
+  editPanelProps,
+  index,
+}: {
+  editPanelProps: IEditPanelProps;
+  index: number;
+}) => {
   const {
     rect,
     card,
@@ -19,30 +26,31 @@ export const EditPanel = ({ editPanelProps, index }) => {
     setIsMoveOpen,
   } = editPanelProps;
   const [isLoading, setIsLoading] = useState(true);
-  const [tabRect, setTabRect] = useState(null);
+  const [tabRect, setTabRect] = useState<DOMRect>();
   const { title, setTitle, handleRename } = useCardTitle({ card });
 
-  const titleRef = useRef();
-  const animationRef = useRef();
-  const moveRef = useRef();
+  const titleRef = useRef<HTMLTextAreaElement>(null);
+  const animationRef = useRef<HTMLDivElement>(null);
+  const moveRef = useRef<HTMLDivElement>(null);
 
-  const handleDisplay = (e) => {
-    if (e.target.classList.contains('card-edit__overlay')) {
+  const handleDisplay = (e: MouseEvent<HTMLDivElement>) => {
+    const target = e.target as Element;
+    if (target.classList.contains('card-edit__overlay')) {
       isMoveOpen ? setIsMoveOpen(false) : setIsEditOpen(false);
     }
   };
 
   useEffect(() => {
     if (!isLoading) {
-      titleRef.current.select();
-      animationRef.current.classList.add('card-edit');
+      titleRef.current?.select();
+      animationRef.current?.classList.add('card-edit');
     }
     setIsLoading(false);
   }, [isLoading, rect]);
 
   useEffect(() => {
     if (!isLoading && isMoveOpen) {
-      setTabRect(moveRef.current.getBoundingClientRect());
+      setTabRect(moveRef.current?.getBoundingClientRect());
     }
   }, [isLoading, isMoveOpen]);
 

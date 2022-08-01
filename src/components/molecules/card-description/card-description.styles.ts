@@ -1,6 +1,11 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.div`
+interface Props {
+  hasDescription: boolean;
+  isActive: boolean;
+}
+
+export const Container = styled.div<Props>`
   background-color: rgba(9, 30, 66, 0.04);
   min-height: ${({ hasDescription }) => !hasDescription && '70px'};
   position: relative;

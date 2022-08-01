@@ -1,7 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { CardType } from 'store/card-slice';
 
-const initialState = {
-  draggedCard: {},
+interface InitialState {
+  draggedCard: CardType;
+  startIndex: number;
+  targetIndex: number;
+  targetListId: string;
+  targetPosition: number;
+}
+
+const initialState: InitialState = {
+  draggedCard: {
+    id: '',
+    idList: '',
+    badges: {
+      comments: 0,
+      description: false,
+    },
+    desc: '',
+    name: '',
+    pos: 1,
+  },
   startIndex: 0,
   targetIndex: 0,
   targetListId: '',
@@ -26,7 +45,7 @@ const dragDrop = createSlice({
       }
     },
     endDrag(state) {
-      state.draggedCard = {};
+      state.draggedCard = initialState.draggedCard;
     },
   },
 });

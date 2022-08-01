@@ -2,34 +2,39 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 import Theme from 'global/Theme';
 import { API_KEY, API_URL } from 'global/constants';
 
+import { RootState, useAppDispatch } from 'store';
 import { login, logout } from 'store/auth-slice';
 import { getMemberInfo } from 'store/member-slice';
+import { throwError } from 'store/error-slice';
 
 import { BoardPage, CardPopup, LandingPage } from 'components/pages';
 
 import { ErrorSnackbar, LoadingSpinner, Login } from 'components/atoms';
-import { throwError } from 'store/error-slice';
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post['Accept'] = 'application/json';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { APItoken, isAuth } = useSelector((state) => state.auth);
-  const memberId = useSelector((state) => state.member.id);
-  const { isLoading } = useSelector((state) => state.member);
-  const { isErrorDisplayed } = useSelector((state) => state.errorHandler);
-  const popupModalOpen = useSelector((state) => state.popup.open);
+  const errorRootElement = document.getElementById('error-root');
+
+  const { APItoken, isAuth } = useSelector((state: RootState) => state.auth);
+  const memberId = useSelector((state: RootState) => state.member.id);
+  const { isLoading } = useSelector((state: RootState) => state.member);
+  const { isErrorDisplayed } = useSelector(
+    (state: RootState) => state.errorHandler,
+  );
+  const popupModalOpen = useSelector((state: RootState) => state.popup.open);
 
   useEffect(() => {
     const trelloToken = localStorage.getItem('trelloToken');
@@ -73,14 +78,15 @@ const App = () => {
   return (
     <Theme>
       {isErrorDisplayed &&
-        createPortal(<ErrorSnackbar />, document.getElementById('error-root'))}
+        !!errorRootElement &&
+        createPortal(<ErrorSnackbar />, errorRootElement)}
       {!isAuth ? (
         <Login />
       ) : isLoading ? (
         <LoadingSpinner />
       ) : (
         <Routes>
-          <Route exact path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/b/:boardId/*" element={<BoardPage />}>
             {popupModalOpen && (
               <Route path="c/:cardUrl" element={<CardPopup />} />

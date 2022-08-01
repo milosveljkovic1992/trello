@@ -3,13 +3,14 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { AddButton } from 'components/atoms';
 import { NewList } from 'components/atoms';
 
-import { Container } from './add-list-styles';
+import { AddListProps } from './add-list.types';
+import { Container } from './add-list.styles';
 
 export const AddList = ({
   isCreatingNewList,
   setIsCreatingNewList,
   boardId,
-}) => {
+}: AddListProps) => {
   return (
     <Container>
       {!isCreatingNewList ? (

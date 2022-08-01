@@ -1,11 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+interface InitialState {
+  isErrorDisplayed: boolean;
+  errorMessage: string;
+}
+
+const initialState: InitialState = {
+  isErrorDisplayed: false,
+  errorMessage: '',
+};
+
 const errorSlice = createSlice({
   name: 'errorHandler',
-  initialState: {
-    isErrorDisplayed: false,
-    errorMessage: '',
-  },
+  initialState,
   reducers: {
     throwError(state, action) {
       state.isErrorDisplayed = true;

@@ -1,6 +1,12 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.div`
+interface Props {
+  backgroundImage: string;
+  isActive: boolean;
+  fixed?: boolean;
+}
+
+export const Container = styled.div<Props>`
   min-height: 100vh;
   background-image: ${({ backgroundImage }) =>
     backgroundImage

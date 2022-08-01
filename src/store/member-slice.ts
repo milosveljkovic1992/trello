@@ -3,7 +3,18 @@ import axios from 'axios';
 
 import { throwError } from './error-slice';
 
-const initialState = {
+interface InitialState {
+  id: string;
+  avatarUrl: string;
+  fullName: string;
+  url: string;
+  username: string;
+  email: string;
+  idBoards: string;
+  isLoading: boolean;
+}
+
+const initialState: InitialState = {
   id: '',
   avatarUrl: '',
   fullName: '',
@@ -14,21 +25,28 @@ const initialState = {
   isLoading: true,
 };
 
+type Error = {
+  response: {
+    status: number;
+  };
+};
+
 export const getMemberInfo = createAsyncThunk(
   'member/getMemberInfo',
-  async (APItoken, thunkAPI) => {
+  async (APItoken: string, thunkAPI) => {
     try {
       const response = await axios.get(`/1/tokens/${APItoken}/member`);
       return response.data;
     } catch (error) {
-      if (error.response.status === 401) {
+      const err = error as Error;
+      if (err.response.status && err.response.status === 401) {
         thunkAPI.dispatch(
           throwError('Session expired. Please login to continue'),
         );
       } else {
         thunkAPI.dispatch(throwError('Could not get your boards'));
       }
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue(error);
     }
   },
 );
@@ -37,11 +55,11 @@ const memberSlice = createSlice({
   name: 'member',
   initialState,
   reducers: {},
-  extraReducers: {
-    [getMemberInfo.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(getMemberInfo.pending, (state) => {
       state.isLoading = true;
-    },
-    [getMemberInfo.fulfilled]: (state, action) => {
+    });
+    builder.addCase(getMemberInfo.fulfilled, (state, action) => {
       const { id, avatarUrl, fullName, url, username, email, idBoards } =
         action.payload;
 
@@ -53,10 +71,10 @@ const memberSlice = createSlice({
       state.username = username;
       state.email = email;
       state.idBoards = idBoards;
-    },
-    [getMemberInfo.rejected]: (state) => {
+    });
+    builder.addCase(getMemberInfo.rejected, (state) => {
       state.isLoading = false;
-    },
+    });
   },
 });
 

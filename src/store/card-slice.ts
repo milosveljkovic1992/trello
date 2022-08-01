@@ -8,23 +8,36 @@ import { setComments, resetComments } from './comments-slice';
 import { setCards, updateCard } from './cards-slice';
 import { informListUpdate } from './lists-slice';
 
-interface CardState {
-  details: {
-    [key: string]: unknown;
-    name: string;
+export type CardType = {
+  [key: string]: unknown;
+  name: string;
+  id: string;
+  idList: string;
+  pos: number;
+  badges: {
+    comments: number;
+    description: boolean;
   };
+  desc: string;
+};
+
+interface CardState {
+  details: CardType;
   hasFailed: boolean;
   isLoading: boolean;
 }
 
-export type CardType = {
-  [key: string]: unknown;
-  name: string;
-};
-
 const initialState: CardState = {
   details: {
+    id: '',
+    idList: '',
     name: '',
+    pos: 1,
+    badges: {
+      comments: 0,
+      description: false,
+    },
+    desc: '',
   },
   hasFailed: false,
   isLoading: true,
@@ -120,7 +133,7 @@ const cardSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(getCard.rejected, (state) => {
-      state.details = { name: '' };
+      state.details = initialState.details;
       state.hasFailed = true;
       state.isLoading = false;
     });

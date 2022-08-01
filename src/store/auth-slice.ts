@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  APItoken: null,
+interface InitialState {
+  APItoken: string;
+  isAuth: boolean;
+}
+
+const initialState: InitialState = {
+  APItoken: '',
   isAuth: false,
 };
 
@@ -14,7 +19,7 @@ const authSlice = createSlice({
       state.isAuth = true;
     },
     logout(state) {
-      state.APItoken = null;
+      state.APItoken = '';
       state.isAuth = false;
     },
   },

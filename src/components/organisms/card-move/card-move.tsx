@@ -1,38 +1,65 @@
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  FormEvent,
+} from 'react';
 
 import { useSelector } from 'react-redux';
-
+import { nanoid } from '@reduxjs/toolkit';
 import { GrClose } from 'react-icons/gr';
 
 import { Container } from './card-move-styles';
-import { nanoid } from '@reduxjs/toolkit';
+import type { CardType } from 'store/card-slice';
+import { RootState } from 'store';
 
-export const CardMove = ({ rect, card, setIsMoveOpen, handleMove, index }) => {
-  const allLists = useSelector((state) => state.lists.listsArray);
-  const cards = useSelector((state) => state.cards.cardsArray);
+interface CardMoveProps {
+  rect: DOMRect;
+  card: CardType;
+  setIsMoveOpen: Dispatch<SetStateAction<boolean>>;
+  handleMove: (
+    card: CardType,
+    targetList: string,
+    targetPosition: number,
+  ) => void;
+  index: number;
+}
+
+export const CardMove = ({
+  rect,
+  card,
+  setIsMoveOpen,
+  handleMove,
+  index,
+}: CardMoveProps) => {
+  const allLists = useSelector((state: RootState) => state.lists.listsArray);
+  const cards = useSelector((state: RootState) => state.cards.cardsArray);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [currentList, setCurrentList] = useState(null);
-  const [selectedList, setSelectedList] = useState(null);
-  const [selectedListId, setSelectedListId] = useState(null);
-  const [selectedPosition, setSelectedPosition] = useState(1);
+  const [currentList, setCurrentList] = useState<CardType[]>([]);
+  const [selectedList, setSelectedList] = useState<CardType[]>([]);
+  const [targetList, setTargetList] = useState('');
+  const [targetPosition, setTargetPosition] = useState(1);
 
   const getListsInfo = () => {
     setCurrentList(cards.filter(({ idList }) => card.idList === idList));
     setSelectedList(cards.filter(({ idList }) => card.idList === idList));
-    setSelectedListId(card.idList);
+    setTargetList(card.idList);
   };
 
-  const handleSelect = (e) => {
-    const listId = e.target.value;
+  const handleSelect = (e: FormEvent<HTMLSelectElement>) => {
+    const target = e.target as HTMLSelectElement;
+    const listId = target.value;
 
     setSelectedList(cards.filter((card) => card.idList === listId));
-    setSelectedListId(listId);
-    setSelectedPosition(1);
+    setTargetList(listId);
+    setTargetPosition(1);
   };
 
-  const handlePosition = (e) => {
-    const targetPosition = Number(e.target.value);
+  const handlePosition = (e: FormEvent<HTMLSelectElement>) => {
+    const target = e.target as HTMLSelectElement;
+    const targetPosition = Number(target.value);
 
     const isSameList = currentList[0].idList === selectedList[0].idList;
     const isLastIndex = targetPosition === selectedList.length - 1;
@@ -40,15 +67,15 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove, index }) => {
 
     if (selectedList.length > 0) {
       if (targetPosition === 0) {
-        setSelectedPosition(Math.round(selectedList[0].pos / 2) - 1);
+        setTargetPosition(Math.round(selectedList[0].pos / 2) - 1);
       } else if (isSameList && isLastIndex) {
-        setSelectedPosition(selectedList[targetPosition].pos + 11000);
+        setTargetPosition(selectedList[targetPosition].pos + 11000);
       } else if (isLastItemOnAnotherList) {
-        setSelectedPosition(selectedList[targetPosition - 1].pos + 10000);
+        setTargetPosition(selectedList[targetPosition - 1].pos + 10000);
       } else if (isSameList && targetPosition > index) {
-        setSelectedPosition(selectedList[targetPosition].pos + 1);
+        setTargetPosition(selectedList[targetPosition].pos + 1);
       } else {
-        setSelectedPosition(
+        setTargetPosition(
           selectedList[targetPosition].pos -
             (selectedList[targetPosition].pos -
               selectedList[targetPosition - 1].pos) /
@@ -86,7 +113,7 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove, index }) => {
           <select
             className="dropdown"
             onChange={handleSelect}
-            value={selectedListId}
+            value={targetList}
           >
             {allLists &&
               currentList &&
@@ -123,9 +150,7 @@ export const CardMove = ({ rect, card, setIsMoveOpen, handleMove, index }) => {
           </select>
         </div>
       </div>
-      <button
-        onClick={() => handleMove(card, selectedListId, selectedPosition)}
-      >
+      <button onClick={() => handleMove(card, targetList, targetPosition)}>
         Move
       </button>
     </Container>

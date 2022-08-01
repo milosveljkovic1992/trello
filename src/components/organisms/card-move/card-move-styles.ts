@@ -1,6 +1,11 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.div`
+interface Props {
+  rect: DOMRect;
+  position: string;
+}
+
+export const Container = styled.div<Props>`
   position: fixed;
   top: ${({ rect, position }) =>
     position === 'left' ? `${rect.y + 35}px` : `${rect.y + 170}px`};

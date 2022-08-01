@@ -1,17 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux/es/exports';
+import { useState, useEffect, useRef, MouseEvent } from 'react';
+import { useSelector } from 'react-redux/es/exports';
 
+import { RootState, useAppDispatch } from 'store';
 import { editDescription } from 'store/card-slice';
 
 export const useCardDescription = () => {
-  const dispatch = useDispatch();
-  const card = useSelector((state) => state.card.details);
-  const { isLoading } = useSelector((state) => state.card);
+  const dispatch = useAppDispatch();
+  const card = useSelector((state: RootState) => state.card.details);
+  const { isLoading } = useSelector((state: RootState) => state.card);
   const [description, setDescription] = useState('');
   const [previousDescription, setPreviousDescription] = useState('');
   const [isActive, setIsActive] = useState(false);
 
-  const descRef = useRef(null);
+  const descRef = useRef<HTMLTextAreaElement>(null);
 
   const handleEdit = () => {
     dispatch(
@@ -24,8 +25,9 @@ export const useCardDescription = () => {
     );
   };
 
-  const handleActive = (e) => {
-    if (e.target.closest('.desc-btn')) {
+  const handleActive = (e: MouseEvent<HTMLDivElement>) => {
+    const target = e.target as Element;
+    if (target.closest('.desc-btn')) {
       setIsActive(false);
     } else {
       setIsActive(true);
@@ -34,7 +36,7 @@ export const useCardDescription = () => {
 
   useEffect(() => {
     if (isActive) {
-      descRef.current.select();
+      descRef.current?.select();
     }
     setPreviousDescription(description);
   }, [isActive]);

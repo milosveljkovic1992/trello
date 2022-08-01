@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+interface InitialState {
+  currentCardOpen: string;
+  open: boolean;
+  isUpdated: boolean;
+}
+
+const initialState: InitialState = {
   currentCardOpen: '',
   open: false,
   isUpdated: true,
