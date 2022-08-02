@@ -13,7 +13,7 @@ import { SingleCard } from 'components/molecules';
 import { SingleListProps } from './single-list.types';
 import { Container } from './single-list.styles';
 import { CardType } from 'store/card-slice';
-import { nanoid } from 'nanoid';
+import { nanoid } from '@reduxjs/toolkit';
 
 export const SingleList = ({ listId, name }: SingleListProps) => {
   const dispatch = useAppDispatch();
