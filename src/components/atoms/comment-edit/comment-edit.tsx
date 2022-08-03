@@ -1,23 +1,20 @@
-import { Dispatch, SetStateAction } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { useCommentEdit } from 'hooks/useCommentEdit';
-import type { Comment } from 'store/comments-slice';
 
+import { CommentEditProps } from './comment-edit.types';
 import { Container } from './comment-edit.styles';
 
-interface Props {
-  comment: Comment;
-  isActive: boolean;
-  setIsActive: Dispatch<SetStateAction<boolean>>;
-}
-
-export const CommentEdit = ({ comment, isActive, setIsActive }: Props) => {
+export const CommentEdit = ({
+  comment,
+  isActive,
+  setIsActive,
+}: CommentEditProps) => {
   const { commentInput, setCommentInput, handleEdit, inputRef } =
     useCommentEdit({ comment, isActive, setIsActive });
 
   return (
-    <Container>
+    <Container data-testid="edit-comment">
       <textarea
         ref={inputRef}
         placeholder="Write a comment..."
@@ -33,7 +30,11 @@ export const CommentEdit = ({ comment, isActive, setIsActive }: Props) => {
           Save
         </button>
 
-        <div className="icon-container" onClick={() => setIsActive(false)}>
+        <div
+          className="icon-container"
+          onClick={() => setIsActive(false)}
+          data-testid="icon-container"
+        >
           <AiOutlineClose />
         </div>
       </div>

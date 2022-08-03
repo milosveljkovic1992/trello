@@ -21,12 +21,12 @@ export const CardTitle = () => {
   }, [isActive]);
 
   return (
-    <Container aria-label="card-title-container" isActive={isActive}>
+    <Container role="card-title" isActive={isActive}>
       {!isActive && <h2 onClick={() => setIsActive(true)}>{title}</h2>}
       {isActive && (
         <input
           ref={titleRef}
-          aria-label="card-title-input"
+          type="text"
           onBlur={() => handleRename(setIsActive)}
           value={title}
           onChange={(e) => setTitle(e.target.value)}

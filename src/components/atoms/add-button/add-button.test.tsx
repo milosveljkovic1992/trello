@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { AddButton } from './add-button';
 
-describe('AddButton', () => {
+describe('AddButton component', () => {
   it('renders add button', () => {
     const onClickMock = jest.fn();
     const text = 'Test';
