@@ -22,7 +22,7 @@ export const ListTitle = ({
   });
 
   return (
-    <Title isInputActive={isInputActive}>
+    <Title isInputActive={isInputActive} role="list-title">
       <textarea
         ref={titleRef}
         onDrop={() => false}
@@ -31,7 +31,11 @@ export const ListTitle = ({
         onChange={(e) => setListTitle(e.target.value)}
         onBlur={handleBlur}
       ></textarea>
-      <div className="delete-btn" onClick={() => dispatch(archiveList(listId))}>
+      <div
+        className="delete-btn"
+        onClick={() => dispatch(archiveList(listId))}
+        data-testid="delete-list"
+      >
         <FaTrashAlt />
       </div>
     </Title>

@@ -20,7 +20,7 @@ describe('CommentInput component', () => {
     expect(buttonElement).toBeInTheDocument();
   });
 
-  it('renders button after textarea focus', () => {
+  it('renders button as VISIBLE on textarea focus', () => {
     const { getByRole, getByPlaceholderText } = render(<CommentInput />);
 
     const inputElement = getByPlaceholderText('Write a comment', {
@@ -54,7 +54,7 @@ describe('CommentInput component', () => {
     expect(buttonElementHidden).toBeInTheDocument();
   });
 
-  it('renders button if textarea is not empty and not focused', () => {
+  it('renders button as VISIBLE if textarea is not empty and not focused', () => {
     const sampleText = 'some text';
     const { getByRole, getByPlaceholderText } = render(<CommentInput />);
 
