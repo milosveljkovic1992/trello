@@ -1,27 +1,11 @@
-import {
-  Dispatch,
-  ForwardedRef,
-  forwardRef,
-  ReactNode,
-  SetStateAction,
-} from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 
-import { ImHome } from 'react-icons/im';
+import { useAppDispatch } from 'store';
+import { submitBoardName } from 'store/board-slice';
 
-import { BoardType } from 'store/board-slice';
-import { LogoutButton } from 'components/atoms';
+import { HomeButton, LogoutButton } from 'components/atoms';
+import { BoardProps } from './board.types';
 import { Container } from './board.styles';
-
-interface BoardProps {
-  children: ReactNode;
-  board: BoardType;
-  boardName: string;
-  setBoardName: Dispatch<SetStateAction<string>>;
-  handleBoardName: () => void;
-  handleHomeButton: () => void;
-  isActive: boolean;
-  setIsActive: Dispatch<SetStateAction<boolean>>;
-}
 
 // eslint-disable-next-line react/display-name
 export const Board = forwardRef(
@@ -31,38 +15,43 @@ export const Board = forwardRef(
       board,
       boardName,
       setBoardName,
-      handleBoardName,
-      handleHomeButton,
       isActive,
       setIsActive,
     }: BoardProps,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
+    const dispatch = useAppDispatch();
+
+    const handleBoardName = () => {
+      if (boardName.trim().length > 0) {
+        dispatch(submitBoardName({ board, boardName, setBoardName }));
+      }
+      setIsActive(false);
+    };
+
     return (
-      <Container
-        backgroundImage={board?.prefs.backgroundImage}
-        isActive={isActive}
-      >
-        <header className="board-header">
-          <div className="board-icon-container" onClick={handleHomeButton}>
-            <ImHome />
-          </div>
+      <Container backgroundImage={board?.prefs.backgroundImage} role="board">
+        <header className="board-header" role="page-header">
+          <HomeButton />
 
           <div className="board-title-container">
-            {boardName && (
+            {boardName && !isActive && (
               <h1 className="board-title" onClick={() => setIsActive(true)}>
                 {boardName}
               </h1>
             )}
 
-            <input
-              className="board-title-input"
-              ref={ref}
-              value={boardName}
-              onChange={(e) => setBoardName(e.target.value)}
-              onBlur={handleBoardName}
-              size={boardName.length - 6}
-            ></input>
+            {isActive && (
+              <input
+                className="board-title-input"
+                ref={ref}
+                value={boardName}
+                onChange={(e) => setBoardName(e.target.value)}
+                onBlur={handleBoardName}
+                size={boardName.length - 6}
+                data-testid="board-title-input"
+              ></input>
+            )}
           </div>
 
           <LogoutButton fixed={false} />

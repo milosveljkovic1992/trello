@@ -2,7 +2,6 @@ import styled from 'styled-components/macro';
 
 interface Props {
   backgroundImage: string;
-  isActive: boolean;
   fixed?: boolean;
 }
 
@@ -89,7 +88,6 @@ export const Container = styled.div<Props>`
     &:hover {
       background-color: rgba(175, 175, 175, 0.5);
     }
-    display: ${({ isActive }) => (isActive ? 'none' : 'block')};
   }
 
   .board-title-input {
@@ -117,8 +115,6 @@ export const Container = styled.div<Props>`
     &:focus {
       border: 2px solid #fff;
     }
-
-    display: ${({ isActive }) => (isActive ? 'block' : 'none')};
 
     @media (min-width: 768px) {
       width: auto;

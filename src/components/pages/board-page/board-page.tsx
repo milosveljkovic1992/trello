@@ -3,11 +3,7 @@ import { useSelector } from 'react-redux';
 import { Route, Routes, useParams, useNavigate } from 'react-router-dom';
 
 import { RootState, useAppDispatch } from 'store';
-import {
-  fetchBoardListsAndCards,
-  resetBoard,
-  submitBoardName,
-} from 'store/board-slice';
+import { fetchBoardListsAndCards } from 'store/board-slice';
 import { openModal } from 'store/popup-slice';
 import { getCard } from 'store/card-slice';
 
@@ -58,18 +54,6 @@ export const BoardPage = () => {
     }
   }, [boardId, isLoading]);
 
-  const handleBoardName = () => {
-    if (boardName.trim().length > 0) {
-      dispatch(submitBoardName({ board, boardName, setBoardName }));
-    }
-    setIsActive(false);
-  };
-
-  const handleHomeButton = () => {
-    navigate('/');
-    dispatch(resetBoard());
-  };
-
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -88,8 +72,6 @@ export const BoardPage = () => {
             board={board}
             boardName={boardName}
             setBoardName={setBoardName}
-            handleBoardName={handleBoardName}
-            handleHomeButton={handleHomeButton}
             isActive={isActive}
             setIsActive={setIsActive}
           >
