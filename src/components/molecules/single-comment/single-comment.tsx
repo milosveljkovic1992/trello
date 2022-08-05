@@ -10,7 +10,7 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
   const { isActive, setIsActive, handleDelete } = useSingleComment({ comment });
 
   return (
-    <Container key={comment.id}>
+    <Container key={comment.id} data-testid="single-comment">
       <div className="comment-avatar"></div>
 
       <div className="inner">
