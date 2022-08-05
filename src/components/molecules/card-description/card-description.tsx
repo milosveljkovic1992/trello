@@ -22,36 +22,47 @@ export const CardDescription = () => {
       onClick={(e: React.MouseEvent<HTMLDivElement>) => handleActive(e)}
       className="desc-box"
       hasDescription={!!description}
+      data-testid="card-description-container"
     >
-      <p className="desc-content">
-        {description || 'Add a more detailed description...'}
-      </p>
+      {!isActive && (
+        <p className="desc-content" data-testid="card-description-content">
+          {description || 'Add a more detailed description...'}
+        </p>
+      )}
 
-      <textarea
-        className="desc-input"
-        placeholder="Add a more detailed description..."
-        ref={descRef}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
-
-      <div className="icon-container">
-        <div className="btn-container">
-          <button className="desc-btn" onClick={() => handleEdit()}>
-            Save
-          </button>
+      {isActive && (
+        <>
+          <textarea
+            className="desc-input"
+            placeholder="Add a more detailed description..."
+            ref={descRef}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
 
           <div
-            className="desc-btn close-icon-container"
-            onClick={() => {
-              setIsActive(false);
-              setDescription(previousDescription);
-            }}
+            className="icon-container"
+            data-testid="description-icon-container"
           >
-            <AiOutlineClose />
+            <div className="btn-container">
+              <button className="desc-btn" onClick={() => handleEdit()}>
+                Save
+              </button>
+
+              <div
+                className="desc-btn close-icon-container"
+                onClick={() => {
+                  setIsActive(false);
+                  setDescription(previousDescription);
+                }}
+                data-testid="close-icon-container"
+              >
+                <AiOutlineClose />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </Container>
   );
 };
