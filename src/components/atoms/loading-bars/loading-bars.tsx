@@ -2,7 +2,7 @@ import { LoadingBarsContainer } from './loading-bars.styles';
 
 export const LoadingBars = () => {
   return (
-    <LoadingBarsContainer>
+    <LoadingBarsContainer data-testid="loading-bars">
       <div className="loading-bar-box">
         <div className="first-bar"></div>
         <div className="second-bar"></div>

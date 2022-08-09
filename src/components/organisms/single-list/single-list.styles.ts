@@ -10,22 +10,23 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.background.gray};
   padding: 10px;
   border-radius: ${({ theme }) => theme.border.borderRadius};
+`;
 
-  .card-container {
-    height: 100%;
-    overflow-y: auto;
+export const CardContainer = styled.div`
+  height: 100%;
+  padding-top: 5px;
+  overflow-y: auto;
 
-    ::-webkit-scrollbar {
-      padding-left: 5px;
-      height: 8px;
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track-piece {
-      background: rgba(9, 30, 66, 0.08);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(9, 30, 66, 0.2);
-      border-radius: 50px;
-    }
+  ::-webkit-scrollbar {
+    padding-left: 5px;
+    height: 8px;
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track-piece {
+    background: rgba(9, 30, 66, 0.08);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(9, 30, 66, 0.2);
+    border-radius: 50px;
   }
 `;

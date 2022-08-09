@@ -7,7 +7,7 @@ export const CommentInput = () => {
     useCommentInput();
 
   return (
-    <Comment isDisplayed={isDisplayed}>
+    <Comment isDisplayed={isDisplayed} role="input-comment">
       <textarea
         placeholder="Write a comment..."
         value={comment}

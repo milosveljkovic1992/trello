@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, MouseEvent } from 'react';
-import { useSelector } from 'react-redux/es/exports';
+import { useSelector } from 'react-redux';
 
 import { RootState, useAppDispatch } from 'store';
 import { editDescription } from 'store/card-slice';

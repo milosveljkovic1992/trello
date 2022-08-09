@@ -6,7 +6,11 @@ export const ErrorSnackbar = () => {
   const { isDisplayed, errorMessage, transitionDuration } = useErrorSnackbar();
 
   return (
-    <Snackbar isDisplayed={isDisplayed} transitionDuration={transitionDuration}>
+    <Snackbar
+      isDisplayed={isDisplayed}
+      transitionDuration={transitionDuration}
+      data-testid="error-snackbar"
+    >
       <p>{errorMessage}</p>
     </Snackbar>
   );

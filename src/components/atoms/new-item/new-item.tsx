@@ -19,7 +19,7 @@ export const NewItem = ({
   }, []);
 
   return (
-    <Container className="new-item">
+    <Container className="new-item" data-testid="new-item">
       <div className="input-container">
         <textarea
           ref={inputRef}

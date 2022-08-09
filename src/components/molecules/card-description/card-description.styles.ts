@@ -47,13 +47,12 @@ export const Container = styled.div<Props>`
 
   .desc-content {
     padding: 8px 12px;
-    display: ${({ isActive }) => (isActive ? 'none' : 'block')};
     cursor: pointer;
     padding-left: ${({ hasDescription }) => hasDescription && 0};
   }
 
   .desc-input {
-    display: ${({ isActive }) => (isActive ? 'block' : 'none')};
+    display: block;
     min-height: 70px;
     border-radius: 3px;
     width: 100%;
@@ -70,9 +69,6 @@ export const Container = styled.div<Props>`
     position: absolute;
     left: 0;
     bottom: 6px;
-
-    opacity: ${({ isActive }) => (isActive ? 1 : 0)};
-    visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
   }
 
   .close-icon-container {

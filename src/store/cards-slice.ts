@@ -67,6 +67,40 @@ export const moveCard = createAsyncThunk(
   },
 );
 
+interface DropCard {
+  targetCard: CardType;
+  targetListId: string;
+  targetPosition: number;
+  startListId: string;
+}
+
+export const dropCard = createAsyncThunk(
+  '/cards/dropCard',
+  async (
+    { targetCard, targetListId, targetPosition, startListId }: DropCard,
+    thunkAPI,
+  ) => {
+    thunkAPI.dispatch(
+      updateCard({ ...targetCard, idList: targetListId, pos: targetPosition }),
+    );
+    await thunkAPI.dispatch(informListUpdate(startListId));
+    await thunkAPI.dispatch(informListUpdate(targetListId));
+
+    try {
+      const response = await axios.put(
+        `/1/cards/${targetCard.id}?idList=${targetListId}&pos=${targetPosition}`,
+      );
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(throwError('Could not move card'));
+      thunkAPI.dispatch(updateCard(targetCard));
+      await thunkAPI.dispatch(informListUpdate(startListId));
+      await thunkAPI.dispatch(informListUpdate(targetListId));
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 interface InitialState {
   cardsArray: CardType[];
   isLoading: boolean;
@@ -119,6 +153,22 @@ const cardsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(submitCard.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(dropCard.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(dropCard.fulfilled, (state, action) => {
+      const { id } = action.payload;
+
+      const newArray = state.cardsArray.map((card) =>
+        card.id === id ? action.payload : card,
+      );
+
+      state.cardsArray = newArray;
+      state.isLoading = false;
+    });
+    builder.addCase(dropCard.rejected, (state) => {
       state.isLoading = false;
     });
   },

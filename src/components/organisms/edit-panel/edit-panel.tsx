@@ -66,6 +66,7 @@ export const EditPanel = ({
       direction={
         rect.x + rect.width + 120 > window.innerWidth ? 'right' : 'left'
       }
+      data-testid="edit-panel"
     >
       <div className="container">
         <textarea

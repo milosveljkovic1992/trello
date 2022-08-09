@@ -2,6 +2,7 @@ export { AddButton } from 'components/atoms/add-button/add-button';
 export { CardTitle } from 'components/atoms/card-title/card-title';
 export { CommentEdit } from 'components/atoms/comment-edit/comment-edit';
 export { ErrorSnackbar } from './error-snackbar/error-snackbar';
+export { HomeButton } from 'components/atoms/home-button/home-button';
 export { Link } from 'components/atoms/link/link';
 export { ListTitle } from 'components/atoms/list-title/list-title';
 export { LoadingBars } from 'components/atoms/loading-bars/loading-bars';
