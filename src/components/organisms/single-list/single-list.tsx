@@ -11,9 +11,10 @@ import { AddButton, ListTitle, NewCard } from 'components/atoms';
 import { SingleCard } from 'components/molecules';
 
 import { SingleListProps } from './single-list.types';
-import { Container } from './single-list.styles';
+import { CardContainer, Container } from './single-list.styles';
 import { CardType } from 'store/card-slice';
 import { nanoid } from '@reduxjs/toolkit';
+import { Droppable } from 'react-beautiful-dnd';
 
 export const SingleList = ({ listId, name }: SingleListProps) => {
   const dispatch = useAppDispatch();
@@ -33,13 +34,21 @@ export const SingleList = ({ listId, name }: SingleListProps) => {
   };
 
   useEffect(() => {
-    if (isListUpdated || updatedListId === listId) {
-      setCardsOnThisList(
-        cards
-          .filter((card) => card.idList === listId)
-          .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0)),
-      );
+    const sortCards = (cards: CardType[]) => {
+      return cards
+        .filter((card: CardType) => card.idList === listId)
+        .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0));
+    };
+
+    if (isListUpdated) {
+      const sortedList = sortCards(cards);
+      setCardsOnThisList(sortedList);
       setIsListUpdated(false);
+    }
+
+    if (updatedListId === listId) {
+      const sortedList = sortCards(cards);
+      setCardsOnThisList(sortedList);
       dispatch(resetListUpdate());
     }
   }, [dispatch, isListUpdated, updatedListId]);
@@ -54,19 +63,28 @@ export const SingleList = ({ listId, name }: SingleListProps) => {
             listTitle={listTitle}
             setListTitle={setListTitle}
           />
-          <div className="card-container">
-            {cardsOnThisList.map(
-              (card, index) =>
-                card.idList === listId && (
-                  <SingleCard
-                    key={nanoid()}
-                    index={index}
-                    card={card}
-                    setIsListUpdated={setIsListUpdated}
-                  />
-                ),
+          <Droppable droppableId={listId}>
+            {(provided) => (
+              <CardContainer
+                className="card-container"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {cardsOnThisList.map(
+                  (card, index) =>
+                    card.idList === listId && (
+                      <SingleCard
+                        key={nanoid()}
+                        index={index}
+                        card={card}
+                        setIsListUpdated={setIsListUpdated}
+                      />
+                    ),
+                )}
+                {provided.placeholder}
+              </CardContainer>
             )}
-          </div>
+          </Droppable>
           {!isCreatingNew ? (
             <AddButton
               onClick={() => setIsCreatingNew(true)}

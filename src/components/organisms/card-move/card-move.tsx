@@ -116,7 +116,7 @@ export const CardMove = ({
             value={targetList}
           >
             {allLists &&
-              currentList &&
+              currentList.length > 0 &&
               allLists.map((option) => (
                 <option key={`option-${option.id}`} value={option.id}>
                   {option.name}{' '}
