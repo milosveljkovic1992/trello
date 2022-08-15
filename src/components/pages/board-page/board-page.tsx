@@ -13,8 +13,8 @@ import { calculatePosition } from 'utils/calculatePosition';
 
 import { LoadingSpinner } from 'components/atoms';
 import { AddList, Board } from 'components/molecules';
-import { CardPopup } from 'components/pages';
 import { SingleList } from 'components/organisms';
+import { CardPopup } from 'components/pages';
 
 export const BoardPage = () => {
   const dispatch = useAppDispatch();

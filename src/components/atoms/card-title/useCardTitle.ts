@@ -8,9 +8,13 @@ import { updateCard } from 'store/cards-slice';
 import { informListUpdate } from 'store/lists-slice';
 import type { CardType } from 'store/card-slice';
 
-import { IuseCardTitle } from 'components/atoms/card-title/card-title.types';
+import { useCardTitleProps } from './card-title.types';
 
-export const useCardTitle = ({ card }: { card: CardType }): IuseCardTitle => {
+export const useCardTitle = ({
+  card,
+}: {
+  card: CardType;
+}): useCardTitleProps => {
   const dispatch = useAppDispatch();
   const [title, setTitle] = useState(card.name);
 
@@ -25,15 +29,13 @@ export const useCardTitle = ({ card }: { card: CardType }): IuseCardTitle => {
   };
 
   const handleRename = (setIsActive: Dispatch<SetStateAction<boolean>>) => {
-    if (title) {
-      if (title.trim().length > 0) {
-        renameCard();
-      } else {
-        setTitle(card.name);
-        dispatch(throwError('Card name cannot be empty'));
-      }
-      setIsActive(false);
+    if (title.trim().length > 0) {
+      renameCard();
+    } else {
+      setTitle(card.name);
+      dispatch(throwError('Card name cannot be empty'));
     }
+    setIsActive(false);
   };
 
   useEffect(() => {

@@ -1,15 +1,14 @@
 import { TbPencil } from 'react-icons/tb';
 import { HiViewList } from 'react-icons/hi';
 import { FaRegComment } from 'react-icons/fa';
+import { Draggable } from 'react-beautiful-dnd';
 
 import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
 
-import { useSingleCard } from 'hooks/useSingleCard';
-
+import { useSingleCard } from './useSingleCard';
 import { SingleCardProps } from './single-card.types';
 import { Container } from './single-card.styles';
-import { Draggable } from 'react-beautiful-dnd';
 
 export const SingleCard = ({
   index,

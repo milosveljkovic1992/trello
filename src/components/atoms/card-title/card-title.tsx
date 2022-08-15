@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
-import { useCardTitle } from 'hooks/useCardTitle';
+import { useCardTitle } from './useCardTitle';
 
 import { Container } from './card-title.styles';
 

@@ -1,6 +1,4 @@
-export type { RootState } from 'store';
-
-export interface IuseCardTitle {
+export interface useCardTitleProps {
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   handleRename: (

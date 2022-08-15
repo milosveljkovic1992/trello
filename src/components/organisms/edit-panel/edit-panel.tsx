@@ -4,7 +4,8 @@ import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { CardMove } from 'components/organisms';
-import { useCardTitle } from 'hooks/useCardTitle';
+import { useCardTitle } from 'components/atoms/card-title/useCardTitle';
+
 import { IEditPanelProps } from './edit-panel.types';
 import { Overlay } from './edit-panel.styles';
 

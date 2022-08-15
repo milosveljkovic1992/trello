@@ -12,12 +12,8 @@ import { closeModal } from 'store/popup-slice';
 import { resetCard } from 'store/card-slice';
 import type { Comment } from 'store/comments-slice';
 
-import {
-  CommentInput,
-  CardDescription,
-  SingleComment,
-} from 'components/molecules';
-import { CardTitle, LoadingBars } from 'components/atoms';
+import { CardTitle, CommentInput, LoadingBars } from 'components/atoms';
+import { CardDescription, SingleComment } from 'components/molecules';
 
 import { Overlay } from './card-popup-styles';
 import { RootState, useAppDispatch } from 'store';
