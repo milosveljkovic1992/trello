@@ -3,6 +3,6 @@ import type { Comment } from 'store/comments-slice';
 
 export interface CommentEditProps {
   comment: Comment;
-  isActive: boolean;
-  setIsActive: Dispatch<SetStateAction<boolean>>;
+  isEditActive: boolean;
+  setIsEditActive: Dispatch<SetStateAction<boolean>>;
 }

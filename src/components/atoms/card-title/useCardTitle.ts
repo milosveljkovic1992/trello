@@ -28,14 +28,16 @@ export const useCardTitle = ({
     }
   };
 
-  const handleRename = (setIsActive: Dispatch<SetStateAction<boolean>>) => {
+  const handleRename = (
+    setIsEditTitleActive: Dispatch<SetStateAction<boolean>>,
+  ) => {
     if (title.trim().length > 0) {
       renameCard();
     } else {
       setTitle(card.name);
       dispatch(throwError('Card name cannot be empty'));
     }
-    setIsActive(false);
+    setIsEditTitleActive(false);
   };
 
   useEffect(() => {

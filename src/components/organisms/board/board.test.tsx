@@ -25,7 +25,7 @@ const BoardContainer = () => {
     },
   };
   const [boardName, setBoardName] = useState(board.name);
-  const [isActive, setIsActive] = useState(false);
+  const [isEditNameActive, setIsEditNameActive] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -33,8 +33,8 @@ const BoardContainer = () => {
       board={board}
       boardName={boardName}
       setBoardName={setBoardName}
-      isActive={isActive}
-      setIsActive={setIsActive}
+      isEditNameActive={isEditNameActive}
+      setIsEditNameActive={setIsEditNameActive}
       ref={titleRef}
     >
       <div className="board-inner-container"></div>

@@ -15,8 +15,8 @@ export const Board = forwardRef(
       board,
       boardName,
       setBoardName,
-      isActive,
-      setIsActive,
+      isEditNameActive,
+      setIsEditNameActive,
     }: BoardProps,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
@@ -26,7 +26,7 @@ export const Board = forwardRef(
       if (boardName.trim().length > 0) {
         dispatch(submitBoardName({ board, boardName, setBoardName }));
       }
-      setIsActive(false);
+      setIsEditNameActive(false);
     };
 
     return (
@@ -35,13 +35,16 @@ export const Board = forwardRef(
           <HomeButton />
 
           <div className="board-title-container">
-            {boardName && !isActive && (
-              <h1 className="board-title" onClick={() => setIsActive(true)}>
+            {boardName && !isEditNameActive && (
+              <h1
+                className="board-title"
+                onClick={() => setIsEditNameActive(true)}
+              >
                 {boardName}
               </h1>
             )}
 
-            {isActive && (
+            {isEditNameActive && (
               <input
                 className="board-title-input"
                 ref={ref}

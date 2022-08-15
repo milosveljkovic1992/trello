@@ -12,8 +12,8 @@ import { dropCard } from 'store/cards-slice';
 import { calculatePosition } from 'utils/calculatePosition';
 
 import { LoadingSpinner } from 'components/atoms';
-import { AddList, Board } from 'components/molecules';
-import { SingleList } from 'components/organisms';
+import { AddList } from 'components/molecules';
+import { Board, SingleList } from 'components/organisms';
 import { CardPopup } from 'components/pages';
 
 export const BoardPage = () => {
@@ -35,11 +35,11 @@ export const BoardPage = () => {
 
   const [isCreatingNewList, setIsCreatingNewList] = useState(false);
   const [boardName, setBoardName] = useState('');
-  const [isActive, setIsActive] = useState(false);
+  const [isEditNameActive, setIsEditNameActive] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isActive) {
+    if (isEditNameActive) {
       titleRef.current?.select();
     }
     if (urlParams['*'] && !popupModalOpen) {
@@ -51,7 +51,7 @@ export const BoardPage = () => {
     if (cardUrl && hasFetchingFailed) {
       navigate(`/b/${board.id}`);
     }
-  }, [dispatch, isActive, cardUrl, urlParams]);
+  }, [dispatch, isEditNameActive, cardUrl, urlParams]);
 
   useEffect(() => {
     if (!!boardId && isLoading) {
@@ -117,8 +117,8 @@ export const BoardPage = () => {
             board={board}
             boardName={boardName}
             setBoardName={setBoardName}
-            isActive={isActive}
-            setIsActive={setIsActive}
+            isEditNameActive={isEditNameActive}
+            setIsEditNameActive={setIsEditNameActive}
           >
             {board && lists && (
               <DragDropContext onDragEnd={handleDragEnd}>

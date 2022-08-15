@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
+import { useSelector } from 'react-redux';
+import { nanoid } from '@reduxjs/toolkit';
+import { Droppable } from 'react-beautiful-dnd';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { RootState, useAppDispatch } from 'store';
 import { resetListUpdate } from 'store/lists-slice';
 import { dragOverList } from 'store/drag-drop-slice';
+import type { CardType } from 'store/card-slice';
 
-import { AddButton, ListTitle, NewCard } from 'components/atoms';
-import { SingleCard } from 'components/molecules';
+import { AddButton } from 'components/atoms';
+import { ListTitle, NewCard, SingleCard } from 'components/molecules';
 
 import { SingleListProps } from './single-list.types';
 import { CardContainer, Container } from './single-list.styles';
-import { CardType } from 'store/card-slice';
-import { nanoid } from '@reduxjs/toolkit';
-import { Droppable } from 'react-beautiful-dnd';
 
 export const SingleList = ({ listId, name }: SingleListProps) => {
   const dispatch = useAppDispatch();

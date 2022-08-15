@@ -1,12 +1,13 @@
 import styled from 'styled-components/macro';
 
 interface Props {
-  isActive: boolean;
+  isEditTitleActive: boolean;
 }
 
 export const Container = styled.div<Props>`
   h2 {
-    display: ${({ isActive }) => (isActive ? 'none' : 'block')};
+    display: ${({ isEditTitleActive }) =>
+      isEditTitleActive ? 'none' : 'block'};
     font-size: 20px;
     line-height: 1.2;
     font-weight: 600;
@@ -15,7 +16,8 @@ export const Container = styled.div<Props>`
   }
 
   input {
-    display: ${({ isActive }) => (isActive ? 'block' : 'none')};
+    display: ${({ isEditTitleActive }) =>
+      isEditTitleActive ? 'block' : 'none'};
     font-size: 20px;
     line-height: 1.2;
     font-weight: 600;

@@ -7,6 +7,6 @@ export interface BoardProps {
   board: BoardType;
   boardName: string;
   setBoardName: Dispatch<SetStateAction<string>>;
-  isActive: boolean;
-  setIsActive: Dispatch<SetStateAction<boolean>>;
+  isEditNameActive: boolean;
+  setIsEditNameActive: Dispatch<SetStateAction<boolean>>;
 }

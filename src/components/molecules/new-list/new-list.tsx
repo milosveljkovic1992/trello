@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from 'store';
 import { submitList } from 'store/lists-slice';
 
+import { NewItem } from 'components/molecules';
 import { NewListProps } from './new-list.types';
-import { NewItem } from 'components/atoms';
 
 export const NewList = ({ setIsCreatingNewList, boardId }: NewListProps) => {
   const dispatch = useAppDispatch();

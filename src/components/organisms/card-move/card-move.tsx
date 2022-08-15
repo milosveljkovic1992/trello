@@ -1,30 +1,14 @@
-import {
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  FormEvent,
-} from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 
 import { useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
 import { GrClose } from 'react-icons/gr';
 
-import { Container } from './card-move-styles';
-import type { CardType } from 'store/card-slice';
 import { RootState } from 'store';
+import type { CardType } from 'store/card-slice';
+import { CardMoveProps } from './card-move.types';
 
-interface CardMoveProps {
-  rect: DOMRect;
-  card: CardType;
-  setIsMoveOpen: Dispatch<SetStateAction<boolean>>;
-  handleMove: (
-    card: CardType,
-    targetList: string,
-    targetPosition: number,
-  ) => void;
-  index: number;
-}
+import { Container } from './card-move-styles';
 
 export const CardMove = ({
   rect,

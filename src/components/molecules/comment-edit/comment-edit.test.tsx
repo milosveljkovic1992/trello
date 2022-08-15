@@ -5,7 +5,7 @@ import { render } from 'utils/test-utils';
 import { CommentEdit } from './comment-edit';
 
 const CommentEditParent = () => {
-  const [isActive, setIsActive] = useState(true);
+  const [isEditActive, setIsEditActive] = useState(true);
 
   const sampleComment = {
     type: 'comment',
@@ -21,11 +21,11 @@ const CommentEditParent = () => {
 
   return (
     <>
-      {isActive && (
+      {isEditActive && (
         <CommentEdit
           comment={sampleComment}
-          isActive={isActive}
-          setIsActive={setIsActive}
+          isEditActive={isEditActive}
+          setIsEditActive={setIsEditActive}
         />
       )}
     </>

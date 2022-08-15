@@ -9,25 +9,27 @@ import { Container } from './card-title.styles';
 
 export const CardTitle = () => {
   const card = useSelector((state: RootState) => state.card.details);
-  const [isActive, setIsActive] = useState(false);
+  const [isEditTitleActive, setIsEditTitleActive] = useState(false);
   const { title, setTitle, handleRename } = useCardTitle({ card });
 
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isActive) {
+    if (isEditTitleActive) {
       titleRef.current?.select();
     }
-  }, [isActive]);
+  }, [isEditTitleActive]);
 
   return (
-    <Container role="card-title" isActive={isActive}>
-      {!isActive && <h2 onClick={() => setIsActive(true)}>{title}</h2>}
-      {isActive && (
+    <Container role="card-title" isEditTitleActive={isEditTitleActive}>
+      {!isEditTitleActive && (
+        <h2 onClick={() => setIsEditTitleActive(true)}>{title}</h2>
+      )}
+      {isEditTitleActive && (
         <input
           ref={titleRef}
           type="text"
-          onBlur={() => handleRename(setIsActive)}
+          onBlur={() => handleRename(setIsEditTitleActive)}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
