@@ -14,7 +14,8 @@ export const CardDescription = () => {
   const { isLoading } = useSelector((state: RootState) => state.card);
   const [description, setDescription] = useState('');
   const [previousDescription, setPreviousDescription] = useState('');
-  const [isActive, setIsActive] = useState(false);
+  const [isDescriptionInputActive, setIsDescriptionInputActive] =
+    useState(false);
 
   const descRef = useRef<HTMLTextAreaElement>(null);
 
@@ -32,18 +33,18 @@ export const CardDescription = () => {
   const handleActive = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as Element;
     if (target.closest('.desc-btn')) {
-      setIsActive(false);
+      setIsDescriptionInputActive(false);
     } else {
-      setIsActive(true);
+      setIsDescriptionInputActive(true);
     }
   };
 
   useEffect(() => {
-    if (isActive) {
+    if (isDescriptionInputActive) {
       descRef.current?.select();
     }
     setPreviousDescription(description);
-  }, [isActive]);
+  }, [isDescriptionInputActive]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -53,19 +54,19 @@ export const CardDescription = () => {
 
   return (
     <Container
-      isActive={isActive}
+      isActive={isDescriptionInputActive}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => handleActive(e)}
       className="desc-box"
       hasDescription={!!description}
       data-testid="card-description-container"
     >
-      {!isActive && (
+      {!isDescriptionInputActive && (
         <p className="desc-content" data-testid="card-description-content">
           {description || 'Add a more detailed description...'}
         </p>
       )}
 
-      {isActive && (
+      {isDescriptionInputActive && (
         <>
           <textarea
             className="desc-input"
@@ -87,7 +88,7 @@ export const CardDescription = () => {
               <div
                 className="desc-btn close-icon-container"
                 onClick={() => {
-                  setIsActive(false);
+                  setIsDescriptionInputActive(false);
                   setDescription(previousDescription);
                 }}
                 data-testid="close-icon-container"

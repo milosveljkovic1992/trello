@@ -1,6 +1,7 @@
 import { AiOutlinePlus } from 'react-icons/ai';
 
-import { AddButton, NewList } from 'components/atoms';
+import { AddButton } from 'components/atoms';
+import { NewList } from 'components/molecules';
 
 import { AddListProps } from './add-list.types';
 import { Container } from './add-list.styles';

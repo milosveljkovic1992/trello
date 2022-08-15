@@ -7,16 +7,17 @@ import { IoMdList } from 'react-icons/io';
 import { MdChecklist } from 'react-icons/md';
 import { CgCreditCard } from 'react-icons/cg';
 
+import { RootState, useAppDispatch } from 'store';
 import { resetComments } from 'store/comments-slice';
 import { closeModal } from 'store/popup-slice';
 import { resetCard } from 'store/card-slice';
 import type { Comment } from 'store/comments-slice';
 
-import { CardTitle, CommentInput, LoadingBars } from 'components/atoms';
-import { CardDescription, SingleComment } from 'components/molecules';
+import { CardTitle, LoadingBars } from 'components/atoms';
+import { CardDescription, CommentInput } from 'components/molecules';
+import { SingleComment } from 'components/organisms';
 
 import { Overlay } from './card-popup-styles';
-import { RootState, useAppDispatch } from 'store';
 
 export const CardPopup = () => {
   const dispatch = useAppDispatch();

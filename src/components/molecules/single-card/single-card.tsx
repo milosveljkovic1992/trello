@@ -33,7 +33,7 @@ export const SingleCard = ({
               className="card-link"
               data-testid="single-card-link"
             >
-              <div className="card-content-box">
+              <div className="card-content-box" ref={editPanelProps.cardRef}>
                 <p className="card-title">{card.name}</p>
                 {(card.badges.description || !!card.badges.comments) && (
                   <div className="badges" data-testid="card-badges">

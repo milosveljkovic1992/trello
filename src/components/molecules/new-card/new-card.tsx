@@ -3,8 +3,8 @@ import { useState, ChangeEvent } from 'react';
 import { useAppDispatch } from 'store';
 import { submitCard } from 'store/cards-slice';
 
+import { NewItem } from 'components/molecules';
 import { NewCardProps } from './new-card.types';
-import { NewItem } from 'components/atoms';
 
 export const NewCard = ({ setIsCreatingNew, listId }: NewCardProps) => {
   const dispatch = useAppDispatch();
