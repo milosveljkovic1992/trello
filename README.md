@@ -1,8 +1,9 @@
-# Trello JS assignment
+# Practise Merge Conflict resolution (remove me)
+### Trello JS assignment
 
 This project is meant to resemble Trello application, but not a clone per-se. The app design is at developer's discretion.
 
-## Technologies
+### Technologies
 
 This project is built in React.  
 Components are built using styled-components.  
@@ -11,7 +12,7 @@ Global state is managed using Redux Toolkit.
 Icons are added via react-icons.  
 Data fetching is done using Axios.
 
-## Features
+### Features
 
 When you first open the app, board is loaded.  
 Board fetches the lists created and cards for each list.  
