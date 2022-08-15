@@ -1,6 +1,10 @@
+import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 
-import { useCommentEdit } from 'hooks/useCommentEdit';
+import { RootState, useAppDispatch } from 'store';
+import { editComment } from 'store/comments-slice';
+import type { Comment } from 'store/comments-slice';
 
 import { CommentEditProps } from './comment-edit.types';
 import { Container } from './comment-edit.styles';
@@ -10,8 +14,22 @@ export const CommentEdit = ({
   isActive,
   setIsActive,
 }: CommentEditProps) => {
-  const { commentInput, setCommentInput, handleEdit, inputRef } =
-    useCommentEdit({ comment, isActive, setIsActive });
+  const dispatch = useAppDispatch();
+  const card = useSelector((state: RootState) => state.card.details);
+  const [commentInput, setCommentInput] = useState(comment.data.text);
+
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleEdit = (comment: Comment, value: string) => {
+    dispatch(editComment({ card, id: comment.id, value }));
+    setIsActive(false);
+  };
+
+  useEffect(() => {
+    if (isActive) {
+      inputRef.current?.select();
+    }
+  }, [isActive]);
 
   return (
     <Container data-testid="edit-comment">

@@ -1,13 +1,24 @@
-import { useSingleComment } from 'hooks/useSingleComment';
+import { useState } from 'react';
 
-import { Link } from 'components/atoms';
-import { CommentEdit } from 'components/atoms';
+import { useSelector } from 'react-redux';
+
+import { RootState, useAppDispatch } from 'store';
+import { deleteComment } from 'store/comments-slice';
 import type { Comment } from 'store/comments-slice';
+
+import { CommentEdit, Link } from 'components/atoms';
 
 import { Container } from './single-comment.styles';
 
 export const SingleComment = ({ comment }: { comment: Comment }) => {
-  const { isActive, setIsActive, handleDelete } = useSingleComment({ comment });
+  const dispatch = useAppDispatch();
+  const card = useSelector((state: RootState) => state.card.details);
+
+  const [isActive, setIsActive] = useState(false);
+
+  const handleDelete = () => {
+    dispatch(deleteComment({ card, comment }));
+  };
 
   return (
     <Container key={comment.id} data-testid="single-comment">
