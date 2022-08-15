@@ -76,4 +76,4 @@ Comments can be added to the card.
 Comments are displayed by date in descending order, from latest to earliest and they can be deleted or edited.  
 Board name can be edited by clicking on it and entering a new name.  
 Next to board name is a Home button which redirects you to landing page where you can choose to open a different board.  
-In the top right-hand corner is Log out button which deauthorizes and logs you out.
+In the top right-hand corner is Log out button which deauthorizes and logs you out...
