@@ -24,7 +24,8 @@
     "react/prop-types": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "no-console": "warn"
   },
   "settings": {
     "react": {
