@@ -1,12 +1,19 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-export const Container = styled.div`
+export const Container: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<ThemeProps>`
   position: relative;
   width: 252px;
   min-height: 29px;
   margin: 0 0 8px;
   background-color: #fff;
-  border-radius: ${({ theme }) => theme.border.borderRadius};
+  border-radius: ${({ theme }: { theme: ThemeProps }) =>
+    theme.border.borderRadius};
   box-shadow: 0 1px #bbb;
 
   user-select: none;
@@ -19,7 +26,8 @@ export const Container = styled.div`
   .placeholder {
     position: absolute;
     background-color: #ddd;
-    border-radius: ${({ theme }) => theme.border.borderRadius};
+    border-radius: ${({ theme }: { theme: ThemeProps }) =>
+      theme.border.borderRadius};
   }
 
   .card-content-box {

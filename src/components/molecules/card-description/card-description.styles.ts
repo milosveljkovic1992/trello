@@ -1,11 +1,16 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-interface Props {
+type Props = ThemeProps & {
   hasDescription: boolean;
   isActive: boolean;
-}
-
-export const Container = styled.div<Props>`
+};
+export const Container: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<Props>`
   background-color: rgba(9, 30, 66, 0.04);
   min-height: ${({ hasDescription }) => !hasDescription && '70px'};
   position: relative;
@@ -75,12 +80,14 @@ export const Container = styled.div<Props>`
     padding: 6px;
     display: flex;
     align-items: center;
-    border-radius: ${({ theme }) => theme.border.borderRadius};
+    border-radius: ${({ theme }: { theme: Props }) =>
+      theme.border.borderRadius};
     cursor: pointer;
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }) => theme.background.grayHover};
+      background-color: ${({ theme }: { theme: Props }) =>
+        theme.background.grayHover};
     }
   }
 `;

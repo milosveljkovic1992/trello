@@ -1,6 +1,12 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-export const Container = styled.div`
+export const Container: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<ThemeProps>`
   .input-container {
     position: relative;
     width: 252px;
@@ -8,7 +14,8 @@ export const Container = styled.div`
     min-height: 29px;
     margin: 0 0 8px;
     background-color: #fff;
-    border-radius: ${({ theme }) => theme.border.borderRadius};
+    border-radius: ${({ theme }: { theme: ThemeProps }) =>
+      theme.border.borderRadius};
     box-shadow: 0 1px #bbb;
 
     user-select: none;
@@ -25,12 +32,14 @@ export const Container = styled.div`
     padding: 6px;
     display: flex;
     align-items: center;
-    border-radius: ${({ theme }) => theme.border.borderRadius};
+    border-radius: ${({ theme }: { theme: ThemeProps }) =>
+      theme.border.borderRadius};
     cursor: pointer;
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }) => theme.background.grayHover};
+      background-color: ${({ theme }: { theme: ThemeProps }) =>
+        theme.background.grayHover};
     }
   }
 

@@ -1,21 +1,34 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-type ColumnProps = {
+type ColumnProps = ThemeProps & {
   height: number;
 };
 
-export const Container = styled.div`
+export const Container: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<ColumnProps>`
   width: 272px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
 
-  background-color: ${({ theme }) => theme.background.gray};
+  background-color: ${({ theme }: { theme: ThemeProps }) =>
+    theme.background.gray};
   padding: 10px;
-  border-radius: ${({ theme }) => theme.border.borderRadius};
+  border-radius: ${({ theme }: { theme: ThemeProps }) =>
+    theme.border.borderRadius};
 `;
 
-export const CardContainer = styled.div<ColumnProps>`
+export const CardContainer: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<ColumnProps>`
   height: 100%;
 
   ::-webkit-scrollbar {

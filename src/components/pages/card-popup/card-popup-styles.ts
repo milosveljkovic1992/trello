@@ -1,6 +1,12 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-export const Overlay = styled.div`
+export const Overlay: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<ThemeProps>`
   height: 100%;
   min-height: 100vh;
   width: 100%;
@@ -23,8 +29,10 @@ export const Overlay = styled.div`
 
     padding-bottom: 40px;
     margin: 36px 8px;
-    background-color: ${({ theme }) => theme.background.gray};
-    border-radius: ${({ theme }) => theme.border.borderRadius};
+    background-color: ${({ theme }: { theme: ThemeProps }) =>
+      theme.background.gray};
+    border-radius: ${({ theme }: { theme: ThemeProps }) =>
+      theme.border.borderRadius};
 
     @media (min-width: 768px) {
       margin: 50px 0 100px;

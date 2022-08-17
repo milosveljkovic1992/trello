@@ -1,11 +1,17 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-interface Props {
+type Props = ThemeProps & {
   rect: DOMRect;
   direction: string;
-}
+};
 
-export const Overlay = styled.div<Props>`
+export const Overlay: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<Props>`
   position: fixed;
   top: 0;
   right: 0;
@@ -90,7 +96,8 @@ export const Overlay = styled.div<Props>`
 
   .save-button {
     color: #fff;
-    background-color: ${({ theme }) => theme.background.primary};
+    background-color: ${({ theme }: { theme: Props }) =>
+      theme.background.primary};
     border: none;
     box-shadow: none;
     padding: 8px 16px;
@@ -103,7 +110,8 @@ export const Overlay = styled.div<Props>`
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }) => theme.background.primaryHover};
+      background-color: ${({ theme }: { theme: Props }) =>
+        theme.background.primaryHover};
     }
   }
 `;

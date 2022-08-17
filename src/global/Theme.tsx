@@ -5,6 +5,24 @@ interface Props {
   children: ReactNode;
 }
 
+export type ThemeProps = {
+  background: {
+    primary: string;
+    primaryHover: string;
+    gray: string;
+    grayHover: string;
+  };
+  font: {
+    color: string;
+    lightColor: string;
+    fontFamily: string;
+  };
+  border: {
+    borderRadius: string;
+  };
+  children: ReactNode;
+};
+
 const theme = {
   background: {
     primary: '#0079bf',

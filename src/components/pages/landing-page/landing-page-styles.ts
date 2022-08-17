@@ -1,6 +1,12 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-export const Container = styled.div`
+export const Container: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<ThemeProps>`
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -131,7 +137,8 @@ export const Container = styled.div`
     left: 0;
 
     color: #fff;
-    background-color: ${({ theme }) => theme.background.primary};
+    background-color: ${({ theme }: { theme: ThemeProps }) =>
+      theme.background.primary};
     border: none;
     box-shadow: none;
     padding: 8px 16px;
@@ -146,7 +153,8 @@ export const Container = styled.div`
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }) => theme.background.primaryHover};
+      background-color: ${({ theme }: { theme: ThemeProps }) =>
+        theme.background.primaryHover};
     }
 
     &.slide-in-top {

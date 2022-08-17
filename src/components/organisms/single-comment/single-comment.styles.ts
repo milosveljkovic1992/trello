@@ -1,6 +1,12 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-export const Container = styled.div`
+export const Container: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<ThemeProps>`
   margin-top: 15px;
   word-break: break-word;
 
@@ -34,7 +40,7 @@ export const Container = styled.div`
   .timestamp {
     display: inline-block;
     font-size: 0.875rem;
-    color: ${({ theme }) => theme.font.lightColor};
+    color: ${({ theme }: { theme: ThemeProps }) => theme.font.lightColor};
 
     &:hover,
     &:focus {

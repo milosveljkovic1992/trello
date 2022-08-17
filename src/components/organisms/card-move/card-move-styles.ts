@@ -1,11 +1,17 @@
-import styled from 'styled-components/macro';
+import styled, { StyledComponent } from 'styled-components/macro';
+import type { ThemeProps } from 'global/Theme';
 
-interface Props {
+type Props = ThemeProps & {
   rect: DOMRect;
   position: string;
-}
+};
 
-export const Container = styled.div<Props>`
+export const Container: StyledComponent<
+  'div',
+  Record<string, unknown>,
+  Record<string, unknown>,
+  never
+> = styled.div<Props>`
   position: fixed;
   top: ${({ rect, position }) =>
     position === 'left' ? `${rect.y + 35}px` : `${rect.y + 170}px`};
@@ -145,7 +151,8 @@ export const Container = styled.div<Props>`
 
   button {
     color: #fff;
-    background-color: ${({ theme }) => theme.background.primary};
+    background-color: ${({ theme }: { theme: Props }) =>
+      theme.background.primary};
     border: none;
     box-shadow: none;
     margin-top: 15px;
@@ -156,7 +163,8 @@ export const Container = styled.div<Props>`
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }) => theme.background.primaryHover};
+      background-color: ${({ theme }: { theme: Props }) =>
+        theme.background.primaryHover};
     }
   }
 `;

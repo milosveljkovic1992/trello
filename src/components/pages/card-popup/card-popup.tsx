@@ -47,7 +47,7 @@ export const CardPopup = () => {
   }
 
   return (
-    <Overlay onClick={(e) => handleClose(e)} className="card-overlay">
+    <Overlay onClick={handleClose} className="card-overlay">
       <div className="container">
         {isLoading ? (
           <LoadingBars />
