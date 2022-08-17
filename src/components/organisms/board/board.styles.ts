@@ -130,7 +130,7 @@ export const Container = styled.div<Props>`
     align-items: flex-start;
     justify-content: flex-start;
     gap: 8px;
-    overflow-x: auto;
+    overflow: auto;
 
     padding: 0 15px;
   }

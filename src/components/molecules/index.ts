@@ -1,5 +1,6 @@
 export { AddList } from 'components/molecules/add-list/add-list';
 export { CardDescription } from 'components/molecules/card-description/card-description';
+export { CardPlaceholder } from 'components/molecules/card-placeholder/card-placeholder';
 export { CommentEdit } from 'components/molecules/comment-edit/comment-edit';
 export { CommentInput } from 'components/molecules/comment-input/comment-input';
 export { ListTitle } from 'components/molecules/list-title/list-title';

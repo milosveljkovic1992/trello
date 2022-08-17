@@ -1,21 +1,22 @@
 import styled from 'styled-components/macro';
 
+type ColumnProps = {
+  height: number;
+};
+
 export const Container = styled.div`
   width: 272px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  max-height: 85vh;
 
   background-color: ${({ theme }) => theme.background.gray};
   padding: 10px;
   border-radius: ${({ theme }) => theme.border.borderRadius};
 `;
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<ColumnProps>`
   height: 100%;
-  padding-top: 5px;
-  overflow-y: auto;
 
   ::-webkit-scrollbar {
     padding-left: 5px;
@@ -28,5 +29,13 @@ export const CardContainer = styled.div`
   ::-webkit-scrollbar-thumb {
     background: rgba(9, 30, 66, 0.2);
     border-radius: 50px;
+  }
+
+  &.drag-over {
+    height: ${({ height }) => `${height}px`};
+  }
+
+  [data-rbd-droppable-id] {
+    min-height: 5px;
   }
 `;
