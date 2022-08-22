@@ -1,12 +1,7 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-export const Button: StyledComponent<
-  'button',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.button<ThemeProps>`
+export const Button = styled.button<ThemeProps>`
   display: flex;
   flex-direction: row;
   align-items: center;

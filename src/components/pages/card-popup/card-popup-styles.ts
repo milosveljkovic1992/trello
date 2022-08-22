@@ -1,12 +1,7 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-export const Overlay: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<ThemeProps>`
+export const Overlay = styled.div<ThemeProps>`
   height: 100%;
   min-height: 100vh;
   width: 100%;

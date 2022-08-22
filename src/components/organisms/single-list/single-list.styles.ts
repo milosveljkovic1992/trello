@@ -1,16 +1,11 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
 type ColumnProps = ThemeProps & {
   height: number;
 };
 
-export const Container: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<ColumnProps>`
+export const Container = styled.div<ThemeProps>`
   width: 272px;
   display: flex;
   flex-direction: column;
@@ -23,12 +18,7 @@ export const Container: StyledComponent<
     theme.border.borderRadius};
 `;
 
-export const CardContainer: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<ColumnProps>`
+export const CardContainer = styled.div<ColumnProps>`
   height: 100%;
 
   ::-webkit-scrollbar {

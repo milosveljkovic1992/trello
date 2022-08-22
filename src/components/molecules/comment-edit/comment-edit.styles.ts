@@ -1,12 +1,7 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-export const Container: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<ThemeProps>`
+export const Container = styled.div<ThemeProps>`
   width: 100%;
   border-radius: 3px;
   min-height: 40px;

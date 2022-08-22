@@ -1,17 +1,12 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-type Props = ThemeProps & {
+type CardMoveStyleProps = ThemeProps & {
   rect: DOMRect;
   position: string;
 };
 
-export const Container: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<Props>`
+export const Container = styled.div<CardMoveStyleProps>`
   position: fixed;
   top: ${({ rect, position }) =>
     position === 'left' ? `${rect.y + 35}px` : `${rect.y + 170}px`};
@@ -151,7 +146,7 @@ export const Container: StyledComponent<
 
   button {
     color: #fff;
-    background-color: ${({ theme }: { theme: Props }) =>
+    background-color: ${({ theme }: { theme: CardMoveStyleProps }) =>
       theme.background.primary};
     border: none;
     box-shadow: none;
@@ -163,7 +158,7 @@ export const Container: StyledComponent<
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }: { theme: Props }) =>
+      background-color: ${({ theme }: { theme: CardMoveStyleProps }) =>
         theme.background.primaryHover};
     }
   }

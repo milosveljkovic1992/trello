@@ -5,7 +5,7 @@ interface Props {
   children: ReactNode;
 }
 
-export type ThemeProps = {
+export type MyThemeProps = {
   background: {
     primary: string;
     primaryHover: string;
@@ -22,6 +22,8 @@ export type ThemeProps = {
   };
   children: ReactNode;
 };
+
+export type ThemeProps = MyThemeProps & Record<string, unknown>;
 
 const theme = {
   background: {

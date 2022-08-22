@@ -1,16 +1,11 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-type Props = ThemeProps & {
+type CardDescriptionStyleProps = ThemeProps & {
   hasDescription: boolean;
   isActive: boolean;
 };
-export const Container: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<Props>`
+export const Container = styled.div<CardDescriptionStyleProps>`
   background-color: rgba(9, 30, 66, 0.04);
   min-height: ${({ hasDescription }) => !hasDescription && '70px'};
   position: relative;
@@ -80,13 +75,13 @@ export const Container: StyledComponent<
     padding: 6px;
     display: flex;
     align-items: center;
-    border-radius: ${({ theme }: { theme: Props }) =>
+    border-radius: ${({ theme }: { theme: CardDescriptionStyleProps }) =>
       theme.border.borderRadius};
     cursor: pointer;
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }: { theme: Props }) =>
+      background-color: ${({ theme }: { theme: CardDescriptionStyleProps }) =>
         theme.background.grayHover};
     }
   }

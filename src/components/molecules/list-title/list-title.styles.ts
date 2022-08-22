@@ -1,16 +1,11 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-type Props = ThemeProps & {
+type ListTitleStyleProps = ThemeProps & {
   isInputActive: boolean;
 };
 
-export const Title: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<Props>`
+export const Title = styled.div<ListTitleStyleProps>`
   margin: 0 0 5px;
   position: relative;
 
@@ -20,7 +15,8 @@ export const Title: StyledComponent<
   }
 
   textarea {
-    font-family: ${({ theme }: { theme: Props }) => theme.font.fontFamily};
+    font-family: ${({ theme }: { theme: ListTitleStyleProps }) =>
+      theme.font.fontFamily};
     font-size: 16px;
     font-weight: 600;
 
@@ -29,7 +25,7 @@ export const Title: StyledComponent<
     margin: 0;
     padding: 5px 5px;
 
-    color: ${({ theme }: { theme: Props }) => theme.font.color};
+    color: ${({ theme }: { theme: ListTitleStyleProps }) => theme.font.color};
     background-color: transparent;
     border: 2px solid transparent;
     overflow: hidden;

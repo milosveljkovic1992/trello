@@ -1,17 +1,12 @@
-import styled, { StyledComponent } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-type Props = ThemeProps & {
+type EditPanelStyleProps = ThemeProps & {
   rect: DOMRect;
   direction: string;
 };
 
-export const Overlay: StyledComponent<
-  'div',
-  Record<string, unknown>,
-  Record<string, unknown>,
-  never
-> = styled.div<Props>`
+export const Overlay = styled.div<EditPanelStyleProps>`
   position: fixed;
   top: 0;
   right: 0;
@@ -96,7 +91,7 @@ export const Overlay: StyledComponent<
 
   .save-button {
     color: #fff;
-    background-color: ${({ theme }: { theme: Props }) =>
+    background-color: ${({ theme }: { theme: EditPanelStyleProps }) =>
       theme.background.primary};
     border: none;
     box-shadow: none;
@@ -110,7 +105,7 @@ export const Overlay: StyledComponent<
 
     &:focus,
     &:hover {
-      background-color: ${({ theme }: { theme: Props }) =>
+      background-color: ${({ theme }: { theme: EditPanelStyleProps }) =>
         theme.background.primaryHover};
     }
   }
