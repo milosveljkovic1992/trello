@@ -8,12 +8,8 @@ import { RootState, useAppDispatch } from 'store';
 import { resetListUpdate, resetOriginListUpdate } from 'store/lists-slice';
 import type { CardType } from 'store/card-slice';
 
-import {
-  AddCard,
-  CardPlaceholder,
-  ListTitle,
-  SingleCard,
-} from 'components/molecules';
+import { AddCard, CardPlaceholder, ListTitle } from 'components/molecules';
+import { SingleCard } from 'components/organisms';
 
 import { SingleListProps } from './single-list.types';
 import { CardContainer, Container } from './single-list.styles';

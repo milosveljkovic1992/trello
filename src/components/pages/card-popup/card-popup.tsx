@@ -13,9 +13,9 @@ import { closeModal } from 'store/popup-slice';
 import { resetCard } from 'store/card-slice';
 import type { Comment } from 'store/comments-slice';
 
-import { CardTitle, LoadingBars } from 'components/atoms';
-import { CardDescription, CommentInput } from 'components/molecules';
-import { SingleComment } from 'components/organisms';
+import { LoadingBars } from 'components/atoms';
+import { CardTitle, CommentInput } from 'components/molecules';
+import { CardDescription, SingleComment } from 'components/organisms';
 
 import { Overlay } from './card-popup-styles';
 

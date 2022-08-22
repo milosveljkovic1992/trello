@@ -15,7 +15,8 @@ import { throwError } from 'store/error-slice';
 
 import { BoardPage, CardPopup, LandingPage } from 'components/pages';
 
-import { ErrorSnackbar, LoadingSpinner, Login } from 'components/atoms';
+import { LoadingSpinner, Login } from 'components/atoms';
+import { ErrorSnackbar } from 'components/molecules';
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post['Accept'] = 'application/json';

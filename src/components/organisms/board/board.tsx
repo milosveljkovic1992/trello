@@ -3,7 +3,7 @@ import { ForwardedRef, forwardRef } from 'react';
 import { useAppDispatch } from 'store';
 import { submitBoardName } from 'store/board-slice';
 
-import { HomeButton, LogoutButton } from 'components/atoms';
+import { HomeButton, LogoutButton } from 'components/molecules';
 import { BoardProps } from './board.types';
 import { Container } from './board.styles';
 

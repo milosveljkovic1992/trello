@@ -7,7 +7,7 @@ import { useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
 
 import { CardMove } from 'components/organisms';
-import { useCardTitle } from 'components/atoms/card-title/useCardTitle';
+import { useCardTitle } from 'components/molecules/card-title/useCardTitle';
 
 import { useEditPanel } from './useEditPanel';
 import { EditPanelProps } from './edit-panel.types';

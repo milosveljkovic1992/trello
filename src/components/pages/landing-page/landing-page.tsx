@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { LoadingSpinner, LogoutButton } from 'components/atoms';
+import { LoadingSpinner } from 'components/atoms';
+import { LogoutButton } from 'components/molecules';
 import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
 import { RootState, useAppDispatch } from 'store';
 import type { BoardType } from 'store/board-slice';
