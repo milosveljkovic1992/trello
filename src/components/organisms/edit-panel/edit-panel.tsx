@@ -1,45 +1,34 @@
-import { useEffect, useState, useRef, MouseEvent } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
+import { useAppDispatch } from 'store';
+import { closeEditPanel } from 'store/board-slice';
+
 import { CardMove } from 'components/organisms';
 import { useCardTitle } from 'components/atoms/card-title/useCardTitle';
 
-import { IEditPanelProps } from './edit-panel.types';
+import { useEditPanel } from './useEditPanel';
+import { EditPanelProps } from './edit-panel.types';
 import { Overlay } from './edit-panel.styles';
 
-export const EditPanel = ({
-  editPanelProps,
-  index,
-}: {
-  editPanelProps: IEditPanelProps;
-  index: number;
-}) => {
-  const {
-    rect,
-    card,
-    handleOpen,
-    handleMove,
-    handleDelete,
-    setIsEditOpen,
+export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
+  const dispatch = useAppDispatch();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMoveOpen, setIsMoveOpen] = useState(false);
+  const [tabRect, setTabRect] = useState<DOMRect>();
+
+  const { title, setTitle, handleRename } = useCardTitle({ card });
+  const { handleOpen, handleDisplay, handleDelete } = useEditPanel({
     isMoveOpen,
     setIsMoveOpen,
-  } = editPanelProps;
-  const [isLoading, setIsLoading] = useState(true);
-  const [tabRect, setTabRect] = useState<DOMRect>();
-  const { title, setTitle, handleRename } = useCardTitle({ card });
+  });
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const animationRef = useRef<HTMLDivElement>(null);
   const moveRef = useRef<HTMLDivElement>(null);
-
-  const handleDisplay = (e: MouseEvent<HTMLDivElement>) => {
-    const target = e.target as Element;
-    if (target.classList.contains('card-edit__overlay')) {
-      isMoveOpen ? setIsMoveOpen(false) : setIsEditOpen(false);
-    }
-  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -104,7 +93,10 @@ export const EditPanel = ({
 
         <div
           className="save-button"
-          onClick={() => handleRename(setIsEditOpen)}
+          onClick={() => {
+            handleRename();
+            dispatch(closeEditPanel());
+          }}
         >
           Save
         </div>
@@ -114,7 +106,6 @@ export const EditPanel = ({
             rect={tabRect}
             card={card}
             setIsMoveOpen={setIsMoveOpen}
-            handleMove={handleMove}
             index={index}
           />
         )}

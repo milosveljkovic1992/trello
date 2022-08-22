@@ -1,29 +1,28 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { throwError } from 'store/error-slice';
 
-import { ListTitleProps } from './list-title.types';
+import { useListTitleProps } from './useListTitle.types';
 
-export const useListTitle = ({
-  oldTitle,
-  listId,
-  listTitle,
-  setListTitle,
-}: ListTitleProps) => {
+export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
   const dispatch = useDispatch();
+  const [oldTitle, setOldTitle] = useState(list.name);
+  const [listTitle, setListTitle] = useState(list.name);
+
   const [isInputActive, setIsInputActive] = useState(false);
 
-  const titleRef = useRef<HTMLTextAreaElement>(null);
-
   const submitTitle = async () => {
-    try {
-      await axios.put(`/1/lists/${listId}?name=${listTitle}`);
-    } catch (error) {
-      setListTitle(oldTitle);
-      dispatch(throwError('Could not update title'));
+    if (listTitle !== oldTitle) {
+      try {
+        await axios.put(`/1/lists/${list.id}?name=${listTitle}`);
+        setOldTitle(listTitle);
+      } catch (error) {
+        setListTitle(oldTitle);
+        dispatch(throwError('Could not update title'));
+      }
     }
   };
 
@@ -32,7 +31,7 @@ export const useListTitle = ({
     titleRef.current?.select();
   };
 
-  const handleBlur = () => {
+  const handleSubmit = () => {
     submitTitle();
     setIsInputActive(false);
   };
@@ -40,7 +39,8 @@ export const useListTitle = ({
   return {
     isInputActive,
     handleFocus,
-    handleBlur,
-    titleRef,
+    handleSubmit,
+    listTitle,
+    setListTitle,
   };
 };

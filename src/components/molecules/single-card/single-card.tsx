@@ -1,7 +1,12 @@
+import { useSelector } from 'react-redux';
+import { Draggable } from 'react-beautiful-dnd';
+
 import { TbPencil } from 'react-icons/tb';
 import { HiViewList } from 'react-icons/hi';
 import { FaRegComment } from 'react-icons/fa';
-import { Draggable } from 'react-beautiful-dnd';
+
+import { RootState, useAppDispatch } from 'store';
+import { openEditPanel } from 'store/board-slice';
 
 import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
@@ -10,12 +15,12 @@ import { useSingleCard } from './useSingleCard';
 import { SingleCardProps } from './single-card.types';
 import { Container } from './single-card.styles';
 
-export const SingleCard = ({
-  index,
-  card,
-  setIsListUpdated,
-}: SingleCardProps) => {
-  const editPanelProps = useSingleCard({ setIsListUpdated, card });
+export const SingleCard = ({ index, card }: SingleCardProps) => {
+  const dispatch = useAppDispatch();
+  const { rect, cardRef } = useSingleCard({ card });
+  const { isEditPanelOpen, editPanelId } = useSelector(
+    (state: RootState) => state.board,
+  );
 
   return (
     <Draggable draggableId={card.id} index={index}>
@@ -33,7 +38,7 @@ export const SingleCard = ({
               className="card-link"
               data-testid="single-card-link"
             >
-              <div className="card-content-box" ref={editPanelProps.cardRef}>
+              <div className="card-content-box" ref={cardRef}>
                 <p className="card-title">{card.name}</p>
                 {(card.badges.description || !!card.badges.comments) && (
                   <div className="badges" data-testid="card-badges">
@@ -58,12 +63,12 @@ export const SingleCard = ({
                 )}
               </div>
             </Link>
-            {editPanelProps.isEditOpen && (
-              <EditPanel editPanelProps={editPanelProps} index={index} />
+            {isEditPanelOpen && card.id === editPanelId && (
+              <EditPanel card={card} rect={rect} index={index} />
             )}
             <div
               className="edit-btn"
-              onClick={() => editPanelProps.setIsEditOpen(true)}
+              onClick={() => dispatch(openEditPanel(card.id))}
               data-testid="edit-button"
             >
               <TbPencil />

@@ -1,5 +1,4 @@
 import userEvent from '@testing-library/user-event';
-import { useState } from 'react';
 import { render } from 'utils/test-utils';
 
 import { SingleCard } from './single-card';
@@ -19,20 +18,10 @@ describe('SingleCard', () => {
     desc: 'sample description',
   };
 
-  const SingleCardContainer = () => {
-    const [isListUpdated, setIsListUpdated] = useState(false);
-
-    return (
-      <SingleCard
-        index={index}
-        card={sampleCard}
-        setIsListUpdated={setIsListUpdated}
-      />
-    );
-  };
-
   it('renders component', () => {
-    const { getByText, getByTestId } = render(<SingleCardContainer />);
+    const { getByText, getByTestId } = render(
+      <SingleCard index={index} card={sampleCard} />,
+    );
 
     const containerElement = getByTestId('single-card');
     expect(containerElement).toBeInTheDocument();
@@ -48,7 +37,9 @@ describe('SingleCard', () => {
   });
 
   it('opens link to individual card on user click', () => {
-    const { getByTestId } = render(<SingleCardContainer />);
+    const { getByTestId } = render(
+      <SingleCard index={index} card={sampleCard} />,
+    );
 
     expect(window.location.pathname).toBe('/');
 
@@ -60,7 +51,9 @@ describe('SingleCard', () => {
   });
 
   it('opens edit panel on edit icon click', () => {
-    const { getByTestId, queryByTestId } = render(<SingleCardContainer />);
+    const { getByTestId, queryByTestId } = render(
+      <SingleCard index={index} card={sampleCard} />,
+    );
 
     const editButtonElement = getByTestId('edit-button');
     const editPanelElement = queryByTestId('edit-panel');

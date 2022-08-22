@@ -80,6 +80,9 @@ export const submitBoardName = createAsyncThunk(
 interface InitialState {
   details: BoardType;
   isLoading: boolean;
+  isEditPanelOpen: boolean;
+  editPanelId: string;
+  isCreatingNewList: boolean;
 }
 
 const initialState: InitialState = {
@@ -102,6 +105,9 @@ const initialState: InitialState = {
     },
   },
   isLoading: true,
+  isEditPanelOpen: false,
+  editPanelId: '',
+  isCreatingNewList: false,
 };
 
 const boardSlice = createSlice({
@@ -111,6 +117,23 @@ const boardSlice = createSlice({
     resetBoard(state) {
       state.details = initialState.details;
       state.isLoading = true;
+    },
+    openEditPanel(state, action) {
+      state.isEditPanelOpen = true;
+      state.editPanelId = action.payload;
+    },
+    closeEditPanel(state) {
+      state.isEditPanelOpen = false;
+      state.editPanelId = '';
+    },
+    startCreatingNewList(state) {
+      state.isCreatingNewList = true;
+    },
+    finishCreatingNewList(state) {
+      state.isCreatingNewList = false;
+    },
+    resetCreatingNewList(state) {
+      state.isCreatingNewList = false;
     },
   },
   extraReducers: (builder) => {
@@ -136,6 +159,13 @@ const boardSlice = createSlice({
   },
 });
 
-export const { resetBoard } = boardSlice.actions;
+export const {
+  resetBoard,
+  openEditPanel,
+  closeEditPanel,
+  startCreatingNewList,
+  finishCreatingNewList,
+  resetCreatingNewList,
+} = boardSlice.actions;
 
 export default boardSlice;

@@ -46,12 +46,14 @@ export const submitList = createAsyncThunk(
 interface InitialState {
   isUpdated: boolean;
   updatedListId: string;
+  updatedOriginListId: string;
   listsArray: ListType[];
 }
 
 const initialState: InitialState = {
   isUpdated: false,
   updatedListId: '',
+  updatedOriginListId: '',
   listsArray: [],
 };
 
@@ -69,6 +71,14 @@ const listsSlice = createSlice({
     resetListUpdate(state) {
       state.isUpdated = false;
       state.updatedListId = '';
+    },
+    informOriginListUpdate(state, action) {
+      state.isUpdated = true;
+      state.updatedOriginListId = action.payload;
+    },
+    resetOriginListUpdate(state) {
+      state.isUpdated = false;
+      state.updatedOriginListId = '';
     },
   },
   extraReducers: (builder) => {
@@ -97,7 +107,12 @@ const listsSlice = createSlice({
   },
 });
 
-export const { setListsArray, informListUpdate, resetListUpdate } =
-  listsSlice.actions;
+export const {
+  setListsArray,
+  informListUpdate,
+  resetListUpdate,
+  informOriginListUpdate,
+  resetOriginListUpdate,
+} = listsSlice.actions;
 
 export default listsSlice;

@@ -55,7 +55,7 @@ export const CardDescription = () => {
   return (
     <Container
       isActive={isDescriptionInputActive}
-      onClick={(e: React.MouseEvent<HTMLDivElement>) => handleActive(e)}
+      onClick={handleActive}
       className="desc-box"
       hasDescription={!!description}
       data-testid="card-description-container"

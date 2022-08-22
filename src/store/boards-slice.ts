@@ -5,7 +5,7 @@ import { throwError } from './error-slice';
 import type { BoardType } from './board-slice';
 
 export const setBoards = createAsyncThunk(
-  'boards/setBoards',
+  '/boards/setBoards',
   async (memberid: string, thunkAPI) => {
     try {
       const response = await axios.get(`/1/members/${memberid}/boards`);
@@ -18,7 +18,7 @@ export const setBoards = createAsyncThunk(
 );
 
 export const addBoard = createAsyncThunk(
-  'boards/addBoard',
+  '/boards/addBoard',
   async (newBoardTitle: string, thunkAPI) => {
     try {
       const response = await axios.post(`/1/boards/?name=${newBoardTitle}`);
@@ -31,7 +31,7 @@ export const addBoard = createAsyncThunk(
 );
 
 export const sendDeleteRequest = createAsyncThunk(
-  'boards/sendDeleteRequest',
+  '/boards/sendDeleteRequest',
   async (board: BoardType, thunkAPI) => {
     try {
       await axios.delete(`/1/boards/${board.id}`);

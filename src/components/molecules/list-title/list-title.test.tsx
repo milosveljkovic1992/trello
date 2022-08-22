@@ -1,34 +1,25 @@
-import { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 
 import { render } from 'utils/test-utils';
 import { ListTitle } from './list-title';
 
-const ListTitleContainer = () => {
-  const [listTitle, setListTitle] = useState('list title');
-  const oldTitle = 'old title';
-  const listId = '123';
-
-  return (
-    <ListTitle
-      oldTitle={oldTitle}
-      listId={listId}
-      listTitle={listTitle}
-      setListTitle={setListTitle}
-    />
-  );
+const list = {
+  id: '123',
+  name: 'abc',
+  pos: 5000,
+  idBoard: 'board123',
 };
 
 describe('ListTitle component', () => {
   it('renders title', () => {
-    const { getByRole } = render(<ListTitleContainer />);
+    const { getByRole } = render(<ListTitle list={list} />);
 
     const inputElement = getByRole('textbox');
     expect(inputElement).toBeInTheDocument();
   });
 
   it('renders delete icon', () => {
-    const { getByTestId } = render(<ListTitleContainer />);
+    const { getByTestId } = render(<ListTitle list={list} />);
 
     const buttonElement = getByTestId('delete-list');
     expect(buttonElement).toBeInTheDocument();
@@ -36,7 +27,7 @@ describe('ListTitle component', () => {
 
   it('changes on input on user clicking away', () => {
     const sampleTitle = 'some title';
-    const { getByRole } = render(<ListTitleContainer />);
+    const { getByRole } = render(<ListTitle list={list} />);
 
     const inputElement = getByRole('textbox');
     const listTitleContainer = getByRole('list-title');

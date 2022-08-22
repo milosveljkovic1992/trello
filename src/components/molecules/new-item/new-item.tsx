@@ -9,7 +9,7 @@ export const NewItem = ({
   children,
   handleInput,
   handleSubmit,
-  setIsCreatingNew,
+  handleClose,
   placeholder,
 }: NewItemProps) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -24,13 +24,13 @@ export const NewItem = ({
         <textarea
           ref={inputRef}
           placeholder={placeholder}
-          onChange={(e) => handleInput(e)}
+          onChange={handleInput}
         ></textarea>
       </div>
 
       <div className="button-container">
         <button onClick={handleSubmit}>{children}</button>
-        <div className="icon-container" onClick={() => setIsCreatingNew(false)}>
+        <div className="icon-container" onClick={handleClose}>
           <AiOutlineClose />
         </div>
       </div>

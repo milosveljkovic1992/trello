@@ -33,7 +33,6 @@ export const BoardPage = () => {
   const { boardId } = urlParams;
   const { cardUrl } = urlParams;
 
-  const [isCreatingNewList, setIsCreatingNewList] = useState(false);
   const [boardName, setBoardName] = useState('');
   const [isEditNameActive, setIsEditNameActive] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -124,18 +123,10 @@ export const BoardPage = () => {
               <DragDropContext onDragEnd={handleDragEnd}>
                 <div className="board-inner-container">
                   {lists.map((list) => (
-                    <SingleList
-                      key={list.id}
-                      listId={list.id}
-                      name={list.name}
-                    />
+                    <SingleList key={list.id} list={list} />
                   ))}
 
-                  <AddList
-                    isCreatingNewList={isCreatingNewList}
-                    setIsCreatingNewList={setIsCreatingNewList}
-                    boardId={boardId}
-                  />
+                  <AddList />
                 </div>
               </DragDropContext>
             )}

@@ -1,9 +1,9 @@
-import { ReactNode, Dispatch, SetStateAction, ChangeEvent } from 'react';
+import { ReactNode, ChangeEvent } from 'react';
 
 export interface NewItemProps {
   children: ReactNode;
   handleInput: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: () => void;
-  setIsCreatingNew: Dispatch<SetStateAction<boolean>>;
+  handleClose: () => void;
   placeholder: string;
 }

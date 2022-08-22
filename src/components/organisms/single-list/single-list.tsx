@@ -1,34 +1,34 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
-import { AiOutlinePlus } from 'react-icons/ai';
 
 import { RootState, useAppDispatch } from 'store';
-import { resetListUpdate } from 'store/lists-slice';
+import { resetListUpdate, resetOriginListUpdate } from 'store/lists-slice';
 import type { CardType } from 'store/card-slice';
 
-import { AddButton } from 'components/atoms';
 import {
+  AddCard,
   CardPlaceholder,
   ListTitle,
-  NewCard,
   SingleCard,
 } from 'components/molecules';
 
 import { SingleListProps } from './single-list.types';
 import { CardContainer, Container } from './single-list.styles';
 
-export const SingleList = ({ listId, name }: SingleListProps) => {
+export const SingleList = ({ list }: SingleListProps) => {
   const dispatch = useAppDispatch();
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
-  const { updatedListId } = useSelector((state: RootState) => state.lists);
+  const { updatedListId, updatedOriginListId } = useSelector(
+    (state: RootState) => state.lists,
+  );
+
+  const listId = list.id;
 
   const [cardsOnThisList, setCardsOnThisList] = useState<CardType[]>([]);
-  const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [isListUpdated, setIsListUpdated] = useState(true);
-  const [listTitle, setListTitle] = useState(name);
   const [columnHeight, setColumnHeight] = useState(5);
 
   const columnRef = useRef<HTMLDivElement>(null);
@@ -44,6 +44,12 @@ export const SingleList = ({ listId, name }: SingleListProps) => {
       const sortedList = sortCards(cards);
       setCardsOnThisList(sortedList);
       setIsListUpdated(false);
+    }
+
+    if (updatedOriginListId === listId) {
+      const sortedList = sortCards(cards);
+      setCardsOnThisList(sortedList);
+      dispatch(resetOriginListUpdate());
     }
 
     if (updatedListId === listId) {
@@ -63,12 +69,7 @@ export const SingleList = ({ listId, name }: SingleListProps) => {
     <>
       {cards && (
         <Container>
-          <ListTitle
-            oldTitle={name}
-            listId={listId}
-            listTitle={listTitle}
-            setListTitle={setListTitle}
-          />
+          <ListTitle list={list} />
           <Droppable
             droppableId={listId}
             mode="virtual"
@@ -101,7 +102,6 @@ export const SingleList = ({ listId, name }: SingleListProps) => {
                             key={nanoid()}
                             index={index}
                             card={card}
-                            setIsListUpdated={setIsListUpdated}
                           />
                         ),
                     )}
@@ -110,16 +110,8 @@ export const SingleList = ({ listId, name }: SingleListProps) => {
               );
             }}
           </Droppable>
-          {!isCreatingNew ? (
-            <AddButton
-              onClick={() => setIsCreatingNew(true)}
-              icon={<AiOutlinePlus />}
-            >
-              Add a card
-            </AddButton>
-          ) : (
-            <NewCard setIsCreatingNew={setIsCreatingNew} listId={listId} />
-          )}
+
+          <AddCard listId={listId} />
         </Container>
       )}
     </>

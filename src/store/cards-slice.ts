@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Dispatch, SetStateAction } from 'react';
 
 import { CardType } from './card-slice';
-import { informListUpdate } from './lists-slice';
+import { informListUpdate, informOriginListUpdate } from './lists-slice';
 import { throwError } from './error-slice';
 
 export const fetchCard = createAsyncThunk(
@@ -43,22 +42,18 @@ export const submitCard = createAsyncThunk(
 interface MoveCard {
   card: CardType;
   targetList: string;
-  targetPosition: number;
-  setIsListUpdated: Dispatch<SetStateAction<boolean>>;
+  pos: number;
 }
 
 export const moveCard = createAsyncThunk(
   '/cards/moveCard',
-  async (
-    { card, targetList, targetPosition, setIsListUpdated }: MoveCard,
-    thunkAPI,
-  ) => {
+  async ({ card, targetList, pos }: MoveCard, thunkAPI) => {
     try {
       const response = await axios.put(
-        `/1/cards/${card.id}?idList=${targetList}&pos=${targetPosition}`,
+        `/1/cards/${card.id}?idList=${targetList}&pos=${pos}`,
       );
       thunkAPI.dispatch(updateCard(response.data));
-      setIsListUpdated(true);
+      thunkAPI.dispatch(informOriginListUpdate(card.idList));
       thunkAPI.dispatch(informListUpdate(targetList));
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not move card'));
@@ -83,8 +78,8 @@ export const dropCard = createAsyncThunk(
     thunkAPI.dispatch(
       updateCard({ ...targetCard, idList: targetListId, pos: targetPosition }),
     );
-    await thunkAPI.dispatch(informListUpdate(startListId));
-    await thunkAPI.dispatch(informListUpdate(targetListId));
+    thunkAPI.dispatch(informOriginListUpdate(startListId));
+    thunkAPI.dispatch(informListUpdate(targetListId));
 
     try {
       const response = await axios.put(
@@ -104,11 +99,13 @@ export const dropCard = createAsyncThunk(
 interface InitialState {
   cardsArray: CardType[];
   isLoading: boolean;
+  activeLists: Record<string, unknown>;
 }
 
 const initialState: InitialState = {
   cardsArray: [],
   isLoading: true,
+  activeLists: {},
 };
 
 const cardsSlice = createSlice({
@@ -128,6 +125,15 @@ const cardsSlice = createSlice({
         card.id === id ? action.payload : card,
       );
       state.cardsArray = newArray;
+    },
+    startCreatingNewCard(state, action) {
+      state.activeLists[action.payload] = action.payload;
+    },
+    finishCreatingNewCard(state, action) {
+      delete state.activeLists[action.payload];
+    },
+    resetCreatingNewCard(state) {
+      state.activeLists = initialState.activeLists;
     },
   },
   extraReducers: (builder) => {
@@ -174,6 +180,13 @@ const cardsSlice = createSlice({
   },
 });
 
-export const { setCards, addCard, updateCard } = cardsSlice.actions;
+export const {
+  setCards,
+  addCard,
+  updateCard,
+  startCreatingNewCard,
+  finishCreatingNewCard,
+  resetCreatingNewCard,
+} = cardsSlice.actions;
 
 export default cardsSlice;

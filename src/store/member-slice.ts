@@ -32,7 +32,7 @@ type Error = {
 };
 
 export const getMemberInfo = createAsyncThunk(
-  'member/getMemberInfo',
+  '/member/getMemberInfo',
   async (APItoken: string, thunkAPI) => {
     try {
       const response = await axios.get(`/1/tokens/${APItoken}/member`);

@@ -37,7 +37,7 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
             </p>
           </Link>
 
-          {!isEditActive ? (
+          {!isEditActive && (
             <>
               <div className="text-container">
                 <p>{comment.data.text}</p>
@@ -48,7 +48,8 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
                 <p onClick={() => handleDelete()}>Delete</p>
               </div>
             </>
-          ) : (
+          )}
+          {isEditActive && (
             <CommentEdit
               comment={comment}
               isEditActive={isEditActive}

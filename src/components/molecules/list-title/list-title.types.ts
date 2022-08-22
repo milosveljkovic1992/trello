@@ -1,8 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
+import { ListType } from 'store/lists-slice';
 
 export interface ListTitleProps {
-  oldTitle: string;
-  listId: string;
-  listTitle: string;
-  setListTitle: Dispatch<SetStateAction<string>>;
+  list: ListType;
 }

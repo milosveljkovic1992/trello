@@ -2,9 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import { ImHome } from 'react-icons/im';
 
 import { useAppDispatch } from 'store';
-import { resetBoard } from 'store/board-slice';
+import { resetBoard, resetCreatingNewList } from 'store/board-slice';
 
 import { IconContainer } from './home-button.styles';
+import { resetCreatingNewCard } from 'store/cards-slice';
 
 export const HomeButton = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ export const HomeButton = () => {
   const handleHomeButton = () => {
     navigate('/');
     dispatch(resetBoard());
+    dispatch(resetCreatingNewList());
+    dispatch(resetCreatingNewCard());
   };
 
   return (

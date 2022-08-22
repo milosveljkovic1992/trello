@@ -25,6 +25,7 @@ interface CardState {
   details: CardType;
   hasFailed: boolean;
   isLoading: boolean;
+  isEditTitleActive: boolean;
 }
 
 const initialState: CardState = {
@@ -41,6 +42,7 @@ const initialState: CardState = {
   },
   hasFailed: false,
   isLoading: true,
+  isEditTitleActive: false,
 };
 
 export const getCard = createAsyncThunk(
@@ -120,6 +122,12 @@ const cardSlice = createSlice({
       state.hasFailed = initialState.hasFailed;
       state.isLoading = initialState.isLoading;
     },
+    startEditingTitle(state) {
+      state.isEditTitleActive = true;
+    },
+    finishEditingTitle(state) {
+      state.isEditTitleActive = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCard.pending, (state) => {
@@ -159,6 +167,7 @@ const cardSlice = createSlice({
   },
 });
 
-export const { resetCard } = cardSlice.actions;
+export const { resetCard, startEditingTitle, finishEditingTitle } =
+  cardSlice.actions;
 
 export default cardSlice;

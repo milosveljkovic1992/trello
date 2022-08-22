@@ -1,4 +1,5 @@
+import { ListType } from 'store/lists-slice';
+
 export interface SingleListProps {
-  listId: string;
-  name: string;
+  list: ListType;
 }

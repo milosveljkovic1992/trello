@@ -9,11 +9,14 @@ import { NewItem } from './new-item';
 const NewItemContainer = () => {
   const listId = '123';
   const dispatch = useAppDispatch();
-  const [isCreatingNew, setIsCreatingNew] = useState(true);
   const [userInput, setUserInput] = useState('');
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setUserInput(e.target.value);
+  };
+
+  const handleClose = () => {
+    jest.fn();
   };
 
   const handleSubmit = () => {
@@ -21,14 +24,14 @@ const NewItemContainer = () => {
       dispatch(submitCard({ listId, userInput }));
     }
     setUserInput('');
-    setIsCreatingNew(false);
+    handleClose();
   };
 
   return (
     <NewItem
       handleInput={handleInput}
       handleSubmit={handleSubmit}
-      setIsCreatingNew={setIsCreatingNew}
+      handleClose={handleClose}
       placeholder="Create new card"
     >
       New Card
