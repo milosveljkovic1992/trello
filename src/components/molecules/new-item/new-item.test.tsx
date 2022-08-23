@@ -33,7 +33,7 @@ const NewItemContainer = () => {
       handleSubmit={handleSubmit}
       handleClose={handleClose}
       placeholder="Create new card"
-      input="new card title"
+      input=""
     >
       New Card
     </NewItem>
@@ -61,6 +61,7 @@ describe('NewItem', () => {
     userEvent.type(inputElement, sampleText);
 
     userEvent.click(buttonElement);
+
     const updatedInputElement = getByRole('textbox');
     expect(updatedInputElement.textContent).toBe('');
   });

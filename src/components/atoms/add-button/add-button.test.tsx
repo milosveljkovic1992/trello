@@ -16,11 +16,10 @@ describe('AddButton component', () => {
       </AddButton>,
     );
 
-    const buttonTest1 = getByText(text);
-    expect(buttonTest1).toBeInTheDocument();
+    const buttonElement = getByText(text);
+    expect(buttonElement).toBeInTheDocument();
 
-    const buttonTest2 = getByText(text);
-    userEvent.click(buttonTest2);
+    userEvent.click(buttonElement);
     expect(onClickMock).toBeCalled();
     expect(onClickMock).toBeCalledTimes(1);
   });
