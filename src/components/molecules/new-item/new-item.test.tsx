@@ -33,6 +33,7 @@ const NewItemContainer = () => {
       handleSubmit={handleSubmit}
       handleClose={handleClose}
       placeholder="Create new card"
+      input="new card title"
     >
       New Card
     </NewItem>

@@ -1,6 +1,30 @@
-import { render } from 'utils/test-utils';
+import { useEffect } from 'react';
 import userEvent from '@testing-library/user-event';
+
+import { render, waitFor } from 'utils/test-utils';
+
+import { useAppDispatch } from 'store';
+import { finishEditingTitle } from 'store/card-slice';
+
 import { CardTitle } from './card-title';
+
+const CleanupComp = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(finishEditingTitle());
+  }, []);
+
+  return <></>;
+};
+
+beforeEach(() => {
+  render(<CleanupComp />);
+});
+
+afterEach(() => {
+  render(<CleanupComp />);
+});
 
 describe('CardTitle component', () => {
   it('renders h2 if the title was NOT clicked', () => {
@@ -10,7 +34,7 @@ describe('CardTitle component', () => {
     expect(headingElement).toBeInTheDocument();
   });
 
-  it('renders input if the title WAS clicked', () => {
+  it('renders input if the title WAS clicked', async () => {
     const { getByRole } = render(<CardTitle />);
 
     const headingElement = getByRole('heading', { level: 2 });
@@ -21,9 +45,13 @@ describe('CardTitle component', () => {
     expect(headingElement).not.toBeInTheDocument();
   });
 
-  it('changes value on user input', () => {
+  it('changes value on user input', async () => {
     const inputText = 'some text';
     const { getByRole } = render(<CardTitle />);
+
+    await waitFor(() => {
+      expect(getByRole('heading', { level: 2 })).toBeInTheDocument();
+    });
 
     const headingElement = getByRole('heading', { level: 2 });
     userEvent.click(headingElement);
@@ -31,14 +59,19 @@ describe('CardTitle component', () => {
     userEvent.type(inputElement, inputText);
 
     expect(inputElement).toHaveValue(inputText);
+
+    userEvent.tab();
+
+    await waitFor(() => {
+      const headingElementNew = getByRole('heading', { level: 2 });
+      expect(headingElementNew).toBeInTheDocument();
+    });
   });
 
   it('saves value on user click away', () => {
-    // arrange
     const inputText = 'some text';
     const { getByRole } = render(<CardTitle />);
 
-    // act
     const headingElement = getByRole('heading', { level: 2 });
     userEvent.click(headingElement);
 
@@ -50,7 +83,6 @@ describe('CardTitle component', () => {
 
     const headingElementNew = getByRole('heading', { level: 2 });
 
-    // assert
     expect(inputElement).not.toBeInTheDocument();
     expect(headingElementNew).toBeInTheDocument();
     expect(headingElementNew.textContent).toBe(inputText);

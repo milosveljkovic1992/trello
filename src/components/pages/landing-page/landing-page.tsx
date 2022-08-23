@@ -11,6 +11,7 @@ import { RootState, useAppDispatch } from 'store';
 import type { BoardType } from 'store/board-slice';
 
 import { Container } from './landing-page-styles';
+import { throwError } from 'store/error-slice';
 
 export const LandingPage = () => {
   const dispatch = useAppDispatch();
@@ -37,14 +38,18 @@ export const LandingPage = () => {
   };
 
   const handleCreateNew = () => {
-    if (newBoardTitle.trim().length > 0) dispatch(addBoard(newBoardTitle));
+    if (newBoardTitle.trim().length > 0) {
+      dispatch(addBoard(newBoardTitle));
+    } else {
+      dispatch(throwError('Board name cannot be empty'));
+    }
 
     setNewBoardTitle('');
     setIsInputActive(false);
   };
 
-  const handleDelete = (board: BoardType) => {
-    dispatch(sendDeleteRequest(board));
+  const handleDelete = (boardId: string) => {
+    dispatch(sendDeleteRequest(boardId));
   };
 
   useEffect(() => {
@@ -75,6 +80,7 @@ export const LandingPage = () => {
           {boards.length > 0 &&
             boards.map((board) => (
               <div
+                data-testid="single-board"
                 className="single-board-container"
                 key={board.id}
                 onClick={(e) => handleClick(e, board)}
@@ -85,10 +91,12 @@ export const LandingPage = () => {
                 }}
               >
                 <div className="board">
-                  <div className="board-title">{board.name}</div>
+                  <h3 className="board-title">{board.name}</h3>
                   <div
+                    data-testid="delete-board-button"
+                    aria-label="delete-board"
                     className="delete-container delete-btn"
-                    onClick={() => handleDelete(board)}
+                    onClick={() => handleDelete(board.id)}
                   >
                     <FaTrashAlt />
                   </div>
@@ -96,22 +104,19 @@ export const LandingPage = () => {
               </div>
             ))}
 
-          {!!boards.length && boards.length < 10 && (
+          {!isLoading && boards.length < 10 && (
             <div className="single-board-container">
               <div className="board" onClick={handleActive}>
-                <div
-                  className={`board-title ${isInputActive && 'isInputActive'}`}
-                >
-                  Add new
-                </div>
-                <textarea
-                  ref={inputRef}
-                  className={`${!isInputActive && 'isInputActive'}`}
-                  placeholder="Start typing..."
-                  value={newBoardTitle}
-                  onBlur={handleCreateNew}
-                  onChange={(e) => setNewBoardTitle(e.target.value)}
-                ></textarea>
+                {!isInputActive && <h3 className="board-title">Add new</h3>}
+                {isInputActive && (
+                  <textarea
+                    ref={inputRef}
+                    placeholder="Start typing..."
+                    value={newBoardTitle}
+                    onBlur={handleCreateNew}
+                    onChange={(e) => setNewBoardTitle(e.target.value)}
+                  ></textarea>
+                )}
               </div>
 
               <button

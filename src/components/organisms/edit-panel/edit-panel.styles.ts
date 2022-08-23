@@ -36,7 +36,7 @@ export const Overlay = styled.div<EditPanelStyleProps>`
     left: ${({ direction }) => (direction === 'left' ? '100%' : '-120px')};
     top: 0px;
     width: 130px;
-    height: 100px;
+    height: 111px;
     z-index: 3;
     display: block;
     // transform: translateX(-20px);
@@ -56,6 +56,8 @@ export const Overlay = styled.div<EditPanelStyleProps>`
     align-items: center;
     justify-content: flex-start;
 
+    width: calc(100% - 8px);
+    color: #fff;
     padding: 6px 12px 6px 8px;
     margin-left: 8px;
     margin-bottom: 4px;
@@ -82,10 +84,6 @@ export const Overlay = styled.div<EditPanelStyleProps>`
       & > svg > path {
         color: #fff;
       }
-    }
-
-    .edit-options-tab-label {
-      color: #fff;
     }
   }
 

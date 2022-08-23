@@ -1,4 +1,10 @@
 import userEvent from '@testing-library/user-event';
+
+import {
+  DragDropContext,
+  Droppable,
+  DroppableProvided,
+} from 'react-beautiful-dnd';
 import { render } from 'utils/test-utils';
 
 import { SingleCard } from './single-card';
@@ -18,10 +24,27 @@ describe('SingleCard', () => {
     desc: 'sample description',
   };
 
-  it('renders component', () => {
-    const { getByText, getByTestId } = render(
-      <SingleCard index={index} card={sampleCard} />,
+  const SingleCardContainer = () => {
+    return (
+      <DragDropContext onDragEnd={jest.fn()}>
+        <Droppable droppableId="123">
+          {(provided: DroppableProvided) => (
+            <div
+              className="card-container"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              <SingleCard index={index} card={sampleCard} />
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     );
+  };
+
+  it('renders component', () => {
+    const { getByText, getByTestId } = render(<SingleCardContainer />);
 
     const containerElement = getByTestId('single-card');
     expect(containerElement).toBeInTheDocument();
@@ -37,9 +60,7 @@ describe('SingleCard', () => {
   });
 
   it('opens link to individual card on user click', () => {
-    const { getByTestId } = render(
-      <SingleCard index={index} card={sampleCard} />,
-    );
+    const { getByTestId } = render(<SingleCardContainer />);
 
     expect(window.location.pathname).toBe('/');
 
@@ -50,9 +71,9 @@ describe('SingleCard', () => {
     expect(window.location.pathname).toBe(`/c/${sampleCard.id}`);
   });
 
-  it('opens edit panel on edit icon click', () => {
-    const { getByTestId, queryByTestId } = render(
-      <SingleCard index={index} card={sampleCard} />,
+  it('opens and closes edit panel button click', () => {
+    const { getByRole, getByTestId, queryByTestId } = render(
+      <SingleCardContainer />,
     );
 
     const editButtonElement = getByTestId('edit-button');
@@ -63,5 +84,25 @@ describe('SingleCard', () => {
 
     const editPanelElementAfterClick = queryByTestId('edit-panel');
     expect(editPanelElementAfterClick).toBeInTheDocument();
+
+    const inputElement = getByRole('textbox');
+    expect(inputElement).toBeInTheDocument();
+
+    const openCardButton = getByRole('button', { name: 'Open card' });
+    expect(openCardButton).toBeInTheDocument();
+
+    const moveCardButton = getByRole('button', { name: 'Move' });
+    expect(moveCardButton).toBeInTheDocument();
+
+    const deleteCardButton = getByRole('button', { name: 'Delete' });
+    expect(deleteCardButton).toBeInTheDocument();
+
+    const saveCardButton = getByRole('button', { name: 'Save' });
+    expect(saveCardButton).toBeInTheDocument();
+
+    userEvent.click(saveCardButton);
+
+    const editPanelElementAfterSaveButtonClick = queryByTestId('edit-panel');
+    expect(editPanelElementAfterSaveButtonClick).not.toBeInTheDocument();
   });
 });

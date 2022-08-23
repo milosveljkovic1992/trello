@@ -25,6 +25,7 @@ export const AddList = () => {
   };
 
   const handleClose = () => {
+    setUserInput('');
     dispatch(finishCreatingNewList());
   };
 
@@ -35,7 +36,6 @@ export const AddList = () => {
           lists.length > 0 ? lists[lists.length - 1].pos + 5000 : 5000;
         dispatch(submitList({ userInput, boardId, pos }));
       }
-      setUserInput('');
       handleClose();
     }
   };
@@ -57,6 +57,7 @@ export const AddList = () => {
           handleSubmit={handleSubmit}
           handleClose={handleClose}
           placeholder="Enter list title..."
+          input={userInput}
         >
           Add list
         </NewItem>

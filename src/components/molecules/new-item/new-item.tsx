@@ -11,6 +11,7 @@ export const NewItem = ({
   handleSubmit,
   handleClose,
   placeholder,
+  input,
 }: NewItemProps) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -25,12 +26,17 @@ export const NewItem = ({
           ref={inputRef}
           placeholder={placeholder}
           onChange={handleInput}
+          value={input}
         ></textarea>
       </div>
 
       <div className="button-container">
         <button onClick={handleSubmit}>{children}</button>
-        <div className="icon-container" onClick={handleClose}>
+        <div
+          className="icon-container"
+          onClick={handleClose}
+          data-testid="close-button"
+        >
           <AiOutlineClose />
         </div>
       </div>

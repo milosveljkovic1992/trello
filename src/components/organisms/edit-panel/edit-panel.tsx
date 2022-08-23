@@ -28,7 +28,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const animationRef = useRef<HTMLDivElement>(null);
-  const moveRef = useRef<HTMLDivElement>(null);
+  const moveRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!isLoading) {
@@ -65,14 +65,14 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           onChange={(e) => setTitle(e.target.value)}
         ></textarea>
         <div className="edit-options-container" ref={animationRef}>
-          <div className="edit-options-tab" onClick={() => handleOpen(card)}>
+          <button className="edit-options-tab" onClick={() => handleOpen(card)}>
             <div className="edit-options-icon-container">
               <CgCreditCard />
             </div>
-            <div className="edit-options-tab-label">Open card</div>
-          </div>
+            Open card
+          </button>
 
-          <div
+          <button
             ref={moveRef}
             className="edit-options-tab card-edit__move-button"
             onClick={() => setIsMoveOpen(!isMoveOpen)}
@@ -80,18 +80,21 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
             <div className="edit-options-icon-container">
               <ImArrowRight2 />
             </div>
-            <div className="edit-options-tab-label">Move</div>
-          </div>
+            Move
+          </button>
 
-          <div className="edit-options-tab" onClick={() => handleDelete(card)}>
+          <button
+            className="edit-options-tab"
+            onClick={() => handleDelete(card)}
+          >
             <div className="edit-options-icon-container">
               <ImCross />
             </div>
-            <div className="edit-options-tab-label">Delete</div>
-          </div>
+            Delete
+          </button>
         </div>
 
-        <div
+        <button
           className="save-button"
           onClick={() => {
             handleRename();
@@ -99,7 +102,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           }}
         >
           Save
-        </div>
+        </button>
 
         {isMoveOpen && tabRect && (
           <CardMove

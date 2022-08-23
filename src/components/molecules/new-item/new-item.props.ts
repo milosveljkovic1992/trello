@@ -6,4 +6,5 @@ export interface NewItemProps {
   handleSubmit: () => void;
   handleClose: () => void;
   placeholder: string;
+  input: string;
 }

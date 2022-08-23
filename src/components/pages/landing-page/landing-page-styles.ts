@@ -73,10 +73,6 @@ export const Container = styled.div<ThemeProps>`
       color: #fff;
       font-weight: 700;
       text-shadow: 0 0 3px #000;
-
-      &.isInputActive {
-        display: none;
-      }
     }
 
     .delete-container {
@@ -110,10 +106,6 @@ export const Container = styled.div<ThemeProps>`
     border-radius: 3px;
 
     resize: none;
-
-    &.isInputActive {
-      display: none;
-    }
 
     &:focus {
       outline: none;

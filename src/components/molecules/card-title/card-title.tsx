@@ -24,14 +24,13 @@ export const CardTitle = () => {
 
   return (
     <Container role="card-title" isEditTitleActive={isEditTitleActive}>
-      {!isEditTitleActive && (
+      {!isEditTitleActive ? (
         <h2 onClick={() => dispatch(startEditingTitle())}>{title}</h2>
-      )}
-      {isEditTitleActive && (
+      ) : (
         <input
           ref={titleRef}
           type="text"
-          onBlur={() => handleRename()}
+          onBlur={handleRename}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />

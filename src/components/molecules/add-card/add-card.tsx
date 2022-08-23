@@ -22,6 +22,7 @@ export const AddCard = ({ listId }: { listId: string }) => {
   };
 
   const handleClose = () => {
+    setUserInput('');
     dispatch(finishCreatingNewCard(listId));
   };
 
@@ -29,7 +30,6 @@ export const AddCard = ({ listId }: { listId: string }) => {
     if (userInput.trim().length > 0) {
       dispatch(submitCard({ listId, userInput }));
     }
-    setUserInput('');
     handleClose();
   };
 
@@ -49,6 +49,7 @@ export const AddCard = ({ listId }: { listId: string }) => {
           handleSubmit={handleSubmit}
           handleClose={handleClose}
           placeholder="Enter a title for this card..."
+          input={userInput}
         >
           Add Card
         </NewItem>

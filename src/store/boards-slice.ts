@@ -31,11 +31,11 @@ export const addBoard = createAsyncThunk(
 );
 
 export const sendDeleteRequest = createAsyncThunk(
-  '/boards/sendDeleteRequest',
-  async (board: BoardType, thunkAPI) => {
+  'boards/sendDeleteRequest',
+  async (boardId: string, thunkAPI) => {
     try {
-      await axios.delete(`/1/boards/${board.id}`);
-      return board.id;
+      await axios.delete(`/1/boards/${boardId}`);
+      return boardId;
     } catch (error) {
       thunkAPI.dispatch(throwError('Board could not be deleted'));
       return thunkAPI.rejectWithValue(error);
