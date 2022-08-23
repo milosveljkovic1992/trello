@@ -44,14 +44,12 @@ export const submitList = createAsyncThunk(
 );
 
 interface InitialState {
-  isUpdated: boolean;
   updatedListId: string;
   updatedOriginListId: string;
   listsArray: ListType[];
 }
 
 const initialState: InitialState = {
-  isUpdated: false,
   updatedListId: '',
   updatedOriginListId: '',
   listsArray: [],
@@ -65,44 +63,26 @@ const listsSlice = createSlice({
       state.listsArray = action.payload;
     },
     informListUpdate(state, action) {
-      state.isUpdated = true;
       state.updatedListId = action.payload;
     },
     resetListUpdate(state) {
-      state.isUpdated = false;
       state.updatedListId = '';
     },
     informOriginListUpdate(state, action) {
-      state.isUpdated = true;
       state.updatedOriginListId = action.payload;
     },
     resetOriginListUpdate(state) {
-      state.isUpdated = false;
       state.updatedOriginListId = '';
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(archiveList.pending, (state) => {
-      state.isUpdated = false;
-    });
     builder.addCase(archiveList.fulfilled, (state, action) => {
-      state.isUpdated = true;
       state.listsArray = state.listsArray.filter(
         (list) => list.id !== action.payload,
       );
     });
-    builder.addCase(archiveList.rejected, (state) => {
-      state.isUpdated = false;
-    });
-    builder.addCase(submitList.pending, (state) => {
-      state.isUpdated = false;
-    });
     builder.addCase(submitList.fulfilled, (state, action) => {
-      state.isUpdated = true;
       state.listsArray.push(action.payload);
-    });
-    builder.addCase(submitList.rejected, (state) => {
-      state.isUpdated = false;
     });
   },
 });

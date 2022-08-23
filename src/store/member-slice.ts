@@ -5,23 +5,11 @@ import { throwError } from './error-slice';
 
 interface InitialState {
   id: string;
-  avatarUrl: string;
-  fullName: string;
-  url: string;
-  username: string;
-  email: string;
-  idBoards: string;
   isLoading: boolean;
 }
 
 const initialState: InitialState = {
   id: '',
-  avatarUrl: '',
-  fullName: '',
-  url: '',
-  username: '',
-  email: '',
-  idBoards: '',
   isLoading: true,
 };
 
@@ -60,17 +48,9 @@ const memberSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getMemberInfo.fulfilled, (state, action) => {
-      const { id, avatarUrl, fullName, url, username, email, idBoards } =
-        action.payload;
-
-      state.isLoading = false;
+      const { id } = action.payload;
       state.id = id;
-      state.avatarUrl = avatarUrl;
-      state.fullName = fullName;
-      state.url = url;
-      state.username = username;
-      state.email = email;
-      state.idBoards = idBoards;
+      state.isLoading = false;
     });
     builder.addCase(getMemberInfo.rejected, (state) => {
       state.isLoading = false;

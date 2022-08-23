@@ -37,7 +37,7 @@ export const useEditPanel = ({
     dispatch(closeEditPanel());
     try {
       dispatch(getCard({ id }));
-      dispatch(openModal(id));
+      dispatch(openModal());
     } catch (error) {
       dispatch(throwError('Could not open card'));
     }

@@ -44,7 +44,7 @@ export const sendDeleteRequest = createAsyncThunk(
 );
 
 interface InitialState {
-  boardsArray: Array<BoardType>;
+  boardsArray: BoardType[];
   isLoading: boolean;
 }
 
@@ -57,7 +57,6 @@ const boardsSlice = createSlice({
   name: 'boards',
   initialState,
   reducers: {},
-
   extraReducers: (builder) => {
     builder.addCase(setBoards.pending, (state) => {
       state.isLoading = true;
@@ -69,26 +68,14 @@ const boardsSlice = createSlice({
     builder.addCase(setBoards.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(addBoard.pending, (state) => {
-      state.isLoading = false;
-    });
     builder.addCase(addBoard.fulfilled, (state, action) => {
       state.boardsArray.push(action.payload);
-      state.isLoading = false;
-    });
-    builder.addCase(addBoard.rejected, (state) => {
-      state.isLoading = false;
-    });
-    builder.addCase(sendDeleteRequest.pending, (state) => {
       state.isLoading = false;
     });
     builder.addCase(sendDeleteRequest.fulfilled, (state, action) => {
       state.boardsArray = state.boardsArray.filter(
         (board) => board.id !== action.payload,
       );
-      state.isLoading = false;
-    });
-    builder.addCase(sendDeleteRequest.rejected, (state) => {
       state.isLoading = false;
     });
   },

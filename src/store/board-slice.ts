@@ -1,11 +1,17 @@
+import { Dispatch, SetStateAction } from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import axios from 'axios';
 
+import { RootState } from 'store';
+import { setBoards } from './boards-slice';
 import { setListsArray } from './lists-slice';
 import { setCards } from './cards-slice';
 import { throwError } from './error-slice';
-import { Dispatch, SetStateAction } from 'react';
+
+type ScaledImages = {
+  url?: string;
+};
 
 export type BoardType = {
   [key: string]: unknown;
@@ -13,17 +19,7 @@ export type BoardType = {
   name: string;
   prefs: {
     backgroundImage: string;
-    backgroundImageScaled: [
-      {
-        url: string;
-      },
-      {
-        url: string;
-      },
-      {
-        url: string;
-      },
-    ];
+    backgroundImageScaled: ScaledImages[];
   };
 };
 
@@ -68,6 +64,8 @@ export const submitBoardName = createAsyncThunk(
       const response = await axios.put(
         `/1/boards/${board.id}?name=${boardName}`,
       );
+      const state = thunkAPI.getState() as RootState;
+      thunkAPI.dispatch(setBoards(state.member.id));
       return response.data;
     } catch (error) {
       setBoardName(board.name);
@@ -91,17 +89,7 @@ const initialState: InitialState = {
     name: '',
     prefs: {
       backgroundImage: '',
-      backgroundImageScaled: [
-        {
-          url: '',
-        },
-        {
-          url: '',
-        },
-        {
-          url: '',
-        },
-      ],
+      backgroundImageScaled: [{}],
     },
   },
   isLoading: true,
@@ -147,14 +135,8 @@ const boardSlice = createSlice({
     builder.addCase(fetchBoardListsAndCards.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(submitBoardName.pending, (state) => {
-      state.isLoading = false;
-    });
     builder.addCase(submitBoardName.fulfilled, (state, action) => {
       state.details = action.payload;
-    });
-    builder.addCase(submitBoardName.rejected, (state) => {
-      state.isLoading = false;
     });
   },
 });

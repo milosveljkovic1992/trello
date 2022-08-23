@@ -14,7 +14,7 @@ describe('Login', () => {
     expect(buttonElement).toBeInTheDocument();
     expect(buttonElement).toHaveAttribute(
       'href',
-      `https://trello.com/1/authorize?return_url=${BASE_URL}&expiration=1hour&name=MyPersonalToken&scope=read,write&response_type=token&key=${API_KEY}`,
+      `https://trello.com/1/authorize?return_url=${BASE_URL}&expiration=1day&name=MyPersonalToken&scope=read,write&response_type=token&key=${API_KEY}`,
     );
   });
 });

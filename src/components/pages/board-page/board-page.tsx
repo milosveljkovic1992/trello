@@ -27,6 +27,7 @@ export const BoardPage = () => {
   const { isLoading } = useSelector((state: RootState) => state.board);
   const lists = useSelector((state: RootState) => state.lists.listsArray);
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
+  const isCardLoading = useSelector((state: RootState) => state.card.isLoading);
 
   const navigate = useNavigate();
   const urlParams = useParams();
@@ -42,9 +43,9 @@ export const BoardPage = () => {
       titleRef.current?.select();
     }
     if (urlParams['*'] && !popupModalOpen) {
-      dispatch(openModal(cardUrl));
+      dispatch(openModal());
     }
-    if (cardUrl) {
+    if (cardUrl && isCardLoading) {
       dispatch(getCard({ id: cardUrl }));
     }
     if (cardUrl && hasFetchingFailed) {
