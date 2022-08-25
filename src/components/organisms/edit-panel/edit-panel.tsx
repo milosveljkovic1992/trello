@@ -20,10 +20,14 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
   const [isMoveOpen, setIsMoveOpen] = useState(false);
   const [tabRect, setTabRect] = useState<DOMRect>();
 
+  const handleCloseMove = () => {
+    setIsMoveOpen(false);
+  };
+
   const { title, setTitle, handleRename } = useCardTitle({ card });
   const { handleOpen, handleDisplay, handleDelete } = useEditPanel({
     isMoveOpen,
-    setIsMoveOpen,
+    handleCloseMove,
   });
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
@@ -75,7 +79,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           <button
             ref={moveRef}
             className="edit-options-tab card-edit__move-button"
-            onClick={() => setIsMoveOpen(!isMoveOpen)}
+            onClick={() => setIsMoveOpen((prevState) => !prevState)}
           >
             <div className="edit-options-icon-container">
               <ImArrowRight2 />
@@ -108,7 +112,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           <CardMove
             rect={tabRect}
             card={card}
-            setIsMoveOpen={setIsMoveOpen}
+            handleCloseMove={handleCloseMove}
             index={index}
           />
         )}

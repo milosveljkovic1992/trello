@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
   APItoken: string;
@@ -14,7 +14,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login(state, action) {
+    login(state, action: PayloadAction<string>) {
       state.APItoken = action.payload;
       state.isAuth = true;
     },

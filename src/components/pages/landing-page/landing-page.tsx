@@ -30,7 +30,10 @@ export const LandingPage = () => {
     setIsInputActive(true);
   };
 
-  const handleClick = (e: MouseEvent<HTMLDivElement>, board: BoardType) => {
+  const handleSelectBoard = (
+    e: MouseEvent<HTMLDivElement>,
+    board: BoardType,
+  ) => {
     e.stopPropagation();
     const target = e.target as Element;
     if (target.closest('.delete-btn')) return;
@@ -83,15 +86,15 @@ export const LandingPage = () => {
                 data-testid="single-board"
                 className="single-board-container"
                 key={board.id}
-                onClick={(e) => handleClick(e, board)}
+                onClick={(e) => handleSelectBoard(e, board)}
                 style={{
                   backgroundImage: board.prefs.backgroundImageScaled
                     ? `url("${board.prefs.backgroundImageScaled[2].url}")`
                     : 'none',
                 }}
               >
-                <div className="board">
-                  <h3 className="board-title">{board.name}</h3>
+                <div className="board-box">
+                  <h3 className="board-box-title">{board.name}</h3>
                   <div
                     data-testid="delete-board-button"
                     aria-label="delete-board"
@@ -106,8 +109,8 @@ export const LandingPage = () => {
 
           {!isLoading && boards.length < 10 && (
             <div className="single-board-container">
-              <div className="board" onClick={handleActive}>
-                {!isInputActive && <h3 className="board-title">Add new</h3>}
+              <div className="board-box" onClick={handleActive}>
+                {!isInputActive && <h3 className="board-box-title">Add new</h3>}
                 {isInputActive && (
                   <textarea
                     ref={inputRef}

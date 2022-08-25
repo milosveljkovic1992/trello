@@ -14,7 +14,7 @@ import { Container } from './card-move-styles';
 export const CardMove = ({
   rect,
   card,
-  setIsMoveOpen,
+  handleCloseMove,
   index,
 }: CardMoveProps) => {
   const allLists = useSelector((state: RootState) => state.lists.listsArray);
@@ -33,7 +33,7 @@ export const CardMove = ({
     handleSelect,
     handlePosition,
     handleMove,
-  } = useCardMove({ card, index, listRef, positionRef, setIsMoveOpen });
+  } = useCardMove({ card, index, listRef, positionRef, handleCloseMove });
 
   useEffect(() => {
     if (!isLoading) {
@@ -48,7 +48,7 @@ export const CardMove = ({
     }
   }, [targetList]);
 
-  if (!allLists || !currentList) {
+  if (!allLists || !currentList.length) {
     return <></>;
   }
 
@@ -57,7 +57,7 @@ export const CardMove = ({
       rect={rect}
       position={rect.x + 300 > window.innerWidth ? 'right' : 'left'}
     >
-      <div className="icon-container" onClick={() => setIsMoveOpen(false)}>
+      <div className="icon-container" onClick={handleCloseMove}>
         <GrClose />
       </div>
 
@@ -103,8 +103,8 @@ export const CardMove = ({
               </option>
             )}
 
-            {selectedList.length > 0 &&
-              currentList[0].idList !== selectedList[0].idList && (
+            {currentList[0].idList !== selectedList[0].idList &&
+              selectedList.length > 0 && (
                 <option value={selectedList.length}>
                   {selectedList.length + 1}
                 </option>

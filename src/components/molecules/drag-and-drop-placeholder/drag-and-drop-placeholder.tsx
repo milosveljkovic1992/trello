@@ -1,22 +1,19 @@
-import { useRef } from 'react';
 import { FaRegComment } from 'react-icons/fa';
 import { HiViewList } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'store';
 
-import { Container } from './card-placeholder.styles';
+import { Container } from './drag-and-drop-placeholder.styles';
 
-export const CardPlaceholder = ({ id }: { id: string }) => {
+export const DragAndDropPlaceholder = ({ id }: { id: string }) => {
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
   const card = cards.find((card) => card.id === id);
-
-  const placeholderRef = useRef<HTMLDivElement>(null);
 
   if (!card) return <div style={{ height: '70px' }}></div>;
 
   return (
-    <Container ref={placeholderRef}>
+    <Container>
       <div className="card-content-box">
         <p className="card-title">{card.name}</p>
         {(card.badges.description || !!card.badges.comments) && (

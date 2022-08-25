@@ -1,12 +1,13 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { throwError } from './error-slice';
 
 export type ListType = {
+  [key: string]: unknown;
   id: string;
+  idBoard: string;
   name: string;
   pos: number;
-  idBoard: string;
 };
 
 export const archiveList = createAsyncThunk(
@@ -59,16 +60,16 @@ const listsSlice = createSlice({
   name: 'lists',
   initialState,
   reducers: {
-    setListsArray(state, action) {
+    setListsArray(state, action: PayloadAction<ListType[]>) {
       state.listsArray = action.payload;
     },
-    informListUpdate(state, action) {
+    informListUpdate(state, action: PayloadAction<string>) {
       state.updatedListId = action.payload;
     },
     resetListUpdate(state) {
       state.updatedListId = '';
     },
-    informOriginListUpdate(state, action) {
+    informOriginListUpdate(state, action: PayloadAction<string>) {
       state.updatedOriginListId = action.payload;
     },
     resetOriginListUpdate(state) {
@@ -76,14 +77,20 @@ const listsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(archiveList.fulfilled, (state, action) => {
-      state.listsArray = state.listsArray.filter(
-        (list) => list.id !== action.payload,
-      );
-    });
-    builder.addCase(submitList.fulfilled, (state, action) => {
-      state.listsArray.push(action.payload);
-    });
+    builder.addCase(
+      archiveList.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        state.listsArray = state.listsArray.filter(
+          (list) => list.id !== action.payload,
+        );
+      },
+    );
+    builder.addCase(
+      submitList.fulfilled,
+      (state, action: PayloadAction<ListType>) => {
+        state.listsArray.push(action.payload);
+      },
+    );
   },
 });
 

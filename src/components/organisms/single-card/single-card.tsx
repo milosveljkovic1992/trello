@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 
@@ -11,16 +13,25 @@ import { openEditPanel } from 'store/board-slice';
 import { Link } from 'components/atoms';
 import { EditPanel } from 'components/organisms';
 
-import { useSingleCard } from './useSingleCard';
 import { SingleCardProps } from './single-card.types';
 import { Container } from './single-card.styles';
 
 export const SingleCard = ({ index, card }: SingleCardProps) => {
   const dispatch = useAppDispatch();
-  const { rect, cardRef } = useSingleCard({ card });
   const { isEditPanelOpen, editPanelId } = useSelector(
     (state: RootState) => state.board,
   );
+  const [rect, setRect] = useState<DOMRect>({} as DOMRect);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isEditPanelOpen && card.id === editPanelId) {
+      const boundingClientReact = cardRef.current?.getBoundingClientRect();
+      if (boundingClientReact) {
+        setRect(boundingClientReact);
+      }
+    }
+  }, [isEditPanelOpen]);
 
   return (
     <Draggable draggableId={card.id} index={index}>

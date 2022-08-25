@@ -43,7 +43,7 @@ export const Container = styled.div<ThemeProps>`
       border-radius: 3px;
     }
 
-    .board {
+    .board-box {
       width: 150px;
       height: 100px;
       position: relative;
@@ -64,7 +64,7 @@ export const Container = styled.div<ThemeProps>`
       }
     }
 
-    .board-title {
+    .board-box-title {
       word-break: break-word;
       text-overflow: ellipsis;
       padding-top: 2px;

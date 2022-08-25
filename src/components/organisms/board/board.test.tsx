@@ -1,50 +1,27 @@
-import { useRef, useState } from 'react';
-import { render } from 'utils/test-utils';
+import { render, waitFor } from 'utils/test-utils';
 
-import { BoardType } from 'store/board-slice';
-import { Board } from './board';
 import userEvent from '@testing-library/user-event';
 
-const BoardContainer = () => {
-  const board: BoardType = {
-    id: '123',
-    name: 'board name',
-    prefs: {
-      backgroundImage: 'string',
-      backgroundImageScaled: [
-        {
-          url: 'string 1',
-        },
-        {
-          url: 'string 2',
-        },
-        {
-          url: 'string 3',
-        },
-      ],
-    },
-  };
-  const [boardName, setBoardName] = useState(board.name);
-  const [isEditNameActive, setIsEditNameActive] = useState(false);
-  const titleRef = useRef<HTMLInputElement>(null);
+import store from 'store';
+import { fetchBoardListsAndCards } from 'store/board-slice';
 
-  return (
-    <Board
-      board={board}
-      boardName={boardName}
-      setBoardName={setBoardName}
-      isEditNameActive={isEditNameActive}
-      setIsEditNameActive={setIsEditNameActive}
-      ref={titleRef}
-    >
-      <div className="board-inner-container"></div>
-    </Board>
-  );
-};
+import { Board } from './board';
 
 describe('Board', () => {
-  it('renders component', () => {
-    const { getByRole, queryByTestId } = render(<BoardContainer />);
+  beforeEach(async () => {
+    await store.dispatch(fetchBoardListsAndCards('222'));
+  });
+
+  it('renders component', async () => {
+    const { getByRole, queryByRole, queryByTestId } = render(
+      <Board>
+        <></>
+      </Board>,
+    );
+
+    await waitFor(() => {
+      expect(queryByRole('heading', { level: 1 })).toBeInTheDocument();
+    });
 
     const boardElement = getByRole('board');
     expect(boardElement).toBeInTheDocument();
@@ -65,13 +42,19 @@ describe('Board', () => {
     expect(logoutButtonElement).toBeInTheDocument();
   });
 
-  it('hides title and renders input on user click', () => {
+  it('manipulates title on user interaction', async () => {
+    const sampleTitle = 'new board name';
     const { getByRole, getByTestId, queryByRole, queryByTestId } = render(
-      <BoardContainer />,
+      <Board>
+        <></>
+      </Board>,
     );
 
+    await waitFor(() => {
+      expect(queryByRole('heading', { level: 1 })).toBeInTheDocument();
+    });
+
     const titleElement = getByRole('heading', { level: 1 });
-    expect(titleElement).toBeInTheDocument();
 
     const inputElement = queryByTestId('board-title-input');
     expect(inputElement).not.toBeInTheDocument();
@@ -82,29 +65,31 @@ describe('Board', () => {
 
     const inputElementAfterClicking = getByTestId('board-title-input');
     expect(inputElementAfterClicking).toBeInTheDocument();
-  });
 
-  it('changes title on input', () => {
-    const sampleTitle = 'new title';
-    const { getByRole, getByTestId, queryByTestId } = render(
-      <BoardContainer />,
-    );
+    userEvent.clear(inputElementAfterClicking);
+    userEvent.tab();
 
-    const titleElement = getByRole('heading', { level: 1 });
-    expect(titleElement).toBeInTheDocument();
+    await waitFor(() => {
+      const titleElementAfterEmptyInput = queryByRole('heading', { level: 1 });
+      expect(titleElementAfterEmptyInput).toHaveTextContent('old board name');
+    });
 
-    userEvent.click(titleElement);
-    const inputElement = getByTestId('board-title-input');
-    userEvent.clear(inputElement);
-    userEvent.type(inputElement, sampleTitle);
-    const boardElement = getByRole('page-header');
-    userEvent.click(boardElement);
+    const titleElementAfterEmptySubmit = getByRole('heading', { level: 1 });
+    userEvent.click(titleElementAfterEmptySubmit);
 
-    const inputElementAfterInput = queryByTestId('board-title-input');
-    expect(inputElementAfterInput).not.toBeInTheDocument();
+    const inputElementAfterEmptySubmit = getByTestId('board-title-input');
+    userEvent.clear(inputElementAfterEmptySubmit);
+    userEvent.type(inputElementAfterEmptySubmit, sampleTitle);
+    userEvent.tab();
 
-    const titleElementAfterInput = getByRole('heading', { level: 1 });
-    expect(titleElementAfterInput).toBeInTheDocument();
-    expect(titleElementAfterInput.textContent).toBe(sampleTitle);
+    const state = store.getState();
+    expect(state.boards.isLoading).toBe(true);
+
+    await waitFor(() => {
+      const titleElementAfterInput = queryByRole('heading', { level: 1 });
+      expect(titleElementAfterInput).toHaveTextContent(sampleTitle);
+      const state = store.getState();
+      expect(state.boards.isLoading).toBe(false);
+    });
   });
 });

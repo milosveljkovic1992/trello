@@ -1,6 +1,8 @@
-import { ForwardedRef, forwardRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { useAppDispatch } from 'store';
+import { useSelector } from 'react-redux';
+
+import { RootState, useAppDispatch } from 'store';
 import { submitBoardName } from 'store/board-slice';
 
 import { HomeButton, LogoutButton } from 'components/molecules';
@@ -8,60 +10,61 @@ import { BoardProps } from './board.types';
 import { Container } from './board.styles';
 
 // eslint-disable-next-line react/display-name
-export const Board = forwardRef(
-  (
-    {
-      children,
-      board,
-      boardName,
-      setBoardName,
-      isEditNameActive,
-      setIsEditNameActive,
-    }: BoardProps,
-    ref: ForwardedRef<HTMLInputElement>,
-  ) => {
-    const dispatch = useAppDispatch();
+export const Board = ({ children }: BoardProps) => {
+  const dispatch = useAppDispatch();
+  const board = useSelector((state: RootState) => state.board.details);
+  const [boardName, setBoardName] = useState(board.name);
+  const [isEditNameActive, setIsEditNameActive] = useState(false);
 
-    const handleBoardName = () => {
-      if (boardName.trim().length > 0) {
-        dispatch(submitBoardName({ board, boardName, setBoardName }));
-      }
-      setIsEditNameActive(false);
-    };
+  const titleRef = useRef<HTMLInputElement>(null);
 
-    return (
-      <Container backgroundImage={board?.prefs.backgroundImage} role="board">
-        <header className="board-header" role="page-header">
-          <HomeButton />
+  const handleEditActive = (bool: boolean) => {
+    setBoardName(board.name);
+    setIsEditNameActive(bool);
+  };
 
-          <div className="board-title-container">
-            {boardName && !isEditNameActive && (
-              <h1
-                className="board-title"
-                onClick={() => setIsEditNameActive(true)}
-              >
-                {boardName}
-              </h1>
-            )}
+  const handleBoardName = () => {
+    if (boardName.trim().length > 0) {
+      dispatch(submitBoardName({ board, boardName }));
+    }
+    handleEditActive(false);
+  };
 
-            {isEditNameActive && (
-              <input
-                className="board-title-input"
-                ref={ref}
-                value={boardName}
-                onChange={(e) => setBoardName(e.target.value)}
-                onBlur={handleBoardName}
-                size={boardName.length - 6}
-                data-testid="board-title-input"
-              ></input>
-            )}
-          </div>
+  useEffect(() => {
+    if (isEditNameActive) {
+      titleRef.current?.select();
+    }
+  }, [isEditNameActive]);
 
-          <LogoutButton fixed={false} />
-        </header>
+  return (
+    <Container backgroundImage={board?.prefs.backgroundImage} role="board">
+      <header className="board-header" role="page-header">
+        <HomeButton />
 
-        {children}
-      </Container>
-    );
-  },
-);
+        <div className="board-title-container">
+          {boardName && !isEditNameActive && (
+            <h1 className="board-title" onClick={() => handleEditActive(true)}>
+              {board.name}
+            </h1>
+          )}
+
+          {isEditNameActive && (
+            <input
+              className="board-title-input"
+              ref={titleRef}
+              value={boardName}
+              onChange={(e) => setBoardName(e.target.value)}
+              onBlur={handleBoardName}
+              size={boardName.length - 6}
+              data-testid="board-title-input"
+            ></input>
+          )}
+        </div>
+
+        <LogoutButton fixed={false} />
+      </header>
+
+      {children}
+    </Container>
+  );
+};

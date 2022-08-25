@@ -12,7 +12,7 @@ export const CardDescription = () => {
   const dispatch = useAppDispatch();
   const card = useSelector((state: RootState) => state.card.details);
   const { isLoading } = useSelector((state: RootState) => state.card);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(card.desc);
   const [previousDescription, setPreviousDescription] = useState('');
   const [isDescriptionInputActive, setIsDescriptionInputActive] =
     useState(false);
@@ -20,14 +20,8 @@ export const CardDescription = () => {
   const descRef = useRef<HTMLTextAreaElement>(null);
 
   const handleEdit = () => {
-    dispatch(
-      editDescription({
-        card,
-        description,
-        setDescription,
-        previousDescription,
-      }),
-    );
+    dispatch(editDescription({ card, description }));
+    setDescription(card.desc);
   };
 
   const handleActive = (e: MouseEvent<HTMLDivElement>) => {

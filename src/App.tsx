@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -13,8 +13,7 @@ import { login, logout } from 'store/auth-slice';
 import { getMemberInfo } from 'store/member-slice';
 import { throwError } from 'store/error-slice';
 
-import { BoardPage, CardPopup, LandingPage } from 'components/pages';
-
+import { RenderRoutes } from 'routes';
 import { LoadingSpinner, Login } from 'components/atoms';
 import { ErrorSnackbar } from 'components/molecules';
 
@@ -35,7 +34,6 @@ const App = () => {
   const { isErrorDisplayed } = useSelector(
     (state: RootState) => state.errorHandler,
   );
-  const popupModalOpen = useSelector((state: RootState) => state.popup.open);
 
   useEffect(() => {
     const trelloToken = localStorage.getItem('trelloToken');
@@ -81,20 +79,7 @@ const App = () => {
       {isErrorDisplayed &&
         !!errorRootElement &&
         createPortal(<ErrorSnackbar />, errorRootElement)}
-      {!isAuth ? (
-        <Login />
-      ) : isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/b/:boardId/*" element={<BoardPage />}>
-            {popupModalOpen && (
-              <Route path="c/:cardUrl" element={<CardPopup />} />
-            )}
-          </Route>
-        </Routes>
-      )}
+      {!isAuth ? <Login /> : isLoading ? <LoadingSpinner /> : <RenderRoutes />}
     </Theme>
   );
 };

@@ -1,4 +1,4 @@
-import { RefObject, SetStateAction } from 'react';
+import { RefObject } from 'react';
 
 import type { CardType } from 'store/card-slice';
 
@@ -7,5 +7,5 @@ export interface useCardMoveProps {
   index: number;
   listRef: RefObject<HTMLSelectElement>;
   positionRef: RefObject<HTMLSelectElement>;
-  setIsMoveOpen: React.Dispatch<SetStateAction<boolean>>;
+  handleCloseMove: () => void;
 }

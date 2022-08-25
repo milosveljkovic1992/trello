@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { RootState } from 'store';
@@ -52,8 +52,11 @@ export const getCard = createAsyncThunk(
       const response = await axios.get(
         `/1/batch?urls=/1/cards/${id},/1/cards/${id}/actions`,
       );
-      thunkAPI.dispatch(setComments(response.data[1][200]));
-      return response.data[0][200];
+      const fetchedCard = response.data[0][200];
+      const fetchedComments = response.data[1][200];
+      if (!fetchedCard || !fetchedComments) return Promise.reject();
+      thunkAPI.dispatch(setComments(fetchedComments));
+      return fetchedCard;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get card'));
       thunkAPI.dispatch(closeModal());
@@ -67,7 +70,7 @@ export const getCard = createAsyncThunk(
 
 export const deleteCard = createAsyncThunk(
   '/card/deleteCard',
-  async (card: Record<string, unknown>, thunkAPI) => {
+  async (card: CardType, thunkAPI) => {
     try {
       await axios.delete(`/1/cards/${card.id}`);
       const state = thunkAPI.getState() as RootState;
@@ -88,13 +91,9 @@ export const editDescription = createAsyncThunk(
     {
       card,
       description,
-      setDescription,
-      previousDescription,
     }: {
-      card: Record<string, unknown>;
+      card: CardType;
       description: string;
-      setDescription: React.Dispatch<React.SetStateAction<string>>;
-      previousDescription: string;
     },
     thunkAPI,
   ) => {
@@ -107,7 +106,6 @@ export const editDescription = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Description could not be edited'));
-      setDescription(previousDescription);
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -135,11 +133,14 @@ const cardSlice = createSlice({
       state.hasFailed = initialState.hasFailed;
       state.isLoading = initialState.isLoading;
     });
-    builder.addCase(getCard.fulfilled, (state, action) => {
-      state.details = action.payload;
-      state.hasFailed = false;
-      state.isLoading = false;
-    });
+    builder.addCase(
+      getCard.fulfilled,
+      (state, action: PayloadAction<CardType>) => {
+        state.details = action.payload;
+        state.hasFailed = false;
+        state.isLoading = false;
+      },
+    );
     builder.addCase(getCard.rejected, (state) => {
       state.details = initialState.details;
       state.hasFailed = true;
@@ -157,10 +158,13 @@ const cardSlice = createSlice({
     builder.addCase(editDescription.pending, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(editDescription.fulfilled, (state, action) => {
-      state.details = action.payload;
-      state.isLoading = false;
-    });
+    builder.addCase(
+      editDescription.fulfilled,
+      (state, action: PayloadAction<CardType>) => {
+        state.details = action.payload;
+        state.isLoading = false;
+      },
+    );
     builder.addCase(editDescription.rejected, (state) => {
       state.isLoading = false;
     });

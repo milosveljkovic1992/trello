@@ -17,6 +17,10 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
 
   const [isEditActive, setIsEditActive] = useState(false);
 
+  const handleClose = () => {
+    setIsEditActive(false);
+  };
+
   const handleDelete = () => {
     dispatch(deleteComment({ card, comment }));
   };
@@ -50,11 +54,7 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
             </>
           )}
           {isEditActive && (
-            <CommentEdit
-              comment={comment}
-              isEditActive={isEditActive}
-              setIsEditActive={setIsEditActive}
-            />
+            <CommentEdit comment={comment} handleClose={handleClose} />
           )}
         </div>
       </div>

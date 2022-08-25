@@ -1,4 +1,4 @@
-import { MouseEvent, SetStateAction } from 'react';
+import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
@@ -9,12 +9,12 @@ import { openModal } from 'store/popup-slice';
 
 interface UseEditPanelProps {
   isMoveOpen: boolean;
-  setIsMoveOpen: React.Dispatch<SetStateAction<boolean>>;
+  handleCloseMove: () => void;
 }
 
 export const useEditPanel = ({
   isMoveOpen,
-  setIsMoveOpen,
+  handleCloseMove,
 }: UseEditPanelProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export const useEditPanel = ({
   const handleDisplay = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as Element;
     if (target.classList.contains('card-edit__overlay')) {
-      isMoveOpen ? setIsMoveOpen(false) : dispatch(closeEditPanel());
+      isMoveOpen ? handleCloseMove() : dispatch(closeEditPanel());
     }
   };
 

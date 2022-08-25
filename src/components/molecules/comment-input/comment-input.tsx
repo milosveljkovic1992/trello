@@ -23,7 +23,7 @@ export const CommentInput = () => {
   };
 
   return (
-    <Comment isDisplayed={isDisplayed} role="input-comment">
+    <Comment isDisplayed={isDisplayed} data-testid="input-comment">
       <textarea
         placeholder="Write a comment..."
         value={comment}
@@ -31,7 +31,7 @@ export const CommentInput = () => {
         onFocus={() => setIsDisplayed(true)}
         onBlur={() => !comment && setIsDisplayed(false)}
       ></textarea>
-      <button disabled={!comment} onClick={() => handleSubmit()}>
+      <button disabled={!comment} onClick={handleSubmit}>
         Save
       </button>
     </Comment>

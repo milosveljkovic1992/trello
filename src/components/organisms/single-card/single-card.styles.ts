@@ -18,13 +18,6 @@ export const Container = styled.div<ThemeProps>`
     background-color: #f4f5f7;
   }
 
-  .placeholder {
-    position: absolute;
-    background-color: #ddd;
-    border-radius: ${({ theme }: { theme: ThemeProps }) =>
-      theme.border.borderRadius};
-  }
-
   .card-content-box {
     padding: 5px 29px 5px 8px;
     cursor: pointer;

@@ -1,22 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { CardType } from './card-slice';
 import { informListUpdate, informOriginListUpdate } from './lists-slice';
 import { throwError } from './error-slice';
-
-export const fetchCard = createAsyncThunk(
-  '/cards/fetchCard',
-  async (id: string, thunkAPI) => {
-    try {
-      const response = await axios.get(`/1/cards/${id}`);
-      return response.data;
-    } catch (error) {
-      thunkAPI.dispatch(throwError('Card could not be updated'));
-      return thunkAPI.rejectWithValue(error);
-    }
-  },
-);
 
 interface SubmitCard {
   listId: string;
@@ -89,8 +76,8 @@ export const dropCard = createAsyncThunk(
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not move card'));
       thunkAPI.dispatch(updateCard(targetCard));
-      await thunkAPI.dispatch(informListUpdate(startListId));
-      await thunkAPI.dispatch(informListUpdate(targetListId));
+      thunkAPI.dispatch(informOriginListUpdate(startListId));
+      thunkAPI.dispatch(informListUpdate(targetListId));
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -112,13 +99,13 @@ const cardsSlice = createSlice({
   name: 'cards',
   initialState,
   reducers: {
-    setCards(state, action) {
+    setCards(state, action: PayloadAction<CardType[]>) {
       state.cardsArray = action.payload;
     },
-    addCard(state, action) {
+    addCard(state, action: PayloadAction<CardType>) {
       state.cardsArray.push(action.payload);
     },
-    updateCard(state, action) {
+    updateCard(state, action: PayloadAction<CardType>) {
       const { id } = action.payload;
 
       const newArray = state.cardsArray.map((card) =>
@@ -126,10 +113,10 @@ const cardsSlice = createSlice({
       );
       state.cardsArray = newArray;
     },
-    startCreatingNewCard(state, action) {
+    startCreatingNewCard(state, action: PayloadAction<string>) {
       state.activeLists[action.payload] = action.payload;
     },
-    finishCreatingNewCard(state, action) {
+    finishCreatingNewCard(state, action: PayloadAction<string>) {
       delete state.activeLists[action.payload];
     },
     resetCreatingNewCard(state) {
@@ -137,21 +124,6 @@ const cardsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCard.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(fetchCard.fulfilled, (state, action) => {
-      const { id } = action.payload;
-      const newArray = state.cardsArray.map((card) =>
-        card.id === id ? action.payload : card,
-      );
-
-      state.cardsArray = newArray;
-      state.isLoading = false;
-    });
-    builder.addCase(fetchCard.rejected, (state) => {
-      state.isLoading = false;
-    });
     builder.addCase(submitCard.pending, (state) => {
       state.isLoading = true;
     });
@@ -164,16 +136,19 @@ const cardsSlice = createSlice({
     builder.addCase(dropCard.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(dropCard.fulfilled, (state, action) => {
-      const { id } = action.payload;
+    builder.addCase(
+      dropCard.fulfilled,
+      (state, action: PayloadAction<CardType>) => {
+        const { id } = action.payload;
 
-      const newArray = state.cardsArray.map((card) =>
-        card.id === id ? action.payload : card,
-      );
+        const newArray = state.cardsArray.map((card) =>
+          card.id === id ? action.payload : card,
+        );
 
-      state.cardsArray = newArray;
-      state.isLoading = false;
-    });
+        state.cardsArray = newArray;
+        state.isLoading = false;
+      },
+    );
     builder.addCase(dropCard.rejected, (state) => {
       state.isLoading = false;
     });

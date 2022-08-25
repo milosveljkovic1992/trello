@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { throwError } from './error-slice';
@@ -13,10 +13,9 @@ const initialState: InitialState = {
   isLoading: true,
 };
 
-type Error = {
-  response: {
-    status: number;
-  };
+type MemberType = {
+  [key: string]: unknown;
+  id: string;
 };
 
 export const getMemberInfo = createAsyncThunk(
@@ -26,14 +25,7 @@ export const getMemberInfo = createAsyncThunk(
       const response = await axios.get(`/1/tokens/${APItoken}/member`);
       return response.data;
     } catch (error) {
-      const err = error as Error;
-      if (err.response.status && err.response.status === 401) {
-        thunkAPI.dispatch(
-          throwError('Session expired. Please login to continue'),
-        );
-      } else {
-        thunkAPI.dispatch(throwError('Could not get your boards'));
-      }
+      thunkAPI.dispatch(throwError('Could not get your boards'));
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -47,11 +39,14 @@ const memberSlice = createSlice({
     builder.addCase(getMemberInfo.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getMemberInfo.fulfilled, (state, action) => {
-      const { id } = action.payload;
-      state.id = id;
-      state.isLoading = false;
-    });
+    builder.addCase(
+      getMemberInfo.fulfilled,
+      (state, action: PayloadAction<MemberType>) => {
+        const { id } = action.payload;
+        state.id = id;
+        state.isLoading = false;
+      },
+    );
     builder.addCase(getMemberInfo.rejected, (state) => {
       state.isLoading = false;
     });

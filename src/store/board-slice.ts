@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 import axios from 'axios';
 
@@ -23,14 +22,9 @@ export type BoardType = {
   };
 };
 
-interface FetchBoardListsAndCards {
-  boardId: string;
-  setBoardName: Dispatch<SetStateAction<string>>;
-}
-
 export const fetchBoardListsAndCards = createAsyncThunk(
   '/board/fetchBoardListsAndCards',
-  async ({ boardId, setBoardName }: FetchBoardListsAndCards, thunkAPI) => {
+  async (boardId: string, thunkAPI) => {
     try {
       const response = await axios.get(
         `/1/batch?urls=/1/boards/${boardId},/1/boards/${boardId}/lists,/1/boards/${boardId}/cards`,
@@ -38,11 +32,11 @@ export const fetchBoardListsAndCards = createAsyncThunk(
       const fetchedBoard = response.data[0][200];
       const fetchedLists = response.data[1][200];
       const fetchedCards = response.data[2][200];
+      if (!fetchedBoard || !fetchedLists || !fetchedCards)
+        return Promise.reject();
 
       thunkAPI.dispatch(setListsArray(fetchedLists));
       thunkAPI.dispatch(setCards(fetchedCards));
-      setBoardName(fetchedBoard.name);
-
       return fetchedBoard;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get board info'));
@@ -54,21 +48,20 @@ export const fetchBoardListsAndCards = createAsyncThunk(
 interface SubmitBoardName {
   board: BoardType;
   boardName: string;
-  setBoardName: Dispatch<SetStateAction<string>>;
 }
 
 export const submitBoardName = createAsyncThunk(
   '/board/submitBoardName',
-  async ({ board, boardName, setBoardName }: SubmitBoardName, thunkAPI) => {
+  async ({ board, boardName }: SubmitBoardName, thunkAPI) => {
     try {
       const response = await axios.put(
         `/1/boards/${board.id}?name=${boardName}`,
       );
       const state = thunkAPI.getState() as RootState;
       thunkAPI.dispatch(setBoards(state.member.id));
+      thunkAPI.dispatch(renameBoard(boardName));
       return response.data;
     } catch (error) {
-      setBoardName(board.name);
       thunkAPI.dispatch(throwError('Could not edit board name'));
       return thunkAPI.rejectWithValue(error);
     }
@@ -78,6 +71,7 @@ export const submitBoardName = createAsyncThunk(
 interface InitialState {
   details: BoardType;
   isLoading: boolean;
+  hasFailed: boolean;
   isEditPanelOpen: boolean;
   editPanelId: string;
   isCreatingNewList: boolean;
@@ -93,6 +87,7 @@ const initialState: InitialState = {
     },
   },
   isLoading: true,
+  hasFailed: false,
   isEditPanelOpen: false,
   editPanelId: '',
   isCreatingNewList: false,
@@ -105,8 +100,9 @@ const boardSlice = createSlice({
     resetBoard(state) {
       state.details = initialState.details;
       state.isLoading = true;
+      state.hasFailed = initialState.hasFailed;
     },
-    openEditPanel(state, action) {
+    openEditPanel(state, action: PayloadAction<string>) {
       state.isEditPanelOpen = true;
       state.editPanelId = action.payload;
     },
@@ -123,21 +119,33 @@ const boardSlice = createSlice({
     resetCreatingNewList(state) {
       state.isCreatingNewList = false;
     },
+    renameBoard(state, action: PayloadAction<string>) {
+      state.details.name = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBoardListsAndCards.pending, (state) => {
       state.isLoading = true;
+      state.hasFailed = false;
     });
-    builder.addCase(fetchBoardListsAndCards.fulfilled, (state, action) => {
-      state.details = action.payload;
-      state.isLoading = false;
-    });
+    builder.addCase(
+      fetchBoardListsAndCards.fulfilled,
+      (state, action: PayloadAction<BoardType>) => {
+        state.details = action.payload;
+        state.isLoading = false;
+        state.hasFailed = false;
+      },
+    );
     builder.addCase(fetchBoardListsAndCards.rejected, (state) => {
       state.isLoading = false;
+      state.hasFailed = true;
     });
-    builder.addCase(submitBoardName.fulfilled, (state, action) => {
-      state.details = action.payload;
-    });
+    builder.addCase(
+      submitBoardName.fulfilled,
+      (state, action: PayloadAction<BoardType>) => {
+        state.details = action.payload;
+      },
+    );
   },
 });
 
@@ -148,6 +156,7 @@ export const {
   startCreatingNewList,
   finishCreatingNewList,
   resetCreatingNewList,
+  renameBoard,
 } = boardSlice.actions;
 
 export default boardSlice;

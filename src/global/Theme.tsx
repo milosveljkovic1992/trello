@@ -5,29 +5,6 @@ interface Props {
   children: ReactNode;
 }
 
-const GlobalStyle = createGlobalStyle`
-  * {
-    margin: 0;
-    box-sizing: border-box;
-    font-size: 14px;
-    color: #172b4d;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
-
-  button {
-    border-radius: 3px;
-  }
-`;
-
 export type MyThemeProps = {
   background: {
     primary: string;
@@ -39,6 +16,8 @@ export type MyThemeProps = {
     color: string;
     lightColor: string;
     fontFamily: string;
+    fontSize: string;
+    code: string;
   };
   border: {
     borderRadius: string;
@@ -46,7 +25,11 @@ export type MyThemeProps = {
   children: ReactNode;
 };
 
-export type ThemeProps = MyThemeProps & Record<string, unknown>;
+const defaultFontFamily = `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`;
+const codeFontFamily = `source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`;
+const defaultColor = '#172b4d';
+const defaultFontSize = '14px';
+const defaultBorderRadius = '3px';
 
 const theme = {
   background: {
@@ -56,14 +39,38 @@ const theme = {
     grayHover: '#ddd',
   },
   font: {
-    color: '#333',
+    color: defaultColor,
     lightColor: '#777',
-    fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
+    fontSize: defaultFontSize,
+    fontFamily: defaultFontFamily,
+    code: codeFontFamily,
   },
   border: {
-    borderRadius: '3px',
+    borderRadius: defaultBorderRadius,
   },
 };
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    margin: 0;
+    box-sizing: border-box;
+    font-size: ${theme.font.fontSize};
+    color: ${theme.font.color};
+    font-family: ${theme.font.fontFamily};
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code {
+    font-family: ${theme.font.code};
+  }
+
+  button {
+    border-radius: ${theme.border.borderRadius};
+  }
+`;
+
+export type ThemeProps = MyThemeProps & Record<string, unknown>;
 
 const Theme = ({ children }: Props) => {
   return (

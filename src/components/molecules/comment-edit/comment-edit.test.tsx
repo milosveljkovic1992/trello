@@ -7,6 +7,9 @@ import { CommentEdit } from './comment-edit';
 const CommentEditParent = () => {
   const [isEditActive, setIsEditActive] = useState(true);
 
+  const handleClose = () => {
+    setIsEditActive(false);
+  };
   const sampleComment = {
     type: 'comment',
     id: 'abc123',
@@ -22,74 +25,38 @@ const CommentEditParent = () => {
   return (
     <>
       {isEditActive && (
-        <CommentEdit
-          comment={sampleComment}
-          isEditActive={isEditActive}
-          setIsEditActive={setIsEditActive}
-        />
+        <CommentEdit comment={sampleComment} handleClose={handleClose} />
       )}
     </>
   );
 };
 
-describe('CommentEdit component', () => {
-  it('renders textarea', () => {
-    const { getByPlaceholderText } = render(<CommentEditParent />);
+describe('CommentEdit', () => {
+  it('renders component and updated comment', () => {
+    const sampleText = 'new comment text';
+    const { getByRole, getByPlaceholderText, getByTestId } = render(
+      <CommentEditParent />,
+    );
+
+    const containerElement = getByTestId('edit-comment');
+    expect(containerElement).toBeInTheDocument();
 
     const inputElement = getByPlaceholderText('Write a comment', {
       exact: false,
     });
     expect(inputElement).toBeInTheDocument();
     expect(inputElement).toHaveTextContent('comment text content');
-  });
-
-  it('renders "Save" button', () => {
-    const { getByRole } = render(<CommentEditParent />);
-
-    const buttonElement = getByRole('button', { name: 'Save' });
-    expect(buttonElement).toBeInTheDocument();
-  });
-
-  it('renders icon', () => {
-    const { getByTestId } = render(<CommentEditParent />);
 
     const iconElement = getByTestId('icon-container');
     expect(iconElement).toBeInTheDocument();
-  });
 
-  it('updates textarea on user input', () => {
-    const sampleText = 'new input text';
-    const { getByPlaceholderText } = render(<CommentEditParent />);
-
-    const inputElement = getByPlaceholderText('Write a comment', {
-      exact: false,
-    });
+    const saveButtonElement = getByRole('button', { name: 'Save' });
+    expect(saveButtonElement).toBeInTheDocument();
 
     userEvent.type(inputElement, sampleText);
-
-    expect(inputElement).toBeInTheDocument();
     expect(inputElement).toHaveTextContent(sampleText);
-  });
 
-  it('unmounts on "Save" button click', () => {
-    const { getByRole, getByTestId } = render(<CommentEditParent />);
-    const containerElement = getByTestId('edit-comment');
-    expect(containerElement).toBeInTheDocument();
-
-    const buttonElement = getByRole('button', { name: 'Save' });
-    userEvent.click(buttonElement);
-
-    expect(containerElement).not.toBeInTheDocument();
-  });
-
-  it('unmounts on "Cancel" button click', () => {
-    const { getByTestId } = render(<CommentEditParent />);
-    const containerElement = getByTestId('edit-comment');
-    expect(containerElement).toBeInTheDocument();
-
-    const buttonElement = getByTestId('icon-container');
-    userEvent.click(buttonElement);
-
+    userEvent.click(saveButtonElement);
     expect(containerElement).not.toBeInTheDocument();
   });
 });

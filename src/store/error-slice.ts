@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
   isErrorDisplayed: boolean;
@@ -14,7 +14,7 @@ const errorSlice = createSlice({
   name: 'errorHandler',
   initialState,
   reducers: {
-    throwError(state, action) {
+    throwError(state, action: PayloadAction<string>) {
       state.isErrorDisplayed = true;
       state.errorMessage = action.payload;
     },

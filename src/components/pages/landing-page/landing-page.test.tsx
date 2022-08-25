@@ -85,6 +85,8 @@ describe('LandingPage', () => {
   });
 
   it('deletes and adds a board on user click', async () => {
+    const newBoardSampleTitle = 'New board title';
+
     const {
       getByText,
       getByPlaceholderText,
@@ -128,8 +130,8 @@ describe('LandingPage', () => {
     expect(inputElementAfterClick).toBeInTheDocument();
     expect(addButton).not.toBeInTheDocument();
 
-    userEvent.type(inputElementAfterClick, 'new card title');
-    expect(inputElementAfterClick.textContent).toBe('new card title');
+    userEvent.type(inputElementAfterClick, newBoardSampleTitle);
+    expect(inputElementAfterClick.textContent).toBe(newBoardSampleTitle);
 
     userEvent.tab();
 
@@ -142,6 +144,9 @@ describe('LandingPage', () => {
 
     const addButtonAfterSubmit = getByText(/add new/i);
     expect(addButtonAfterSubmit).toBeInTheDocument();
+
+    const newlyCreatedBoard = getByText(newBoardSampleTitle);
+    expect(newlyCreatedBoard).toBeInTheDocument();
   });
 
   it('throws an error on submitting empty board name', async () => {

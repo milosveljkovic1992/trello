@@ -8,7 +8,11 @@ import { RootState, useAppDispatch } from 'store';
 import { resetListUpdate, resetOriginListUpdate } from 'store/lists-slice';
 import type { CardType } from 'store/card-slice';
 
-import { AddCard, CardPlaceholder, ListTitle } from 'components/molecules';
+import {
+  AddCard,
+  DragAndDropPlaceholder,
+  ListTitle,
+} from 'components/molecules';
 import { SingleCard } from 'components/organisms';
 
 import { SingleListProps } from './single-list.types';
@@ -36,24 +40,23 @@ export const SingleList = ({ list }: SingleListProps) => {
         .sort((a, b) => (a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0));
     };
 
-    if (isListUpdated) {
+    const shouldSortCards =
+      isListUpdated ||
+      updatedOriginListId === listId ||
+      updatedListId === listId;
+
+    if (shouldSortCards) {
       const sortedList = sortCards(cards);
       setCardsOnThisList(sortedList);
       setIsListUpdated(false);
     }
 
     if (updatedOriginListId === listId) {
-      const sortedList = sortCards(cards);
-      setCardsOnThisList(sortedList);
       dispatch(resetOriginListUpdate());
-    }
-
-    if (updatedListId === listId) {
-      const sortedList = sortCards(cards);
-      setCardsOnThisList(sortedList);
+    } else if (updatedListId === listId) {
       dispatch(resetListUpdate());
     }
-  }, [dispatch, isListUpdated, updatedListId]);
+  }, [dispatch, isListUpdated, updatedListId, updatedOriginListId]);
 
   useEffect(() => {
     if (columnRef.current) {
@@ -75,7 +78,7 @@ export const SingleList = ({ list }: SingleListProps) => {
                 {...provided.dragHandleProps}
                 ref={provided.innerRef}
               >
-                <CardPlaceholder id={rubric.draggableId} />
+                <DragAndDropPlaceholder id={rubric.draggableId} />
               </div>
             )}
           >

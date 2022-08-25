@@ -140,9 +140,12 @@ const commentsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(submitComment.fulfilled, (state, action) => {
-      state.commentsList.unshift(action.payload);
-    });
+    builder.addCase(
+      submitComment.fulfilled,
+      (state, action: PayloadAction<Comment>) => {
+        state.commentsList.unshift(action.payload);
+      },
+    );
     builder.addCase(
       editComment.fulfilled,
       (state, action: PayloadAction<editedComment>) => {
@@ -156,12 +159,15 @@ const commentsSlice = createSlice({
         });
       },
     );
-    builder.addCase(deleteComment.fulfilled, (state, action) => {
-      const id = action.payload;
-      state.commentsList = state.commentsList.filter(
-        (comment) => comment.id !== id,
-      );
-    });
+    builder.addCase(
+      deleteComment.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        const id = action.payload;
+        state.commentsList = state.commentsList.filter(
+          (comment) => comment.id !== id,
+        );
+      },
+    );
   },
 });
 

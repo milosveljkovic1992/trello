@@ -9,11 +9,7 @@ import type { Comment } from 'store/comments-slice';
 import { CommentEditProps } from './comment-edit.types';
 import { Container } from './comment-edit.styles';
 
-export const CommentEdit = ({
-  comment,
-  isEditActive,
-  setIsEditActive,
-}: CommentEditProps) => {
+export const CommentEdit = ({ comment, handleClose }: CommentEditProps) => {
   const dispatch = useAppDispatch();
   const card = useSelector((state: RootState) => state.card.details);
   const [commentInput, setCommentInput] = useState(comment.data.text);
@@ -22,14 +18,12 @@ export const CommentEdit = ({
 
   const handleEdit = (comment: Comment, value: string) => {
     dispatch(editComment({ card, id: comment.id, value }));
-    setIsEditActive(false);
+    handleClose();
   };
 
   useEffect(() => {
-    if (isEditActive) {
-      inputRef.current?.select();
-    }
-  }, [isEditActive]);
+    inputRef.current?.select();
+  }, []);
 
   return (
     <Container data-testid="edit-comment">
@@ -50,7 +44,7 @@ export const CommentEdit = ({
 
         <div
           className="icon-container"
-          onClick={() => setIsEditActive(false)}
+          onClick={handleClose}
           data-testid="icon-container"
         >
           <AiOutlineClose />

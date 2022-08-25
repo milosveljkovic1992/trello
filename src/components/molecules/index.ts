@@ -1,9 +1,9 @@
 export { AddCard } from 'components/molecules/add-card/add-card';
 export { AddList } from 'components/molecules/add-list/add-list';
-export { CardPlaceholder } from 'components/molecules/card-placeholder/card-placeholder';
 export { CardTitle } from 'components/molecules/card-title/card-title';
 export { CommentEdit } from 'components/molecules/comment-edit/comment-edit';
 export { CommentInput } from 'components/molecules/comment-input/comment-input';
+export { DragAndDropPlaceholder } from 'components/molecules/drag-and-drop-placeholder/drag-and-drop-placeholder';
 export { ErrorSnackbar } from 'components/molecules/error-snackbar/error-snackbar';
 export { HomeButton } from 'components/molecules/home-button/home-button';
 export { ListTitle } from 'components/molecules/list-title/list-title';

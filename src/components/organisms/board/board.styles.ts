@@ -7,6 +7,9 @@ interface Props {
 
 export const Container = styled.div<Props>`
   min-height: 100vh;
+  display: grid;
+  grid-template-rows: calc(5vh + 25px) 1fr;
+
   background-image: ${({ backgroundImage }) =>
     backgroundImage
       ? `url("${backgroundImage}")`
@@ -14,8 +17,11 @@ export const Container = styled.div<Props>`
   background-size: cover;
   background-position: center;
 
+  @media (min-width: 768px) {
+    grid-template-rows: 5vh 1fr;
+  }
+
   .board-header {
-    min-height: 5vh;
     width: 100%;
     padding: 20px 15px;
     display: flex;
@@ -124,7 +130,6 @@ export const Container = styled.div<Props>`
 
   .board-inner-container {
     height: 100%;
-    min-height: 95vh;
     display: flex;
     flex-direction: row;
     align-items: flex-start;

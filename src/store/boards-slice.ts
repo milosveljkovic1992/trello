@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { throwError } from './error-slice';
@@ -6,9 +6,9 @@ import type { BoardType } from './board-slice';
 
 export const setBoards = createAsyncThunk(
   '/boards/setBoards',
-  async (memberid: string, thunkAPI) => {
+  async (memberId: string, thunkAPI) => {
     try {
-      const response = await axios.get(`/1/members/${memberid}/boards`);
+      const response = await axios.get(`/1/members/${memberId}/boards`);
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get your boards'));
@@ -61,23 +61,32 @@ const boardsSlice = createSlice({
     builder.addCase(setBoards.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(setBoards.fulfilled, (state, action) => {
-      state.boardsArray = action.payload;
-      state.isLoading = false;
-    });
+    builder.addCase(
+      setBoards.fulfilled,
+      (state, action: PayloadAction<BoardType[]>) => {
+        state.boardsArray = action.payload;
+        state.isLoading = false;
+      },
+    );
     builder.addCase(setBoards.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(addBoard.fulfilled, (state, action) => {
-      state.boardsArray.push(action.payload);
-      state.isLoading = false;
-    });
-    builder.addCase(sendDeleteRequest.fulfilled, (state, action) => {
-      state.boardsArray = state.boardsArray.filter(
-        (board) => board.id !== action.payload,
-      );
-      state.isLoading = false;
-    });
+    builder.addCase(
+      addBoard.fulfilled,
+      (state, action: PayloadAction<BoardType>) => {
+        state.boardsArray.push(action.payload);
+        state.isLoading = false;
+      },
+    );
+    builder.addCase(
+      sendDeleteRequest.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        state.boardsArray = state.boardsArray.filter(
+          (board) => board.id !== action.payload,
+        );
+        state.isLoading = false;
+      },
+    );
   },
 });
 
