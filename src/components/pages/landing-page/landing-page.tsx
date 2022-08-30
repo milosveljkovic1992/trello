@@ -8,7 +8,7 @@ import { LoadingSpinner } from 'components/atoms';
 import { LogoutButton } from 'components/molecules';
 import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
 import { RootState, useAppDispatch } from 'store';
-import type { BoardType } from 'store/board-slice';
+import { BoardType, resetBoard } from 'store/board-slice';
 
 import { Container } from './landing-page-styles';
 import { throwError } from 'store/error-slice';
@@ -26,6 +26,8 @@ export const LandingPage = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
 
+  let isInitialRender = true;
+
   const handleActive = () => {
     setIsInputActive(true);
   };
@@ -35,6 +37,8 @@ export const LandingPage = () => {
     board: BoardType,
   ) => {
     e.stopPropagation();
+    dispatch(resetBoard());
+
     const target = e.target as Element;
     if (target.closest('.delete-btn')) return;
     navigate(`/b/${board.id}`);
@@ -63,8 +67,9 @@ export const LandingPage = () => {
   }, [boards, isInputActive]);
 
   useEffect(() => {
-    if (member.id && isLoading) {
+    if (isInitialRender && member.id && isLoading) {
       dispatch(setBoards(member.id));
+      isInitialRender = false;
     }
   }, [dispatch, isLoading]);
 
