@@ -51,7 +51,7 @@ export const submitComment = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Comment could not be added'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -77,7 +77,7 @@ export const editComment = createAsyncThunk(
       return { id, value };
     } catch (error) {
       thunkAPI.dispatch(throwError('Comment could not be edited'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -112,7 +112,7 @@ export const deleteComment = createAsyncThunk(
       return comment.id;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not delete comment'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
