@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Theme from 'global/Theme';
 import store from 'store';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext } from '@hello-pangea/dnd';
 
 const AllTheProviders = ({ children }: { children: ReactNode }) => {
   return (
