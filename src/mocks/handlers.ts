@@ -375,5 +375,30 @@ export const handlers = [
     );
   }),
 
+  // lists-slice.ts
+  /* 
+  submitList({ 
+    userInput: string, 
+    pos: number, 
+    boardId: string 
+  })
+  */
+
+  rest.post(`/1/lists`, (req, res, ctx) => {
+    const listName = req.url.searchParams.get('name');
+    const listPos = req.url.searchParams.get('pos');
+    const boardId = req.url.searchParams.get('boardId');
+
+    return res(
+      ctx.json({
+        closed: false,
+        id: '123',
+        idBoard: boardId,
+        name: listName,
+        pos: Number(listPos),
+      }),
+    );
+  }),
+
   // TODO: add other URL handlers
 ];

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 import { RootState, useAppDispatch } from 'store';
-import { finishCreatingNewList, startCreatingNewList } from 'store/board-slice';
 import { submitList } from 'store/lists-slice';
 
 import { AddButton } from 'components/atoms';
@@ -14,11 +13,12 @@ import { Container } from './add-list.styles';
 
 export const AddList = () => {
   const dispatch = useAppDispatch();
-  const { isCreatingNewList } = useSelector((state: RootState) => state.board);
+  // const { isCreatingNewList } = useSelector((state: RootState) => state.board);
   const boardId = useSelector((state: RootState) => state.board.details.id);
   const lists = useSelector((state: RootState) => state.lists.listsArray);
 
   const [userInput, setUserInput] = useState('');
+  const [isCreatingNewList, setIsCreatingNewList] = useState(false);
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setUserInput(e.target.value);
@@ -26,7 +26,7 @@ export const AddList = () => {
 
   const handleClose = () => {
     setUserInput('');
-    dispatch(finishCreatingNewList());
+    setIsCreatingNewList(false);
   };
 
   const handleSubmit = () => {
@@ -36,15 +36,15 @@ export const AddList = () => {
           lists.length > 0 ? lists[lists.length - 1].pos + 5000 : 5000;
         dispatch(submitList({ userInput, boardId, pos }));
       }
-      handleClose();
     }
+    handleClose();
   };
 
   return (
     <Container>
       {!isCreatingNewList && (
         <AddButton
-          onClick={() => dispatch(startCreatingNewList())}
+          onClick={() => setIsCreatingNewList(true)}
           icon={<AiOutlinePlus />}
         >
           Add another list
