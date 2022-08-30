@@ -67,7 +67,6 @@ export const dropCard = createAsyncThunk(
     );
     thunkAPI.dispatch(informOriginListUpdate(startListId));
     thunkAPI.dispatch(informListUpdate(targetListId));
-
     try {
       const response = await axios.put(
         `/1/cards/${targetCard.id}?idList=${targetListId}&pos=${targetPosition}`,
@@ -145,7 +144,9 @@ const cardsSlice = createSlice({
           card.id === id ? action.payload : card,
         );
 
-        state.cardsArray = newArray;
+        state.cardsArray = newArray.sort((a, b) =>
+          a.pos < b.pos ? -1 : a.pos > b.pos ? 1 : 0,
+        );
         state.isLoading = false;
       },
     );
