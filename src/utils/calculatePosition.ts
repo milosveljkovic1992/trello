@@ -17,21 +17,27 @@ export const calculatePosition = ({
   let pos = 1000;
   let isSameList = false;
   const itemsInTargetList = targetList.length;
-  
+
   if (itemsInTargetList > 0) {
     isSameList = previousList[0].idList === targetList[0].idList;
-  }
 
-  const isLastIndexOnSameList =
-    isSameList && targetIndex === itemsInTargetList - 1;
-  const isLastItemOnAnotherList =
-    !isSameList && targetIndex === itemsInTargetList;
+    const isLastIndexOnSameList =
+      isSameList && targetIndex === itemsInTargetList - 1;
+    const isLastItemOnAnotherList =
+      !isSameList && targetIndex === itemsInTargetList;
 
-  if (itemsInTargetList > 0) {
     const itemCurrentlyOnTargetIndex = targetList[targetIndex];
 
     if (targetIndex === 0) {
-      pos = Math.round(targetList[0].pos / 2) - 1;
+      const firstItemPosition = targetList[0].pos;
+      const firstItemHalfPositionValue = targetList[0].pos / 2;
+
+      let subtractor = 1;
+        while (firstItemHalfPositionValue - subtractor < subtractor * 10) {
+          subtractor = subtractor / 10;
+        }
+      
+      pos = firstItemHalfPositionValue > 2 ? firstItemHalfPositionValue : Number((firstItemPosition - subtractor).toFixed(5));
       
     } else if (isLastIndexOnSameList) {
       pos = itemCurrentlyOnTargetIndex.pos + 10000;
