@@ -18,7 +18,7 @@ export const archiveList = createAsyncThunk(
       return listId;
     } catch (error) {
       thunkAPI.dispatch(throwError('List could not be removed'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -39,7 +39,7 @@ export const submitList = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('New list could not be added'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );

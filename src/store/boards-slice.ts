@@ -12,7 +12,7 @@ export const setBoards = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get your boards'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -25,7 +25,7 @@ export const addBoard = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Board could not be added'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -38,7 +38,7 @@ export const sendDeleteRequest = createAsyncThunk(
       return boardId;
     } catch (error) {
       thunkAPI.dispatch(throwError('Board could not be deleted'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );

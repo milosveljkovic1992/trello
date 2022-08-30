@@ -21,7 +21,7 @@ export const submitCard = createAsyncThunk(
       thunkAPI.dispatch(informListUpdate(listId));
     } catch (error) {
       thunkAPI.dispatch(throwError('New card could not be added'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -44,7 +44,7 @@ export const moveCard = createAsyncThunk(
       thunkAPI.dispatch(informListUpdate(targetList));
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not move card'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -77,7 +77,7 @@ export const dropCard = createAsyncThunk(
       thunkAPI.dispatch(updateCard(targetCard));
       thunkAPI.dispatch(informOriginListUpdate(startListId));
       thunkAPI.dispatch(informListUpdate(targetListId));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );

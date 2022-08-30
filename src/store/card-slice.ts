@@ -77,7 +77,7 @@ export const deleteCard = createAsyncThunk(
       thunkAPI.dispatch(informListUpdate(card.idList));
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not delete card'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -103,7 +103,7 @@ export const editDescription = createAsyncThunk(
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Description could not be edited'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
