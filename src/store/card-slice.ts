@@ -3,7 +3,6 @@ import axios from 'axios';
 
 import { RootState } from 'store';
 import { throwError } from './error-slice';
-import { closeModal } from './popup-slice';
 import { setComments, resetComments } from './comments-slice';
 import { setCards, updateCard } from './cards-slice';
 import { informListUpdate } from './lists-slice';
@@ -54,16 +53,14 @@ export const getCard = createAsyncThunk(
       );
       const fetchedCard = response.data[0][200];
       const fetchedComments = response.data[1][200];
-      if (!fetchedCard || !fetchedComments) return Promise.reject();
+      if (!fetchedCard || !fetchedComments) throw new Error('');
       thunkAPI.dispatch(setComments(fetchedComments));
       return fetchedCard;
     } catch (error) {
-      thunkAPI.dispatch(throwError('Could not get card'));
-      thunkAPI.dispatch(closeModal());
-      thunkAPI.dispatch(resetCard());
+      thunkAPI.dispatch(throwError('Could not get card info'));
       thunkAPI.dispatch(resetComments());
 
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );

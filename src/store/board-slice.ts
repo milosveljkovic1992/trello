@@ -32,15 +32,16 @@ export const fetchBoardListsAndCards = createAsyncThunk(
       const fetchedBoard = response.data[0][200];
       const fetchedLists = response.data[1][200];
       const fetchedCards = response.data[2][200];
-      if (!fetchedBoard || !fetchedLists || !fetchedCards)
-        return Promise.reject();
 
+      if (!fetchedBoard || !fetchedLists || !fetchedCards) {
+        throw new Error();
+      }
       thunkAPI.dispatch(setListsArray(fetchedLists));
       thunkAPI.dispatch(setCards(fetchedCards));
       return fetchedBoard;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not get board info'));
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue('');
     }
   },
 );
@@ -110,12 +111,6 @@ const boardSlice = createSlice({
       state.isEditPanelOpen = false;
       state.editPanelId = '';
     },
-    startCreatingNewList(state) {
-      state.isCreatingNewList = true;
-    },
-    finishCreatingNewList(state) {
-      state.isCreatingNewList = false;
-    },
     resetCreatingNewList(state) {
       state.isCreatingNewList = false;
     },
@@ -153,8 +148,6 @@ export const {
   resetBoard,
   openEditPanel,
   closeEditPanel,
-  startCreatingNewList,
-  finishCreatingNewList,
   resetCreatingNewList,
   renameBoard,
 } = boardSlice.actions;
