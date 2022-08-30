@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
 
-import { CardType, deleteCard, getCard } from 'store/card-slice';
-import { throwError } from 'store/error-slice';
-import { openModal } from 'store/popup-slice';
+import { CardType, deleteCard } from 'store/card-slice';
 
 interface UseEditPanelProps {
   isMoveOpen: boolean;
@@ -32,15 +30,8 @@ export const useEditPanel = ({
   };
 
   const handleOpen = (card: CardType) => {
-    const { id }: { id: string } = card;
     navigate(`c/${card.id}`);
     dispatch(closeEditPanel());
-    try {
-      dispatch(getCard({ id }));
-      dispatch(openModal());
-    } catch (error) {
-      dispatch(throwError('Could not open card'));
-    }
   };
 
   return { handleOpen, handleDisplay, handleDelete };
