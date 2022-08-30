@@ -1,8 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate, Outlet } from 'react-router-dom';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  DragStart,
+  DragUpdate,
+  DropResult,
+} from '@hello-pangea/dnd';
 
 import { RootState, useAppDispatch } from 'store';
 import { fetchBoardListsAndCards } from 'store/board-slice';
@@ -31,6 +36,8 @@ export const BoardPage = () => {
   const lists = useSelector((state: RootState) => state.lists.listsArray);
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
   const isCardLoading = useSelector((state: RootState) => state.card.isLoading);
+  const [dragSourceListId, setDragSourceListId] = useState('');
+  const [dragTargetListId, setDragTargetListId] = useState('');
 
   const navigate = useNavigate();
   const urlParams = useParams();
@@ -56,6 +63,19 @@ export const BoardPage = () => {
       navigate('/');
     }
   }, [boardId, isLoading, hasBoardFetchingFailed, cardUrl]);
+
+  const handleDragStart = (result: DragStart) => {
+    setDragSourceListId(result.source.droppableId);
+  };
+
+  const handleDragUpdate = (result: DragUpdate) => {
+    if (
+      !!result.destination?.droppableId &&
+      dragTargetListId !== result.destination?.droppableId
+    ) {
+      setDragTargetListId(result.destination?.droppableId);
+    }
+  };
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
@@ -97,6 +117,8 @@ export const BoardPage = () => {
         }),
       );
     }
+    setDragSourceListId('');
+    setDragTargetListId('');
   };
 
   if (isLoading) {
@@ -110,10 +132,19 @@ export const BoardPage = () => {
           {popupModalOpen && !!cardUrl && <Outlet />}
           <Board>
             {board && lists && (
-              <DragDropContext onDragEnd={handleDragEnd}>
+              <DragDropContext
+                onDragStart={handleDragStart}
+                onDragUpdate={handleDragUpdate}
+                onDragEnd={handleDragEnd}
+              >
                 <div className="board-inner-container">
                   {lists.map((list) => (
-                    <SingleList key={list.id} list={list} />
+                    <SingleList
+                      key={list.id}
+                      list={list}
+                      dragSourceListId={dragSourceListId}
+                      dragTargetListId={dragTargetListId}
+                    />
                   ))}
 
                   <AddList />

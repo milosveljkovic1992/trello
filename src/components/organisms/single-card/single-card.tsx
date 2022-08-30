@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@hello-pangea/dnd';
 
 import { TbPencil } from 'react-icons/tb';
 import { HiViewList } from 'react-icons/hi';
@@ -16,7 +16,7 @@ import { EditPanel } from 'components/organisms';
 import { SingleCardProps } from './single-card.types';
 import { Container } from './single-card.styles';
 
-export const SingleCard = ({ index, card }: SingleCardProps) => {
+export const SingleCard = ({ card, index }: SingleCardProps) => {
   const dispatch = useAppDispatch();
   const { isEditPanelOpen, editPanelId } = useSelector(
     (state: RootState) => state.board,
@@ -43,6 +43,7 @@ export const SingleCard = ({ index, card }: SingleCardProps) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            index={index}
           >
             <Link
               to={`c/${card.id}`}

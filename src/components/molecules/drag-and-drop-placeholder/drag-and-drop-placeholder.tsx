@@ -10,7 +10,7 @@ export const DragAndDropPlaceholder = ({ id }: { id: string }) => {
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
   const card = cards.find((card) => card.id === id);
 
-  if (!card) return <div style={{ height: '70px' }}></div>;
+  if (!card) return <div style={{ height: '59px' }}></div>;
 
   return (
     <Container>

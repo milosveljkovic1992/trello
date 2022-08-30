@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import { nanoid } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable } from '@hello-pangea/dnd';
 
 import { RootState, useAppDispatch } from 'store';
 import { resetListUpdate, resetOriginListUpdate } from 'store/lists-slice';
@@ -18,7 +18,11 @@ import { SingleCard } from 'components/organisms';
 import { SingleListProps } from './single-list.types';
 import { CardContainer, Container } from './single-list.styles';
 
-export const SingleList = ({ list }: SingleListProps) => {
+export const SingleList = ({
+  list,
+  dragSourceListId,
+  dragTargetListId,
+}: SingleListProps) => {
   const dispatch = useAppDispatch();
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
   const { updatedListId, updatedOriginListId } = useSelector(
@@ -29,9 +33,6 @@ export const SingleList = ({ list }: SingleListProps) => {
 
   const [cardsOnThisList, setCardsOnThisList] = useState<CardType[]>([]);
   const [isListUpdated, setIsListUpdated] = useState(true);
-  const [columnHeight, setColumnHeight] = useState(5);
-
-  const columnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sortCards = (cards: CardType[]) => {
@@ -58,12 +59,6 @@ export const SingleList = ({ list }: SingleListProps) => {
     }
   }, [dispatch, isListUpdated, updatedListId, updatedOriginListId]);
 
-  useEffect(() => {
-    if (columnRef.current) {
-      setColumnHeight(columnRef.current?.getBoundingClientRect().height);
-    }
-  }, [cards, cardsOnThisList]);
-
   return (
     <>
       {cards && (
@@ -83,28 +78,26 @@ export const SingleList = ({ list }: SingleListProps) => {
             )}
           >
             {(provided, snapshot) => {
+              const style = {
+                height:
+                  snapshot.isDraggingOver &&
+                  dragSourceListId !== dragTargetListId
+                    ? (cardsOnThisList.length + 1) * (59 + 8)
+                    : cardsOnThisList.length * (59 + 8),
+              };
               return (
                 <CardContainer
-                  className={`card-container ${
-                    snapshot.isDraggingOver ? 'drag-over' : ''
-                  }`}
-                  height={
-                    snapshot.isDraggingOver ? columnHeight + 70 : columnHeight
-                  }
-                  ref={columnRef}
+                  className="card-container-column"
+                  style={style}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
                 >
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {cardsOnThisList.map(
-                      (card, index) =>
-                        card.idList === listId && (
-                          <SingleCard
-                            key={nanoid()}
-                            index={index}
-                            card={card}
-                          />
-                        ),
-                    )}
-                  </div>
+                  {cardsOnThisList.map(
+                    (card, index) =>
+                      card.idList === listId && (
+                        <SingleCard key={nanoid()} card={card} index={index} />
+                      ),
+                  )}
                 </CardContainer>
               );
             }}

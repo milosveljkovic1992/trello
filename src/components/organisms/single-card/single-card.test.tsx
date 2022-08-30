@@ -4,7 +4,7 @@ import {
   DragDropContext,
   Droppable,
   DroppableProvided,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 import { render } from 'utils/test-utils';
 
 import { SingleCard } from './single-card';

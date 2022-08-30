@@ -19,7 +19,9 @@ export const Container = styled.div<ThemeProps>`
 `;
 
 export const CardContainer = styled.div<ColumnProps>`
-  height: 100%;
+  height: auto;
+  position: relative;
+  padding-bottom: 4px;
 
   ::-webkit-scrollbar {
     padding-left: 5px;
@@ -40,5 +42,10 @@ export const CardContainer = styled.div<ColumnProps>`
 
   [data-rbd-droppable-id] {
     min-height: 5px;
+    position: relative;
+  }
+
+  .card-container-column {
+    position: relative;
   }
 `;

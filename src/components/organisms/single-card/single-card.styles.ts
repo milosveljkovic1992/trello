@@ -1,11 +1,16 @@
 import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
-export const Container = styled.div<ThemeProps>`
-  position: relative;
+type SingleCardStyleProps = ThemeProps & {
+  index: number;
+};
+
+export const Container = styled.div<SingleCardStyleProps>`
+  position: absolute;
+  top: ${({ index }: SingleCardStyleProps) => index * (59 + 8)}px;
   width: 252px;
-  min-height: 29px;
-  margin: 0 0 8px;
+  height: 59px;
+  margin: 4px 0 4px;
   background-color: #fff;
   border-radius: ${({ theme }: { theme: ThemeProps }) =>
     theme.border.borderRadius};
@@ -13,12 +18,15 @@ export const Container = styled.div<ThemeProps>`
 
   user-select: none;
 
+  transition: 0.15s;
+
   &:focus,
   &:hover {
     background-color: #f4f5f7;
   }
 
   .card-content-box {
+    height: 59px;
     padding: 5px 29px 5px 8px;
     cursor: pointer;
 
