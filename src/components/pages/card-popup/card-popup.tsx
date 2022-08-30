@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { GrClose } from 'react-icons/gr';
 import { IoMdList } from 'react-icons/io';
@@ -22,11 +22,17 @@ import { Overlay } from './card-popup-styles';
 export const CardPopup = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const urlParams = useParams();
+
   const card = useSelector((state: RootState) => state.card.details);
-  const { isLoading } = useSelector((state: RootState) => state.card);
+  const { isLoading, hasFailed } = useSelector(
+    (state: RootState) => state.card,
+  );
   const comments = useSelector(
     (state: RootState) => state.comments.commentsList,
   );
+
+  const { boardId } = urlParams;
 
   const handleClose = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as Element;
@@ -35,7 +41,7 @@ export const CardPopup = () => {
       target.classList.contains('close-btn') ||
       target.classList.contains('close-btn__icon')
     ) {
-      navigate(`/b/${card.idBoard}`);
+      navigate(`/b/${boardId}`);
       dispatch(closeModal());
       dispatch(resetCard());
       dispatch(resetComments());
@@ -71,7 +77,7 @@ export const CardPopup = () => {
                   </div>
 
                   <div className="section-content">
-                    <CardDescription />
+                    {!hasFailed && <CardDescription />}
                   </div>
                 </section>
 
@@ -86,7 +92,7 @@ export const CardPopup = () => {
                   <div className="section-content">
                     <div className="comment-section">
                       <div className="user-icon" />
-                      <CommentInput />
+                      {!hasFailed && <CommentInput />}
                     </div>
                     {!!comments.length &&
                       comments.map(
