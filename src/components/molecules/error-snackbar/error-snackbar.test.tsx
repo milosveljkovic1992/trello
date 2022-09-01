@@ -15,7 +15,15 @@ if (!errorRootElement) {
   errorRootElement.setAttribute('id', 'error-root');
   document.body.appendChild(errorRootElement);
 
-  createPortal(<ErrorSnackbar />, errorRootElement);
+  const handleErrorReset = jest.fn();
+
+  createPortal(
+    <ErrorSnackbar
+      errorMessage={store.getState().errorHandler.errorMessage}
+      handleErrorReset={handleErrorReset}
+    />,
+    errorRootElement,
+  );
 }
 
 describe('ErrorSnackbar component', () => {
@@ -52,5 +60,23 @@ describe('ErrorSnackbar component', () => {
     expect(errorContainerAfterTimeout).not.toBeInTheDocument();
     expect(stateAfterTimeout.errorHandler.errorMessage).not.toBe(errorMessage);
     expect(stateAfterTimeout.errorHandler.errorMessage).toBe('');
+  });
+
+  it('checks if handler is called', async () => {
+    const handleErrorReset = jest.fn();
+    jest.useFakeTimers();
+
+    render(
+      <ErrorSnackbar
+        errorMessage={store.getState().errorHandler.errorMessage}
+        handleErrorReset={handleErrorReset}
+      />,
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(handleErrorReset).toBeCalled();
   });
 });

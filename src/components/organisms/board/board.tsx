@@ -1,17 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ImHome } from 'react-icons/im';
 
 import { RootState, useAppDispatch } from 'store';
-import { submitBoardName } from 'store/board-slice';
+import {
+  submitBoardName,
+  resetBoard,
+  resetCreatingNewList,
+} from 'store/board-slice';
+import { resetCreatingNewCard } from 'store/cards-slice';
 
 import { HomeButton, LogoutButton } from 'components/molecules';
+
 import { BoardProps } from './board.types';
 import { Container } from './board.styles';
 
 // eslint-disable-next-line react/display-name
 export const Board = ({ children }: BoardProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const board = useSelector((state: RootState) => state.board.details);
   const [boardName, setBoardName] = useState(board.name);
   const [isEditNameActive, setIsEditNameActive] = useState(false);
@@ -30,6 +40,13 @@ export const Board = ({ children }: BoardProps) => {
     handleEditActive(false);
   };
 
+  const handleHomeButton = () => {
+    navigate('/');
+    dispatch(resetBoard());
+    dispatch(resetCreatingNewList());
+    dispatch(resetCreatingNewCard());
+  };
+
   useEffect(() => {
     if (isEditNameActive) {
       titleRef.current?.select();
@@ -39,7 +56,7 @@ export const Board = ({ children }: BoardProps) => {
   return (
     <Container backgroundImage={board?.prefs.backgroundImage} role="board">
       <header className="board-header" role="page-header">
-        <HomeButton />
+        <HomeButton handleClick={handleHomeButton} icon={<ImHome />} />
 
         <div className="board-title-container">
           {boardName && !isEditNameActive && (

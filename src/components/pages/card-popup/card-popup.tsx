@@ -14,8 +14,12 @@ import { resetCard } from 'store/card-slice';
 import type { Comment } from 'store/comments-slice';
 
 import { LoadingBars } from 'components/atoms';
-import { CardTitle, CommentInput } from 'components/molecules';
-import { CardDescription, SingleComment } from 'components/organisms';
+import {
+  CardDescription,
+  CardTitle,
+  CommentInput,
+  SingleComment,
+} from 'components/organisms';
 
 import { Overlay } from './card-popup-styles';
 

@@ -11,7 +11,7 @@ import { API_KEY, API_URL } from 'global/constants';
 import { RootState, useAppDispatch } from 'store';
 import { login, logout } from 'store/auth-slice';
 import { getMemberInfo } from 'store/member-slice';
-import { throwError } from 'store/error-slice';
+import { resetError, throwError } from 'store/error-slice';
 
 import { RenderRoutes } from 'routes';
 import { LoadingSpinner, Login } from 'components/atoms';
@@ -31,9 +31,13 @@ const App = () => {
   const { APItoken, isAuth } = useSelector((state: RootState) => state.auth);
   const memberId = useSelector((state: RootState) => state.member.id);
   const { isLoading } = useSelector((state: RootState) => state.member);
-  const { isErrorDisplayed } = useSelector(
+  const { errorMessage, isErrorDisplayed } = useSelector(
     (state: RootState) => state.errorHandler,
   );
+
+  const handleErrorReset = () => {
+    dispatch(resetError());
+  };
 
   useEffect(() => {
     const trelloToken = localStorage.getItem('trelloToken');
@@ -78,7 +82,13 @@ const App = () => {
     <Theme>
       {isErrorDisplayed &&
         !!errorRootElement &&
-        createPortal(<ErrorSnackbar />, errorRootElement)}
+        createPortal(
+          <ErrorSnackbar
+            errorMessage={errorMessage}
+            handleErrorReset={handleErrorReset}
+          />,
+          errorRootElement,
+        )}
       {!isAuth ? <Login /> : isLoading ? <LoadingSpinner /> : <RenderRoutes />}
     </Theme>
   );

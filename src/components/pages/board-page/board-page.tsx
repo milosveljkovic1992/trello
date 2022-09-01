@@ -18,8 +18,7 @@ import { dropCard } from 'store/cards-slice';
 import { calculatePosition } from 'utils/calculatePosition';
 
 import { LoadingSpinner } from 'components/atoms';
-import { AddList } from 'components/molecules';
-import { Board, SingleList } from 'components/organisms';
+import { AddList, Board, SingleList } from 'components/organisms';
 
 export const BoardPage = () => {
   const dispatch = useAppDispatch();

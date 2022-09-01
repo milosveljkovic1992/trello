@@ -9,7 +9,7 @@ import {
   submitCard,
 } from 'store/cards-slice';
 
-import { AddButton } from 'components/atoms';
+import { ButtonWithIcon } from 'components/atoms';
 import { NewItem } from 'components/molecules';
 
 export const AddCard = ({ listId }: { listId: string }) => {
@@ -36,12 +36,12 @@ export const AddCard = ({ listId }: { listId: string }) => {
   return (
     <>
       {!activeLists[listId] && (
-        <AddButton
+        <ButtonWithIcon
           onClick={() => dispatch(startCreatingNewCard(listId))}
           icon={<AiOutlinePlus />}
         >
           Add a card
-        </AddButton>
+        </ButtonWithIcon>
       )}
       {activeLists[listId] && (
         <NewItem

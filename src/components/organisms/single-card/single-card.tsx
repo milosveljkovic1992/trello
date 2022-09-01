@@ -4,13 +4,12 @@ import { useSelector } from 'react-redux';
 import { Draggable } from '@hello-pangea/dnd';
 
 import { TbPencil } from 'react-icons/tb';
-import { HiViewList } from 'react-icons/hi';
-import { FaRegComment } from 'react-icons/fa';
 
 import { RootState, useAppDispatch } from 'store';
 import { openEditPanel } from 'store/board-slice';
 
 import { Link } from 'components/atoms';
+import { SingleCardContent } from 'components/molecules';
 import { EditPanel } from 'components/organisms';
 
 import { SingleCardProps } from './single-card.types';
@@ -50,30 +49,7 @@ export const SingleCard = ({ card, index }: SingleCardProps) => {
               className="card-link"
               data-testid="single-card-link"
             >
-              <div className="card-content-box" ref={cardRef}>
-                <p className="card-title">{card.name}</p>
-                {(card.badges.description || !!card.badges.comments) && (
-                  <div className="badges" data-testid="card-badges">
-                    {card.badges.description && (
-                      <div className="badge-icon-container">
-                        <span className="badge-icon">
-                          <HiViewList />
-                        </span>
-                      </div>
-                    )}
-                    {!!card.badges.comments && (
-                      <div className="badge-icon-container">
-                        <span className="badge-icon">
-                          <FaRegComment />
-                        </span>
-                        <span className="badge-count">
-                          {card.badges.comments}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              <SingleCardContent card={card} ref={cardRef} />
             </Link>
             {isEditPanelOpen && card.id === editPanelId && (
               <EditPanel card={card} rect={rect} index={index} />

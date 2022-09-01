@@ -2,18 +2,18 @@ import { render } from 'utils/test-utils';
 import userEvent from '@testing-library/user-event';
 
 import { AiOutlinePlus } from 'react-icons/ai';
-import { AddButton } from './add-button';
+import { ButtonWithIcon } from './button-with-icon';
 
-describe('AddButton component', () => {
+describe('ButtonWithIcon component', () => {
   it('renders add button', () => {
     const onClickMock = jest.fn();
     const text = 'Test';
     const icon = <AiOutlinePlus />;
 
     const { getByText } = render(
-      <AddButton onClick={onClickMock} icon={icon}>
+      <ButtonWithIcon onClick={onClickMock} icon={icon}>
         {text}
-      </AddButton>,
+      </ButtonWithIcon>,
     );
 
     const buttonElement = getByText(text);

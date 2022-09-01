@@ -1,17 +1,18 @@
-import { useEffect, useState, useRef, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { LoadingSpinner } from 'components/atoms';
-import { LogoutButton } from 'components/molecules';
-import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
 import { RootState, useAppDispatch } from 'store';
 import { BoardType, resetBoard } from 'store/board-slice';
+import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
+import { throwError } from 'store/error-slice';
+
+import { LoadingSpinner } from 'components/atoms';
+import { AddBoard, LogoutButton, SingleBoard } from 'components/molecules';
 
 import { Container } from './landing-page-styles';
-import { throwError } from 'store/error-slice';
 
 export const LandingPage = () => {
   const dispatch = useAppDispatch();
@@ -23,13 +24,14 @@ export const LandingPage = () => {
   const [isInputActive, setIsInputActive] = useState(false);
   const [newBoardTitle, setNewBoardTitle] = useState('');
 
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
-
   let isInitialRender = true;
 
   const handleActive = () => {
     setIsInputActive(true);
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setNewBoardTitle(e.target.value);
   };
 
   const handleSelectBoard = (
@@ -60,13 +62,6 @@ export const LandingPage = () => {
   };
 
   useEffect(() => {
-    if (isInputActive) {
-      inputRef.current?.focus();
-      btnRef.current?.classList.add('slide-in-top');
-    }
-  }, [boards, isInputActive]);
-
-  useEffect(() => {
     if (isInitialRender && member.id && isLoading) {
       dispatch(setBoards(member.id));
       isInitialRender = false;
@@ -87,56 +82,23 @@ export const LandingPage = () => {
         <div className="boards-container">
           {boards.length > 0 &&
             boards.map((board) => (
-              <div
-                data-testid="single-board"
-                className="single-board-container"
+              <SingleBoard
                 key={board.id}
-                onClick={(e) => handleSelectBoard(e, board)}
-                style={{
-                  backgroundImage: board.prefs.backgroundImageScaled
-                    ? `url("${board.prefs.backgroundImageScaled[2].url}")`
-                    : 'none',
-                }}
-              >
-                <div className="board-box">
-                  <h3 className="board-box-title">{board.name}</h3>
-                  <div
-                    data-testid="delete-board-button"
-                    aria-label="delete-board"
-                    className="delete-container delete-btn"
-                    onClick={() => handleDelete(board.id)}
-                  >
-                    <FaTrashAlt />
-                  </div>
-                </div>
-              </div>
+                board={board}
+                icon={<FaTrashAlt />}
+                handleClick={handleSelectBoard}
+                handleDelete={handleDelete}
+              />
             ))}
 
           {!isLoading && boards.length < 10 && (
-            <div className="single-board-container">
-              <div className="board-box" onClick={handleActive}>
-                {!isInputActive && <h3 className="board-box-title">Add new</h3>}
-                {isInputActive && (
-                  <textarea
-                    ref={inputRef}
-                    placeholder="Start typing..."
-                    value={newBoardTitle}
-                    onBlur={handleCreateNew}
-                    onChange={(e) => setNewBoardTitle(e.target.value)}
-                  ></textarea>
-                )}
-              </div>
-
-              <button
-                ref={btnRef}
-                className={`create-new-button ${
-                  !isInputActive && 'isInputActive'
-                }`}
-                onClick={handleCreateNew}
-              >
-                Create
-              </button>
-            </div>
+            <AddBoard
+              handleActive={handleActive}
+              isInputActive={isInputActive}
+              newBoardTitle={newBoardTitle}
+              handleCreateNew={handleCreateNew}
+              handleTitleChange={handleTitleChange}
+            />
           )}
         </div>
       </div>

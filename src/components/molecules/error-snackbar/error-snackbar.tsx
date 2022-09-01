@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-import { RootState, useAppDispatch } from 'store';
-import { resetError } from 'store/error-slice';
-
+import { ErrorSnackbarProps } from './error-snackbar.types';
 import { Snackbar } from './error-snackbar.styles';
 
-export const ErrorSnackbar = () => {
-  const dispatch = useAppDispatch();
-  const { errorMessage } = useSelector(
-    (state: RootState) => state.errorHandler,
-  );
+export const ErrorSnackbar = ({
+  errorMessage,
+  handleErrorReset,
+}: ErrorSnackbarProps) => {
   const [isDisplayed, setIsDisplayed] = useState(false);
 
   const displayTime = 4000;
@@ -20,7 +16,7 @@ export const ErrorSnackbar = () => {
     setIsDisplayed(true);
 
     const resetTimer = setTimeout(() => {
-      dispatch(resetError());
+      handleErrorReset();
     }, displayTime);
 
     const displayTimer = setTimeout(() => {

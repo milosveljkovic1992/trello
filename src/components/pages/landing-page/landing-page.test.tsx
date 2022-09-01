@@ -17,7 +17,6 @@ import { getMemberInfo } from 'store/member-slice';
 
 import { BoardPage } from 'components/pages';
 import { CardPopup } from 'components/pages';
-import { ErrorSnackbar } from 'components/molecules';
 import { LandingPage } from './landing-page';
 
 const LandingPageContainer = () => {
@@ -150,20 +149,8 @@ describe('LandingPage', () => {
   });
 
   it('throws an error on submitting empty board name', async () => {
-    const {
-      getByText,
-      getByPlaceholderText,
-      getByTestId,
-      findByRole,
-      findAllByTestId,
-    } = render(
-      <>
-        <LandingPage />
-        <ErrorSnackbar />
-      </>,
-    );
-    expect(getByTestId('error-snackbar')).toBeInTheDocument();
-    expect(getByTestId('error-snackbar').textContent).toBe('');
+    const { getByText, getByPlaceholderText, findByRole, findAllByTestId } =
+      render(<LandingPage />);
 
     await findByRole('heading', { level: 2 });
 
@@ -181,15 +168,18 @@ describe('LandingPage', () => {
     userEvent.tab();
 
     await waitFor(() => {
-      expect(getByTestId('error-snackbar').textContent).toBe(
-        'Board name cannot be empty',
-      );
+      const state = store.getState();
+      const errorMessage = state.errorHandler.errorMessage;
+      expect(errorMessage).toBe('Board name cannot be empty');
     });
 
+    store.dispatch(resetError());
+
     await waitFor(() => {
-      store.dispatch(resetError());
-      expect(getByTestId('error-snackbar').textContent).toBe('');
-      expect(store.getState().errorHandler.isErrorDisplayed === false);
+      const state = store.getState();
+      const { errorMessage, isErrorDisplayed } = state.errorHandler;
+      expect(errorMessage).toBe('');
+      expect(isErrorDisplayed).toBeFalsy();
     });
 
     expect(await findAllByTestId('single-board')).toHaveLength(2);
@@ -202,15 +192,18 @@ describe('LandingPage', () => {
     userEvent.tab();
 
     await waitFor(() => {
-      expect(getByTestId('error-snackbar').textContent).toBe(
-        'Board name cannot be empty',
-      );
+      const state = store.getState();
+      const { errorMessage } = state.errorHandler;
+      expect(errorMessage).toBe('Board name cannot be empty');
     });
 
+    store.dispatch(resetError());
+
     await waitFor(() => {
-      store.dispatch(resetError());
-      expect(getByTestId('error-snackbar').textContent).toBe('');
-      expect(store.getState().errorHandler.isErrorDisplayed === false);
+      const state = store.getState();
+      const { errorMessage, isErrorDisplayed } = state.errorHandler;
+      expect(errorMessage).toBe('');
+      expect(isErrorDisplayed).toBeFalsy();
     });
 
     expect(await findAllByTestId('single-board')).toHaveLength(2);
@@ -223,9 +216,9 @@ describe('LandingPage', () => {
     userEvent.tab();
 
     await waitFor(() => {
-      expect(getByTestId('error-snackbar').textContent).toBe(
-        'Board name cannot be empty',
-      );
+      const state = store.getState();
+      const { errorMessage } = state.errorHandler;
+      expect(errorMessage).toBe('Board name cannot be empty');
     });
 
     expect(await findAllByTestId('single-board')).toHaveLength(2);

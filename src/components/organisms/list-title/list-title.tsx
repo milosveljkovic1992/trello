@@ -7,7 +7,6 @@ import { archiveList } from 'store/lists-slice';
 
 import { useListTitle } from './useListTitle';
 import { ListTitleProps } from './list-title.types';
-
 import { Title } from './list-title.styles';
 
 export const ListTitle = ({ list }: ListTitleProps) => {

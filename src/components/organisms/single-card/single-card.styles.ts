@@ -25,16 +25,6 @@ export const Container = styled.div<SingleCardStyleProps>`
     background-color: #f4f5f7;
   }
 
-  .card-content-box {
-    height: 59px;
-    padding: 5px 29px 5px 8px;
-    cursor: pointer;
-
-    p {
-      margin: 2px 0;
-    }
-  }
-
   .edit-btn {
     display: none;
     align-items: center;
@@ -64,29 +54,5 @@ export const Container = styled.div<SingleCardStyleProps>`
   &:hover > .edit-btn,
   &:focus > .edit-btn {
     display: flex;
-  }
-
-  .badges {
-    margin-top: 8px;
-    display: flex;
-    flex-direction: row;
-
-    svg > path {
-      color: #6b778c;
-    }
-  }
-
-  .badge-icon-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    line-height: 1;
-
-    margin: 0 10px 5px 0;
-
-    .badge-icon {
-      margin-right: 3px;
-    }
   }
 `;

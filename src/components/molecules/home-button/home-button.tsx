@@ -1,30 +1,14 @@
-import { useNavigate } from 'react-router-dom';
-import { ImHome } from 'react-icons/im';
-
-import { useAppDispatch } from 'store';
-import { resetBoard, resetCreatingNewList } from 'store/board-slice';
-
+import { HomeButtonProps } from './home-button.props';
 import { IconContainer } from './home-button.styles';
-import { resetCreatingNewCard } from 'store/cards-slice';
 
-export const HomeButton = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  const handleHomeButton = () => {
-    navigate('/');
-    dispatch(resetBoard());
-    dispatch(resetCreatingNewList());
-    dispatch(resetCreatingNewCard());
-  };
-
+export const HomeButton = ({ handleClick, icon }: HomeButtonProps) => {
   return (
     <IconContainer
       className="board-icon-container"
-      onClick={handleHomeButton}
+      onClick={handleClick}
       role="home-button"
     >
-      <ImHome />
+      {icon}
     </IconContainer>
   );
 };

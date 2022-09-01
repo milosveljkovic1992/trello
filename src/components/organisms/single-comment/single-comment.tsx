@@ -7,7 +7,7 @@ import { deleteComment } from 'store/comments-slice';
 import type { Comment } from 'store/comments-slice';
 
 import { Link } from 'components/atoms';
-import { CommentEdit } from 'components/molecules';
+import { CommentEdit } from 'components/organisms';
 
 import { Container } from './single-comment.styles';
 

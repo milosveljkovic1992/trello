@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-export interface AddButtonProps {
+export interface ButtonWithIconProps {
   children: ReactNode;
   onClick: () => void;
   icon: ReactNode;

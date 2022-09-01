@@ -6,7 +6,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { RootState, useAppDispatch } from 'store';
 import { submitList } from 'store/lists-slice';
 
-import { AddButton } from 'components/atoms';
+import { ButtonWithIcon } from 'components/atoms';
 import { NewItem } from 'components/molecules';
 
 import { Container } from './add-list.styles';
@@ -43,12 +43,12 @@ export const AddList = () => {
   return (
     <Container>
       {!isCreatingNewList && (
-        <AddButton
+        <ButtonWithIcon
           onClick={() => setIsCreatingNewList(true)}
           icon={<AiOutlinePlus />}
         >
           Add another list
-        </AddButton>
+        </ButtonWithIcon>
       )}
 
       {isCreatingNewList && (

@@ -12,8 +12,8 @@ import {
   AddCard,
   DragAndDropPlaceholder,
   ListTitle,
-} from 'components/molecules';
-import { SingleCard } from 'components/organisms';
+  SingleCard,
+} from 'components/organisms';
 
 import { SingleListProps } from './single-list.types';
 import { CardContainer, Container } from './single-list.styles';
