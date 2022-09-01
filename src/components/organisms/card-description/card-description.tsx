@@ -11,7 +11,6 @@ import { Container } from './card-description.styles';
 export const CardDescription = () => {
   const dispatch = useAppDispatch();
   const card = useSelector((state: RootState) => state.card.details);
-  const { isLoading } = useSelector((state: RootState) => state.card);
   const [description, setDescription] = useState(card.desc);
   const [previousDescription, setPreviousDescription] = useState('');
   const [isDescriptionInputActive, setIsDescriptionInputActive] =
@@ -41,10 +40,8 @@ export const CardDescription = () => {
   }, [isDescriptionInputActive]);
 
   useEffect(() => {
-    if (!isLoading) {
-      setDescription(card.desc);
-    }
-  }, [isLoading, card]);
+    setDescription(card.desc);
+  }, [card]);
 
   return (
     <Container

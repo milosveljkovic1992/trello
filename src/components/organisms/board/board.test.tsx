@@ -9,7 +9,7 @@ import { Board } from './board';
 
 describe('Board', () => {
   beforeEach(async () => {
-    await store.dispatch(fetchBoardListsAndCards('222'));
+    await store.dispatch(fetchBoardListsAndCards('boardId1'));
   });
 
   it('renders component', async () => {

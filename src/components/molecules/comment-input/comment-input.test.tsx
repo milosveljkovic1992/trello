@@ -1,10 +1,25 @@
 import userEvent from '@testing-library/user-event';
-import { render } from 'utils/test-utils';
+import { render, waitFor } from 'utils/test-utils';
+
+import store from 'store';
+import { getCard } from 'store/card-slice';
 
 import { CommentInput } from './comment-input';
 
+beforeAll(async () => {
+  store.dispatch(getCard({ id: 'cardId1' }));
+  await waitFor(() => {
+    const state = store.getState();
+    expect(state.card.details.id).toBe('cardId1');
+  });
+});
+
 describe('CommentInput component', () => {
-  it('renders textarea', () => {
+  it('renders textarea and handles user events', async () => {
+    const state = store.getState();
+    const comments = state.comments.commentsList;
+    expect(comments.length).toBe(2);
+
     const sampleText = 'some text';
     const { getByRole, getByPlaceholderText } = render(<CommentInput />);
 
@@ -34,6 +49,13 @@ describe('CommentInput component', () => {
     expect(buttonElementAfterUserInput).toBeInTheDocument();
 
     userEvent.click(buttonElementAfterUserInput);
+
+    await waitFor(() => {
+      const state = store.getState();
+      const comments = state.comments.commentsList;
+      expect(comments.length).toBe(3);
+      expect(comments[0].data.text).toBe(sampleText);
+    });
 
     const buttonElementAfterSubmit = getByRole('button', { hidden: true });
     expect(buttonElementAfterSubmit).toBeInTheDocument();

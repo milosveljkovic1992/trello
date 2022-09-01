@@ -21,7 +21,6 @@ export const ListTitle = ({ list }: ListTitleProps) => {
     <Title isInputActive={isInputActive} role="list-title">
       <textarea
         ref={titleRef}
-        onDrop={() => false}
         value={listTitle}
         onClick={handleFocus}
         onChange={(e) => setListTitle(e.target.value)}

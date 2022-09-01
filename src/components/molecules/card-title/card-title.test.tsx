@@ -1,29 +1,14 @@
-import { useEffect } from 'react';
 import userEvent from '@testing-library/user-event';
 
 import { render, waitFor } from 'utils/test-utils';
 
-import { useAppDispatch } from 'store';
+import store from 'store';
 import { finishEditingTitle } from 'store/card-slice';
 
 import { CardTitle } from './card-title';
 
-const CleanupComp = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(finishEditingTitle());
-  }, []);
-
-  return <></>;
-};
-
 beforeEach(() => {
-  render(<CleanupComp />);
-});
-
-afterEach(() => {
-  render(<CleanupComp />);
+  store.dispatch(finishEditingTitle());
 });
 
 describe('CardTitle component', () => {
@@ -46,7 +31,7 @@ describe('CardTitle component', () => {
   });
 
   it('changes value on user input', async () => {
-    const inputText = 'some text';
+    const inputText = 'New card title';
     const { getByRole } = render(<CardTitle />);
 
     await waitFor(() => {
@@ -65,11 +50,12 @@ describe('CardTitle component', () => {
     await waitFor(() => {
       const headingElementNew = getByRole('heading', { level: 2 });
       expect(headingElementNew).toBeInTheDocument();
+      expect(headingElementNew.textContent).toBe(inputText);
     });
   });
 
   it('saves value on user click away', () => {
-    const inputText = 'some text';
+    const inputText = 'New card title';
     const { getByRole } = render(<CardTitle />);
 
     const headingElement = getByRole('heading', { level: 2 });

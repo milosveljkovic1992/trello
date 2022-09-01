@@ -57,7 +57,7 @@ describe('LandingPage', () => {
 
     if (store.getState().member.id && store.getState().boards.isLoading) {
       act(() => {
-        store.dispatch(setBoards('123'));
+        store.dispatch(setBoards('memberId'));
       });
     }
 
@@ -99,24 +99,24 @@ describe('LandingPage', () => {
 
     if (store.getState().member.id && store.getState().boards.isLoading) {
       act(() => {
-        store.dispatch(setBoards('123'));
+        store.dispatch(setBoards('memberId'));
       });
     }
 
     await findAllByTestId('single-board');
 
     const { boardsArray } = store.getState().boards;
-    const boardOne = getByText(boardsArray[0].name);
-    const boardOneContainer = boardOne.parentNode;
+    const boardTwo = getByText(boardsArray[1].name);
+    const boardTwoContainer = boardTwo.parentNode;
 
     const deleteButtonOne = getByTestId(
-      boardOneContainer as HTMLElement,
+      boardTwoContainer as HTMLElement,
       'delete-board-button',
     );
     userEvent.click(deleteButtonOne);
 
     await waitFor(() => {
-      expect(boardOne).not.toBeInTheDocument();
+      expect(boardTwo).not.toBeInTheDocument();
       expect(getAllByTestId('single-board')).toHaveLength(1);
     });
 
@@ -169,7 +169,7 @@ describe('LandingPage', () => {
 
     if (store.getState().member.id && store.getState().boards.isLoading) {
       act(() => {
-        store.dispatch(setBoards('123'));
+        store.dispatch(setBoards('memberId'));
       });
     }
 
@@ -240,7 +240,7 @@ describe('LandingPage', () => {
 
     if (store.getState().member.id && store.getState().boards.isLoading) {
       act(() => {
-        store.dispatch(setBoards('123'));
+        store.dispatch(setBoards('memberId'));
       });
     }
 
@@ -267,7 +267,7 @@ describe('LandingPage', () => {
 
     if (store.getState().member.id && store.getState().boards.isLoading) {
       act(() => {
-        store.dispatch(setBoards('123'));
+        store.dispatch(setBoards('memberId'));
       });
     }
 
@@ -295,7 +295,7 @@ describe('LandingPage', () => {
 
     if (store.getState().member.id && store.getState().boards.isLoading) {
       act(() => {
-        store.dispatch(setBoards('123'));
+        store.dispatch(setBoards('memberId'));
       });
     }
 

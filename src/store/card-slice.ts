@@ -152,9 +152,6 @@ const cardSlice = createSlice({
     builder.addCase(deleteCard.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(editDescription.pending, (state) => {
-      state.isLoading = false;
-    });
     builder.addCase(
       editDescription.fulfilled,
       (state, action: PayloadAction<CardType>) => {
@@ -162,9 +159,6 @@ const cardSlice = createSlice({
         state.isLoading = false;
       },
     );
-    builder.addCase(editDescription.rejected, (state) => {
-      state.isLoading = false;
-    });
   },
 });
 

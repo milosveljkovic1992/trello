@@ -9,18 +9,16 @@ import { useListTitleProps } from './useListTitle.types';
 
 export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
   const dispatch = useDispatch();
-  const [oldTitle, setOldTitle] = useState(list.name);
   const [listTitle, setListTitle] = useState(list.name);
 
   const [isInputActive, setIsInputActive] = useState(false);
 
   const submitTitle = async () => {
-    if (listTitle !== oldTitle) {
+    if (listTitle !== list.name) {
       try {
         await axios.put(`/1/lists/${list.id}?name=${listTitle}`);
-        setOldTitle(listTitle);
       } catch (error) {
-        setListTitle(oldTitle);
+        setListTitle(list.name);
         dispatch(throwError('Could not update title'));
       }
     }

@@ -9,7 +9,7 @@ import { setListsArray } from 'store/lists-slice';
 import { AddList } from './add-list';
 
 beforeAll(async () => {
-  await store.dispatch(fetchBoardListsAndCards('222'));
+  await store.dispatch(fetchBoardListsAndCards('boardId1'));
 });
 
 describe('AddList', () => {

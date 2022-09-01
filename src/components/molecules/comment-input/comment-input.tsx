@@ -15,9 +15,7 @@ export const CommentInput = () => {
   const [isDisplayed, setIsDisplayed] = useState(false);
 
   const handleSubmit = () => {
-    if (comment.trim().length > 0) {
-      dispatch(submitComment({ card, comment }));
-    }
+    dispatch(submitComment({ card, comment }));
     setComment('');
     setIsDisplayed(false);
   };
