@@ -5,9 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
+import 'axios/global';
 import 'axios/interceptors';
 import Theme from 'global/Theme';
-import { API_KEY, API_URL } from 'global/constants';
+import { API_KEY } from 'global/constants';
 
 import { RootState, useAppDispatch } from 'store';
 import { login, logout } from 'store/auth-slice';
@@ -17,10 +18,6 @@ import { resetError, throwError } from 'store/error-slice';
 import { RenderRoutes } from 'routes';
 import { LoadingSpinner, Login } from 'components/atoms';
 import { ErrorSnackbar } from 'components/molecules';
-
-axios.defaults.baseURL = API_URL;
-axios.defaults.headers.post['Accept'] = 'application/json';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App = () => {
   const dispatch = useAppDispatch();
