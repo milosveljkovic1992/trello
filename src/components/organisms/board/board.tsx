@@ -18,7 +18,6 @@ import { HomeButton, LogoutButton } from 'components/molecules';
 import { BoardProps } from './board.types';
 import { Container } from './board.styles';
 
-// eslint-disable-next-line react/display-name
 export const Board = ({ children }: BoardProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

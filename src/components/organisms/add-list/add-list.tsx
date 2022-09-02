@@ -13,7 +13,6 @@ import { Container } from './add-list.styles';
 
 export const AddList = () => {
   const dispatch = useAppDispatch();
-  // const { isCreatingNewList } = useSelector((state: RootState) => state.board);
   const boardId = useSelector((state: RootState) => state.board.details.id);
   const lists = useSelector((state: RootState) => state.lists.listsArray);
 

@@ -158,8 +158,6 @@ export const handlers = [
   // getCard({id}: {id: string})
 
   rest.get(`/1/batch`, (req, res, ctx) => {
-    // TODO: assign boardId to results where needed
-    // TODO: remove unnecessary properties from results
     const params = req.url.searchParams.get('urls');
     if (
       params ===
@@ -416,7 +414,6 @@ export const handlers = [
   rest.put(`http://localhost/1/boards/:boardId`, (req, res, ctx) => {
     const { boardId } = req.params;
     const newBoardTitle = req.url.searchParams.get('name');
-    // const boardName = req.params.sear
 
     return res(
       ctx.json({
@@ -556,14 +553,11 @@ export const handlers = [
   }),
 
   // lists-slice.ts
-  /* 
-  submitList({ 
-    userInput: string, 
-    pos: number, 
-    boardId: string 
-  })
-  */
-
+  // submitList({
+  //   userInput: string,
+  //   pos: number,
+  //   boardId: string
+  // })
   rest.post(`/1/lists`, (req, res, ctx) => {
     const listName = req.url.searchParams.get('name');
     const listPos = req.url.searchParams.get('pos');
@@ -595,6 +589,4 @@ export const handlers = [
       }),
     );
   }),
-
-  // TODO: add other URL handlers
 ];

@@ -39,7 +39,6 @@ export const Overlay = styled.div<EditPanelStyleProps>`
     height: 111px;
     z-index: 3;
     display: block;
-    // transform: translateX(-20px);
     transform: ${({ direction }) =>
       direction === 'left' ? 'translateX(-20px)' : 'translateX(0px)'};
     transition: 0.1s;
