@@ -9,6 +9,7 @@ import cardsSlice from './cards-slice';
 import commentsSlice from './comments-slice';
 import errorSlice from './error-slice';
 import listsSlice from './lists-slice';
+import loadingSlice from './loading-slice';
 import memberSlice from './member-slice';
 import popupSlice from './popup-slice';
 
@@ -22,6 +23,7 @@ const store = configureStore({
     comments: commentsSlice.reducer,
     errorHandler: errorSlice.reducer,
     lists: listsSlice.reducer,
+    loading: loadingSlice.reducer,
     member: memberSlice.reducer,
     popup: popupSlice.reducer,
   },
