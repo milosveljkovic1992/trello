@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { useAppDispatch } from 'store';
 
+import { archiveList } from 'store/lists-slice';
 import { throwError } from 'store/error-slice';
 
 import { useListTitleProps } from './useListTitle.types';
 
 export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [listTitle, setListTitle] = useState(list.name);
 
   const [isInputActive, setIsInputActive] = useState(false);
@@ -24,6 +25,10 @@ export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
     }
   };
 
+  const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setListTitle(e.target.value);
+  };
+
   const handleFocus = () => {
     setIsInputActive(true);
     titleRef.current?.select();
@@ -34,11 +39,16 @@ export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
     setIsInputActive(false);
   };
 
+  const handleDelete = () => {
+    dispatch(archiveList(list.id));
+  };
+
   return {
+    listTitle,
     isInputActive,
+    handleInput,
     handleFocus,
     handleSubmit,
-    listTitle,
-    setListTitle,
+    handleDelete,
   };
 };

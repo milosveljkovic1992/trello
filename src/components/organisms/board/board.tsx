@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ImHome } from 'react-icons/im';
 
 import { RootState, useAppDispatch } from 'store';
+import { logout } from 'store/auth-slice';
 import {
   submitBoardName,
   resetBoard,
@@ -47,6 +48,13 @@ export const Board = ({ children }: BoardProps) => {
     dispatch(resetCreatingNewCard());
   };
 
+  const handleLogoutButton = () => {
+    dispatch(resetBoard());
+    localStorage.removeItem('trelloToken');
+    dispatch(logout());
+    navigate('/');
+  };
+
   useEffect(() => {
     if (isEditNameActive) {
       titleRef.current?.select();
@@ -78,7 +86,7 @@ export const Board = ({ children }: BoardProps) => {
           )}
         </div>
 
-        <LogoutButton fixed={false} />
+        <LogoutButton fixed={false} handleClick={handleLogoutButton} />
       </header>
 
       {children}

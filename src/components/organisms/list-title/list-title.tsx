@@ -2,19 +2,21 @@ import { useRef } from 'react';
 
 import { FaTrashAlt } from 'react-icons/fa';
 
-import { useAppDispatch } from 'store';
-import { archiveList } from 'store/lists-slice';
-
 import { useListTitle } from './useListTitle';
 import { ListTitleProps } from './list-title.types';
 import { Title } from './list-title.styles';
 
 export const ListTitle = ({ list }: ListTitleProps) => {
-  const dispatch = useAppDispatch();
   const titleRef = useRef<HTMLTextAreaElement>(null);
 
-  const { isInputActive, handleFocus, handleSubmit, listTitle, setListTitle } =
-    useListTitle({ titleRef, list });
+  const {
+    listTitle,
+    isInputActive,
+    handleInput,
+    handleFocus,
+    handleSubmit,
+    handleDelete,
+  } = useListTitle({ titleRef, list });
 
   return (
     <Title isInputActive={isInputActive} role="list-title">
@@ -22,12 +24,12 @@ export const ListTitle = ({ list }: ListTitleProps) => {
         ref={titleRef}
         value={listTitle}
         onClick={handleFocus}
-        onChange={(e) => setListTitle(e.target.value)}
+        onChange={handleInput}
         onBlur={handleSubmit}
       ></textarea>
       <div
         className="delete-btn"
-        onClick={() => dispatch(archiveList(list.id))}
+        onClick={handleDelete}
         data-testid="delete-list"
       >
         <FaTrashAlt />
