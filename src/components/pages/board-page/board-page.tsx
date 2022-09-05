@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate, Outlet } from 'react-router-dom';
@@ -37,6 +37,7 @@ export const BoardPage = () => {
   const isCardLoading = useSelector((state: RootState) => state.card.isLoading);
   const [dragSourceListId, setDragSourceListId] = useState('');
   const [dragTargetListId, setDragTargetListId] = useState('');
+  const isInitialRender = useRef(true);
 
   const navigate = useNavigate();
   const urlParams = useParams();
@@ -52,8 +53,9 @@ export const BoardPage = () => {
     if (cardUrl && board.id && !hasCardFetchingFailed) {
       dispatch(getCard({ id: cardUrl }));
     }
-    if (boardId && isLoading) {
+    if (boardId && isLoading && isInitialRender.current) {
       dispatch(fetchBoardListsAndCards(boardId));
+      isInitialRender.current = false;
     }
     if (!isLoading && !board.id) {
       navigate('/');
