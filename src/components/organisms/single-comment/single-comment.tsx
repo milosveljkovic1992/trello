@@ -35,9 +35,9 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
 
           <Link to={`#comment-${comment.id}`}>
             <p className="timestamp">
-              {`${new Date(comment.date).toLocaleDateString(
-                'sr-RS',
-              )} at ${new Date(comment.date).toLocaleTimeString('sr-RS')} `}
+              {`${new Date(comment.date).toLocaleDateString()} at ${new Date(
+                comment.date,
+              ).toLocaleTimeString()} `}
             </p>
           </Link>
 
