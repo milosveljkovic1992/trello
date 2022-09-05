@@ -8,6 +8,11 @@ import { AddCard } from './add-card';
 
 beforeAll(async () => {
   store.dispatch(fetchBoardListsAndCards('boardId1'));
+  await waitFor(() => {
+    const state = store.getState();
+    expect(state.board.isLoading).toBeFalsy();
+    expect(state.board.details.id).not.toBe('');
+  });
 });
 
 describe('AddCard', () => {

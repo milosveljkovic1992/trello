@@ -7,11 +7,16 @@ import { fetchBoardListsAndCards } from 'store/board-slice';
 
 import { Board } from './board';
 
-describe('Board', () => {
-  beforeEach(async () => {
-    await store.dispatch(fetchBoardListsAndCards('boardId1'));
+beforeEach(async () => {
+  store.dispatch(fetchBoardListsAndCards('boardId1'));
+  await waitFor(() => {
+    const state = store.getState();
+    expect(state.board.isLoading).toBeFalsy();
+    expect(state.board.details.id).not.toBe('');
   });
+});
 
+describe('Board', () => {
   it('renders component', async () => {
     const { getByRole, queryByRole, queryByTestId } = render(
       <Board>

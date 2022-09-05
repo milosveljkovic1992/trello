@@ -19,30 +19,32 @@ import { BoardPage } from 'components/pages';
 import { CardPopup } from 'components/pages';
 import { LandingPage } from './landing-page';
 
-const LandingPageContainer = () => {
-  const popupModalOpen = useSelector((state: RootState) => state.popup.open);
-  return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/b/:boardId/*" element={<BoardPage />}>
-        {popupModalOpen && <Route path="c/:cardUrl" element={<CardPopup />} />}
-      </Route>
-    </Routes>
-  );
-};
+beforeEach(() => {
+  const token = '123223323';
+  localStorage.setItem('trelloToken', token);
+  store.dispatch(login(token));
+  store.dispatch(getMemberInfo(token));
+});
+
+afterEach(() => {
+  localStorage.removeItem('trelloToken');
+  store.dispatch(logout());
+});
 
 describe('LandingPage', () => {
-  beforeEach(() => {
-    const token = '123223323';
-    localStorage.setItem('trelloToken', token);
-    store.dispatch(login(token));
-    store.dispatch(getMemberInfo(token));
-  });
-
-  afterEach(() => {
-    localStorage.removeItem('trelloToken');
-    store.dispatch(logout());
-  });
+  const LandingPageContainer = () => {
+    const popupModalOpen = useSelector((state: RootState) => state.popup.open);
+    return (
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/b/:boardId/*" element={<BoardPage />}>
+          {popupModalOpen && (
+            <Route path="c/:cardUrl" element={<CardPopup />} />
+          )}
+        </Route>
+      </Routes>
+    );
+  };
 
   it('renders landing page', async () => {
     const { getByText, getByTestId, findByRole, findAllByTestId } = render(

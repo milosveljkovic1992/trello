@@ -7,7 +7,7 @@ import { finishEditingTitle } from 'store/card-slice';
 
 import { CardTitle } from './card-title';
 
-beforeEach(() => {
+afterEach(() => {
   store.dispatch(finishEditingTitle());
 });
 
