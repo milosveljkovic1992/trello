@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface InitialState {
-  loadingState: string;
+  loadingState: 'loading' | 'done';
 }
 
 const initialState: InitialState = {
@@ -12,15 +12,16 @@ const loadingSlice = createSlice({
   name: 'loading',
   initialState,
   reducers: {
-    updatePending(state) {
+    signalLoadingStarted(state) {
       state.loadingState = 'loading';
     },
-    updateDone(state) {
+    signalLoadingFinished(state) {
       state.loadingState = 'done';
     },
   },
 });
 
-export const { updatePending, updateDone } = loadingSlice.actions;
+export const { signalLoadingStarted, signalLoadingFinished } =
+  loadingSlice.actions;
 
 export default loadingSlice;

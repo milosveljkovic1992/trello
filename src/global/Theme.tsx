@@ -25,8 +25,6 @@ export type MyThemeProps = {
   children: ReactNode;
 };
 
-const defaultFontFamily = `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`;
-const codeFontFamily = `source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`;
 const defaultColor = '#172b4d';
 const defaultFontSize = '14px';
 const defaultBorderRadius = '3px';
@@ -42,8 +40,8 @@ const theme = {
     color: defaultColor,
     lightColor: '#777',
     fontSize: defaultFontSize,
-    fontFamily: defaultFontFamily,
-    code: codeFontFamily,
+    fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
+    code: `source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`,
   },
   border: {
     borderRadius: defaultBorderRadius,

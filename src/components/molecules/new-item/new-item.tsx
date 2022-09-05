@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
 import { AiOutlineClose } from 'react-icons/ai';
-import { NewItemProps } from './new-item.props';
 
+import { NewItemProps } from './new-item.types';
 import { Container } from './new-item.styles';
 
 export const NewItem = ({

@@ -1,25 +1,30 @@
 import axios from 'axios';
 import store from 'store';
-import { updateDone, updatePending } from 'store/loading-slice';
+import {
+  signalLoadingStarted,
+  signalLoadingFinished,
+} from 'store/loading-slice';
 
 axios.interceptors.request.use(
   function (config) {
-    store.dispatch(updatePending());
+    if (store.getState().loading.loadingState !== 'loading') {
+      store.dispatch(signalLoadingStarted());
+    }
     return config;
   },
   function (error) {
-    store.dispatch(updateDone());
+    store.dispatch(signalLoadingFinished());
     return Promise.reject(error);
   },
 );
 
 axios.interceptors.response.use(
   function (response) {
-    store.dispatch(updateDone());
+    store.dispatch(signalLoadingFinished());
     return response;
   },
   function (error) {
-    store.dispatch(updateDone());
+    store.dispatch(signalLoadingFinished());
     return Promise.reject(error);
   },
 );

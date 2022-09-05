@@ -2,7 +2,7 @@ import { ReactNode, MouseEvent } from 'react';
 
 import { BoardType } from 'store/board-slice';
 
-export interface SingleBoardProps {
+export interface BoardCardProps {
   board: BoardType;
   icon: ReactNode;
   handleClick: (e: MouseEvent<HTMLDivElement>, board: BoardType) => void;

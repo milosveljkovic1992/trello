@@ -411,7 +411,7 @@ export const handlers = [
 
   // board-slice.ts
   // submitBoardName({ board, boardName}: {board: BoardType, boardName: string})
-  rest.put(`http://localhost/1/boards/:boardId`, (req, res, ctx) => {
+  rest.put(`/1/boards/:boardId`, (req, res, ctx) => {
     const { boardId } = req.params;
     const newBoardTitle = req.url.searchParams.get('name');
 

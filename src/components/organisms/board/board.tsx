@@ -13,7 +13,7 @@ import {
 } from 'store/board-slice';
 import { resetCreatingNewCard } from 'store/cards-slice';
 
-import { HomeButton, LogoutButton } from 'components/molecules';
+import { IconButton, LogoutButton } from 'components/molecules';
 
 import { BoardProps } from './board.types';
 import { Container } from './board.styles';
@@ -63,7 +63,7 @@ export const Board = ({ children }: BoardProps) => {
   return (
     <Container backgroundImage={board?.prefs.backgroundImage} role="board">
       <header className="board-header" role="page-header">
-        <HomeButton handleClick={handleHomeButton} icon={<ImHome />} />
+        <IconButton handleClick={handleHomeButton} icon={<ImHome />} />
 
         <div className="board-title-container">
           {boardName && !isEditNameActive && (

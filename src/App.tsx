@@ -16,7 +16,7 @@ import { getMemberInfo } from 'store/member-slice';
 import { resetError, throwError } from 'store/error-slice';
 
 import { RenderRoutes } from 'routes';
-import { LoadingSpinner, Login } from 'components/atoms';
+import { LoadingPulse, Login } from 'components/atoms';
 import { ErrorSnackbar } from 'components/molecules';
 
 const App = () => {
@@ -25,10 +25,17 @@ const App = () => {
   const location = useLocation();
 
   const errorRootElement = document.getElementById('error-root');
+  const loadingRootElement = document.getElementById('loading-root');
 
   const { APItoken, isAuth } = useSelector((state: RootState) => state.auth);
   const memberId = useSelector((state: RootState) => state.member.id);
-  const { isLoading } = useSelector((state: RootState) => state.member);
+  const isMemberLoading = useSelector(
+    (state: RootState) => state.member.isLoading,
+  );
+  const isBoardLoading = useSelector(
+    (state: RootState) => state.board.isLoading,
+  );
+  const { loadingState } = useSelector((state: RootState) => state.loading);
   const { errorMessage, isErrorDisplayed } = useSelector(
     (state: RootState) => state.errorHandler,
   );
@@ -78,6 +85,11 @@ const App = () => {
 
   return (
     <Theme>
+      {loadingState === 'loading' &&
+        !isMemberLoading &&
+        !isBoardLoading &&
+        loadingRootElement &&
+        createPortal(<LoadingPulse />, loadingRootElement)}
       {isErrorDisplayed &&
         !!errorRootElement &&
         createPortal(
@@ -87,7 +99,7 @@ const App = () => {
           />,
           errorRootElement,
         )}
-      {!isAuth ? <Login /> : isLoading ? <LoadingSpinner /> : <RenderRoutes />}
+      {!isAuth ? <Login /> : <RenderRoutes />}
     </Theme>
   );
 };

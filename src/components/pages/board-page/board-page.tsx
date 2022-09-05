@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
 
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate, Outlet } from 'react-router-dom';
@@ -18,7 +17,7 @@ import { dropCard } from 'store/cards-slice';
 
 import { calculatePosition } from 'utils/calculatePosition';
 
-import { LoadingPulse, LoadingSpinner } from 'components/atoms';
+import { LoadingSpinner } from 'components/atoms';
 import { AddList, Board, SingleList } from 'components/organisms';
 
 export const BoardPage = () => {
@@ -32,7 +31,6 @@ export const BoardPage = () => {
     (state: RootState) => state.board.hasFailed,
   );
   const { isLoading } = useSelector((state: RootState) => state.board);
-  const { loadingState } = useSelector((state: RootState) => state.loading);
   const board = useSelector((state: RootState) => state.board.details);
   const lists = useSelector((state: RootState) => state.lists.listsArray);
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
@@ -44,9 +42,6 @@ export const BoardPage = () => {
   const urlParams = useParams();
   const { boardId, cardUrl } = urlParams;
 
-  const loadingRootElement = document.getElementById('loading-root');
-  let isInitialRender = true;
-
   useEffect(() => {
     if (urlParams['*'] && !popupModalOpen) {
       dispatch(openModal());
@@ -54,12 +49,11 @@ export const BoardPage = () => {
   }, [urlParams, cardUrl, isCardLoading]);
 
   useEffect(() => {
-    if (cardUrl && !hasCardFetchingFailed) {
+    if (cardUrl && board.id && !hasCardFetchingFailed) {
       dispatch(getCard({ id: cardUrl }));
     }
-    if (isInitialRender && boardId && isLoading) {
+    if (boardId && isLoading) {
       dispatch(fetchBoardListsAndCards(boardId));
-      isInitialRender = false;
     }
     if (!isLoading && !board.id) {
       navigate('/');
@@ -129,10 +123,6 @@ export const BoardPage = () => {
 
   return (
     <>
-      {loadingState === 'loading' &&
-        !isLoading &&
-        loadingRootElement &&
-        createPortal(<LoadingPulse />, loadingRootElement)}
       {boardId && (
         <>
           {popupModalOpen && !!cardUrl && <Outlet />}

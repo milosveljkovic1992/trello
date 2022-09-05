@@ -7,13 +7,23 @@ import { RootState } from 'store';
 
 export const RenderRoutes = () => {
   const popupModalOpen = useSelector((state: RootState) => state.popup.open);
+  const isMemberLoading = useSelector(
+    (state: RootState) => state.member.isLoading,
+  );
+  const isBoardLoading = useSelector(
+    (state: RootState) => state.board.isLoading,
+  );
 
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/b/:boardId/*" element={<BoardPage />}>
-        {popupModalOpen && <Route path="c/:cardUrl" element={<CardPopup />} />}
-      </Route>
+      {!isMemberLoading && (
+        <Route path="/b/:boardId/*" element={<BoardPage />}>
+          {!isBoardLoading && popupModalOpen && (
+            <Route path="c/:cardUrl" element={<CardPopup />} />
+          )}
+        </Route>
+      )}
     </Routes>
   );
 };

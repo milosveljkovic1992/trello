@@ -1,12 +1,12 @@
-import { SingleBoardProps } from './single-board.types';
-import { Container } from './single-board.styles';
+import { BoardCardProps } from './board-card.types';
+import { Container } from './board-card.styles';
 
-export const SingleBoard = ({
+export const BoardCard = ({
   board,
   icon,
   handleClick,
   handleDelete,
-}: SingleBoardProps) => {
+}: BoardCardProps) => {
   const { id } = board;
   return (
     <Container

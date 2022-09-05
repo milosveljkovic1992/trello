@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { Draggable } from '@hello-pangea/dnd';
@@ -21,16 +21,10 @@ export const SingleCard = ({ card, index }: SingleCardProps) => {
     (state: RootState) => state.board,
   );
   const [rect, setRect] = useState<DOMRect>({} as DOMRect);
-  const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isEditPanelOpen && card.id === editPanelId) {
-      const boundingClientReact = cardRef.current?.getBoundingClientRect();
-      if (boundingClientReact) {
-        setRect(boundingClientReact);
-      }
-    }
-  }, [isEditPanelOpen]);
+  const handleRect = (rect: DOMRect) => {
+    setRect(rect);
+  };
 
   return (
     <Draggable draggableId={card.id} index={index}>
@@ -49,7 +43,12 @@ export const SingleCard = ({ card, index }: SingleCardProps) => {
               className="card-link"
               data-testid="single-card-link"
             >
-              <SingleCardContent card={card} ref={cardRef} />
+              <SingleCardContent
+                card={card}
+                isEditPanelOpen={isEditPanelOpen}
+                editPanelId={editPanelId}
+                handleRect={handleRect}
+              />
             </Link>
             {isEditPanelOpen && card.id === editPanelId && (
               <EditPanel card={card} rect={rect} index={index} />

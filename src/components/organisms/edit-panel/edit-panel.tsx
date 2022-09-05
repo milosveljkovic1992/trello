@@ -79,7 +79,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           <button
             ref={moveRef}
             className="edit-options-tab card-edit__move-button"
-            onClick={() => setIsMoveOpen((prevState) => !prevState)}
+            onClick={() => setIsMoveOpen((isOpen) => !isOpen)}
           >
             <div className="edit-options-icon-container">
               <ImArrowRight2 />

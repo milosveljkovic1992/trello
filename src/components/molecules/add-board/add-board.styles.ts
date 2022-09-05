@@ -1,9 +1,9 @@
 import styled from 'styled-components/macro';
-import { Container as SingleBoardContainer } from 'components/molecules/single-board/single-board.styles';
+import { Container as BoardCardContainer } from 'components/molecules/board-card/board-card.styles';
 
 import type { ThemeProps } from 'global/Theme';
 
-export const Container = styled(SingleBoardContainer)`
+export const Container = styled(BoardCardContainer)`
   textarea {
     width: 100%;
     height: 100%;
