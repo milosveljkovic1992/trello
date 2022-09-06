@@ -16,7 +16,7 @@ import { getMemberInfo } from 'store/member-slice';
 import { resetError, throwError } from 'store/error-slice';
 
 import { RenderRoutes } from 'routes';
-import { LoadingPulse, Login } from 'components/atoms';
+import { LoadingPulse, LoadingSpinner, Login } from 'components/atoms';
 import { ErrorSnackbar } from 'components/molecules';
 
 const App = () => {
@@ -99,7 +99,13 @@ const App = () => {
           />,
           errorRootElement,
         )}
-      {!isAuth ? <Login /> : <RenderRoutes />}
+      {!isAuth ? (
+        <Login />
+      ) : isMemberLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <RenderRoutes />
+      )}
     </Theme>
   );
 };
