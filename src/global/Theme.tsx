@@ -25,10 +25,6 @@ export type MyThemeProps = {
   children: ReactNode;
 };
 
-const defaultColor = '#172b4d';
-const defaultFontSize = '14px';
-const defaultBorderRadius = '3px';
-
 const theme = {
   background: {
     primary: '#0079bf',
@@ -37,14 +33,14 @@ const theme = {
     grayHover: '#ddd',
   },
   font: {
-    color: defaultColor,
+    color: '#172b4d',
     lightColor: '#777',
-    fontSize: defaultFontSize,
+    fontSize: '14px',
     fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
     code: `source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`,
   },
   border: {
-    borderRadius: defaultBorderRadius,
+    borderRadius: '3px',
   },
 };
 
