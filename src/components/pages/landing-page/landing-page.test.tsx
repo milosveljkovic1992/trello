@@ -19,14 +19,27 @@ import { BoardPage } from 'components/pages';
 import { CardPopup } from 'components/pages';
 import { LandingPage } from './landing-page';
 
-beforeEach(() => {
+beforeAll(async () => {
   const token = '123223323';
   localStorage.setItem('trelloToken', token);
   store.dispatch(login(token));
   store.dispatch(getMemberInfo(token));
+
+  await waitFor(() => {
+    const state = store.getState();
+    expect(state.member.id).not.toBe('');
+  });
+
+  const memberId = store.getState().member.id;
+  store.dispatch(setBoards(memberId));
+
+  await waitFor(() => {
+    const state = store.getState();
+    expect(state.boards.boardsArray.length).not.toBe(0);
+  });
 });
 
-afterEach(() => {
+afterAll(() => {
   localStorage.removeItem('trelloToken');
   store.dispatch(logout());
 });
@@ -47,20 +60,10 @@ describe('LandingPage', () => {
   };
 
   it('renders landing page', async () => {
-    const { getByText, getByTestId, findByRole, findAllByTestId } = render(
-      <LandingPage />,
-    );
-
-    expect(getByTestId('loading-spinner')).toBeInTheDocument();
+    const { getByText, findByRole, findAllByTestId } = render(<LandingPage />);
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading).toBeInTheDocument();
-
-    if (store.getState().member.id && store.getState().boards.isLoading) {
-      act(() => {
-        store.dispatch(setBoards('memberId'));
-      });
-    }
 
     const boardElements = await findAllByTestId('single-board');
     expect(boardElements).toHaveLength(2);
@@ -97,12 +100,6 @@ describe('LandingPage', () => {
       findAllByTestId,
     } = render(<LandingPage />);
     await findByRole('heading', { level: 2 });
-
-    if (store.getState().member.id && store.getState().boards.isLoading) {
-      act(() => {
-        store.dispatch(setBoards('memberId'));
-      });
-    }
 
     await findAllByTestId('single-board');
 
@@ -153,158 +150,96 @@ describe('LandingPage', () => {
   it('throws an error on submitting empty board name', async () => {
     const { getByText, getByPlaceholderText, findByRole, findAllByTestId } =
       render(<LandingPage />);
-
     await findByRole('heading', { level: 2 });
-
-    if (store.getState().member.id && store.getState().boards.isLoading) {
-      act(() => {
-        store.dispatch(setBoards('memberId'));
-      });
-    }
-
     expect(await findAllByTestId('single-board')).toHaveLength(2);
-
     const addButton = getByText(/add new/i);
-
     userEvent.click(addButton);
     userEvent.tab();
-
     await waitFor(() => {
       const state = store.getState();
       const errorMessage = state.errorHandler.errorMessage;
       expect(errorMessage).toBe('Board name cannot be empty');
     });
-
     store.dispatch(resetError());
-
     await waitFor(() => {
       const state = store.getState();
       const { errorMessage, isErrorDisplayed } = state.errorHandler;
       expect(errorMessage).toBe('');
       expect(isErrorDisplayed).toBeFalsy();
     });
-
     expect(await findAllByTestId('single-board')).toHaveLength(2);
-
     const addButton2 = getByText(/add new/i);
     userEvent.click(addButton2);
-
     const inputElement2 = getByPlaceholderText(/start typing.../i);
     userEvent.type(inputElement2, '     ');
     userEvent.tab();
-
     await waitFor(() => {
       const state = store.getState();
       const { errorMessage } = state.errorHandler;
       expect(errorMessage).toBe('Board name cannot be empty');
     });
-
     store.dispatch(resetError());
-
     await waitFor(() => {
       const state = store.getState();
       const { errorMessage, isErrorDisplayed } = state.errorHandler;
       expect(errorMessage).toBe('');
       expect(isErrorDisplayed).toBeFalsy();
     });
-
     expect(await findAllByTestId('single-board')).toHaveLength(2);
-
     const addButton3 = getByText(/add new/i);
     userEvent.click(addButton3);
-
     const inputElement3 = getByPlaceholderText(/start typing.../i);
     userEvent.type(inputElement3, '\n');
     userEvent.tab();
-
     await waitFor(() => {
       const state = store.getState();
       const { errorMessage } = state.errorHandler;
       expect(errorMessage).toBe('Board name cannot be empty');
     });
-
     expect(await findAllByTestId('single-board')).toHaveLength(2);
   });
-
   it('redirects to board URL on user click', async () => {
     const { getAllByTestId, findByRole, findAllByTestId } = render(
       <LandingPage />,
     );
-
     await findByRole('heading', { level: 2, name: /Your workplaces/i });
-
-    if (store.getState().member.id && store.getState().boards.isLoading) {
-      act(() => {
-        store.dispatch(setBoards('memberId'));
-      });
-    }
-
     await findAllByTestId('single-board');
-
     const boards = getAllByTestId('single-board');
     const boardOne = boards[0];
     const boardOneName = store.getState().boards.boardsArray[0].name;
     const boardOneId = store.getState().boards.boardsArray[0].id;
-
     expect(boardOne).toHaveTextContent(boardOneName);
-
     act(() => {
       userEvent.click(boardOne);
     });
-
     expect(window.location.pathname).toBe(`/b/${boardOneId}`);
   });
-
   it('logs out on logout button click', async () => {
     const { getByRole, findByRole, findAllByTestId } = render(<LandingPage />);
-
     await findByRole('heading', { level: 2, name: /Your workplaces/i });
-
-    if (store.getState().member.id && store.getState().boards.isLoading) {
-      act(() => {
-        store.dispatch(setBoards('memberId'));
-      });
-    }
-
     await findAllByTestId('single-board');
-
     const logoutButton = getByRole('button', { name: /log out/i });
     expect(logoutButton).toBeInTheDocument();
-
     act(() => {
       userEvent.click(logoutButton);
     });
-
     expect(window.location.pathname).toBe('/');
     expect(localStorage.getItem('trelloToken')).toBe(null);
     expect(store.getState().auth.isAuth).toBe(false);
     expect(store.getState().auth.APItoken).toBe('');
   });
-
   it('opens board page when user clicks on the board', async () => {
     const { getAllByTestId, findByRole, findAllByTestId } = render(
       <LandingPageContainer />,
     );
-
     await findByRole('heading', { level: 2, name: /Your workplaces/i });
-
-    if (store.getState().member.id && store.getState().boards.isLoading) {
-      act(() => {
-        store.dispatch(setBoards('memberId'));
-      });
-    }
-
     await findAllByTestId('single-board');
-
     const boards = getAllByTestId('single-board');
     expect(boards).toHaveLength(2);
-
     act(() => {
       userEvent.click(boards[0]);
     });
-
     const boardPage = await findByRole('board');
-
     expect(boardPage).toBeInTheDocument();
   });
 });
