@@ -17,8 +17,8 @@ export const setBoards = createAsyncThunk(
         cancelToken: source.token,
       });
       return response.data;
-    } catch ({ message }) {
-      if (message !== 'canceled') {
+    } catch ({ code }) {
+      if (code !== 'ERR_CANCELED') {
         thunkAPI.dispatch(throwError('Could not get your boards'));
       }
       return thunkAPI.rejectWithValue('');

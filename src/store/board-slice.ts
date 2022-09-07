@@ -47,8 +47,8 @@ export const fetchBoardListsAndCards = createAsyncThunk(
       thunkAPI.dispatch(setListsArray(fetchedLists));
       thunkAPI.dispatch(setCards(fetchedCards));
       return fetchedBoard;
-    } catch ({ message }) {
-      if (message !== 'canceled') {
+    } catch ({ code }) {
+      if (code !== 'ERR_CANCELED') {
         thunkAPI.dispatch(throwError('Could not get board info'));
       }
       return thunkAPI.rejectWithValue('');
