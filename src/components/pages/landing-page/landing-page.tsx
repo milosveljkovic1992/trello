@@ -71,9 +71,11 @@ export const LandingPage = () => {
 
   useEffect(() => {
     if (member.id && isLoading) {
-      dispatch(setBoards(member.id));
+      const promise = dispatch(setBoards(member.id));
+
+      return () => promise.abort();
     }
-  }, [dispatch, member, isLoading]);
+  }, [dispatch]);
 
   if (!member.id || isLoading) {
     return <LoadingSpinner />;

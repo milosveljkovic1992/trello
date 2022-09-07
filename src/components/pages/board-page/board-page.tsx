@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { useParams, useNavigate, Outlet } from 'react-router-dom';
+import { useParams, Outlet } from 'react-router-dom';
 import {
   DragDropContext,
   DragStart,
@@ -27,9 +27,6 @@ export const BoardPage = () => {
   const hasCardFetchingFailed = useSelector(
     (state: RootState) => state.card.hasFailed,
   );
-  const hasBoardFetchingFailed = useSelector(
-    (state: RootState) => state.board.hasFailed,
-  );
   const { isLoading } = useSelector((state: RootState) => state.board);
   const board = useSelector((state: RootState) => state.board.details);
   const lists = useSelector((state: RootState) => state.lists.listsArray);
@@ -37,9 +34,7 @@ export const BoardPage = () => {
   const isCardLoading = useSelector((state: RootState) => state.card.isLoading);
   const [dragSourceListId, setDragSourceListId] = useState('');
   const [dragTargetListId, setDragTargetListId] = useState('');
-  const isInitialRender = useRef(true);
 
-  const navigate = useNavigate();
   const urlParams = useParams();
   const { boardId, cardUrl } = urlParams;
 
@@ -53,14 +48,15 @@ export const BoardPage = () => {
     if (cardUrl && board.id && !hasCardFetchingFailed) {
       dispatch(getCard({ id: cardUrl }));
     }
-    if (boardId && isLoading && isInitialRender.current) {
-      dispatch(fetchBoardListsAndCards(boardId));
-      isInitialRender.current = false;
+  }, [boardId, isLoading, cardUrl]);
+
+  useEffect(() => {
+    if (boardId && isLoading) {
+      const promise = dispatch(fetchBoardListsAndCards(boardId));
+
+      return () => promise.abort();
     }
-    if (!isLoading && !board.id) {
-      navigate('/');
-    }
-  }, [boardId, isLoading, hasBoardFetchingFailed, cardUrl]);
+  }, [dispatch]);
 
   const handleDragStart = (result: DragStart) => {
     setDragSourceListId(result.source.droppableId);
