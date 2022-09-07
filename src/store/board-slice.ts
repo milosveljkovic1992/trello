@@ -26,8 +26,16 @@ export const fetchBoardListsAndCards = createAsyncThunk(
   '/board/fetchBoardListsAndCards',
   async (boardId: string, thunkAPI) => {
     try {
+      const source = axios.CancelToken.source();
+      thunkAPI.signal.addEventListener('abort', () => {
+        source.cancel();
+      });
+
       const response = await axios.get(
         `/1/batch?urls=/1/boards/${boardId},/1/boards/${boardId}/lists,/1/boards/${boardId}/cards`,
+        {
+          cancelToken: source.token,
+        },
       );
       const fetchedBoard = response.data[0][200];
       const fetchedLists = response.data[1][200];
@@ -39,8 +47,10 @@ export const fetchBoardListsAndCards = createAsyncThunk(
       thunkAPI.dispatch(setListsArray(fetchedLists));
       thunkAPI.dispatch(setCards(fetchedCards));
       return fetchedBoard;
-    } catch (error) {
-      thunkAPI.dispatch(throwError('Could not get board info'));
+    } catch ({ message }) {
+      if (message !== 'canceled') {
+        thunkAPI.dispatch(throwError('Could not get board info'));
+      }
       return thunkAPI.rejectWithValue('');
     }
   },

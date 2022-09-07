@@ -8,10 +8,19 @@ export const setBoards = createAsyncThunk(
   '/boards/setBoards',
   async (memberId: string, thunkAPI) => {
     try {
-      const response = await axios.get(`/1/members/${memberId}/boards`);
+      const source = axios.CancelToken.source();
+      thunkAPI.signal.addEventListener('abort', () => {
+        source.cancel();
+      });
+
+      const response = await axios.get(`/1/members/${memberId}/boards`, {
+        cancelToken: source.token,
+      });
       return response.data;
-    } catch (error) {
-      thunkAPI.dispatch(throwError('Could not get your boards'));
+    } catch ({ message }) {
+      if (message !== 'canceled') {
+        thunkAPI.dispatch(throwError('Could not get your boards'));
+      }
       return thunkAPI.rejectWithValue('');
     }
   },
