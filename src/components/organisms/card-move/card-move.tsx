@@ -103,7 +103,7 @@ export const CardMove = ({
               </option>
             )}
 
-            {currentList[0].idList !== selectedList[0].idList &&
+            {currentList[0].idList !== targetList &&
               selectedList.length > 0 && (
                 <option value={selectedList.length}>
                   {selectedList.length + 1}
