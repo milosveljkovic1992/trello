@@ -6,24 +6,24 @@ import {
 } from 'store/loading-slice';
 
 axios.interceptors.request.use(
-  function (config) {
+  (config) => {
     if (store.getState().loading.loadingState !== 'loading') {
       store.dispatch(signalLoadingStarted());
     }
     return config;
   },
-  function (error) {
+  (error) => {
     store.dispatch(signalLoadingFinished());
     return Promise.reject(error);
   },
 );
 
 axios.interceptors.response.use(
-  function (response) {
+  (response) => {
     store.dispatch(signalLoadingFinished());
     return response;
   },
-  function (error) {
+  (error) => {
     store.dispatch(signalLoadingFinished());
     return Promise.reject(error);
   },
