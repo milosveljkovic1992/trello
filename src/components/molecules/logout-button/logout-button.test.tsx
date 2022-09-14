@@ -7,7 +7,7 @@ describe('LogoutButton', () => {
   it('renders component', () => {
     const handleLogoutButton = jest.fn();
     const { getByRole } = render(
-      <LogoutButton fixed={true} handleClick={handleLogoutButton} />,
+      <LogoutButton isHomePage={true} handleClick={handleLogoutButton} />,
     );
 
     const logoutButton = getByRole('button', { name: /log out/i });

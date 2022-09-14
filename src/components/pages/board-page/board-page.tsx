@@ -18,7 +18,7 @@ import { dropCard } from 'store/cards-slice';
 import { calculatePosition } from 'utils/calculatePosition';
 
 import { LoadingSpinner } from 'components/atoms';
-import { AddList, Board, SingleList } from 'components/organisms';
+import { AddList, SingleList } from 'components/organisms';
 
 export const BoardPage = () => {
   const dispatch = useAppDispatch();
@@ -124,28 +124,26 @@ export const BoardPage = () => {
       {boardId && (
         <>
           {popupModalOpen && !!cardUrl && <Outlet />}
-          <Board>
-            {board && lists && (
-              <DragDropContext
-                onDragStart={handleDragStart}
-                onDragUpdate={handleDragUpdate}
-                onDragEnd={handleDragEnd}
-              >
-                <div className="board-inner-container">
-                  {lists.map((list) => (
-                    <SingleList
-                      key={list.id}
-                      list={list}
-                      dragSourceListId={dragSourceListId}
-                      dragTargetListId={dragTargetListId}
-                    />
-                  ))}
+          {board && lists && (
+            <DragDropContext
+              onDragStart={handleDragStart}
+              onDragUpdate={handleDragUpdate}
+              onDragEnd={handleDragEnd}
+            >
+              <div className="board-inner-container">
+                {lists.map((list) => (
+                  <SingleList
+                    key={list.id}
+                    list={list}
+                    dragSourceListId={dragSourceListId}
+                    dragTargetListId={dragTargetListId}
+                  />
+                ))}
 
-                  <AddList />
-                </div>
-              </DragDropContext>
-            )}
-          </Board>
+                <AddList />
+              </div>
+            </DragDropContext>
+          )}
         </>
       )}
     </>

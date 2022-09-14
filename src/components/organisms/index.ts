@@ -1,6 +1,5 @@
 export { AddCard } from 'components/organisms/add-card/add-card';
 export { AddList } from 'components/organisms/add-list/add-list';
-export { Board } from 'components/organisms/board/board';
 export { CardDescription } from 'components/organisms/card-description/card-description';
 export { CardMove } from 'components/organisms/card-move/card-move';
 export { CardTitle } from 'components/organisms/card-title/card-title';
@@ -9,6 +8,7 @@ export { CommentInput } from 'components/organisms/comment-input/comment-input';
 export { DragAndDropPlaceholder } from 'components/organisms/drag-and-drop-placeholder/drag-and-drop-placeholder';
 export { EditPanel } from 'components/organisms/edit-panel/edit-panel';
 export { ListTitle } from 'components/organisms/list-title/list-title';
+export { Header } from 'components/organisms/header/header';
 export { SingleCard } from 'components/organisms/single-card/single-card';
 export { SingleComment } from 'components/organisms/single-comment/single-comment';
 export { SingleList } from 'components/organisms/single-list/single-list';

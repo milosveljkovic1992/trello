@@ -6,13 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
 
 import { RootState, useAppDispatch } from 'store';
-import { logout } from 'store/auth-slice';
 import { BoardType, resetBoard } from 'store/board-slice';
 import { setBoards, addBoard, sendDeleteRequest } from 'store/boards-slice';
 import { throwError } from 'store/error-slice';
 
 import { LoadingSpinner } from 'components/atoms';
-import { AddBoard, LogoutButton, BoardCard } from 'components/molecules';
+import { AddBoard, BoardCard } from 'components/molecules';
 
 import { Container } from './landing-page-styles';
 
@@ -62,13 +61,6 @@ export const LandingPage = () => {
     dispatch(sendDeleteRequest(boardId));
   };
 
-  const handleLogoutButton = () => {
-    dispatch(resetBoard());
-    localStorage.removeItem('trelloToken');
-    dispatch(logout());
-    navigate('/');
-  };
-
   useEffect(() => {
     if (member.id && isLoading) {
       const promise = dispatch(setBoards(member.id));
@@ -111,8 +103,6 @@ export const LandingPage = () => {
           )}
         </div>
       </div>
-
-      <LogoutButton fixed={true} handleClick={handleLogoutButton} />
     </Container>
   );
 };

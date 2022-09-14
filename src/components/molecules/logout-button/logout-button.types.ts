@@ -1,4 +1,4 @@
 export interface LogoutButtonProps {
-  fixed: boolean;
+  isHomePage: boolean;
   handleClick: () => void;
 }
