@@ -1,8 +1,9 @@
-import { IconButton, LogoutButton } from 'components/molecules';
 import { useEffect, useRef, useState } from 'react';
+
 import { ImHome } from 'react-icons/im';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import { RootState, useAppDispatch } from 'store';
 import { logout } from 'store/auth-slice';
 import {
@@ -11,6 +12,9 @@ import {
   submitBoardName,
 } from 'store/board-slice';
 import { resetCreatingNewCard } from 'store/cards-slice';
+
+import { IconButton, LogoutButton } from 'components/molecules';
+
 import { HeaderContainer } from './header.styles';
 
 export const Header = ({ isHomePage }: { isHomePage: boolean }) => {

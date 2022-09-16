@@ -99,7 +99,7 @@ const App = () => {
           />,
           errorRootElement,
         )}
-      {!isAuth ? (
+      {!localStorage.getItem('trelloToken') && !isAuth ? (
         <Login />
       ) : isMemberLoading ? (
         <LoadingSpinner />
