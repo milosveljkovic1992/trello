@@ -1,5 +1,5 @@
-import { Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   act,
@@ -15,8 +15,9 @@ import { setBoards } from 'store/boards-slice';
 import { resetError } from 'store/error-slice';
 import { getMemberInfo } from 'store/member-slice';
 
-import { BoardPage } from 'components/pages';
-import { CardPopup } from 'components/pages';
+import { BoardPage, CardPopup } from 'components/pages';
+import { SinglePage } from 'components/templates';
+
 import { LandingPage } from './landing-page';
 
 beforeAll(async () => {
@@ -48,14 +49,16 @@ describe('LandingPage', () => {
   const LandingPageContainer = () => {
     const popupModalOpen = useSelector((state: RootState) => state.popup.open);
     return (
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/b/:boardId/*" element={<BoardPage />}>
-          {popupModalOpen && (
-            <Route path="c/:cardUrl" element={<CardPopup />} />
-          )}
-        </Route>
-      </Routes>
+      <SinglePage>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/b/:boardId/*" element={<BoardPage />}>
+            {popupModalOpen && (
+              <Route path="c/:cardUrl" element={<CardPopup />} />
+            )}
+          </Route>
+        </Routes>
+      </SinglePage>
     );
   };
 
@@ -198,6 +201,7 @@ describe('LandingPage', () => {
     });
     expect(await findAllByTestId('single-board')).toHaveLength(2);
   });
+
   it('redirects to board URL on user click', async () => {
     const { getAllByTestId, findByRole, findAllByTestId } = render(
       <LandingPage />,
@@ -214,8 +218,13 @@ describe('LandingPage', () => {
     });
     expect(window.location.pathname).toBe(`/b/${boardOneId}`);
   });
+
   it('logs out on logout button click', async () => {
-    const { getByRole, findByRole, findAllByTestId } = render(<LandingPage />);
+    const { getByRole, findByRole, findAllByTestId } = render(
+      <SinglePage>
+        <LandingPage />
+      </SinglePage>,
+    );
     await findByRole('heading', { level: 2, name: /Your workplaces/i });
     await findAllByTestId('single-board');
     const logoutButton = getByRole('button', { name: /log out/i });
@@ -228,6 +237,7 @@ describe('LandingPage', () => {
     expect(store.getState().auth.isAuth).toBe(false);
     expect(store.getState().auth.APItoken).toBe('');
   });
+
   it('opens board page when user clicks on the board', async () => {
     const { getAllByTestId, findByRole, findAllByTestId } = render(
       <LandingPageContainer />,

@@ -130,7 +130,7 @@ export const BoardPage = () => {
               onDragUpdate={handleDragUpdate}
               onDragEnd={handleDragEnd}
             >
-              <div className="board-inner-container">
+              <div className="board-inner-container" role="board">
                 {lists.map((list) => (
                   <SingleList
                     key={list.id}
