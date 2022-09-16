@@ -30,7 +30,9 @@ export const addBoard = createAsyncThunk(
   '/boards/addBoard',
   async (newBoardTitle: string, thunkAPI) => {
     try {
-      const response = await axios.post(`/1/boards/?name=${newBoardTitle}`);
+      const response = await axios.post(`/1/boards`, {
+        name: newBoardTitle,
+      });
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Board could not be added'));

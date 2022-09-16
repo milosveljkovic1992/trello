@@ -29,7 +29,10 @@ export const submitComment = createAsyncThunk(
   async ({ card, comment }: submitComment, thunkAPI) => {
     try {
       const response = await axios.post(
-        `/1/cards/${card.id}/actions/comments?text=${comment}`,
+        `/1/cards/${card.id}/actions/comments`,
+        {
+          text: comment,
+        },
       );
 
       try {
@@ -71,9 +74,9 @@ export const editComment = createAsyncThunk(
   '/commentsSlice/editComment',
   async ({ card, id, value }: editComment, thunkAPI) => {
     try {
-      await axios.put(
-        `/1/cards/${card.id}/actions/${id}/comments?text=${value}`,
-      );
+      await axios.put(`/1/cards/${card.id}/actions/${id}/comments`, {
+        text: value,
+      });
       return { id, value };
     } catch (error) {
       thunkAPI.dispatch(throwError('Comment could not be edited'));

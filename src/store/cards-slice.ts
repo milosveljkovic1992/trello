@@ -14,9 +14,10 @@ export const submitCard = createAsyncThunk(
   '/cards/submitCard',
   async ({ listId, userInput }: SubmitCard, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `/1/card?idList=${listId}&name=${userInput}`,
-      );
+      const response = await axios.post(`/1/cards`, {
+        idList: listId,
+        name: userInput,
+      });
       thunkAPI.dispatch(addCard(response.data));
       thunkAPI.dispatch(informListUpdate(listId));
     } catch (error) {
@@ -36,9 +37,10 @@ export const moveCard = createAsyncThunk(
   '/cards/moveCard',
   async ({ card, targetList, pos }: MoveCard, thunkAPI) => {
     try {
-      const response = await axios.put(
-        `/1/cards/${card.id}?idList=${targetList}&pos=${pos}`,
-      );
+      const response = await axios.put(`/1/cards/${card.id}`, {
+        idList: targetList,
+        pos: pos,
+      });
       thunkAPI.dispatch(updateCard(response.data));
       thunkAPI.dispatch(informOriginListUpdate(card.idList));
       thunkAPI.dispatch(informListUpdate(targetList));
@@ -68,9 +70,10 @@ export const dropCard = createAsyncThunk(
     thunkAPI.dispatch(informOriginListUpdate(startListId));
     thunkAPI.dispatch(informListUpdate(targetListId));
     try {
-      const response = await axios.put(
-        `/1/cards/${targetCard.id}?idList=${targetListId}&pos=${targetPosition}`,
-      );
+      const response = await axios.put(`/1/cards/${targetCard.id}`, {
+        idList: targetListId,
+        pos: targetPosition,
+      });
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('Could not move card'));

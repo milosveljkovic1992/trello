@@ -65,9 +65,9 @@ export const submitBoardName = createAsyncThunk(
   '/board/submitBoardName',
   async ({ board, boardName }: SubmitBoardName, thunkAPI) => {
     try {
-      const response = await axios.put(
-        `/1/boards/${board.id}?name=${boardName}`,
-      );
+      const response = await axios.put(`/1/boards/${board.id}`, {
+        name: boardName,
+      });
       const state = thunkAPI.getState() as RootState;
       thunkAPI.dispatch(setBoards(state.member.id));
       thunkAPI.dispatch(renameBoard(boardName));

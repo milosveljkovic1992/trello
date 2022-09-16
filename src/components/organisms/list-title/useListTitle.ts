@@ -17,7 +17,9 @@ export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
   const submitTitle = async () => {
     if (listTitle !== list.name) {
       try {
-        await axios.put(`/1/lists/${list.id}?name=${listTitle}`);
+        await axios.put(`/1/lists/${list.id}`, {
+          name: listTitle,
+        });
       } catch (error) {
         setListTitle(list.name);
         dispatch(throwError('Could not update title'));

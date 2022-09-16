@@ -14,7 +14,9 @@ export const archiveList = createAsyncThunk(
   '/lists/archiveList',
   async (listId: string, thunkAPI) => {
     try {
-      await axios.put(`/1/lists/${listId}?closed=true`);
+      await axios.put(`/1/lists/${listId}`, {
+        closed: true,
+      });
       return listId;
     } catch (error) {
       thunkAPI.dispatch(throwError('List could not be removed'));
@@ -33,9 +35,11 @@ export const submitList = createAsyncThunk(
   '/lists/submitList',
   async ({ userInput, pos, boardId }: SubmitList, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `/1/lists?name=${userInput}&pos=${pos}&idBoard=${boardId}`,
-      );
+      const response = await axios.post(`/1/lists`, {
+        name: userInput,
+        pos: pos,
+        idBoard: boardId,
+      });
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(throwError('New list could not be added'));

@@ -20,7 +20,9 @@ export const useCardTitle = ({
 
   const renameCard = async () => {
     try {
-      const response = await axios.put(`/1/cards/${card.id}?name=${title}`);
+      const response = await axios.put(`/1/cards/${card.id}`, {
+        name: title,
+      });
       dispatch(updateCard(response.data));
       dispatch(informListUpdate(card.idList));
     } catch (error) {

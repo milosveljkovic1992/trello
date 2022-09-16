@@ -72,7 +72,7 @@ export const CardDescription = () => {
             data-testid="description-icon-container"
           >
             <div className="btn-container">
-              <button className="desc-btn" onClick={() => handleEdit()}>
+              <button className="desc-btn" onClick={handleEdit}>
                 Save
               </button>
 

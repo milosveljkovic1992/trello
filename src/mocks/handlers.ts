@@ -109,20 +109,20 @@ export const handlers = [
 
   // boards-slice.ts
   // addBoard(newBoardTitle: string)
-  rest.post('/1/boards/', async (req, res, ctx) => {
-    const newBoardTitle = req.url.searchParams.get('name') as string;
+  rest.post('/1/boards', async (req, res, ctx) => {
+    const { name } = await req.json();
 
     const boards = store.getState().boards.boardsArray;
     const lastIndex = boards.length - 1;
     const nextIdNumber = Number(boards[lastIndex].id.slice(-1)) + 1;
 
     const newBoardId = `boardId${nextIdNumber}`;
-    const dashTitle = newBoardTitle ? newBoardTitle.replace(/\s/g, '-') : '';
+    const dashTitle = name ? name.replace(/\s/g, '-') : '';
 
     return await res(
       ctx.json({
         id: newBoardId,
-        name: newBoardTitle,
+        name,
         prefs: {
           backgroundImage: `${dashTitle}-board-image.jpg`,
           backgroundImageScaled: [
@@ -344,9 +344,10 @@ export const handlers = [
 
   // card-slice.ts
   // editDescription({ card: CardType, description: string })
-  rest.put(`/1/cards/:cardId`, (req, res, ctx) => {
+  rest.put(`/1/cards/:cardId`, async (req, res, ctx) => {
     const { cardId } = req.params;
-    const description = req.url.searchParams.get('desc');
+    const { desc } = await req.json();
+
     return res(
       ctx.json({
         name: 'NewTitle',
@@ -357,16 +358,15 @@ export const handlers = [
           comments: 2,
           description: false,
         },
-        desc: description,
+        desc,
       }),
     );
   }),
 
   // cards-slice.ts
   // submitCard({ listId: string, userInput: string })
-  rest.post(`/1/card`, (req, res, ctx) => {
-    const idList = req.url.searchParams.get('idList');
-    const cardTitle = req.url.searchParams.get('name');
+  rest.post(`/1/cards`, async (req, res, ctx) => {
+    const { idList, name } = await req.json();
 
     const cards = store.getState().cards.cardsArray;
     const lastIndex = cards.length - 1;
@@ -377,9 +377,9 @@ export const handlers = [
 
     return res(
       ctx.json({
-        name: cardTitle,
+        name,
         id: newCardId,
-        idList: idList,
+        idList,
         pos: newCardPos,
         badges: {
           comments: 3,
@@ -411,14 +411,14 @@ export const handlers = [
 
   // board-slice.ts
   // submitBoardName({ board, boardName}: {board: BoardType, boardName: string})
-  rest.put(`/1/boards/:boardId`, (req, res, ctx) => {
+  rest.put(`/1/boards/:boardId`, async (req, res, ctx) => {
     const { boardId } = req.params;
-    const newBoardTitle = req.url.searchParams.get('name');
+    const { name } = await req.json();
 
     return res(
       ctx.json({
         id: boardId,
-        name: newBoardTitle,
+        name,
         prefs: {
           backgroundImage:
             'https://trello-backgrounds.s3.amazonaws.com/SharedBackground/original/b89359b25f83fc84c1e24e7eb282f4d6/photo-1654204933947-f3d067d7151e',
@@ -515,14 +515,15 @@ export const handlers = [
 
   // comments-slice.ts
   // submitComment({ card: CardType, comment: string})
-  rest.post(`/1/cards/:cardId/actions/comments`, (req, res, ctx) => {
-    const commentInput = req.url.searchParams.get('text') as string;
+  rest.post(`/1/cards/:cardId/actions/comments`, async (req, res, ctx) => {
+    const { text } = await req.json();
+
     return res(
       ctx.json({
         type: 'commentCard',
         id: 'commentId1',
         data: {
-          text: commentInput,
+          text,
         },
         memberCreator: {
           fullName: 'John Doe',
@@ -558,18 +559,16 @@ export const handlers = [
   //   pos: number,
   //   boardId: string
   // })
-  rest.post(`/1/lists`, (req, res, ctx) => {
-    const listName = req.url.searchParams.get('name');
-    const listPos = req.url.searchParams.get('pos');
-    const boardId = req.url.searchParams.get('boardId1');
+  rest.post(`/1/lists`, async (req, res, ctx) => {
+    const { name, pos, idBoard } = await req.json();
 
     return res(
       ctx.json({
         closed: false,
         id: 'listId4',
-        idBoard: boardId,
-        name: listName,
-        pos: Number(listPos),
+        idBoard,
+        name,
+        pos: +pos,
       }),
     );
   }),

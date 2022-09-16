@@ -95,9 +95,9 @@ export const editDescription = createAsyncThunk(
     thunkAPI,
   ) => {
     try {
-      const response = await axios.put(
-        `/1/cards/${card.id}?desc=${description}`,
-      );
+      const response = await axios.put(`/1/cards/${card.id}`, {
+        desc: description,
+      });
       thunkAPI.dispatch(updateCard(response.data));
       thunkAPI.dispatch(informListUpdate(card.idList));
       return response.data;
