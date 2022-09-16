@@ -48,7 +48,7 @@ export const BoardPage = () => {
     if (cardUrl && board.id && !hasCardFetchingFailed) {
       dispatch(getCard({ id: cardUrl }));
     }
-  }, [boardId, isLoading, cardUrl]);
+  }, [board.id, isLoading, cardUrl]);
 
   useEffect(() => {
     if (boardId && isLoading) {
