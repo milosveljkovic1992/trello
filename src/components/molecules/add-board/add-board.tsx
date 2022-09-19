@@ -9,6 +9,7 @@ export const AddBoard = ({
   newBoardTitle,
   handleCreateNew,
   handleTitleChange,
+  handleEnter,
 }: AddBoardProps) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -29,15 +30,15 @@ export const AddBoard = ({
             ref={inputRef}
             placeholder="Start typing..."
             value={newBoardTitle}
-            onBlur={handleCreateNew}
             onChange={handleTitleChange}
+            onKeyDown={handleEnter}
           ></textarea>
         )}
       </div>
 
       <button
         ref={btnRef}
-        className={`create-new-button ${!isInputActive && 'isInputActive'}`}
+        className={`create-new-button ${!isInputActive ? 'isInputActive' : ''}`}
         onClick={handleCreateNew}
       >
         Create

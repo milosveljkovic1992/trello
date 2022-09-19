@@ -8,6 +8,7 @@ import { Container } from './new-item.styles';
 export const NewItem = ({
   children,
   handleInput,
+  handleEnter,
   handleSubmit,
   handleClose,
   placeholder,
@@ -26,6 +27,7 @@ export const NewItem = ({
           ref={inputRef}
           placeholder={placeholder}
           onChange={handleInput}
+          onKeyDown={handleEnter}
           value={input}
         ></textarea>
       </div>

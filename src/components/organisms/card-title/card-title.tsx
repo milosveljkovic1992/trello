@@ -12,7 +12,7 @@ export const CardTitle = () => {
   const dispatch = useAppDispatch();
   const card = useSelector((state: RootState) => state.card.details);
   const { isEditTitleActive } = useSelector((state: RootState) => state.card);
-  const { title, setTitle, handleRename } = useCardTitle({ card });
+  const { title, setTitle, handleRename, handleEnter } = useCardTitle({ card });
 
   const titleRef = useRef<HTMLInputElement>(null);
 
@@ -30,9 +30,10 @@ export const CardTitle = () => {
         <input
           ref={titleRef}
           type="text"
-          onBlur={handleRename}
           value={title}
+          onBlur={handleRename}
           onChange={(e) => setTitle(e.target.value)}
+          onKeyDown={handleEnter}
         />
       )}
     </Container>

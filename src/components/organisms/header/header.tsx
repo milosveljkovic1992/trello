@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, KeyboardEvent } from 'react';
 
 import { ImHome } from 'react-icons/im';
 import { useSelector } from 'react-redux';
@@ -37,6 +37,12 @@ export const Header = ({ isHomePage }: { isHomePage: boolean }) => {
       dispatch(submitBoardName({ board, boardName }));
     }
     handleEditActive(false);
+  };
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      handleBoardName();
+    }
   };
 
   const handleHomeButton = () => {
@@ -81,6 +87,7 @@ export const Header = ({ isHomePage }: { isHomePage: boolean }) => {
                 ref={titleRef}
                 value={boardName}
                 onChange={(e) => setBoardName(e.target.value)}
+                onKeyDown={handleEnter}
                 onBlur={handleBoardName}
                 size={boardName.length - 6}
                 data-testid="board-title-input"

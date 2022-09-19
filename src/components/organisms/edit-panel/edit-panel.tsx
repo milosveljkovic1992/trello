@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { KeyboardEvent, useEffect, useState, useRef } from 'react';
 
 import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
@@ -22,6 +22,15 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
 
   const handleCloseMove = () => {
     setIsMoveOpen(false);
+  };
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      if (card.name !== title) {
+        handleRename();
+      }
+      dispatch(closeEditPanel());
+    }
   };
 
   const { title, setTitle, handleRename } = useCardTitle({ card });
@@ -67,6 +76,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           ref={titleRef}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          onKeyDown={handleEnter}
         ></textarea>
         <div className="edit-options-container" ref={animationRef}>
           <button className="edit-options-tab" onClick={() => handleOpen(card)}>

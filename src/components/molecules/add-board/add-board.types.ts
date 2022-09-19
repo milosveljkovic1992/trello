@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 
 export interface AddBoardProps {
   handleActive: () => void;
@@ -6,4 +6,5 @@ export interface AddBoardProps {
   newBoardTitle: string;
   handleCreateNew: () => void;
   handleTitleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  handleEnter: (e: KeyboardEvent) => void;
 }

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -21,6 +21,12 @@ export const AddList = () => {
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setUserInput(e.target.value);
+  };
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      handleSubmit();
+    }
   };
 
   const handleClose = () => {
@@ -53,6 +59,7 @@ export const AddList = () => {
       {isCreatingNewList && (
         <NewItem
           handleInput={handleInput}
+          handleEnter={handleEnter}
           handleSubmit={handleSubmit}
           handleClose={handleClose}
           placeholder="Enter list title..."

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import axios from 'axios';
 import { useAppDispatch } from 'store';
@@ -15,20 +15,25 @@ export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
   const [isInputActive, setIsInputActive] = useState(false);
 
   const submitTitle = async () => {
-    if (listTitle !== list.name) {
-      try {
-        await axios.put(`/1/lists/${list.id}`, {
-          name: listTitle,
-        });
-      } catch (error) {
-        setListTitle(list.name);
-        dispatch(throwError('Could not update title'));
-      }
+    try {
+      await axios.put(`/1/lists/${list.id}`, {
+        name: listTitle,
+      });
+    } catch (error) {
+      setListTitle(list.name);
+      dispatch(throwError('Could not update title'));
     }
   };
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setListTitle(e.target.value);
+  };
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      handleSubmit();
+      titleRef.current?.blur();
+    }
   };
 
   const handleFocus = () => {
@@ -49,6 +54,7 @@ export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
     listTitle,
     isInputActive,
     handleInput,
+    handleEnter,
     handleFocus,
     handleSubmit,
     handleDelete,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { KeyboardEvent, useState, useEffect } from 'react';
 
 import axios from 'axios';
 
@@ -40,11 +40,17 @@ export const useCardTitle = ({
     dispatch(finishEditingTitle());
   };
 
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.code === 'Enter' || e.key === 'Enter') {
+      handleRename();
+    }
+  };
+
   useEffect(() => {
     if (card.name !== title) {
       setTitle(card.name);
     }
   }, [card]);
 
-  return { title, setTitle, handleRename };
+  return { title, setTitle, handleRename, handleEnter };
 };

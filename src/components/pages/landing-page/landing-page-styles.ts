@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 import type { ThemeProps } from 'global/Theme';
 
 export const Container = styled.div<ThemeProps>`
-  min-height: 100vh;
+  min-height: 95vh;
   width: 100%;
   display: flex;
   justify-content: center;

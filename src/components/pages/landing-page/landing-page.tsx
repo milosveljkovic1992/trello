@@ -1,4 +1,10 @@
-import { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
+import {
+  useEffect,
+  useState,
+  MouseEvent,
+  ChangeEvent,
+  KeyboardEvent,
+} from 'react';
 
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +36,11 @@ export const LandingPage = () => {
     setIsInputActive(true);
   };
 
+  const handleReset = () => {
+    setNewBoardTitle('');
+    setIsInputActive(false);
+  };
+
   const handleTitleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setNewBoardTitle(e.target.value);
   };
@@ -53,8 +64,23 @@ export const LandingPage = () => {
       dispatch(throwError('Board name cannot be empty'));
     }
 
-    setNewBoardTitle('');
-    setIsInputActive(false);
+    handleReset();
+  };
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' || e.code === 'Enter') {
+      handleCreateNew();
+    }
+  };
+
+  const handleBlur = (e: MouseEvent) => {
+    const target = e.target as Element;
+    if (
+      !target.classList.contains('create-new-button') &&
+      !target.closest('.board-box')
+    ) {
+      handleReset();
+    }
   };
 
   const handleDelete = (boardId: string) => {
@@ -74,7 +100,7 @@ export const LandingPage = () => {
   }
 
   return (
-    <Container>
+    <Container onClick={handleBlur}>
       <div className="inner-container">
         <div className="landing-header">
           <h2>Your workplaces</h2>
@@ -99,6 +125,7 @@ export const LandingPage = () => {
               newBoardTitle={newBoardTitle}
               handleCreateNew={handleCreateNew}
               handleTitleChange={handleTitleChange}
+              handleEnter={handleEnter}
             />
           )}
         </div>

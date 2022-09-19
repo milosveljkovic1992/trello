@@ -16,6 +16,10 @@ describe('NewItem', () => {
       setUserInput(e.target.value);
     };
 
+    const handleEnter = () => {
+      jest.fn();
+    };
+
     const handleClose = () => {
       jest.fn();
     };
@@ -31,6 +35,7 @@ describe('NewItem', () => {
     return (
       <NewItem
         handleInput={handleInput}
+        handleEnter={handleEnter}
         handleSubmit={handleSubmit}
         handleClose={handleClose}
         placeholder="Create new card"

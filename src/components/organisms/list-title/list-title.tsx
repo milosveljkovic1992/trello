@@ -13,6 +13,7 @@ export const ListTitle = ({ list }: ListTitleProps) => {
     listTitle,
     isInputActive,
     handleInput,
+    handleEnter,
     handleFocus,
     handleSubmit,
     handleDelete,
@@ -25,6 +26,7 @@ export const ListTitle = ({ list }: ListTitleProps) => {
         value={listTitle}
         onClick={handleFocus}
         onChange={handleInput}
+        onKeyDown={handleEnter}
         onBlur={handleSubmit}
       ></textarea>
       <div

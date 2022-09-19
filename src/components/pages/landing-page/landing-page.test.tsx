@@ -95,6 +95,7 @@ describe('LandingPage', () => {
     const newBoardSampleTitle = 'New board title';
 
     const {
+      getByRole,
       getByText,
       getByPlaceholderText,
       getAllByTestId,
@@ -134,7 +135,7 @@ describe('LandingPage', () => {
     userEvent.type(inputElementAfterClick, newBoardSampleTitle);
     expect(inputElementAfterClick.textContent).toBe(newBoardSampleTitle);
 
-    userEvent.tab();
+    userEvent.click(getByRole('button', { name: 'Create' }));
 
     await waitFor(() => {
       expect(getAllByTestId('single-board')).toHaveLength(2);
@@ -151,16 +152,22 @@ describe('LandingPage', () => {
   });
 
   it('throws an error on submitting empty board name', async () => {
-    const { getByText, getByPlaceholderText, findByRole, findAllByTestId } =
-      render(<LandingPage />);
+    const {
+      getByRole,
+      getByText,
+      getByPlaceholderText,
+      findByRole,
+      findAllByTestId,
+    } = render(<LandingPage />);
     await findByRole('heading', { level: 2 });
     expect(await findAllByTestId('single-board')).toHaveLength(2);
     const addButton = getByText(/add new/i);
     userEvent.click(addButton);
-    userEvent.tab();
+    userEvent.click(getByRole('button', { name: 'Create' }));
+
     await waitFor(() => {
       const state = store.getState();
-      const errorMessage = state.errorHandler.errorMessage;
+      const { errorMessage } = state.errorHandler;
       expect(errorMessage).toBe('Board name cannot be empty');
     });
     store.dispatch(resetError());
@@ -175,7 +182,8 @@ describe('LandingPage', () => {
     userEvent.click(addButton2);
     const inputElement2 = getByPlaceholderText(/start typing.../i);
     userEvent.type(inputElement2, '     ');
-    userEvent.tab();
+    userEvent.click(getByRole('button', { name: 'Create' }));
+
     await waitFor(() => {
       const state = store.getState();
       const { errorMessage } = state.errorHandler;
@@ -193,7 +201,8 @@ describe('LandingPage', () => {
     userEvent.click(addButton3);
     const inputElement3 = getByPlaceholderText(/start typing.../i);
     userEvent.type(inputElement3, '\n');
-    userEvent.tab();
+    userEvent.click(getByRole('button', { name: 'Create' }));
+
     await waitFor(() => {
       const state = store.getState();
       const { errorMessage } = state.errorHandler;
