@@ -1,10 +1,12 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 
 import axios from 'axios';
-import { useAppDispatch } from 'store';
 
+import { useAppDispatch } from 'store';
 import { archiveList } from 'store/lists-slice';
 import { throwError } from 'store/error-slice';
+
+import { calculateHeight } from 'utils/calculateHeight';
 
 import { useListTitleProps } from './useListTitle.types';
 
@@ -27,6 +29,8 @@ export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setListTitle(e.target.value);
+
+    calculateHeight(titleRef, 32);
   };
 
   const handleEnter = (e: KeyboardEvent) => {
@@ -49,6 +53,10 @@ export const useListTitle = ({ titleRef, list }: useListTitleProps) => {
   const handleDelete = () => {
     dispatch(archiveList(list.id));
   };
+
+  useEffect(() => {
+    calculateHeight(titleRef, 32);
+  }, []);
 
   return {
     listTitle,

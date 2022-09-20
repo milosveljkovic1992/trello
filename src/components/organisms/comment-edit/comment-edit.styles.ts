@@ -15,6 +15,7 @@ export const Container = styled.div<ThemeProps>`
     margin-bottom: -3px;
     border: 0;
     resize: none;
+    overflow-y: hidden;
 
     &:focus {
       outline: none;

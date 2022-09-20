@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { RootState, useAppDispatch } from 'store';
 import { editComment } from 'store/comments-slice';
 import type { Comment } from 'store/comments-slice';
+
+import { calculateHeight } from 'utils/calculateHeight';
 
 import { CommentEditProps } from './comment-edit.types';
 import { Container } from './comment-edit.styles';
@@ -16,6 +18,13 @@ export const CommentEdit = ({ comment, handleClose }: CommentEditProps) => {
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  const handleInput = (e: ChangeEvent) => {
+    const target = e.target as HTMLTextAreaElement;
+    setCommentInput(target.value);
+
+    calculateHeight(inputRef);
+  };
+
   const handleEdit = (comment: Comment, value: string) => {
     dispatch(editComment({ card, id: comment.id, value }));
     handleClose();
@@ -23,6 +32,7 @@ export const CommentEdit = ({ comment, handleClose }: CommentEditProps) => {
 
   useEffect(() => {
     inputRef.current?.select();
+    calculateHeight(inputRef);
   }, []);
 
   return (
@@ -31,7 +41,7 @@ export const CommentEdit = ({ comment, handleClose }: CommentEditProps) => {
         ref={inputRef}
         placeholder="Write a comment..."
         value={commentInput}
-        onChange={(e) => setCommentInput(e.target.value)}
+        onChange={handleInput}
       ></textarea>
 
       <div className="btn-container">

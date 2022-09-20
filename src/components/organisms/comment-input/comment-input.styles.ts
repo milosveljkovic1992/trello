@@ -21,6 +21,7 @@ export const Comment = styled.div<Props>`
     margin-bottom: -3px;
     border: 0;
     resize: none;
+    overflow-y: hidden;
 
     &:focus {
       outline: none;

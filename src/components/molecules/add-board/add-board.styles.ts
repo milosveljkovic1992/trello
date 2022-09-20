@@ -16,6 +16,7 @@ export const Container = styled(BoardCardContainer)`
     border-radius: 3px;
 
     resize: none;
+    overflow-y: hidden;
 
     &:focus {
       outline: none;

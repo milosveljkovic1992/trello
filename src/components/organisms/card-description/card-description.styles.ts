@@ -53,12 +53,13 @@ export const Container = styled.div<CardDescriptionStyleProps>`
 
   .desc-input {
     display: block;
-    min-height: 70px;
-    border-radius: 3px;
+    min-height: 71px;
     width: 100%;
     padding: 8px 12px;
-    resize: none;
     border: none;
+    border-radius: 3px;
+    resize: none;
+    overflow-y: hidden;
 
     &:focus {
       outline: 1px solid #c7c7c7;

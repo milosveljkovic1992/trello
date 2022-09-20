@@ -21,6 +21,7 @@ export const Title = styled.div<ListTitleStyleProps>`
     font-weight: 600;
 
     height: 32px;
+    max-height: 96px;
     width: 100%;
     margin: 0;
     padding: 5px 5px;

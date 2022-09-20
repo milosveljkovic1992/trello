@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef, MouseEvent } from 'react';
+import { useState, useEffect, useRef, MouseEvent, ChangeEvent } from 'react';
 
 import { useSelector } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { RootState, useAppDispatch } from 'store';
 import { editDescription } from 'store/card-slice';
+
+import { calculateHeight } from 'utils/calculateHeight';
 
 import { Container } from './card-description.styles';
 
@@ -32,9 +34,17 @@ export const CardDescription = () => {
     }
   };
 
+  const handleChange = (e: ChangeEvent) => {
+    const target = e.target as HTMLTextAreaElement;
+    setDescription(target.value);
+
+    calculateHeight(descRef, 71);
+  };
+
   useEffect(() => {
     if (isDescriptionInputActive) {
       descRef.current?.select();
+      calculateHeight(descRef);
     }
     setPreviousDescription(description);
   }, [isDescriptionInputActive]);
@@ -64,7 +74,7 @@ export const CardDescription = () => {
             placeholder="Add a more detailed description..."
             ref={descRef}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={handleChange}
           ></textarea>
 
           <div
