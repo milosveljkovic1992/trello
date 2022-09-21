@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useParams, Outlet } from 'react-router-dom';
@@ -14,6 +14,7 @@ import { fetchBoardListsAndCards } from 'store/board-slice';
 import { openModal } from 'store/popup-slice';
 import { getCard } from 'store/card-slice';
 import { dropCard } from 'store/cards-slice';
+import { startScroll } from 'store/scroll-slice';
 
 import { calculatePosition } from 'utils/calculatePosition';
 
@@ -32,8 +33,13 @@ export const BoardPage = () => {
   const lists = useSelector((state: RootState) => state.lists.listsArray);
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
   const isCardLoading = useSelector((state: RootState) => state.card.isLoading);
+  const isHorizontalScrollActive = useSelector(
+    (state: RootState) => state.scroll.isScrollActive,
+  );
   const [dragSourceListId, setDragSourceListId] = useState('');
   const [dragTargetListId, setDragTargetListId] = useState('');
+
+  const boardRef = useRef<HTMLDivElement>(null);
 
   const urlParams = useParams();
   const { boardId, cardUrl } = urlParams;
@@ -57,6 +63,19 @@ export const BoardPage = () => {
       return () => promise.abort();
     }
   }, [dispatch]);
+
+  const startHorizontalScroll = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target !== boardRef.current) return;
+    dispatch(startScroll());
+  };
+
+  const handleHorizontalScroll = (e: MouseEvent<HTMLDivElement>) => {
+    if (!isHorizontalScrollActive) return;
+    if (boardRef.current) {
+      boardRef.current.scrollLeft -= e.movementX;
+    }
+  };
 
   const handleDragStart = (result: DragStart) => {
     setDragSourceListId(result.source.droppableId);
@@ -130,17 +149,25 @@ export const BoardPage = () => {
               onDragUpdate={handleDragUpdate}
               onDragEnd={handleDragEnd}
             >
-              <div className="board-inner-container" role="board">
-                {lists.map((list) => (
-                  <SingleList
-                    key={list.id}
-                    list={list}
-                    dragSourceListId={dragSourceListId}
-                    dragTargetListId={dragTargetListId}
-                  />
-                ))}
+              <div className="board-outer-container">
+                <div
+                  ref={boardRef}
+                  className="lists-container"
+                  role="board"
+                  onMouseDown={startHorizontalScroll}
+                  onMouseMove={handleHorizontalScroll}
+                >
+                  {lists.map((list) => (
+                    <SingleList
+                      key={list.id}
+                      list={list}
+                      dragSourceListId={dragSourceListId}
+                      dragTargetListId={dragTargetListId}
+                    />
+                  ))}
 
-                <AddList />
+                  <AddList />
+                </div>
               </div>
             </DragDropContext>
           )}

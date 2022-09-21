@@ -12,6 +12,7 @@ import listsSlice from './lists-slice';
 import loadingSlice from './loading-slice';
 import memberSlice from './member-slice';
 import popupSlice from './popup-slice';
+import scrollSlice from './scroll-slice';
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     loading: loadingSlice.reducer,
     member: memberSlice.reducer,
     popup: popupSlice.reducer,
+    scroll: scrollSlice.reducer,
   },
 });
 

@@ -21,17 +21,37 @@ export const PageContainer = styled.div<PageContainerProps>`
 
   @media (min-width: 768px) {
     grid-template-rows: 5vh 1fr;
+    gap: 5px;
   }
 
-  .board-inner-container {
+  .board-outer-container {
+    position: relative;
     height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 8px;
-    overflow: auto;
+    max-height: 95vh;
 
-    padding: 0 15px;
+    .lists-container {
+      height: 100%;
+      max-height: 95vh;
+
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 8px;
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      padding: 0 15px 8px;
+      margin-bottom: 8px;
+
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      user-select: none;
+      white-space: nowrap;
+    }
   }
 `;
