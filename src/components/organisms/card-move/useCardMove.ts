@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { RootState, useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
 import { CardType } from 'store/card-slice';
 import { moveCard } from 'store/cards-slice';
+import { closeModal } from 'store/popup-slice';
 
 import { calculatePosition } from 'utils/calculatePosition';
 
@@ -18,7 +20,12 @@ export const useCardMove = ({
   handleCloseMove,
 }: useCardMoveProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const urlParams = useParams();
+  const { boardId } = urlParams;
+
   const cards = useSelector((state: RootState) => state.cards.cardsArray);
+  const isPopupOpen = useSelector((state: RootState) => state.popup.open);
 
   const [currentList, setCurrentList] = useState<CardType[]>([]);
   const [selectedList, setSelectedList] = useState<CardType[]>([]);
@@ -74,6 +81,11 @@ export const useCardMove = ({
     dispatch(moveCard({ card, targetList, pos }));
     dispatch(closeEditPanel());
     handleCloseMove();
+
+    if (isPopupOpen) {
+      dispatch(closeModal());
+      navigate(`/b/${boardId}`);
+    }
   };
 
   return {

@@ -116,15 +116,6 @@ export const Overlay = styled.div<ThemeProps>`
     border-radius: 50%;
   }
 
-  .sidebar {
-    width: calc(100% - 570px);
-    padding-left: 20px;
-
-    @media (min-width: 768px) {
-      padding-left: 0;
-    }
-  }
-
   .close-btn {
     position: absolute;
     top: 5px;

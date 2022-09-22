@@ -8,16 +8,25 @@ type CardMoveStyleProps = ThemeProps & {
 
 export const Container = styled.div<CardMoveStyleProps>`
   position: fixed;
-  top: ${({ rect, position }) =>
-    position === 'left' ? `${rect.y + 35}px` : `${rect.y + 170}px`};
-  left: ${({ rect, position }) =>
-    position === 'left' ? `${rect.x - 5}px` : 'initial'};
-  right: ${({ position }) => (position === 'right' ? `10px` : 'initial')};
-  width: ${({ position }) =>
-    position === 'left' ? `300px` : 'calc(100% - 20px)'};
+  top: ${({ rect }) =>
+    rect.y + 190 < window.innerHeight
+      ? `${rect.y + 36}px`
+      : `${rect.y - 190}px`};
+  left: ${({ rect }) => `${rect.x}px`};
+  width: ${({ rect }) => `${rect.width}px`};
   padding: 0 12px 12px;
   background-color: white;
   border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 300px) {
+    left: ${({ rect, position }) =>
+      position === 'left' ? `${rect.x}px` : `${rect.x + rect.width - 300}px`};
+  }
+
+  @media (min-width: 320px) {
+    width: 300px;
+  }
 
   z-index: 4;
 
@@ -67,12 +76,17 @@ export const Container = styled.div<CardMoveStyleProps>`
 
   .options-container {
     display: flex;
+    flex-direction: column;
     gap: 10px;
+
+    @media (min-width: 300px) {
+      flex-direction: row;
+    }
   }
 
   .dropdown-container {
     position: relative;
-    padding: 6px 10px 10px;
+    padding: 8px 10px 30px;
     background-color: rgba(9, 30, 66, 0.06);
     border-radius: 3px;
     height: 50px;
@@ -84,63 +98,43 @@ export const Container = styled.div<CardMoveStyleProps>`
     &.position-dropdown {
       flex: 1;
     }
-  }
 
-  .dropdown-label {
-    margin-top: -5px;
-  }
-
-  .dropdown {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    border: 0;
-    padding-top: 27px;
-    padding-left: 10px;
-    border-radius: 3px;
-    background: transparent;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-
-    &::-ms-expand {
-      display: none;
+    @media (min-width: 300px) {
+      padding: 6px 10px 10px;
     }
 
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .dropdown {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    border: 0;
-    padding-top: 27px;
-    padding-left: 10px;
-    border-radius: 3px;
-    background: transparent;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-
-    &::-ms-expand {
-      display: none;
+    .dropdown-label {
+      margin-top: -5px;
     }
 
-    &:focus {
-      outline: none;
+    .dropdown {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      border: 0;
+      padding: 27px 0 5px 10px;
+      border-radius: 3px;
+      background: transparent;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+
+      &::-ms-expand {
+        display: none;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      @media (min-width: 300px) {
+        padding-bottom: 0;
+      }
     }
   }
 

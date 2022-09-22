@@ -39,6 +39,7 @@ export const Overlay = styled.div<EditPanelStyleProps>`
     height: 111px;
     z-index: 3;
     display: block;
+    padding-left: 8px;
     transform: ${({ direction }) =>
       direction === 'left' ? 'translateX(-20px)' : 'translateX(0px)'};
     transition: 0.1s;
@@ -46,43 +47,6 @@ export const Overlay = styled.div<EditPanelStyleProps>`
     &.card-edit {
       transform: ${({ direction }) =>
         direction === 'left' ? 'translateX(0px)' : 'translateX(-20px)'};
-    }
-  }
-
-  .edit-options-tab {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-
-    width: calc(100% - 8px);
-    color: #fff;
-    padding: 6px 12px 6px 8px;
-    margin-left: 8px;
-    margin-bottom: 4px;
-    border-radius: 3px;
-    background-color: #0009;
-
-    cursor: pointer;
-    transition: 0.135s ease-in-out;
-
-    &:focus,
-    &:hover {
-      background-color: #000c;
-      transform: translateX(5px);
-    }
-
-    .edit-options-icon-container {
-      display: flex;
-      align-items: center;
-      margin-right: 5px;
-
-      & > svg {
-        font-size: 14px;
-      }
-      & > svg > path {
-        color: #fff;
-      }
     }
   }
 

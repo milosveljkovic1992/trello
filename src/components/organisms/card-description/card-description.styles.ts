@@ -6,7 +6,6 @@ type CardDescriptionStyleProps = ThemeProps & {
   isActive: boolean;
 };
 export const Container = styled.div<CardDescriptionStyleProps>`
-  background-color: rgba(9, 30, 66, 0.04);
   min-height: ${({ hasDescription }) => !hasDescription && '70px'};
   position: relative;
   border-radius: 3px;

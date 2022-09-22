@@ -18,6 +18,7 @@ import {
   CardDescription,
   CardTitle,
   CommentInput,
+  PopupSidebar,
   SingleComment,
 } from 'components/organisms';
 
@@ -107,9 +108,7 @@ export const CardPopup = () => {
                 </section>
               </div>
 
-              <div className="sidebar">
-                <h2>Sidebar</h2>
-              </div>
+              <PopupSidebar />
             </div>
 
             <div className="close-btn">

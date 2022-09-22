@@ -6,6 +6,7 @@ import { ImArrowRight2, ImCross } from 'react-icons/im';
 import { useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
 
+import { EditPanelTab } from 'components/atoms';
 import { CardMove } from 'components/organisms';
 import { useCardTitle } from 'components/organisms/card-title/useCardTitle';
 
@@ -79,33 +80,28 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           onKeyDown={handleEnter}
         ></textarea>
         <div className="edit-options-container" ref={animationRef}>
-          <button className="edit-options-tab" onClick={() => handleOpen(card)}>
-            <div className="edit-options-icon-container">
-              <CgCreditCard />
-            </div>
+          <EditPanelTab
+            handleClick={() => handleOpen(card)}
+            icon={<CgCreditCard />}
+          >
             Open card
-          </button>
+          </EditPanelTab>
 
-          <button
-            ref={moveRef}
-            className="edit-options-tab card-edit__move-button"
-            onClick={() => setIsMoveOpen((isOpen) => !isOpen)}
-          >
-            <div className="edit-options-icon-container">
-              <ImArrowRight2 />
-            </div>
-            Move
-          </button>
+          <span ref={moveRef}>
+            <EditPanelTab
+              handleClick={() => setIsMoveOpen((isOpen) => !isOpen)}
+              icon={<ImArrowRight2 />}
+            >
+              Move
+            </EditPanelTab>
+          </span>
 
-          <button
-            className="edit-options-tab"
-            onClick={() => handleDelete(card)}
+          <EditPanelTab
+            handleClick={() => handleDelete(card)}
+            icon={<ImCross />}
           >
-            <div className="edit-options-icon-container">
-              <ImCross />
-            </div>
             Delete
-          </button>
+          </EditPanelTab>
         </div>
 
         <button
