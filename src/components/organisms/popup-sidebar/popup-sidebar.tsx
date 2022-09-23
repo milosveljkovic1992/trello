@@ -2,6 +2,7 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { RootState, useAppDispatch } from 'store';
@@ -21,10 +22,13 @@ export const PopupSidebar = () => {
 
   const card = useSelector((state: RootState) => state.card.details);
 
-  const [isMoveOpen, setIsMoveOpen] = useState(false);
-  const [tabRect, setTabRect] = useState<DOMRect>();
+  const [isMoveTabOpen, setIsMoveTabOpen] = useState(false);
+  const [isCopyTabOpen, setIsCopyTabOpen] = useState(false);
+  const [moveTabRect, setMoveTabRect] = useState<DOMRect>();
+  const [copyTabRect, setCopyTabRect] = useState<DOMRect>();
 
   const moveRef = useRef<HTMLElement>(null);
+  const copyRef = useRef<HTMLElement>(null);
 
   const handleDelete = () => {
     dispatch(deleteCard(card));
@@ -33,27 +37,39 @@ export const PopupSidebar = () => {
     dispatch(resetCard());
   };
 
-  const toggleOpenMove = () => {
-    setIsMoveOpen((isOpen) => !isOpen);
+  const handleCloseMove = () => {
+    setIsMoveTabOpen(false);
   };
 
-  const handleCloseMove = () => {
-    setIsMoveOpen(false);
+  const handleCloseCopy = () => {
+    setIsCopyTabOpen(false);
+  };
+
+  const closeTab = () => {
+    if (isMoveTabOpen) {
+      setIsMoveTabOpen(false);
+      setMoveTabRect(undefined);
+    }
+    if (isCopyTabOpen) {
+      setIsCopyTabOpen(false);
+      setCopyTabRect(undefined);
+    }
   };
 
   const handleCloseOverlay = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     const target = e.target as HTMLElement;
-    if (target.classList.contains('card-move-overlay')) {
-      setIsMoveOpen(false);
-    }
+    if (target.classList.contains('card-move-overlay')) closeTab();
   };
 
   useEffect(() => {
-    if (isMoveOpen) {
-      setTabRect(moveRef.current?.getBoundingClientRect());
+    if (isMoveTabOpen) {
+      setMoveTabRect(moveRef.current?.getBoundingClientRect());
     }
-  }, [isMoveOpen]);
+    if (isCopyTabOpen) {
+      setCopyTabRect(copyRef.current?.getBoundingClientRect());
+    }
+  }, [isMoveTabOpen, isCopyTabOpen]);
 
   return (
     <Sidebar>
@@ -62,10 +78,19 @@ export const PopupSidebar = () => {
       <div className="sidebar-button-container">
         <span ref={moveRef}>
           <PopupSidebarButton
-            handleClick={toggleOpenMove}
+            handleClick={() => setIsMoveTabOpen(true)}
             icon={<ImArrowRight2 />}
           >
             Move
+          </PopupSidebarButton>
+        </span>
+
+        <span ref={copyRef}>
+          <PopupSidebarButton
+            handleClick={() => setIsCopyTabOpen(true)}
+            icon={<CgCreditCard />}
+          >
+            Copy
           </PopupSidebarButton>
         </span>
 
@@ -73,14 +98,29 @@ export const PopupSidebar = () => {
           Delete
         </PopupSidebarButton>
 
-        {isMoveOpen && tabRect && (
+        {(isMoveTabOpen || isCopyTabOpen) && (
           <span className="card-move-overlay" onClick={handleCloseOverlay}>
-            <CardMove
-              rect={tabRect}
-              card={card}
-              handleCloseMove={handleCloseMove}
-              index={0}
-            />
+            {moveTabRect && (
+              <CardMove
+                rect={moveTabRect}
+                card={card}
+                handleClosePanel={handleCloseMove}
+                index={0}
+              >
+                Move
+              </CardMove>
+            )}
+
+            {copyTabRect && (
+              <CardMove
+                rect={copyTabRect}
+                card={card}
+                handleClosePanel={handleCloseCopy}
+                index={0}
+              >
+                Copy
+              </CardMove>
+            )}
           </span>
         )}
       </div>

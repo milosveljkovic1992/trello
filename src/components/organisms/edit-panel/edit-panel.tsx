@@ -18,11 +18,27 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isMoveOpen, setIsMoveOpen] = useState(false);
-  const [tabRect, setTabRect] = useState<DOMRect>();
+  const [isMoveTabOpen, setIsMoveTabOpen] = useState(false);
+  const [isCopyTabOpen, setIsCopyTabOpen] = useState(false);
+  const [moveTabRect, setMoveTabRect] = useState<DOMRect>();
+  const [copyTabRect, setCopyTabRect] = useState<DOMRect>();
+
+  const toggleOpenMove = () => {
+    setIsCopyTabOpen(false);
+    setIsMoveTabOpen((isOpen) => !isOpen);
+  };
 
   const handleCloseMove = () => {
-    setIsMoveOpen(false);
+    setIsMoveTabOpen(false);
+  };
+
+  const toggleOpenCopy = () => {
+    setIsMoveTabOpen(false);
+    setIsCopyTabOpen((isOpen) => !isOpen);
+  };
+
+  const handleCloseCopy = () => {
+    setIsCopyTabOpen(false);
   };
 
   const handleEnter = (e: KeyboardEvent) => {
@@ -36,13 +52,16 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
 
   const { title, setTitle, handleRename } = useCardTitle({ card });
   const { handleOpen, handleDisplay, handleDelete } = useEditPanel({
-    isMoveOpen,
+    isMoveTabOpen,
     handleCloseMove,
+    isCopyTabOpen,
+    handleCloseCopy,
   });
 
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const animationRef = useRef<HTMLDivElement>(null);
   const moveRef = useRef<HTMLButtonElement>(null);
+  const copyRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!isLoading) {
@@ -53,10 +72,13 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
   }, [isLoading, rect]);
 
   useEffect(() => {
-    if (!isLoading && isMoveOpen) {
-      setTabRect(moveRef.current?.getBoundingClientRect());
+    if (!isLoading && isMoveTabOpen) {
+      setMoveTabRect(moveRef.current?.getBoundingClientRect());
     }
-  }, [isLoading, isMoveOpen]);
+    if (!isLoading && isCopyTabOpen) {
+      setCopyTabRect(copyRef.current?.getBoundingClientRect());
+    }
+  }, [isLoading, isMoveTabOpen, isCopyTabOpen]);
 
   if (isLoading) {
     return <></>;
@@ -88,11 +110,14 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           </EditPanelTab>
 
           <span ref={moveRef}>
-            <EditPanelTab
-              handleClick={() => setIsMoveOpen((isOpen) => !isOpen)}
-              icon={<ImArrowRight2 />}
-            >
+            <EditPanelTab handleClick={toggleOpenMove} icon={<ImArrowRight2 />}>
               Move
+            </EditPanelTab>
+          </span>
+
+          <span ref={copyRef}>
+            <EditPanelTab handleClick={toggleOpenCopy} icon={<CgCreditCard />}>
+              Copy
             </EditPanelTab>
           </span>
 
@@ -114,13 +139,26 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           Save
         </button>
 
-        {isMoveOpen && tabRect && (
+        {isMoveTabOpen && moveTabRect && (
           <CardMove
-            rect={tabRect}
+            rect={moveTabRect}
             card={card}
-            handleCloseMove={handleCloseMove}
+            handleClosePanel={handleCloseMove}
             index={index}
-          />
+          >
+            Move
+          </CardMove>
+        )}
+
+        {isCopyTabOpen && copyTabRect && (
+          <CardMove
+            rect={copyTabRect}
+            card={card}
+            handleClosePanel={handleCloseCopy}
+            index={index}
+          >
+            Copy
+          </CardMove>
         )}
       </div>
     </Overlay>

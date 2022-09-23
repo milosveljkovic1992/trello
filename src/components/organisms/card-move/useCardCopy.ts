@@ -4,22 +4,22 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { RootState, useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
 import { CardType } from 'store/card-slice';
-import { moveCard } from 'store/cards-slice';
+import { copyCard } from 'store/cards-slice';
 import { closeModal } from 'store/popup-slice';
 
-interface useCardMoveProps {
+interface useCardCopyProps {
   card: CardType;
   targetList: string;
   pos: number;
   handleClosePanel: () => void;
 }
 
-export const useCardMove = ({
+export const useCardCopy = ({
   card,
   targetList,
   pos,
   handleClosePanel,
-}: useCardMoveProps) => {
+}: useCardCopyProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const urlParams = useParams();
@@ -27,8 +27,8 @@ export const useCardMove = ({
 
   const isPopupOpen = useSelector((state: RootState) => state.popup.open);
 
-  const handleMove = () => {
-    dispatch(moveCard({ card, targetList, pos }));
+  const handleCopy = () => {
+    dispatch(copyCard({ card, targetList, pos }));
     dispatch(closeEditPanel());
     handleClosePanel();
 
@@ -38,5 +38,5 @@ export const useCardMove = ({
     }
   };
 
-  return handleMove;
+  return handleCopy;
 };

@@ -16,7 +16,6 @@ export const Tab = styled.button`
   cursor: pointer;
   transition: 0.135s ease-in-out;
 
-  &:focus,
   &:hover {
     background-color: #000c;
     transform: translateX(5px);

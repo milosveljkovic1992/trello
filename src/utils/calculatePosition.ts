@@ -5,6 +5,7 @@ interface CalculatePosition {
   targetList: CardType[];
   previousIndex: number;
   previousList: CardType[];
+  type?: string;
 }
 
 // prettier-ignore
@@ -13,6 +14,7 @@ export const calculatePosition = ({
   targetList,
   previousIndex,
   previousList,
+  type
 }: CalculatePosition) => {
   let pos = 1000;
   let isSameList = false;
@@ -71,12 +73,21 @@ export const calculatePosition = ({
     } else if (isSameList && targetIndex > previousIndex) {
       // this means we are moving the card down the list
 
-      // We take the [targetindex].pos and [item after targetindex].pos value and split the difference.
-      // We are confident an item after target will actually exist because we assured in previous
-      // cases to check if [targetindex] is last index
-      const itemAfterTargetIndex = targetList[targetIndex + 1];
-      const targetAndNextItemPositionDifference = itemAfterTargetIndex.pos - itemCurrentlyOnTargetIndex.pos;
-      pos = itemCurrentlyOnTargetIndex.pos + (targetAndNextItemPositionDifference / 2);
+      if (type === 'Copy') {
+        // if we copy the card on the same list but on later index 
+        // we take the [targetindex].pox and [item brefore targetindex].pos and 
+        // insert our card between those two, so our copy takes targetindex's position
+        const itemBeforeTargetIndex = targetList[targetIndex - 1];
+        const targetAndPreviousItemPositionDifference = itemCurrentlyOnTargetIndex.pos - itemBeforeTargetIndex.pos;
+        pos = itemCurrentlyOnTargetIndex.pos - (targetAndPreviousItemPositionDifference / 2);
+      } else {
+        // We take the [targetindex].pos and [item after targetindex].pos value and split the difference.
+        // We are confident an item after target will actually exist because we assured in previous
+        // cases to check if [targetindex] is last index
+        const itemAfterTargetIndex = targetList[targetIndex + 1];
+        const targetAndNextItemPositionDifference = itemAfterTargetIndex.pos - itemCurrentlyOnTargetIndex.pos;
+        pos = itemCurrentlyOnTargetIndex.pos + (targetAndNextItemPositionDifference / 2);
+      }
 
     } else {
        // this means we are moving the card up the list

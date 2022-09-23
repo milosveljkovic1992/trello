@@ -6,13 +6,17 @@ import { closeEditPanel } from 'store/board-slice';
 import { CardType, deleteCard } from 'store/card-slice';
 
 interface UseEditPanelProps {
-  isMoveOpen: boolean;
+  isMoveTabOpen: boolean;
   handleCloseMove: () => void;
+  isCopyTabOpen: boolean;
+  handleCloseCopy: () => void;
 }
 
 export const useEditPanel = ({
-  isMoveOpen,
+  isMoveTabOpen,
   handleCloseMove,
+  isCopyTabOpen,
+  handleCloseCopy,
 }: UseEditPanelProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -25,7 +29,11 @@ export const useEditPanel = ({
   const handleDisplay = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as Element;
     if (target.classList.contains('card-edit__overlay')) {
-      isMoveOpen ? handleCloseMove() : dispatch(closeEditPanel());
+      isCopyTabOpen
+        ? handleCloseCopy()
+        : isMoveTabOpen
+        ? handleCloseMove()
+        : dispatch(closeEditPanel());
     }
   };
 

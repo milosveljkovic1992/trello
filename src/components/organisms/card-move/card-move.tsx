@@ -6,16 +6,19 @@ import { GrClose } from 'react-icons/gr';
 
 import { RootState } from 'store';
 
-import { CardMoveProps } from './card-move.types';
+import { useSetPosition } from './useSetPosition';
 import { useCardMove } from './useCardMove';
+import { useCardCopy } from './useCardCopy';
 
+import { CardMoveProps } from './card-move.types';
 import { Container } from './card-move-styles';
 
 export const CardMove = ({
   rect,
   card,
-  handleCloseMove,
+  handleClosePanel,
   index,
+  children,
 }: CardMoveProps) => {
   const allLists = useSelector((state: RootState) => state.lists.listsArray);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,12 +31,23 @@ export const CardMove = ({
     targetPosition,
     selectedList,
     currentList,
+    pos,
     setPos,
     getListsInfo,
     handleSelect,
     handlePosition,
-    handleMove,
-  } = useCardMove({ card, index, listRef, positionRef, handleCloseMove });
+  } = useSetPosition({
+    card,
+    index,
+    listRef,
+    positionRef,
+    type: children as string,
+  });
+
+  const handleClick =
+    children === 'Move'
+      ? useCardMove({ card, targetList, pos, handleClosePanel })
+      : useCardCopy({ card, targetList, pos, handleClosePanel });
 
   useEffect(() => {
     if (!isLoading) {
@@ -57,11 +71,11 @@ export const CardMove = ({
       rect={rect}
       position={rect.x + 300 > window.innerWidth ? 'right' : 'left'}
     >
-      <div className="icon-container" onClick={handleCloseMove}>
+      <div className="icon-container" onClick={handleClosePanel}>
         <GrClose />
       </div>
 
-      <h3>Move card</h3>
+      <h3>{children === 'Move' ? 'Move card' : 'Copy card'}</h3>
       <h4>Select destination</h4>
       <div className="options-container">
         <div className="dropdown-container list-dropdown">
@@ -112,7 +126,7 @@ export const CardMove = ({
           </select>
         </div>
       </div>
-      <button onClick={handleMove}>Move</button>
+      <button onClick={handleClick}>{children}</button>
     </Container>
   );
 };

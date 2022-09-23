@@ -51,6 +51,30 @@ export const moveCard = createAsyncThunk(
   },
 );
 
+interface CopyCard {
+  card: CardType;
+  targetList: string;
+  pos: number;
+}
+
+export const copyCard = createAsyncThunk(
+  '/cards/copyCard',
+  async ({ card, targetList, pos }: CopyCard, thunkAPI) => {
+    try {
+      const response = await axios.post(`/1/cards/`, {
+        ...card,
+        idList: targetList,
+        pos: pos,
+      });
+      thunkAPI.dispatch(addCard(response.data));
+      thunkAPI.dispatch(informListUpdate(targetList));
+    } catch (error) {
+      thunkAPI.dispatch(throwError('Could not copy card'));
+      return thunkAPI.rejectWithValue('');
+    }
+  },
+);
+
 interface DropCard {
   targetCard: CardType;
   targetListId: string;
