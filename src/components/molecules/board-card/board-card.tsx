@@ -1,3 +1,7 @@
+import { useState } from 'react';
+
+import { WarningModal } from 'components/molecules';
+
 import { BoardCardProps } from './board-card.types';
 import { Container } from './board-card.styles';
 
@@ -8,6 +12,8 @@ export const BoardCard = ({
   handleDelete,
 }: BoardCardProps) => {
   const { id } = board;
+  const [isWarningDisplayed, setIsWarningDisplayed] = useState(false);
+
   return (
     <Container
       data-testid="single-board"
@@ -26,11 +32,20 @@ export const BoardCard = ({
           data-testid="delete-board-button"
           aria-label="delete-board"
           className="delete-container delete-btn"
-          onClick={() => handleDelete(id)}
+          onClick={() => setIsWarningDisplayed(true)}
         >
           {icon}
         </div>
       </div>
+
+      {isWarningDisplayed && (
+        <WarningModal
+          handleDelete={() => handleDelete(id)}
+          handleCancel={() => setIsWarningDisplayed(false)}
+        >
+          Delete board?
+        </WarningModal>
+      )}
     </Container>
   );
 };

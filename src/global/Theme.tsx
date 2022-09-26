@@ -18,6 +18,8 @@ export type MyThemeProps = {
     fontFamily: string;
     fontSize: string;
     code: string;
+    warning: string;
+    warningHover: string;
   };
   border: {
     borderRadius: string;
@@ -31,6 +33,8 @@ const theme = {
     primaryHover: '#026aa7',
     gray: '#ebecf0',
     grayHover: '#ddd',
+    warning: '#b04632',
+    warningHover: '#933b27',
   },
   font: {
     color: '#172b4d',
@@ -62,6 +66,19 @@ const GlobalStyle = createGlobalStyle`
   button {
     border-radius: ${theme.border.borderRadius};
   }
+
+  .warning-button {
+    color: #fff;
+    background-color: ${theme.background.warning};
+    transition: 0.15s background-color;
+    cursor: pointer;
+
+    &:focus,
+    &:hover {
+      background-color: ${theme.background.warningHover};
+    }
+  }
+  
 `;
 
 export type ThemeProps = MyThemeProps & Record<string, unknown>;

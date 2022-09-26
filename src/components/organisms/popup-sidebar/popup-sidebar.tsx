@@ -10,6 +10,7 @@ import { deleteCard, resetCard } from 'store/card-slice';
 import { closeModal } from 'store/popup-slice';
 
 import { PopupSidebarButton } from 'components/atoms';
+import { WarningModal } from 'components/molecules';
 import { CardMove } from 'components/organisms';
 
 import { Sidebar } from './popup-sidebar.styles';
@@ -24,6 +25,7 @@ export const PopupSidebar = () => {
 
   const [isMoveTabOpen, setIsMoveTabOpen] = useState(false);
   const [isCopyTabOpen, setIsCopyTabOpen] = useState(false);
+  const [isWarningDisplayed, setIsWarningDisplayed] = useState(false);
   const [moveTabRect, setMoveTabRect] = useState<DOMRect>();
   const [copyTabRect, setCopyTabRect] = useState<DOMRect>();
 
@@ -94,7 +96,10 @@ export const PopupSidebar = () => {
           </PopupSidebarButton>
         </span>
 
-        <PopupSidebarButton handleClick={handleDelete} icon={<ImCross />}>
+        <PopupSidebarButton
+          handleClick={() => setIsWarningDisplayed(true)}
+          icon={<ImCross />}
+        >
           Delete
         </PopupSidebarButton>
 
@@ -124,6 +129,15 @@ export const PopupSidebar = () => {
           </span>
         )}
       </div>
+
+      {isWarningDisplayed && (
+        <WarningModal
+          handleDelete={handleDelete}
+          handleCancel={() => setIsWarningDisplayed(false)}
+        >
+          Delete card?
+        </WarningModal>
+      )}
     </Sidebar>
   );
 };

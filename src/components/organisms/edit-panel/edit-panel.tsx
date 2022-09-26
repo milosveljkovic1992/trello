@@ -7,6 +7,7 @@ import { useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
 
 import { EditPanelTab } from 'components/atoms';
+import { WarningModal } from 'components/molecules';
 import { CardMove } from 'components/organisms';
 import { useCardTitle } from 'components/organisms/card-title/useCardTitle';
 
@@ -20,6 +21,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMoveTabOpen, setIsMoveTabOpen] = useState(false);
   const [isCopyTabOpen, setIsCopyTabOpen] = useState(false);
+  const [isWarningDisplayed, setIsWarningDisplayed] = useState(false);
   const [moveTabRect, setMoveTabRect] = useState<DOMRect>();
   const [copyTabRect, setCopyTabRect] = useState<DOMRect>();
 
@@ -122,7 +124,7 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           </span>
 
           <EditPanelTab
-            handleClick={() => handleDelete(card)}
+            handleClick={() => setIsWarningDisplayed(true)}
             icon={<ImCross />}
           >
             Delete
@@ -161,6 +163,15 @@ export const EditPanel = ({ card, rect, index }: EditPanelProps) => {
           </CardMove>
         )}
       </div>
+
+      {isWarningDisplayed && (
+        <WarningModal
+          handleDelete={() => handleDelete(card)}
+          handleCancel={() => setIsWarningDisplayed(false)}
+        >
+          Delete card?
+        </WarningModal>
+      )}
     </Overlay>
   );
 };

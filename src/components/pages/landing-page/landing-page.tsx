@@ -53,7 +53,11 @@ export const LandingPage = () => {
     dispatch(resetBoard());
 
     const target = e.target as Element;
-    if (target.closest('.delete-btn')) return;
+    if (
+      target.closest('.delete-btn') ||
+      target.closest('.warning-modal-overlay')
+    )
+      return;
     navigate(`/b/${board.id}`);
   };
 

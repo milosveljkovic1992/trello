@@ -91,7 +91,7 @@ describe('LandingPage', () => {
     expect(addNewBoard).toBeInTheDocument();
   });
 
-  it('deletes and adds a board on user click', async () => {
+  it('adds a board on user click', async () => {
     const newBoardSampleTitle = 'New board title';
 
     const {
@@ -115,12 +115,14 @@ describe('LandingPage', () => {
       boardTwoContainer as HTMLElement,
       'delete-board-button',
     );
-    userEvent.click(deleteButtonOne);
 
-    await waitFor(() => {
-      expect(boardTwo).not.toBeInTheDocument();
-      expect(getAllByTestId('single-board')).toHaveLength(1);
-    });
+    const deleteButtonTwo = getByTestId(
+      boardTwoContainer as HTMLElement,
+      'delete-board-button',
+    );
+
+    expect(deleteButtonOne).toBeInTheDocument();
+    expect(deleteButtonTwo).toBeInTheDocument();
 
     const inputElement = queryByPlaceholderText(/start typing.../i);
     expect(inputElement).not.toBeInTheDocument();
@@ -138,7 +140,7 @@ describe('LandingPage', () => {
     userEvent.click(getByRole('button', { name: 'Create' }));
 
     await waitFor(() => {
-      expect(getAllByTestId('single-board')).toHaveLength(2);
+      expect(getAllByTestId('single-board')).toHaveLength(3);
     });
 
     const inputElementAfterSubmit = queryByPlaceholderText(/start typing.../i);
@@ -160,7 +162,7 @@ describe('LandingPage', () => {
       findAllByTestId,
     } = render(<LandingPage />);
     await findByRole('heading', { level: 2 });
-    expect(await findAllByTestId('single-board')).toHaveLength(2);
+    expect(await findAllByTestId('single-board')).toHaveLength(3);
     const addButton = getByText(/add new/i);
     userEvent.click(addButton);
     userEvent.click(getByRole('button', { name: 'Create' }));
@@ -177,7 +179,7 @@ describe('LandingPage', () => {
       expect(errorMessage).toBe('');
       expect(isErrorDisplayed).toBeFalsy();
     });
-    expect(await findAllByTestId('single-board')).toHaveLength(2);
+    expect(await findAllByTestId('single-board')).toHaveLength(3);
     const addButton2 = getByText(/add new/i);
     userEvent.click(addButton2);
     const inputElement2 = getByPlaceholderText(/start typing.../i);
@@ -196,7 +198,7 @@ describe('LandingPage', () => {
       expect(errorMessage).toBe('');
       expect(isErrorDisplayed).toBeFalsy();
     });
-    expect(await findAllByTestId('single-board')).toHaveLength(2);
+    expect(await findAllByTestId('single-board')).toHaveLength(3);
     const addButton3 = getByText(/add new/i);
     userEvent.click(addButton3);
     const inputElement3 = getByPlaceholderText(/start typing.../i);
@@ -208,7 +210,7 @@ describe('LandingPage', () => {
       const { errorMessage } = state.errorHandler;
       expect(errorMessage).toBe('Board name cannot be empty');
     });
-    expect(await findAllByTestId('single-board')).toHaveLength(2);
+    expect(await findAllByTestId('single-board')).toHaveLength(3);
   });
 
   it('redirects to board URL on user click', async () => {
@@ -254,7 +256,7 @@ describe('LandingPage', () => {
     await findByRole('heading', { level: 2, name: /Your workplaces/i });
     await findAllByTestId('single-board');
     const boards = getAllByTestId('single-board');
-    expect(boards).toHaveLength(2);
+    expect(boards).toHaveLength(3);
     act(() => {
       userEvent.click(boards[0]);
     });

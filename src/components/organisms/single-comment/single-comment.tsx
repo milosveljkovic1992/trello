@@ -7,6 +7,7 @@ import { deleteComment } from 'store/comments-slice';
 import type { Comment } from 'store/comments-slice';
 
 import { Link } from 'components/atoms';
+import { WarningModal } from 'components/molecules';
 import { CommentEdit } from 'components/organisms';
 
 import { Container } from './single-comment.styles';
@@ -16,6 +17,7 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
   const card = useSelector((state: RootState) => state.card.details);
 
   const [isEditActive, setIsEditActive] = useState(false);
+  const [isWarningDisplayed, setIsWarningDisplayed] = useState(false);
 
   const handleClose = () => {
     setIsEditActive(false);
@@ -23,6 +25,7 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
 
   const handleDelete = () => {
     dispatch(deleteComment({ card, comment }));
+    setIsWarningDisplayed(false);
   };
 
   return (
@@ -49,7 +52,7 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
               <div className="actions">
                 <p onClick={() => setIsEditActive(true)}>Edit</p>
                 {` - `}
-                <p onClick={() => handleDelete()}>Delete</p>
+                <p onClick={() => setIsWarningDisplayed(true)}>Delete</p>
               </div>
             </>
           )}
@@ -58,6 +61,15 @@ export const SingleComment = ({ comment }: { comment: Comment }) => {
           )}
         </div>
       </div>
+
+      {isWarningDisplayed && (
+        <WarningModal
+          handleDelete={handleDelete}
+          handleCancel={() => setIsWarningDisplayed(false)}
+        >
+          Delete comment?
+        </WarningModal>
+      )}
     </Container>
   );
 };
