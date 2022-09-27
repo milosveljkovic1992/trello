@@ -23,6 +23,26 @@ export const WarningModalContent = ({
   };
 
   const animationRef = useRef<HTMLDivElement>(null);
+  const deleteRef = useRef<HTMLButtonElement>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    deleteRef.current?.focus();
+
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (e.key === 'Enter' && document.activeElement !== cancelRef.current) {
+        handleDelete();
+      }
+      if (e.key === 'Escape') handleCancel();
+      if (e.key === 'ArrowRight') cancelRef.current?.focus();
+      if (e.key === 'ArrowLeft') deleteRef.current?.focus();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -43,10 +63,18 @@ export const WarningModalContent = ({
           Are you sure you wish to continue?
         </p>
         <div className="button-container">
-          <button onClick={handleDelete} className="warning-button">
+          <button
+            onClick={handleDelete}
+            className="warning-button"
+            ref={deleteRef}
+          >
             Delete
           </button>
-          <button onClick={handleCancel} className="cancel-button">
+          <button
+            onClick={handleCancel}
+            className="cancel-button"
+            ref={cancelRef}
+          >
             Cancel
           </button>
         </div>
