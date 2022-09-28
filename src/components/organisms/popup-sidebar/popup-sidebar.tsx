@@ -1,17 +1,20 @@
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import { CgCreditCard } from 'react-icons/cg';
 import { ImArrowRight2, ImCross } from 'react-icons/im';
 
 import { RootState, useAppDispatch } from 'store';
+import { setCardMove } from 'store/card-move-slice';
 import { deleteCard, resetCard } from 'store/card-slice';
+import { openMiniModal } from 'store/mini-modal-slice';
 import { closeModal } from 'store/popup-slice';
 
 import { PopupSidebarButton } from 'components/atoms';
 import { WarningModal } from 'components/molecules';
-import { CardMove } from 'components/organisms';
+import { MiniModal } from 'components/organisms';
 
 import { Sidebar } from './popup-sidebar.styles';
 
@@ -22,15 +25,17 @@ export const PopupSidebar = () => {
   const { boardId } = urlParams;
 
   const card = useSelector((state: RootState) => state.card.details);
+  const { isMiniModalOpen } = useSelector(
+    (state: RootState) => state.miniModal,
+  );
 
-  const [isMoveTabOpen, setIsMoveTabOpen] = useState(false);
-  const [isCopyTabOpen, setIsCopyTabOpen] = useState(false);
   const [isWarningDisplayed, setIsWarningDisplayed] = useState(false);
-  const [moveTabRect, setMoveTabRect] = useState<DOMRect>();
-  const [copyTabRect, setCopyTabRect] = useState<DOMRect>();
+  const [miniModalTabRect, setMiniModalTabRect] = useState<DOMRect>();
 
-  const moveRef = useRef<HTMLElement>(null);
-  const copyRef = useRef<HTMLElement>(null);
+  const handleOpenMiniModal = (option: 'Move' | 'Copy') => {
+    dispatch(setCardMove({ card }));
+    dispatch(openMiniModal(option));
+  };
 
   const handleDelete = () => {
     dispatch(deleteCard(card));
@@ -39,58 +44,30 @@ export const PopupSidebar = () => {
     dispatch(resetCard());
   };
 
-  const handleCloseMove = () => {
-    setIsMoveTabOpen(false);
+  const handleRect = (e: MouseEvent) => {
+    const target = e.target as Element;
+    const element = target.closest('.minimodal-button');
+    setMiniModalTabRect(element?.getBoundingClientRect());
   };
-
-  const handleCloseCopy = () => {
-    setIsCopyTabOpen(false);
-  };
-
-  const closeTab = () => {
-    if (isMoveTabOpen) {
-      setIsMoveTabOpen(false);
-      setMoveTabRect(undefined);
-    }
-    if (isCopyTabOpen) {
-      setIsCopyTabOpen(false);
-      setCopyTabRect(undefined);
-    }
-  };
-
-  const handleCloseOverlay = (e: MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-    const target = e.target as HTMLElement;
-    if (target.classList.contains('card-move-overlay')) closeTab();
-  };
-
-  useEffect(() => {
-    if (isMoveTabOpen) {
-      setMoveTabRect(moveRef.current?.getBoundingClientRect());
-    }
-    if (isCopyTabOpen) {
-      setCopyTabRect(copyRef.current?.getBoundingClientRect());
-    }
-  }, [isMoveTabOpen, isCopyTabOpen]);
 
   return (
     <Sidebar>
       <h3>Actions</h3>
 
       <div className="sidebar-button-container">
-        <span ref={moveRef}>
+        <span className="minimodal-button" onClick={handleRect}>
           <PopupSidebarButton
-            handleClick={() => setIsMoveTabOpen(true)}
             icon={<ImArrowRight2 />}
+            handleClick={() => handleOpenMiniModal('Move')}
           >
             Move
           </PopupSidebarButton>
         </span>
 
-        <span ref={copyRef}>
+        <span className="minimodal-button" onClick={handleRect}>
           <PopupSidebarButton
-            handleClick={() => setIsCopyTabOpen(true)}
             icon={<CgCreditCard />}
+            handleClick={() => handleOpenMiniModal('Copy')}
           >
             Copy
           </PopupSidebarButton>
@@ -102,33 +79,11 @@ export const PopupSidebar = () => {
         >
           Delete
         </PopupSidebarButton>
-
-        {(isMoveTabOpen || isCopyTabOpen) && (
-          <span className="card-move-overlay" onClick={handleCloseOverlay}>
-            {moveTabRect && (
-              <CardMove
-                rect={moveTabRect}
-                card={card}
-                handleClosePanel={handleCloseMove}
-                index={0}
-              >
-                Move
-              </CardMove>
-            )}
-
-            {copyTabRect && (
-              <CardMove
-                rect={copyTabRect}
-                card={card}
-                handleClosePanel={handleCloseCopy}
-                index={0}
-              >
-                Copy
-              </CardMove>
-            )}
-          </span>
-        )}
       </div>
+
+      {isMiniModalOpen && miniModalTabRect && (
+        <MiniModal rect={miniModalTabRect} />
+      )}
 
       {isWarningDisplayed && (
         <WarningModal

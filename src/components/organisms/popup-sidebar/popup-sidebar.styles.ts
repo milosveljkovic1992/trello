@@ -28,12 +28,4 @@ export const Sidebar = styled.div`
       gap: 0;
     }
   }
-
-  .card-move-overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
 `;

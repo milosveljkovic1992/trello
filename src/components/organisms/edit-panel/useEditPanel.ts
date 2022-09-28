@@ -1,23 +1,17 @@
 import { MouseEvent } from 'react';
+
 import { useNavigate } from 'react-router-dom';
+
 import { useAppDispatch } from 'store';
 import { closeEditPanel } from 'store/board-slice';
-
 import { CardType, deleteCard } from 'store/card-slice';
-
-interface UseEditPanelProps {
-  isMoveTabOpen: boolean;
-  handleCloseMove: () => void;
-  isCopyTabOpen: boolean;
-  handleCloseCopy: () => void;
-}
+import { closeMiniModal } from 'store/mini-modal-slice';
 
 export const useEditPanel = ({
-  isMoveTabOpen,
-  handleCloseMove,
-  isCopyTabOpen,
-  handleCloseCopy,
-}: UseEditPanelProps) => {
+  isMiniModalOpen,
+}: {
+  isMiniModalOpen: boolean;
+}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -26,14 +20,10 @@ export const useEditPanel = ({
     dispatch(closeEditPanel());
   };
 
-  const handleDisplay = (e: MouseEvent<HTMLDivElement>) => {
+  const handleClose = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as Element;
     if (target.classList.contains('card-edit__overlay')) {
-      isCopyTabOpen
-        ? handleCloseCopy()
-        : isMoveTabOpen
-        ? handleCloseMove()
-        : dispatch(closeEditPanel());
+      isMiniModalOpen ? dispatch(closeMiniModal()) : dispatch(closeEditPanel());
     }
   };
 
@@ -42,5 +32,5 @@ export const useEditPanel = ({
     dispatch(closeEditPanel());
   };
 
-  return { handleOpen, handleDisplay, handleDelete };
+  return { handleOpen, handleClose, handleDelete };
 };

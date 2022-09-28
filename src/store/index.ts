@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import authSlice from './auth-slice';
 import boardSlice from './board-slice';
 import boardsSlice from './boards-slice';
+import cardMoveSlice from './card-move-slice';
 import cardSlice from './card-slice';
 import cardsSlice from './cards-slice';
 import commentsSlice from './comments-slice';
@@ -11,6 +12,7 @@ import errorSlice from './error-slice';
 import listsSlice from './lists-slice';
 import loadingSlice from './loading-slice';
 import memberSlice from './member-slice';
+import miniModalSlice from './mini-modal-slice';
 import popupSlice from './popup-slice';
 import scrollSlice from './scroll-slice';
 
@@ -19,6 +21,7 @@ const store = configureStore({
     auth: authSlice.reducer,
     board: boardSlice.reducer,
     boards: boardsSlice.reducer,
+    cardMove: cardMoveSlice.reducer,
     card: cardSlice.reducer,
     cards: cardsSlice.reducer,
     comments: commentsSlice.reducer,
@@ -26,6 +29,7 @@ const store = configureStore({
     lists: listsSlice.reducer,
     loading: loadingSlice.reducer,
     member: memberSlice.reducer,
+    miniModal: miniModalSlice.reducer,
     popup: popupSlice.reducer,
     scroll: scrollSlice.reducer,
   },

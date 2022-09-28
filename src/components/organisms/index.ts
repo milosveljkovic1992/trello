@@ -9,6 +9,7 @@ export { DragAndDropPlaceholder } from 'components/organisms/drag-and-drop-place
 export { EditPanel } from 'components/organisms/edit-panel/edit-panel';
 export { ListTitle } from 'components/organisms/list-title/list-title';
 export { Header } from 'components/organisms/header/header';
+export { MiniModal } from 'components/organisms/mini-modal/mini-modal';
 export { PopupSidebar } from 'components/organisms/popup-sidebar/popup-sidebar';
 export { SingleCard } from 'components/organisms/single-card/single-card';
 export { SingleComment } from 'components/organisms/single-comment/single-comment';

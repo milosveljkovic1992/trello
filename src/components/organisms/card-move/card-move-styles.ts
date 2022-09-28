@@ -7,28 +7,9 @@ type CardMoveStyleProps = ThemeProps & {
 };
 
 export const Container = styled.div<CardMoveStyleProps>`
-  position: fixed;
-  top: ${({ rect }) =>
-    rect.y + 190 < window.innerHeight
-      ? `${rect.y + 36}px`
-      : `${rect.y - 190}px`};
-  left: ${({ rect }) => `${rect.x}px`};
-  width: ${({ rect }) => `${rect.width}px`};
-  padding: 0 12px 12px;
-  background-color: white;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-
-  @media (min-width: 300px) {
-    left: ${({ rect, position }) =>
-      position === 'left' ? `${rect.x}px` : `${rect.x + rect.width - 300}px`};
+  header {
+    border-bottom: 1px solid rgba(9, 30, 66, 0.13);
   }
-
-  @media (min-width: 320px) {
-    width: 300px;
-  }
-
-  z-index: 4;
 
   h3 {
     position: relative;
@@ -39,7 +20,6 @@ export const Container = styled.div<CardMoveStyleProps>`
     text-overflow: ellipsis;
     color: #5e6c84;
     margin: 0 12px;
-    border-bottom: 1px solid rgba(9, 30, 66, 0.13);
     overflow: hidden;
     white-space: nowrap;
   }

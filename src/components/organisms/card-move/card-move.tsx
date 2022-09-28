@@ -1,26 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactNode } from 'react';
 
 import { nanoid } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 import { GrClose } from 'react-icons/gr';
 
-import { RootState } from 'store';
+import { RootState, useAppDispatch } from 'store';
+import { resetCardMove } from 'store/card-move-slice';
+import { closeMiniModal } from 'store/mini-modal-slice';
 
 import { useSetPosition } from './useSetPosition';
 import { useCardMove } from './useCardMove';
 import { useCardCopy } from './useCardCopy';
 
-import { CardMoveProps } from './card-move.types';
 import { Container } from './card-move-styles';
 
-export const CardMove = ({
-  rect,
-  card,
-  handleClosePanel,
-  index,
-  children,
-}: CardMoveProps) => {
+export const CardMove = ({ children }: { children: ReactNode }) => {
+  const dispatch = useAppDispatch();
   const allLists = useSelector((state: RootState) => state.lists.listsArray);
+  const { card, index } = useSelector((state: RootState) => state.cardMove);
   const [isLoading, setIsLoading] = useState(true);
 
   const listRef = useRef<HTMLSelectElement>(null);
@@ -46,8 +43,13 @@ export const CardMove = ({
 
   const handleClick =
     children === 'Move'
-      ? useCardMove({ card, targetList, pos, handleClosePanel })
-      : useCardCopy({ card, targetList, pos, handleClosePanel });
+      ? useCardMove({ card, targetList, pos })
+      : useCardCopy({ card, targetList, pos });
+
+  const handleClosePanel = () => {
+    dispatch(closeMiniModal());
+    dispatch(resetCardMove());
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -67,15 +69,14 @@ export const CardMove = ({
   }
 
   return (
-    <Container
-      rect={rect}
-      position={rect.x + 300 > window.innerWidth ? 'right' : 'left'}
-    >
-      <div className="icon-container" onClick={handleClosePanel}>
-        <GrClose />
-      </div>
+    <Container>
+      <header>
+        <h3>{children === 'Move' ? 'Move card' : 'Copy card'}</h3>
+        <div className="icon-container" onClick={handleClosePanel}>
+          <GrClose />
+        </div>
+      </header>
 
-      <h3>{children === 'Move' ? 'Move card' : 'Copy card'}</h3>
       <h4>Select destination</h4>
       <div className="options-container">
         <div className="dropdown-container list-dropdown">
