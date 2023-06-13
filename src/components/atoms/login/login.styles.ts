@@ -12,6 +12,8 @@ export const Container = styled.div`
     font-size: 40px;
     color: #0079bf;
     margin-bottom: 15px;
+    max-width: 650px;
+    text-align: center;
   }
 
   a {
